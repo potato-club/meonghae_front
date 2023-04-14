@@ -3,10 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:meonghae_front/screens/main_screen.dart';
 
 void main() {
-  //상태표시줄 숨기기
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: Color.fromARGB(0, 0, 0, 0),
-  ));
   runApp(const MyApp());
 }
 
@@ -15,6 +11,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+
     return MaterialApp(
       title: 'Meonghae?',
       theme: ThemeData(

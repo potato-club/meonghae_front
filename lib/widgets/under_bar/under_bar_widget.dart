@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:meonghae_front/widgets/under_bar/under_bar_icon_button.dart';
 
 class UnderBarWidget extends StatelessWidget {
@@ -29,30 +28,15 @@ class UnderBarWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   UnderBarIconButtonWidget(
-                    isSelected: false,
-                    label: '캘린더',
-                    iconName: FontAwesomeIcons.calendarCheck,
-                  ),
+                      isSelected: false, label: '캘린더', iconName: 'calendar'),
                   UnderBarIconButtonWidget(
-                    isSelected: false,
-                    label: '게시물',
-                    iconName: FontAwesomeIcons.listAlt,
-                  ),
+                      isSelected: false, label: '게시물', iconName: 'post'),
                   UnderBarIconButtonWidget(
-                    isSelected: true,
-                    label: '홈',
-                    iconName: FontAwesomeIcons.doorClosed,
-                  ),
+                      isSelected: true, label: '홈', iconName: 'home'),
                   UnderBarIconButtonWidget(
-                    isSelected: false,
-                    label: '리뷰',
-                    iconName: FontAwesomeIcons.penSquare,
-                  ),
+                      isSelected: false, label: '리뷰', iconName: 'review'),
                   UnderBarIconButtonWidget(
-                    isSelected: false,
-                    label: '문의',
-                    iconName: FontAwesomeIcons.questionCircle,
-                  )
+                      isSelected: false, label: '문의', iconName: 'ask')
                 ],
               ),
             )

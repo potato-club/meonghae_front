@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class UnderBarIconButtonWidget extends StatelessWidget {
   final bool isSelected;
   final String label;
-  final IconData iconName;
+  final String iconName;
   const UnderBarIconButtonWidget({
     super.key,
     required this.isSelected,
@@ -16,19 +15,23 @@ class UnderBarIconButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: SizedBox(
-        width: 30,
+        width: 36,
         child: Column(
           children: [
-            FaIcon(
-              iconName,
-              size: 20,
-              color: isSelected ? Colors.black : const Color(0xFFBDBDBD),
+            Opacity(
+              opacity: isSelected ? 1 : 0.4,
+              child: Image(
+                  image: AssetImage(
+                      'assets/images/icon/${iconName}_${isSelected ? 'black' : 'gray'}.png')),
             ),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 10,
-                color: isSelected ? Colors.black : const Color(0xFFBDBDBD),
+            Transform.translate(
+              offset: const Offset(0, -4),
+              child: Text(
+                label,
+                style: TextStyle(
+                  fontSize: 10,
+                  color: isSelected ? Colors.black : const Color(0xFFBDBDBD),
+                ),
               ),
             )
           ],

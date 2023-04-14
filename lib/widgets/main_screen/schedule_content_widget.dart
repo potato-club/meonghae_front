@@ -51,7 +51,7 @@ class ScheduleContentWidget extends StatelessWidget {
         const MainContentLabelWidget(label: "일정"),
         const SizedBox(height: 12),
         SizedBox(
-          height: 90,
+          height: 147,
           child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
             child: Column(

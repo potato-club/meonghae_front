@@ -16,7 +16,9 @@ class MainScreen extends StatelessWidget {
         children: [
           Padding(
             padding: EdgeInsets.symmetric(
-                horizontal: MediaQuery.of(context).size.width * 0.06),
+              horizontal: MediaQuery.of(context).size.width * 0.06,
+              vertical: 4,
+            ),
             child: const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
