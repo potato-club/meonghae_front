@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/login/kakao_login.dart';
 import 'package:meonghae_front/models/loginModel.dart';
-import 'package:meonghae_front/widgets/kakao_widget.dart';
+import 'package:meonghae_front/widgets/login_screen/dog_picture_swiper.dart';
+import 'package:meonghae_front/widgets/login_screen/kakao_widget.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -26,30 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  const Positioned(
-                    top: 0,
-                    child: Text(
-                      '주인아, 멍해?',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: 25,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/images/dog_pictures/stand_dog.png',
-                          width: 225,
-                          height: 210,
-                        ),
-                      ],
-                    ),
-                  ),
+                  const DogPictureSwiper(),
                   Positioned(
                     top: 180,
                     child: Container(
@@ -74,11 +52,19 @@ class _LoginScreenState extends State<LoginScreen> {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               const Text(
-                                '멍해로',
+                                '멍해',
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 18,
                                   fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              const Text(
+                                '로',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
                                 ),
                               ),
                               Text(
