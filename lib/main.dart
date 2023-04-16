@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:meonghae_front/screens/main_screen.dart';
+import 'package:meonghae_front/screens/video_player_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,12 +14,12 @@ class MyApp extends StatelessWidget {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
 
     return MaterialApp(
-      title: 'Meonghae?',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MainScreen(),
-    );
+        title: 'Meonghae?',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        // home: const MainScreen(),
+        home: const VideoPlayerScreen());
   }
 }
