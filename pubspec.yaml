@@ -38,6 +38,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   video_player: ^2.6.1
   kakao_flutter_sdk_user: ^1.4.2
+  image_picker: ^0.8.4+4
+  font_awesome_flutter: ^9.2.0
   carousel_slider: ^4.2.1
 
 dev_dependencies:

@@ -35,8 +35,8 @@ class _KakaoButtonState extends State<KakaoButton> {
             'assets/images/logo/kakao.png',
             width: 24,
             height: 24,
-          ), // 이미지 추가
-          const SizedBox(width: 8), // 이미지와 텍스트 사이에 간격 추가
+          ),
+          const SizedBox(width: 8),
           const Text(
             'KAKAO로 가입하기',
             style: TextStyle(color: Color(0xFF000000)),
