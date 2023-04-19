@@ -12,13 +12,13 @@ class _RegisterFormState extends State<RegisterForm> {
   final formKey = GlobalKey<FormState>();
   bool isHovered = false;
 
-  List<String> genderList = ['모름', '수컷', '암컷'];
-  List<String> kindList = ['모름', '치와와', '불독'];
-  List<String> placeList = ['모름', '길거리', '집'];
+  List<String> genderList = ['성별을 선택해 주세요', '수컷', '암컷'];
+  List<String> kindList = ['견종/묘종을 선택해 주세요', '치와와', '불독'];
+  List<String> placeList = ['만나게 된 경로를 선택해 주세요', '길거리', '집'];
 
-  String selectedGender = '모름';
-  String selectedKind = '모름';
-  String selectedPlace = '모름';
+  String selectedGender = '성별을 선택해 주세요';
+  String selectedKind = '견종/묘종을 선택해 주세요';
+  String selectedPlace = '만나게 된 경로를 선택해 주세요';
   String _name = '';
   String _birth = '';
 
@@ -84,7 +84,7 @@ class _RegisterFormState extends State<RegisterForm> {
           Row(
             children: [
               const SizedBox(
-                width: 90,
+                width: 80,
                 child: Text(
                   '이름',
                   style: TextStyle(
@@ -100,21 +100,19 @@ class _RegisterFormState extends State<RegisterForm> {
                   height: 30,
                   child: TextFormField(
                     decoration: const InputDecoration(
-                      hintText: '이름을 입력해주세요.',
-                      alignLabelWithHint: true,
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.white,
+                        hintText: '이름을 입력해주세요',
+                        alignLabelWithHint: true,
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
                         ),
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
-                      ),
-                      filled: true,
-                      fillColor: Colors.white,
-                      contentPadding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 9),
-                    ),
+                        filled: true,
+                        fillColor: Colors.white,
+                        contentPadding: EdgeInsets.symmetric(horizontal: 14),
+                        hintStyle:
+                            TextStyle(color: Color(0xFF999999), fontSize: 12)),
                     textAlignVertical: TextAlignVertical.center,
-                    style: const TextStyle(fontSize: 14),
+                    style: const TextStyle(fontSize: 12),
                     keyboardType: TextInputType.text,
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -150,7 +148,7 @@ class _RegisterFormState extends State<RegisterForm> {
           Row(
             children: [
               const SizedBox(
-                width: 90,
+                width: 80,
                 child: Text(
                   '성별',
                   style: TextStyle(
@@ -167,23 +165,36 @@ class _RegisterFormState extends State<RegisterForm> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(5),
-                    border: Border.all(
-                      color: const Color(0xff999999),
-                    ),
                   ),
-                  child: DropdownButton(
-                    value: selectedGender,
-                    items: genderList.map((String item) {
-                      return DropdownMenuItem<String>(
-                        value: item,
-                        child: Text(item),
-                      );
-                    }).toList(),
-                    onChanged: (dynamic value) {
-                      setState(() {
-                        selectedGender = value;
-                      });
-                    },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 14),
+                    child: DropdownButton(
+                      icon: const Icon(
+                        Icons.keyboard_arrow_down_rounded,
+                        size: 20,
+                        color: Color(0xFF999999),
+                      ),
+                      value: selectedGender,
+                      isExpanded: true,
+                      underline: Container(),
+                      items: genderList.map((String item) {
+                        num index = genderList.indexOf(item);
+                        return DropdownMenuItem<String>(
+                          value: item,
+                          child: Text(item,
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  color: index == 0
+                                      ? const Color(0xFF999999)
+                                      : Colors.black)),
+                        );
+                      }).toList(),
+                      onChanged: (dynamic value) {
+                        setState(() {
+                          selectedGender = value;
+                        });
+                      },
+                    ),
                   ),
                 ),
               ),
@@ -195,7 +206,7 @@ class _RegisterFormState extends State<RegisterForm> {
           Row(
             children: [
               const SizedBox(
-                width: 90,
+                width: 80,
                 child: Text(
                   '출생일',
                   style: TextStyle(
@@ -211,21 +222,19 @@ class _RegisterFormState extends State<RegisterForm> {
                   height: 30,
                   child: TextFormField(
                     decoration: const InputDecoration(
-                      hintText: '2023.04.01',
-                      alignLabelWithHint: true,
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.white,
+                        hintText: '2023.04.01',
+                        alignLabelWithHint: true,
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
                         ),
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
-                      ),
-                      filled: true,
-                      fillColor: Colors.white,
-                      contentPadding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 9),
-                    ),
+                        filled: true,
+                        fillColor: Colors.white,
+                        contentPadding: EdgeInsets.symmetric(horizontal: 14),
+                        hintStyle:
+                            TextStyle(color: Color(0xFF999999), fontSize: 12)),
                     textAlignVertical: TextAlignVertical.center,
-                    style: const TextStyle(fontSize: 14),
+                    style: const TextStyle(fontSize: 12),
                     keyboardType: TextInputType.text,
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -261,7 +270,7 @@ class _RegisterFormState extends State<RegisterForm> {
           Row(
             children: [
               const SizedBox(
-                width: 90,
+                width: 80,
                 child: Text(
                   '견종/묘종',
                   style: TextStyle(
@@ -278,23 +287,36 @@ class _RegisterFormState extends State<RegisterForm> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(5),
-                    border: Border.all(
-                      color: const Color(0xff999999),
-                    ),
                   ),
-                  child: DropdownButton(
-                    value: selectedKind,
-                    items: kindList.map((String item) {
-                      return DropdownMenuItem<String>(
-                        value: item,
-                        child: Text(item),
-                      );
-                    }).toList(),
-                    onChanged: (dynamic value) {
-                      setState(() {
-                        selectedKind = value;
-                      });
-                    },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 14),
+                    child: DropdownButton(
+                      isExpanded: true,
+                      underline: Container(),
+                      icon: const Icon(
+                        Icons.keyboard_arrow_down_rounded,
+                        size: 20,
+                        color: Color(0xFF999999),
+                      ),
+                      value: selectedKind,
+                      items: kindList.map((String item) {
+                        num index = kindList.indexOf(item);
+                        return DropdownMenuItem<String>(
+                          value: item,
+                          child: Text(item,
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  color: index == 0
+                                      ? const Color(0xFF999999)
+                                      : Colors.black)),
+                        );
+                      }).toList(),
+                      onChanged: (dynamic value) {
+                        setState(() {
+                          selectedKind = value;
+                        });
+                      },
+                    ),
                   ),
                 ),
               ),
@@ -306,7 +328,7 @@ class _RegisterFormState extends State<RegisterForm> {
           Row(
             children: [
               const SizedBox(
-                width: 90,
+                width: 80,
                 child: Text(
                   '만남의 경로',
                   style: TextStyle(
@@ -323,56 +345,35 @@ class _RegisterFormState extends State<RegisterForm> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(5),
-                    border: Border.all(
-                      color: const Color(0xff999999),
-                    ),
                   ),
-                  child: DropdownButton(
-                    value: selectedPlace,
-                    items: placeList.map((String item) {
-                      return DropdownMenuItem<String>(
-                        value: item,
-                        child: Text(item),
-                      );
-                    }).toList(),
-                    onChanged: (dynamic value) {
-                      setState(() {
-                        selectedPlace = value;
-                      });
-                    },
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  // 버튼 클릭 시 동작
-                },
-                onTapDown: (_) {
-                  _handleHover(true);
-                },
-                onTapUp: (_) {
-                  _handleHover(false);
-                },
-                child: GestureDetector(
-                  onTap: () {
-                    // addFormData 함수 호출
-                    addFormData(selectedGender, selectedKind, selectedPlace,
-                        _name, _birth);
-                  },
-                  child: Text(
-                    '추가하기 >',
-                    style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: isHovered ? FontWeight.bold : FontWeight.w400,
-                      color: const Color(0xff999999),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 14),
+                    child: DropdownButton(
+                      icon: const Icon(
+                        Icons.keyboard_arrow_down_rounded,
+                        size: 20,
+                        color: Color(0xFF999999),
+                      ),
+                      isExpanded: true,
+                      underline: Container(),
+                      value: selectedPlace,
+                      items: placeList.map((String item) {
+                        num index = placeList.indexOf(item);
+                        return DropdownMenuItem<String>(
+                          value: item,
+                          child: Text(item,
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  color: index == 0
+                                      ? const Color(0xFF999999)
+                                      : Colors.black)),
+                        );
+                      }).toList(),
+                      onChanged: (dynamic value) {
+                        setState(() {
+                          selectedPlace = value;
+                        });
+                      },
                     ),
                   ),
                 ),
@@ -380,7 +381,41 @@ class _RegisterFormState extends State<RegisterForm> {
             ],
           ),
           const SizedBox(
-            height: 50,
+            height: 16,
+          ),
+          GestureDetector(
+            onTap: () {
+              // addFormData 함수 호출
+              addFormData(
+                  selectedGender, selectedKind, selectedPlace, _name, _birth);
+            },
+            onTapDown: (_) {
+              _handleHover(true);
+            },
+            onTapUp: (_) {
+              _handleHover(false);
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  '추가하기',
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: isHovered ? FontWeight.bold : FontWeight.w400,
+                    color: const Color(0xff999999),
+                  ),
+                ),
+                const Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  color: Color(0xff999999),
+                  size: 16,
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 36,
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(

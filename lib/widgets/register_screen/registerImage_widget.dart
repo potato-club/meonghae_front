@@ -29,8 +29,8 @@ class _RegisterImageState extends State<RegisterImage> {
       alignment: Alignment.center,
       children: [
         SizedBox(
-          width: 150,
-          height: 150,
+          width: 145,
+          height: 145,
           child: ClipOval(
             child: BackdropFilter(
               filter: ImageFilter.blur(
@@ -56,15 +56,18 @@ class _RegisterImageState extends State<RegisterImage> {
         Positioned(
           bottom: 0,
           right: 0,
+          left: 115,
           child: SizedBox(
             width: 34,
             height: 34,
             child: FloatingActionButton(
+              elevation: 0,
               backgroundColor: Colors.white.withOpacity(0.8),
               onPressed: _pickImage,
               child: const Icon(
                 Icons.edit,
                 color: Color(0xff999999),
+                size: 22,
               ),
             ),
           ),
