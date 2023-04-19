@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:meonghae_front/models/infoModel.dart';
 
 class RegisterForm extends StatefulWidget {
-  const RegisterForm({super.key});
+  final Function onAddRegisterInitForm;
+
+  const RegisterForm({super.key, required this.onAddRegisterInitForm});
 
   @override
   State<RegisterForm> createState() => _RegisterFormState();
@@ -385,7 +387,7 @@ class _RegisterFormState extends State<RegisterForm> {
           ),
           GestureDetector(
             onTap: () {
-              // addFormData 함수 호출
+              widget.onAddRegisterInitForm();
               addFormData(
                   selectedGender, selectedKind, selectedPlace, _name, _birth);
             },

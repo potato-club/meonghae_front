@@ -37,6 +37,7 @@ dependencies:
   kakao_flutter_sdk_user: ^1.4.2
   image_picker: ^0.8.4+4
   font_awesome_flutter: ^9.2.0
+  carousel_slider: ^4.2.1
 
 dev_dependencies:
   flutter_test:
