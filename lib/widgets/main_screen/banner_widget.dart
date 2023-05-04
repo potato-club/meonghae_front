@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meonghae_front/themes/customColor.dart';
 
 class BannerWidget extends StatefulWidget {
   const BannerWidget({super.key});
@@ -13,7 +14,7 @@ class _BannerWidgetState extends State<BannerWidget> {
     return Stack(clipBehavior: Clip.none, children: [
       Container(
         decoration: BoxDecoration(
-          color: const Color(0xFFF2CB80),
+          color: CustomColor.brown1,
           borderRadius: BorderRadius.circular(6),
         ),
         child: Padding(
@@ -25,7 +26,7 @@ class _BannerWidgetState extends State<BannerWidget> {
                 width: 54,
                 height: 54,
                 decoration: BoxDecoration(
-                    color: const Color(0xFFEAEAEA),
+                    color: CustomColor.ivoey2,
                     borderRadius: BorderRadius.circular(27)),
               ),
               const Padding(
@@ -46,7 +47,7 @@ class _BannerWidgetState extends State<BannerWidget> {
                           Icon(
                             Icons.settings_sharp,
                             size: 10,
-                            color: Color(0xFF999999),
+                            color: CustomColor.gray,
                           ),
                           Padding(
                             padding: EdgeInsets.only(left: 2, bottom: 2),
@@ -54,7 +55,7 @@ class _BannerWidgetState extends State<BannerWidget> {
                               "업데이트 공지 2.0.10.2",
                               style: TextStyle(
                                 fontSize: 10,
-                                color: Color(0xFF999999),
+                                color: CustomColor.gray,
                               ),
                             ),
                           )

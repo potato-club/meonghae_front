@@ -18,10 +18,6 @@ class MyApp extends StatelessWidget {
 
     return const MaterialApp(
       title: 'Meonghae?',
-      // theme: ThemeData(
-      //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      //   useMaterial3: true,
-      // ),
       home: RegisterScreen(),
     );
   }
