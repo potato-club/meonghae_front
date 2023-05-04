@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/screens/login_screen.dart';
+import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/select_screen/select_button_widget.dart';
 
 class SelectScreen extends StatelessWidget {
@@ -15,7 +16,7 @@ class SelectScreen extends StatelessWidget {
             flex: 55,
             child: Container(
               decoration: BoxDecoration(
-                color: const Color(0xFFF2CB80),
+                color: CustomColor.brown1,
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.elliptical(
                         MediaQuery.of(context).size.width * 0.5, 74),
