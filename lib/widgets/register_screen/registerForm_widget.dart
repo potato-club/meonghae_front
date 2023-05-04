@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/models/infoModel.dart';
+import 'package:meonghae_front/themes/customColor.dart';
 
 class RegisterForm extends StatefulWidget {
-  final Function onAddRegisterInitForm;
-
-  const RegisterForm({super.key, required this.onAddRegisterInitForm});
+  const RegisterForm({super.key});
 
   @override
   State<RegisterForm> createState() => _RegisterFormState();
@@ -95,51 +94,52 @@ class _RegisterFormState extends State<RegisterForm> {
                   ),
                 ),
               ),
-              Expanded(
-                child: Container(
-                  alignment: Alignment.center,
-                  width: 205,
-                  height: 30,
-                  child: TextFormField(
-                    decoration: const InputDecoration(
-                        hintText: '이름을 입력해주세요',
-                        alignLabelWithHint: true,
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
-                        contentPadding: EdgeInsets.symmetric(horizontal: 14),
-                        hintStyle:
-                            TextStyle(color: Color(0xFF999999), fontSize: 12)),
-                    textAlignVertical: TextAlignVertical.center,
-                    style: const TextStyle(fontSize: 12),
-                    keyboardType: TextInputType.text,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('이름을 입력해주세요.'),
-                            duration: Duration(seconds: 2),
-                          ),
-                        );
-                        return null;
-                      } else if (!RegExp(r'^[ㄱ-ㅎ가-힣]+$').hasMatch(value)) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('한글만 입력 가능합니다.'),
-                            duration: Duration(seconds: 2),
-                          ),
-                        );
-                        return null;
-                      }
-                      return null;
-                    },
-                    onSaved: (value) {
-                      _name = value!;
-                    },
+              Container(
+                alignment: Alignment.center,
+                width: 205,
+                height: 30,
+                child: TextFormField(
+                  decoration: const InputDecoration(
+                    hintText: '이름을 입력해주세요',
+                    alignLabelWithHint: true,
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                    contentPadding: EdgeInsets.symmetric(horizontal: 14),
+                    hintStyle: TextStyle(
+                      color: CustomColor.gray,
+                      fontSize: 12,
+                    ),
                   ),
+                  textAlignVertical: TextAlignVertical.center,
+                  style: const TextStyle(fontSize: 12),
+                  keyboardType: TextInputType.text,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('이름을 입력해주세요.'),
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                      return null;
+                    } else if (!RegExp(r'^[ㄱ-ㅎ가-힣]+$').hasMatch(value)) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('한글만 입력 가능합니다.'),
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                      return null;
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _name = value!;
+                  },
                 ),
               ),
             ],
@@ -174,7 +174,7 @@ class _RegisterFormState extends State<RegisterForm> {
                       icon: const Icon(
                         Icons.keyboard_arrow_down_rounded,
                         size: 20,
-                        color: Color(0xFF999999),
+                        color: CustomColor.gray,
                       ),
                       value: selectedGender,
                       isExpanded: true,
@@ -183,12 +183,15 @@ class _RegisterFormState extends State<RegisterForm> {
                         num index = genderList.indexOf(item);
                         return DropdownMenuItem<String>(
                           value: item,
-                          child: Text(item,
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  color: index == 0
-                                      ? const Color(0xFF999999)
-                                      : Colors.black)),
+                          child: Text(
+                            item,
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: index == 0
+                                  ? CustomColor.gray
+                                  : CustomColor.black1,
+                            ),
+                          ),
                         );
                       }).toList(),
                       onChanged: (dynamic value) {
@@ -224,17 +227,20 @@ class _RegisterFormState extends State<RegisterForm> {
                   height: 30,
                   child: TextFormField(
                     decoration: const InputDecoration(
-                        hintText: '2023.04.01',
-                        alignLabelWithHint: true,
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
-                        contentPadding: EdgeInsets.symmetric(horizontal: 14),
-                        hintStyle:
-                            TextStyle(color: Color(0xFF999999), fontSize: 12)),
+                      hintText: '2023.04.01',
+                      alignLabelWithHint: true,
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.all(Radius.circular(5)),
+                      ),
+                      filled: true,
+                      fillColor: CustomColor.white,
+                      contentPadding: EdgeInsets.symmetric(horizontal: 14),
+                      hintStyle: TextStyle(
+                        color: CustomColor.gray,
+                        fontSize: 12,
+                      ),
+                    ),
                     textAlignVertical: TextAlignVertical.center,
                     style: const TextStyle(fontSize: 12),
                     keyboardType: TextInputType.text,
@@ -287,7 +293,7 @@ class _RegisterFormState extends State<RegisterForm> {
                   width: 205,
                   height: 30,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: CustomColor.white,
                     borderRadius: BorderRadius.circular(5),
                   ),
                   child: Padding(
@@ -298,19 +304,22 @@ class _RegisterFormState extends State<RegisterForm> {
                       icon: const Icon(
                         Icons.keyboard_arrow_down_rounded,
                         size: 20,
-                        color: Color(0xFF999999),
+                        color: CustomColor.gray,
                       ),
                       value: selectedKind,
                       items: kindList.map((String item) {
                         num index = kindList.indexOf(item);
                         return DropdownMenuItem<String>(
                           value: item,
-                          child: Text(item,
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  color: index == 0
-                                      ? const Color(0xFF999999)
-                                      : Colors.black)),
+                          child: Text(
+                            item,
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: index == 0
+                                  ? CustomColor.gray
+                                  : CustomColor.black1,
+                            ),
+                          ),
                         );
                       }).toList(),
                       onChanged: (dynamic value) {
@@ -345,7 +354,7 @@ class _RegisterFormState extends State<RegisterForm> {
                   width: 205,
                   height: 30,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: CustomColor.white,
                     borderRadius: BorderRadius.circular(5),
                   ),
                   child: Padding(
@@ -354,7 +363,7 @@ class _RegisterFormState extends State<RegisterForm> {
                       icon: const Icon(
                         Icons.keyboard_arrow_down_rounded,
                         size: 20,
-                        color: Color(0xFF999999),
+                        color: CustomColor.gray,
                       ),
                       isExpanded: true,
                       underline: Container(),
@@ -363,12 +372,15 @@ class _RegisterFormState extends State<RegisterForm> {
                         num index = placeList.indexOf(item);
                         return DropdownMenuItem<String>(
                           value: item,
-                          child: Text(item,
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  color: index == 0
-                                      ? const Color(0xFF999999)
-                                      : Colors.black)),
+                          child: Text(
+                            item,
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: index == 0
+                                  ? CustomColor.gray
+                                  : CustomColor.black1,
+                            ),
+                          ),
                         );
                       }).toList(),
                       onChanged: (dynamic value) {
@@ -382,60 +394,60 @@ class _RegisterFormState extends State<RegisterForm> {
               ),
             ],
           ),
-          const SizedBox(
-            height: 16,
-          ),
-          GestureDetector(
-            onTap: () {
-              widget.onAddRegisterInitForm();
-              addFormData(
-                  selectedGender, selectedKind, selectedPlace, _name, _birth);
-            },
-            onTapDown: (_) {
-              _handleHover(true);
-            },
-            onTapUp: (_) {
-              _handleHover(false);
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  '추가하기',
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: isHovered ? FontWeight.bold : FontWeight.w400,
-                    color: const Color(0xff999999),
-                  ),
-                ),
-                const Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  color: Color(0xff999999),
-                  size: 16,
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 36,
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              fixedSize: const Size(288, 49),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5),
-              ),
-              backgroundColor: const Color(0xff191919),
-            ),
-            onPressed: _onFormSubmit,
-            child: const Text(
-              '시작하기!',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
+          // const SizedBox(
+          //   height: 16,
+          // ),
+          // GestureDetector(
+          //   onTap: () {
+          //     widget.onAddRegisterInitForm();
+          //     addFormData(
+          //         selectedGender, selectedKind, selectedPlace, _name, _birth);
+          //   },
+          //   onTapDown: (_) {
+          //     _handleHover(true);
+          //   },
+          //   onTapUp: (_) {
+          //     _handleHover(false);
+          //   },
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.end,
+          //     children: [
+          //       Text(
+          //         '추가하기',
+          //         style: TextStyle(
+          //           fontSize: 13,
+          //           fontWeight: isHovered ? FontWeight.bold : FontWeight.w400,
+          //           color: const Color(0xff999999),
+          //         ),
+          //       ),
+          //       const Icon(
+          //         Icons.arrow_forward_ios_rounded,
+          //         color: Color(0xff999999),
+          //         size: 16,
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          // const SizedBox(
+          //   height: 36,
+          // ),
+          // ElevatedButton(
+          //   style: ElevatedButton.styleFrom(
+          //     fixedSize: const Size(288, 49),
+          //     shape: RoundedRectangleBorder(
+          //       borderRadius: BorderRadius.circular(5),
+          //     ),
+          //     backgroundColor: const Color(0xff191919),
+          //   ),
+          //   onPressed: _onFormSubmit,
+          //   child: const Text(
+          //     '시작하기!',
+          //     style: TextStyle(
+          //       fontSize: 16,
+          //       fontWeight: FontWeight.bold,
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
