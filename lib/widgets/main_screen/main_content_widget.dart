@@ -9,21 +9,22 @@ class MainContentWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height - 380,
+      height: MediaQuery.of(context).size.height - 379,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(24),
-            topRight: Radius.circular(24),
-          ),
-          boxShadow: [
-            BoxShadow(
-                color: CustomColor.black1.withOpacity(0.12),
-                offset: const Offset(0, -4),
-                blurRadius: 12,
-                spreadRadius: 0)
-          ]),
+        color: Colors.white,
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(24),
+          topRight: Radius.circular(24),
+        ),
+        boxShadow: [
+          BoxShadow(
+              color: CustomColor.black1.withOpacity(0.12),
+              offset: const Offset(0, -4),
+              blurRadius: 12,
+              spreadRadius: 0)
+        ],
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -52,19 +53,15 @@ class MainContentWidget extends StatelessWidget {
           ),
           Container(
             width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(24),
-                  topRight: Radius.circular(24),
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              border: Border(
+                top: BorderSide(
+                  color: Color(0xFF999999),
+                  width: 0.3,
                 ),
-                boxShadow: [
-                  BoxShadow(
-                      color: CustomColor.black1.withOpacity(0.12),
-                      offset: const Offset(0, -4),
-                      blurRadius: 12,
-                      spreadRadius: 0)
-                ]),
+              ),
+            ),
             child: Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: MediaQuery.of(context).size.width * 0.06,
