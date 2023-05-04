@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:meonghae_front/themes/customColor.dart';
 
 class RegisterImage extends StatefulWidget {
   const RegisterImage({super.key});
@@ -38,7 +39,7 @@ class _RegisterImageState extends State<RegisterImage> {
                 sigmaY: 5.0,
               ),
               child: Container(
-                color: Colors.white.withOpacity(0.5),
+                color: CustomColor.white.withOpacity(0.5),
                 child: _imageFile != null
                     ? CircleAvatar(
                         backgroundImage: FileImage(_imageFile!),
@@ -47,7 +48,7 @@ class _RegisterImageState extends State<RegisterImage> {
                     : const Icon(
                         Icons.add,
                         size: 50,
-                        color: Color(0xff999999),
+                        color: CustomColor.gray,
                       ),
               ),
             ),
@@ -62,11 +63,11 @@ class _RegisterImageState extends State<RegisterImage> {
             height: 34,
             child: FloatingActionButton(
               elevation: 0,
-              backgroundColor: Colors.white.withOpacity(0.8),
+              backgroundColor: CustomColor.white.withOpacity(0.8),
               onPressed: _pickImage,
               child: const Icon(
                 Icons.edit,
-                color: Color(0xff999999),
+                color: CustomColor.gray,
                 size: 22,
               ),
             ),

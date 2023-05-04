@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:meonghae_front/themes/customColor.dart';
 
 class DogPictureSwiper extends StatelessWidget {
   const DogPictureSwiper({super.key});
@@ -23,7 +24,7 @@ class DogPictureSwiper extends StatelessWidget {
             const Text(
               '주인아, 멍해?',
               style: TextStyle(
-                color: Colors.black,
+                color: CustomColor.black1,
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
               ),
@@ -42,7 +43,7 @@ class DogPictureSwiper extends StatelessWidget {
               const Text(
                 '멍멍아, 멍해?',
                 style: TextStyle(
-                  color: Colors.black,
+                  color: CustomColor.black1,
                   fontSize: 14,
                   fontWeight: FontWeight.w400,
                 ),

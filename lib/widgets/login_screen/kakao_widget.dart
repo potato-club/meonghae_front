@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/models/loginModel.dart';
+import 'package:meonghae_front/themes/customColor.dart';
 
 class KakaoButton extends StatefulWidget {
   final LoginModel loginModel;
@@ -21,7 +22,7 @@ class _KakaoButtonState extends State<KakaoButton> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5),
         ),
-        backgroundColor: const Color(0xffFEE500),
+        backgroundColor: CustomColor.kakao,
       ),
       onPressed: () async {
         await widget.loginModel.login();
@@ -39,7 +40,7 @@ class _KakaoButtonState extends State<KakaoButton> {
           const SizedBox(width: 8),
           const Text(
             'KAKAO로 가입하기',
-            style: TextStyle(color: Color(0xFF000000)),
+            style: TextStyle(color: CustomColor.black1),
           ),
         ],
       ),

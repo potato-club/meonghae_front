@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meonghae_front/themes/customColor.dart';
 
 class UnderBarIconButtonWidget extends StatelessWidget {
   final bool isSelected;
@@ -22,7 +23,7 @@ class UnderBarIconButtonWidget extends StatelessWidget {
               opacity: isSelected ? 1 : 0.4,
               child: Image(
                   image: AssetImage(
-                      'assets/images/icon/${iconName}_${isSelected ? 'black' : 'gray'}.png')),
+                      'assets/images/icon/${iconName}_${isSelected ? 'brown' : 'gray'}.png')),
             ),
             Transform.translate(
               offset: const Offset(0, -4),
@@ -30,7 +31,8 @@ class UnderBarIconButtonWidget extends StatelessWidget {
                 label,
                 style: TextStyle(
                   fontSize: 10,
-                  color: isSelected ? Colors.black : const Color(0xFFBDBDBD),
+                  color:
+                      isSelected ? CustomColor.brown1 : CustomColor.lightGray2,
                 ),
               ),
             )
