@@ -29,7 +29,7 @@ class MainContentWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 14),
+            padding: const EdgeInsets.only(top: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -44,7 +44,7 @@ class MainContentWidget extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: MediaQuery.of(context).size.width * 0.06,
-                    vertical: 14,
+                    vertical: 20,
                   ),
                   child: const ScheduleContentWidget(),
                 ),

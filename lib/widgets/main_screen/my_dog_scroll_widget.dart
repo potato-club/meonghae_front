@@ -47,7 +47,7 @@ class _MyDogScrollWidgetState extends State<MyDogScrollWidget> {
           for (var i = 0; i < dogs.length; i++)
             createDogCardItem(
               dogs[i],
-              i + 1 == dogs.length ? true : false,
+              i + 1 == dogs.length,
             )
         ],
       ),
