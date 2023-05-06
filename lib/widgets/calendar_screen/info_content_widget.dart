@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/calendar_screen/calendar_widget.dart';
 import 'package:meonghae_front/widgets/calendar_screen/info_item_widget.dart';
+import 'package:meonghae_front/widgets/calendar_screen/no_info_widget.dart';
 
 class InfoContentWidget extends StatefulWidget {
   final DateTime selectedDay;
@@ -82,51 +83,60 @@ class _InfoContentWidgetState extends State<InfoContentWidget> {
                     ),
                   ),
                   const SizedBox(height: 12),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height -
-                        637 +
-                        _containerHeight,
-                    child: _containerHeight == 0
-                        ? Card(
-                            elevation: 0,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.zero,
-                            ),
-                            clipBehavior: Clip.none,
-                            child: Wrap(
-                              children: [
-                                for (var i = 0; i < widget.events.length; i++)
-                                  InfoItemWidget(
-                                    startTime: widget.events[i].getStartTime(),
-                                    endTime: widget.events[i].getStartTime(),
-                                    title: widget.events[i].getTitle(),
-                                    isEndItem: false,
+                  widget.events.isEmpty
+                      ? const NoInfoWidget()
+                      : SizedBox(
+                          height: MediaQuery.of(context).size.height -
+                              637 +
+                              _containerHeight,
+                          child: _containerHeight == 0
+                              ? Card(
+                                  elevation: 0,
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.zero,
                                   ),
-                              ],
-                            ),
-                          )
-                        : SingleChildScrollView(
-                            child: Card(
-                              elevation: 0,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.zero,
-                              ),
-                              clipBehavior: Clip.none,
-                              child: Wrap(
-                                children: [
-                                  for (var i = 0; i < widget.events.length; i++)
-                                    InfoItemWidget(
-                                      startTime:
-                                          widget.events[i].getStartTime(),
-                                      endTime: widget.events[i].getStartTime(),
-                                      title: widget.events[i].getTitle(),
-                                      isEndItem: false,
+                                  clipBehavior: Clip.none,
+                                  child: Wrap(
+                                    children: [
+                                      for (var i = 0;
+                                          i < widget.events.length;
+                                          i++)
+                                        InfoItemWidget(
+                                          startTime:
+                                              widget.events[i].getStartTime(),
+                                          endTime:
+                                              widget.events[i].getStartTime(),
+                                          title: widget.events[i].getTitle(),
+                                          isEndItem: false,
+                                        ),
+                                    ],
+                                  ),
+                                )
+                              : SingleChildScrollView(
+                                  child: Card(
+                                    elevation: 0,
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.zero,
                                     ),
-                                ],
-                              ),
-                            ),
-                          ),
-                  ),
+                                    clipBehavior: Clip.none,
+                                    child: Wrap(
+                                      children: [
+                                        for (var i = 0;
+                                            i < widget.events.length;
+                                            i++)
+                                          InfoItemWidget(
+                                            startTime:
+                                                widget.events[i].getStartTime(),
+                                            endTime:
+                                                widget.events[i].getStartTime(),
+                                            title: widget.events[i].getTitle(),
+                                            isEndItem: false,
+                                          ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                        ),
                 ],
               ),
             )
