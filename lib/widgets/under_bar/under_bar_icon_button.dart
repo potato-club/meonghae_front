@@ -1,20 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:meonghae_front/screens/main_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 
 class UnderBarIconButtonWidget extends StatelessWidget {
-  final bool isSelected;
+  final Widget? routePath;
   final String label;
   final String iconName;
+  final String currentScreen;
   const UnderBarIconButtonWidget({
     super.key,
-    required this.isSelected,
     required this.label,
     required this.iconName,
+    required this.currentScreen,
+    this.routePath,
   });
 
   @override
   Widget build(BuildContext context) {
+    bool isSelected = iconName == currentScreen;
     return GestureDetector(
+      onTap: () => {
+        if (!isSelected)
+          {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => routePath ?? const MainScreen(),
+              ),
+            )
+          }
+      },
       child: SizedBox(
         width: 36,
         child: Column(
