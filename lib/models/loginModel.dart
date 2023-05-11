@@ -15,6 +15,7 @@ class LoginModel {
     if (isLogined) {
       user = await UserApi.instance.me();
     }
+    print(await hasToken());
     print('isLogined: $isLogined');
   }
 
@@ -22,5 +23,20 @@ class LoginModel {
     await socialLogin.logout();
     isLogined = false;
     user = null;
+  }
+
+  Future hasToken() async {
+    if (await AuthApi.instance.hasToken()) {
+      try {
+        AccessTokenInfo tokenInfo = await UserApi.instance.accessTokenInfo();
+        return "${tokenInfo.id},${tokenInfo.expiresIn}";
+      } catch (error) {
+        if (error is KakaoException && error.isInvalidTokenError()) {
+          return error;
+        } else {
+          return error;
+        }
+      }
+    }
   }
 }

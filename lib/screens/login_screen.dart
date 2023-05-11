@@ -76,14 +76,15 @@ class _LoginScreenState extends State<LoginScreen> {
                             fontWeight: FontWeight.w400,
                           ),
                         ),
-                        Text(
-                          '${kakaoModel.isLogined}',
-                          style: const TextStyle(
-                            color: CustomColor.black1,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        )
+                        FutureBuilder(
+                          future: kakaoModel.hasToken(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return Text("${snapshot.data}");
+                            }
+                            return const Text("");
+                          },
+                        ),
                       ],
                     ),
                     const Text(
