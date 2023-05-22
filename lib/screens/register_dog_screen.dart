@@ -1,16 +1,16 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/themes/customColor.dart';
-import 'package:meonghae_front/widgets/register_screen/register_init_form.dart';
+import 'package:meonghae_front/widgets/register_dog_screen/register_init_form.dart';
 
-class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({super.key});
+class RegisterDogScreen extends StatefulWidget {
+  const RegisterDogScreen({super.key});
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  State<RegisterDogScreen> createState() => _RegisterDogScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _RegisterDogScreenState extends State<RegisterDogScreen> {
   final CarouselController _carouselController = CarouselController();
   List<Widget> registerSliders = [];
   int currentSlideIndex = 0;
