@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/login/kakao_login.dart';
 import 'package:meonghae_front/models/loginModel.dart';
+import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/login_screen/dog_picture_swiper.dart';
 import 'package:meonghae_front/widgets/login_screen/kakao_widget.dart';
 
@@ -18,7 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: const Color(0xffF2CB80),
+        color: CustomColor.brown1,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -38,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
               flex: 65,
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: CustomColor.white,
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.elliptical(
                           MediaQuery.of(context).size.width * 0.5, 74),
@@ -48,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     BoxShadow(
                       offset: Offset(0, -12), // 그림자의 위치
                       blurRadius: 20, // 그림자의 흐림 정도
-                      color: Color(0xffDEB567), // 그림자의 색상
+                      color: CustomColor.brown2, // 그림자의 색상
                     ),
                   ],
                 ),
@@ -62,7 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         const Text(
                           '멍해',
                           style: TextStyle(
-                            color: Colors.black,
+                            color: CustomColor.black1,
                             fontSize: 18,
                             fontWeight: FontWeight.w700,
                           ),
@@ -70,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         const Text(
                           '로',
                           style: TextStyle(
-                            color: Colors.black,
+                            color: CustomColor.black1,
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
                           ),
@@ -78,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Text(
                           '${kakaoModel.isLogined}',
                           style: const TextStyle(
-                            color: Colors.black,
+                            color: CustomColor.black1,
                             fontSize: 10,
                             fontWeight: FontWeight.w400,
                           ),
@@ -88,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     const Text(
                       '간편하게 애완동물의',
                       style: TextStyle(
-                        color: Colors.black,
+                        color: CustomColor.black1,
                         fontSize: 18,
                         fontWeight: FontWeight.w400,
                       ),
@@ -96,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     const Text(
                       '스케줄을 관리해 보세요.',
                       style: TextStyle(
-                        color: Colors.black,
+                        color: CustomColor.black1,
                         fontSize: 18,
                         fontWeight: FontWeight.w400,
                       ),

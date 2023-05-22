@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/main_screen/main_content_label_widget.dart';
 
 class PostContentWidget extends StatelessWidget {
@@ -11,7 +12,7 @@ class PostContentWidget extends StatelessWidget {
             ? null
             : const Border(
                 bottom: BorderSide(
-                  color: Color(0xFF999999),
+                  color: CustomColor.gray,
                   width: 0.4,
                 ),
               ),

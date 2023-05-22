@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/main_screen/main_content_label_widget.dart';
 
 class ScheduleContentWidget extends StatelessWidget {
@@ -12,7 +13,7 @@ class ScheduleContentWidget extends StatelessWidget {
             ? null
             : const Border(
                 bottom: BorderSide(
-                  color: Color(0xFF999999),
+                  color: CustomColor.gray,
                   width: 0.4,
                 ),
               ),
@@ -51,7 +52,7 @@ class ScheduleContentWidget extends StatelessWidget {
         const MainContentLabelWidget(label: "일정"),
         const SizedBox(height: 12),
         SizedBox(
-          height: 147,
+          height: MediaQuery.of(context).size.height - 646,
           child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
             child: Column(

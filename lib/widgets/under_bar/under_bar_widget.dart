@@ -1,20 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:meonghae_front/screens/calendar_screen.dart';
+import 'package:meonghae_front/screens/main_screen.dart';
+import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/under_bar/under_bar_icon_button.dart';
 
 class UnderBarWidget extends StatelessWidget {
-  const UnderBarWidget({super.key});
+  final String currentScreen;
+
+  const UnderBarWidget({super.key, required this.currentScreen});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           color: Colors.white,
-          border: Border(
-            top: BorderSide(
-              color: Color(0xFF999999),
-              width: 0.3,
-            ),
-          ),
+          boxShadow: [
+            BoxShadow(
+                color: CustomColor.black1.withOpacity(0.12),
+                offset: const Offset(0, -4),
+                blurRadius: 12,
+                spreadRadius: 0)
+          ],
         ),
         width: MediaQuery.of(context).size.width,
         height: 74,
@@ -24,19 +30,36 @@ class UnderBarWidget extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: MediaQuery.of(context).size.width * 0.06),
-              child: const Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   UnderBarIconButtonWidget(
-                      isSelected: false, label: '캘린더', iconName: 'calendar'),
+                    label: '캘린더',
+                    iconName: 'calendar',
+                    routePath: const CalendarScreen(),
+                    currentScreen: currentScreen,
+                  ),
                   UnderBarIconButtonWidget(
-                      isSelected: false, label: '게시물', iconName: 'post'),
+                    label: '게시물',
+                    iconName: 'post',
+                    currentScreen: currentScreen,
+                  ),
                   UnderBarIconButtonWidget(
-                      isSelected: true, label: '홈', iconName: 'home'),
+                    label: '홈',
+                    iconName: 'home',
+                    routePath: const MainScreen(),
+                    currentScreen: currentScreen,
+                  ),
                   UnderBarIconButtonWidget(
-                      isSelected: false, label: '리뷰', iconName: 'review'),
+                    label: '리뷰',
+                    iconName: 'review',
+                    currentScreen: currentScreen,
+                  ),
                   UnderBarIconButtonWidget(
-                      isSelected: false, label: '문의', iconName: 'ask')
+                    label: '문의',
+                    iconName: 'ask',
+                    currentScreen: currentScreen,
+                  )
                 ],
               ),
             )

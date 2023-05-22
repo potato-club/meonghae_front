@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/main_screen/banner_widget.dart';
 import 'package:meonghae_front/widgets/main_screen/main_content_widget.dart';
 import 'package:meonghae_front/widgets/main_screen/my_dog_scroll_widget.dart';
@@ -10,35 +11,40 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFFFCF4),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Padding(
+      backgroundColor: CustomColor.white,
+      body: Stack(children: [
+        Positioned(
+          child: Padding(
             padding: EdgeInsets.symmetric(
               horizontal: MediaQuery.of(context).size.width * 0.06,
               vertical: 4,
             ),
-            child: const Column(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Image(
-                  image: AssetImage('assets/images/logo/meonghae_logo.png'),
-                  width: 68,
+                Transform.translate(
+                  offset: const Offset(0, 8),
+                  child: const Image(
+                    image: AssetImage('assets/images/logo/meonghae_logo.png'),
+                    width: 68,
+                  ),
                 ),
-                Padding(
+                const Padding(
                   padding: EdgeInsets.only(top: 24, bottom: 32),
                   child: BannerWidget(),
                 ),
-                MyDogScrollWidget(),
+                const MyDogScrollWidget(),
               ],
             ),
           ),
-          const SizedBox(height: 24),
-          const MainContentWidget(),
-          const UnderBarWidget()
-        ],
-      ),
+        ),
+        const Positioned(
+          bottom: 74,
+          child: MainContentWidget(),
+        ),
+        const Positioned(
+            bottom: 0, child: UnderBarWidget(currentScreen: 'home'))
+      ]),
     );
   }
 }
