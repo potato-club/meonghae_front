@@ -22,7 +22,7 @@ class UnderBarIconButtonWidget extends StatelessWidget {
       onTap: () => {
         if (!isSelected)
           {
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (context) => routePath ?? const MainScreen(),
