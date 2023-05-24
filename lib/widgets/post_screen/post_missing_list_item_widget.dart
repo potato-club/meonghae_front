@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/screens/post_detail_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/widgets/svg/tiny_comment.dart';
+import 'package:meonghae_front/widgets/svg/tiny_heart.dart';
+import 'package:meonghae_front/widgets/svg/tiny_picture.dart';
 
 class PostMissingListItemWidget extends StatelessWidget {
   const PostMissingListItemWidget({super.key});
@@ -76,33 +79,21 @@ class PostMissingListItemWidget extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Image(
-                      image: AssetImage(
-                        'assets/images/icon/heart_icon.png',
-                      ),
-                    ),
+                    TinyHeartSVG(),
                     SizedBox(width: 2),
                     Text(
                       '12',
                       style: TextStyle(fontSize: 11, color: CustomColor.gray),
                     ),
                     SizedBox(width: 6),
-                    Image(
-                      image: AssetImage(
-                        'assets/images/icon/comment_icon.png',
-                      ),
-                    ),
+                    TinyCommentSVG(),
                     SizedBox(width: 2),
                     Text(
                       '12',
                       style: TextStyle(fontSize: 11, color: CustomColor.gray),
                     ),
                     SizedBox(width: 6),
-                    Image(
-                      image: AssetImage(
-                        'assets/images/icon/picture_icon.png',
-                      ),
-                    ),
+                    TinyPictureSVG()
                   ],
                 ))
           ]),

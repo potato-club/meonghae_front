@@ -14,10 +14,7 @@ class PostScreen extends StatefulWidget {
 class _PostScreenState extends State<PostScreen> {
   String sectionName = 'boast';
   void setSectionName(String value) {
-    setState(() {
-      sectionName = value;
-      print(sectionName);
-    });
+    setState(() => sectionName = value);
   }
 
 // sectionName : boast / fun / missing
@@ -49,7 +46,7 @@ class _PostScreenState extends State<PostScreen> {
           ),
           const Positioned(
             bottom: 0,
-            child: UnderBarWidget(currentScreen: 'post'),
+            child: UnderBarWidget(currentScreen: '게시물'),
           ),
         ]),
       ),
