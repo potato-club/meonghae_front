@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/svg/arrow.dart';
+import 'package:meonghae_front/widgets/svg/more.dart';
 
 class BannerWidget extends StatelessWidget {
   const BannerWidget({super.key});
@@ -28,12 +29,7 @@ class BannerWidget extends StatelessWidget {
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
                         color: CustomColor.black2)),
-                Transform.translate(
-                  offset: const Offset(0, -4),
-                  child: const Image(
-                      image:
-                          AssetImage('assets/images/icon/more_icon_black.png')),
-                )
+                const MoreSVG()
               ],
             ),
           ),

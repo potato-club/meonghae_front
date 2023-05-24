@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/themes/customColor.dart';
-import 'package:meonghae_front/widgets/svg/more.dart';
+import 'package:meonghae_front/widgets/svg/tiny_more.dart';
 
 class CommentWidget extends StatefulWidget {
   const CommentWidget({super.key});
@@ -62,7 +62,7 @@ class _CommentWidgetState extends State<CommentWidget> {
             top: 2,
             right: 0,
             child: GestureDetector(
-                child: const MoreSVG(color: CustomColor.lightGray2)))
+                child: const TinyMoreSVG(color: CustomColor.lightGray2)))
       ]),
     );
   }
