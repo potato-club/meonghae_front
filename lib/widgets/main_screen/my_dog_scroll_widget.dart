@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meonghae_front/themes/customColor.dart';
 
 class MyDogScrollWidget extends StatefulWidget {
   const MyDogScrollWidget({super.key});
@@ -19,7 +20,7 @@ class _MyDogScrollWidgetState extends State<MyDogScrollWidget> {
             width: 70,
             height: 70,
             decoration: BoxDecoration(
-                color: const Color(0xFFEAEAEA),
+                color: CustomColor.ivoey2,
                 borderRadius: BorderRadius.circular(35)),
           ),
           Padding(
@@ -46,7 +47,7 @@ class _MyDogScrollWidgetState extends State<MyDogScrollWidget> {
           for (var i = 0; i < dogs.length; i++)
             createDogCardItem(
               dogs[i],
-              i + 1 == dogs.length ? true : false,
+              i + 1 == dogs.length,
             )
         ],
       ),

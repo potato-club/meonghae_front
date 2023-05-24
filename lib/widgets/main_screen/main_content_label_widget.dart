@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:meonghae_front/themes/customColor.dart';
 
 class MainContentLabelWidget extends StatelessWidget {
   final String label;
@@ -27,7 +28,7 @@ class MainContentLabelWidget extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
-                  color: Color(0xFF999999),
+                  color: CustomColor.gray,
                 ),
               ),
               Padding(
@@ -35,7 +36,7 @@ class MainContentLabelWidget extends StatelessWidget {
                 child: FaIcon(
                   FontAwesomeIcons.chevronRight,
                   size: 12,
-                  color: Color(0xFF999999),
+                  color: CustomColor.gray,
                 ),
               )
             ],
