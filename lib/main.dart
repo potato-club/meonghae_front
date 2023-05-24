@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
 
     return const MaterialApp(
+      locale: Locale('ko', 'KR'),
       title: 'Meonghae?',
       home: RegisterUserScreen(),
     );

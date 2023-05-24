@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/register_dog_screen/register_init_form.dart';
+import 'package:meonghae_front/widgets/svg/arrow.dart';
 
 class RegisterDogScreen extends StatefulWidget {
   const RegisterDogScreen({super.key});
@@ -40,34 +41,50 @@ class _RegisterDogScreenState extends State<RegisterDogScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: CustomColor.white,
       resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.35 - 130,
-                child: const Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      '내 강아지/고양이',
-                      style: TextStyle(
-                        color: CustomColor.black2,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
+                child: Stack(children: [
+                  Stack(children: [
+                    Positioned(
+                      bottom: 12,
+                      left: MediaQuery.of(context).size.width * 0.16,
+                      child: GestureDetector(
+                          onTap: () => Navigator.pop(context),
+                          child:
+                              const ArrowSVG(strokeColor: CustomColor.black2)),
+                    ),
+                    const Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            '내 강아지/고양이',
+                            style: TextStyle(
+                              color: CustomColor.black2,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          Text(
+                            '정보 입력',
+                            style: TextStyle(
+                              color: CustomColor.black2,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    Text(
-                      '정보 입력',
-                      style: TextStyle(
-                        color: CustomColor.black2,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
-                ),
+                  ]),
+                ]),
               ),
               CarouselSlider(
                 carouselController: _carouselController,

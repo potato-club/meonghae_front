@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:meonghae_front/screens/register_dog_screen.dart';
 import 'package:meonghae_front/widgets/register_user_screen/user_registered_photo_widget.dart';
 
 import '../themes/customColor.dart';
@@ -83,7 +84,9 @@ class _RegisteredUserScreenState extends State<RegisteredUserScreen> {
                 ),
                 backgroundColor: CustomColor.black2,
               ),
-              onPressed: () {},
+              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      const RegisterDogScreen())),
               child: const Text(
                 '다음',
                 style: TextStyle(

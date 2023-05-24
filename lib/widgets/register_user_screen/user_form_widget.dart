@@ -149,7 +149,7 @@ class _UserFormWidgetState extends State<UserFormWidget> {
                           ? TextAlignVertical.bottom
                           : TextAlignVertical.center,
                       style: const TextStyle(fontSize: 12),
-                      keyboardType: TextInputType.text,
+                      keyboardType: TextInputType.number,
                       validator: (value) {
                         if (value!.isEmpty) {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -163,7 +163,7 @@ class _UserFormWidgetState extends State<UserFormWidget> {
                         } else if (!RegExp(r'^[0-9.]+$').hasMatch(value)) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('숫자와 .만 입력 가능합니다'),
+                              content: Text('숫자만 입력 가능합니다'),
                               duration: Duration(seconds: 2),
                             ),
                           );

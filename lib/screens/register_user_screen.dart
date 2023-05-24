@@ -4,6 +4,7 @@ import 'package:meonghae_front/screens/registered_user_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/register_user_screen/user_form_widget.dart';
 import 'package:meonghae_front/widgets/register_user_screen/user_photo_widget.dart';
+import 'package:meonghae_front/widgets/svg/arrow.dart';
 
 class RegisterUserScreen extends StatefulWidget {
   const RegisterUserScreen({super.key});
@@ -33,13 +34,11 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
   void _submitForm() {
     if (age != null && formKey.currentState!.validate()) {
       formKey.currentState!.save();
-      Navigator.of(context).push(
-        MaterialPageRoute(
-            builder: (BuildContext context) => RegisteredUserScreen(
-                  name: name!,
-                  imageFile: imageFile,
-                )),
-      );
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (BuildContext context) => RegisteredUserScreen(
+                name: name!,
+                imageFile: imageFile,
+              )));
     } else {}
   }
 
@@ -52,11 +51,20 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Center(
+          Stack(children: [
+            const Center(
               child: Text(
-            '내 정보 입력',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
-          )),
+                '내 정보 입력',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+              ),
+            ),
+            Positioned(
+              left: MediaQuery.of(context).size.width * 0.22,
+              child: GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                  child: const ArrowSVG(strokeColor: CustomColor.black2)),
+            ),
+          ]),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.07,
           ),
