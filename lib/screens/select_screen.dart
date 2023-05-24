@@ -26,6 +26,7 @@ class SelectScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  const SizedBox(height: 40),
                   const Text(
                     "키우시는 강아지나",
                     style: TextStyle(
@@ -57,6 +58,7 @@ class SelectScreen extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
+                          color: CustomColor.black3,
                         ),
                       ))
                 ],
