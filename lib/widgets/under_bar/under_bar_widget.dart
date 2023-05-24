@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/screens/calendar_screen.dart';
 import 'package:meonghae_front/screens/main_screen.dart';
+import 'package:meonghae_front/screens/post_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/under_bar/under_bar_icon_button.dart';
 
@@ -42,6 +43,7 @@ class UnderBarWidget extends StatelessWidget {
                   UnderBarIconButtonWidget(
                     label: '게시물',
                     iconName: 'post',
+                    routePath: const PostScreen(),
                     currentScreen: currentScreen,
                   ),
                   UnderBarIconButtonWidget(
