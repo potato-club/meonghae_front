@@ -7,7 +7,8 @@ import 'package:meonghae_front/widgets/register_user_screen/user_photo_widget.da
 import 'package:meonghae_front/widgets/svg/arrow.dart';
 
 class RegisterUserScreen extends StatefulWidget {
-  const RegisterUserScreen({super.key});
+  final bool hasAnimal;
+  const RegisterUserScreen({super.key, required this.hasAnimal});
 
   @override
   State<RegisterUserScreen> createState() => _RegisterUserScreenState();
@@ -36,6 +37,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
       formKey.currentState!.save();
       Navigator.of(context).push(MaterialPageRoute(
           builder: (BuildContext context) => RegisteredUserScreen(
+                hasAnimal: widget.hasAnimal,
                 name: name!,
                 imageFile: imageFile,
               )));
