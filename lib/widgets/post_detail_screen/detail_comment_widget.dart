@@ -2,14 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/post_detail_screen/comment_widget.dart';
 
-class DetailCommentWidget extends StatefulWidget {
-  const DetailCommentWidget({super.key});
+class DetailCommentWidget extends StatelessWidget {
+  final Function setIsCommentMoreModal;
+  const DetailCommentWidget({super.key, required this.setIsCommentMoreModal});
 
-  @override
-  State<DetailCommentWidget> createState() => _DetailCommentWidgetState();
-}
-
-class _DetailCommentWidgetState extends State<DetailCommentWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -21,14 +17,14 @@ class _DetailCommentWidgetState extends State<DetailCommentWidget> {
           ),
         ),
       ),
-      child: const Column(
+      child: Column(
         children: [
-          CommentWidget(),
-          CommentWidget(),
-          CommentWidget(),
-          CommentWidget(),
-          CommentWidget(),
-          SizedBox(height: 74)
+          CommentWidget(setIsCommentMoreModal: setIsCommentMoreModal),
+          CommentWidget(setIsCommentMoreModal: setIsCommentMoreModal),
+          CommentWidget(setIsCommentMoreModal: setIsCommentMoreModal),
+          CommentWidget(setIsCommentMoreModal: setIsCommentMoreModal),
+          CommentWidget(setIsCommentMoreModal: setIsCommentMoreModal),
+          const SizedBox(height: 74)
         ],
       ),
     );

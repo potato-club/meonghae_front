@@ -4,7 +4,8 @@ import 'package:meonghae_front/widgets/svg/arrow.dart';
 import 'package:meonghae_front/widgets/svg/more.dart';
 
 class BannerWidget extends StatelessWidget {
-  const BannerWidget({super.key});
+  final Function setIsPostMoreModal;
+  const BannerWidget({super.key, required this.setIsPostMoreModal});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,9 @@ class BannerWidget extends StatelessWidget {
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
                         color: CustomColor.black2)),
-                const MoreSVG()
+                InkWell(
+                    onTap: () => setIsPostMoreModal(true),
+                    child: const SizedBox(width: 16, child: MoreSVG()))
               ],
             ),
           ),
