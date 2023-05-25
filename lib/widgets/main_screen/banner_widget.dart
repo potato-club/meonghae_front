@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/widgets/svg/tiny_gear.dart';
 
 class BannerWidget extends StatefulWidget {
   const BannerWidget({super.key});
@@ -26,8 +27,17 @@ class _BannerWidgetState extends State<BannerWidget> {
                 width: 54,
                 height: 54,
                 decoration: BoxDecoration(
-                    color: CustomColor.ivoey2,
-                    borderRadius: BorderRadius.circular(27)),
+                  color: CustomColor.white,
+                  borderRadius: BorderRadius.circular(27),
+                ),
+                child: Transform.scale(
+                  scale: 1.8,
+                  child: const Image(
+                    image: AssetImage(
+                      'assets/images/dog_pictures/face.png',
+                    ),
+                  ),
+                ),
               ),
               const Padding(
                 padding: EdgeInsets.only(left: 13),
@@ -44,19 +54,15 @@ class _BannerWidgetState extends State<BannerWidget> {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Icon(
-                            Icons.settings_sharp,
-                            size: 10,
-                            color: CustomColor.gray,
-                          ),
+                          TinyGearSVG(),
                           Padding(
-                            padding: EdgeInsets.only(left: 2, bottom: 2),
+                            padding: EdgeInsets.only(left: 4, bottom: 2),
                             child: Text(
                               "업데이트 공지 2.0.10.2",
                               style: TextStyle(
-                                fontSize: 10,
-                                color: CustomColor.gray,
-                              ),
+                                  fontSize: 10,
+                                  color: CustomColor.white,
+                                  fontWeight: FontWeight.w400),
                             ),
                           )
                         ],
