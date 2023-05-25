@@ -57,8 +57,8 @@ class MainContentWidget extends StatelessWidget {
               color: Colors.white,
               border: Border(
                 top: BorderSide(
-                  color: CustomColor.gray,
-                  width: 0.3,
+                  color: CustomColor.lightGray1,
+                  width: 1,
                 ),
               ),
             ),

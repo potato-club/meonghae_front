@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/widgets/svg/tiny_right_arrow.dart';
 
 class MainContentLabelWidget extends StatelessWidget {
   final String label;
@@ -32,13 +32,8 @@ class MainContentLabelWidget extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 1.5, left: 4),
-                child: FaIcon(
-                  FontAwesomeIcons.chevronRight,
-                  size: 12,
-                  color: CustomColor.gray,
-                ),
-              )
+                  padding: EdgeInsets.only(top: 2, left: 4),
+                  child: TinyRightArrowSVG())
             ],
           ),
         )
