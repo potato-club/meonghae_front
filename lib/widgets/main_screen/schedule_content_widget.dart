@@ -52,7 +52,7 @@ class ScheduleContentWidget extends StatelessWidget {
         const MainContentLabelWidget(label: "일정"),
         const SizedBox(height: 12),
         SizedBox(
-          height: MediaQuery.of(context).size.height - 632,
+          height: MediaQuery.of(context).size.height - 667,
           child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
             child: Column(

@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:meonghae_front/screens/calendar_screen.dart';
+import 'package:meonghae_front/screens/main_screen.dart';
+import 'package:meonghae_front/screens/post_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/widgets/svg/ask.dart';
+import 'package:meonghae_front/widgets/svg/calendar.dart';
+import 'package:meonghae_front/widgets/svg/home.dart';
+import 'package:meonghae_front/widgets/svg/post.dart';
+import 'package:meonghae_front/widgets/svg/review.dart';
 import 'package:meonghae_front/widgets/under_bar/under_bar_icon_button.dart';
 
 class UnderBarWidget extends StatelessWidget {
-  const UnderBarWidget({super.key});
+  final String currentScreen;
+
+  const UnderBarWidget({super.key, required this.currentScreen});
 
   @override
   Widget build(BuildContext context) {
@@ -26,19 +36,30 @@ class UnderBarWidget extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: MediaQuery.of(context).size.width * 0.06),
-              child: const Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   UnderBarIconButtonWidget(
-                      isSelected: false, label: '캘린더', iconName: 'calendar'),
+                    iconSVG: CalendarSVG(isCurrent: '캘린더' == currentScreen),
+                    routePath: const CalendarScreen(),
+                    isCurrent: '캘린더' == currentScreen,
+                  ),
                   UnderBarIconButtonWidget(
-                      isSelected: false, label: '게시물', iconName: 'post'),
+                      iconSVG: PostSVG(isCurrent: '게시물' == currentScreen),
+                      routePath: const PostScreen(),
+                      isCurrent: '게시물' == currentScreen),
                   UnderBarIconButtonWidget(
-                      isSelected: true, label: '홈', iconName: 'home'),
+                      iconSVG: HomeSVG(isCurrent: '홈' == currentScreen),
+                      routePath: const MainScreen(),
+                      isCurrent: '홈' == currentScreen),
                   UnderBarIconButtonWidget(
-                      isSelected: false, label: '리뷰', iconName: 'review'),
+                      iconSVG: ReviewSVG(isCurrent: '리뷰' == currentScreen),
+                      routePath: const CalendarScreen(),
+                      isCurrent: '리뷰' == currentScreen),
                   UnderBarIconButtonWidget(
-                      isSelected: false, label: '문의', iconName: 'ask')
+                      iconSVG: AskSVG(isCurrent: '문의' == currentScreen),
+                      routePath: const CalendarScreen(),
+                      isCurrent: '문의' == currentScreen)
                 ],
               ),
             )

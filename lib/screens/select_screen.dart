@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/screens/login_screen.dart';
+import 'package:meonghae_front/screens/register_user_screen.dart';
+import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/select_screen/select_button_widget.dart';
 
 class SelectScreen extends StatelessWidget {
@@ -15,7 +16,7 @@ class SelectScreen extends StatelessWidget {
             flex: 55,
             child: Container(
               decoration: BoxDecoration(
-                color: const Color(0xFFF2CB80),
+                color: CustomColor.brown1,
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.elliptical(
                         MediaQuery.of(context).size.width * 0.5, 74),
@@ -25,6 +26,7 @@ class SelectScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  const SizedBox(height: 40),
                   const Text(
                     "키우시는 강아지나",
                     style: TextStyle(
@@ -56,6 +58,7 @@ class SelectScreen extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
+                          color: CustomColor.black3,
                         ),
                       ))
                 ],
@@ -69,12 +72,16 @@ class SelectScreen extends StatelessWidget {
               children: [
                 SelectButtonWidget(
                   content: "키우는 강아지/고양이가 있어요!",
-                  routingWidget: LoginScreen(),
+                  routingWidget: RegisterUserScreen(
+                    hasAnimal: true,
+                  ),
                 ),
                 SizedBox(height: 40),
                 SelectButtonWidget(
                   content: "나만 강아지/고양이 없어...",
-                  routingWidget: SelectScreen(),
+                  routingWidget: RegisterUserScreen(
+                    hasAnimal: false,
+                  ),
                 ),
                 SizedBox(height: 40),
               ],

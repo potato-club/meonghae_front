@@ -9,7 +9,7 @@ class MainContentWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height - 379,
+      height: MediaQuery.of(context).size.height - 400,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -29,7 +29,7 @@ class MainContentWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 14),
+            padding: const EdgeInsets.only(top: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -44,7 +44,7 @@ class MainContentWidget extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: MediaQuery.of(context).size.width * 0.06,
-                    vertical: 14,
+                    vertical: 20,
                   ),
                   child: const ScheduleContentWidget(),
                 ),
@@ -57,7 +57,7 @@ class MainContentWidget extends StatelessWidget {
               color: Colors.white,
               border: Border(
                 top: BorderSide(
-                  color: Color(0xFF999999),
+                  color: CustomColor.gray,
                   width: 0.3,
                 ),
               ),
