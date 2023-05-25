@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:flutter/services.dart';
-import 'package:meonghae_front/screens/calendar_screen.dart';
+import 'package:meonghae_front/screens/main_screen.dart';
 
 void main() async {
   // 카카오 앱의 클라이언트 ID를 설정
@@ -16,11 +16,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+        overlays: [SystemUiOverlay.top]);
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark,
+    ));
 
     return const MaterialApp(
+      locale: Locale('ko', 'KR'),
       title: 'Meonghae?',
-      home: CalendarScreen(),
+      home: MainScreen(),
     );
   }
 }
