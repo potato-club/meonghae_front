@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/screens/calendar_screen.dart';
 import 'package:meonghae_front/screens/main_screen.dart';
+import 'package:meonghae_front/screens/post_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/svg/ask.dart';
 import 'package:meonghae_front/widgets/svg/calendar.dart';
@@ -45,7 +46,7 @@ class UnderBarWidget extends StatelessWidget {
                   ),
                   UnderBarIconButtonWidget(
                       iconSVG: PostSVG(isCurrent: '게시물' == currentScreen),
-                      routePath: const CalendarScreen(),
+                      routePath: const PostScreen(),
                       isCurrent: '게시물' == currentScreen),
                   UnderBarIconButtonWidget(
                       iconSVG: HomeSVG(isCurrent: '홈' == currentScreen),
