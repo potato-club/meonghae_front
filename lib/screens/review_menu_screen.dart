@@ -4,14 +4,14 @@ import 'package:meonghae_front/widgets/review_screen/review_menu_buttons_widget.
 import 'package:meonghae_front/widgets/review_screen/search_bar_widget.dart';
 import 'package:meonghae_front/widgets/under_bar/under_bar_widget.dart';
 
-class ReviewScreen extends StatefulWidget {
-  const ReviewScreen({super.key});
+class ReviewMenuScreen extends StatefulWidget {
+  const ReviewMenuScreen({super.key});
 
   @override
-  State<ReviewScreen> createState() => _ReviewScreenState();
+  State<ReviewMenuScreen> createState() => _ReviewMenuScreenState();
 }
 
-class _ReviewScreenState extends State<ReviewScreen> {
+class _ReviewMenuScreenState extends State<ReviewMenuScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
