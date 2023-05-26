@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meonghae_front/screens/review_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 
 class MenuButtonsWidget extends StatelessWidget {
@@ -28,6 +29,9 @@ class MenuButtonsWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           GestureDetector(
+            onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    ReviewScreen(menuValue: label1))),
             child: Column(
               children: [
                 widget1,
@@ -45,6 +49,9 @@ class MenuButtonsWidget extends StatelessWidget {
             decoration: const BoxDecoration(color: CustomColor.lightGray1),
           ),
           GestureDetector(
+            onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    ReviewScreen(menuValue: label2))),
             child: Column(
               children: [
                 widget2,
@@ -62,6 +69,9 @@ class MenuButtonsWidget extends StatelessWidget {
             decoration: const BoxDecoration(color: CustomColor.lightGray1),
           ),
           GestureDetector(
+            onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    ReviewScreen(menuValue: label3))),
             child: Column(
               children: [
                 widget3,

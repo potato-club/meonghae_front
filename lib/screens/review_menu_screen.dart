@@ -20,7 +20,7 @@ class _ReviewMenuScreenState extends State<ReviewMenuScreen> {
           child: Column(
         children: [
           const SizedBox(
-            height: 42,
+            height: 62,
           ),
           Padding(
             padding: EdgeInsets.symmetric(
