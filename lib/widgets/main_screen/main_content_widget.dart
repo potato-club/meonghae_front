@@ -41,12 +41,11 @@ class MainContentWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width * 0.06,
-                    vertical: 20,
+                const Padding(
+                  padding: EdgeInsets.only(
+                    top: 20,
                   ),
-                  child: const ScheduleContentWidget(),
+                  child: ScheduleContentWidget(),
                 ),
               ],
             ),
