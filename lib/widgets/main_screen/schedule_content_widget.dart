@@ -13,8 +13,8 @@ class ScheduleContentWidget extends StatelessWidget {
             ? null
             : const Border(
                 bottom: BorderSide(
-                  color: CustomColor.gray,
-                  width: 0.4,
+                  color: CustomColor.lightGray1,
+                  width: 1,
                 ),
               ),
       ),
@@ -52,7 +52,7 @@ class ScheduleContentWidget extends StatelessWidget {
         const MainContentLabelWidget(label: "일정"),
         const SizedBox(height: 12),
         SizedBox(
-          height: MediaQuery.of(context).size.height - 667,
+          height: MediaQuery.of(context).size.height - 668,
           child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
             child: Column(
