@@ -9,6 +9,7 @@ class CustomColor {
   static const Color black1 = Color(0xFF000000);
   static const Color black2 = Color(0xFF191919);
   static const Color black3 = Color(0xFF505050);
+  static const Color black4 = Color(0xFF727171);
   static const Color gray = Color(0xFF999999);
   static const Color lightGray1 = Color(0xFFD9D9D9);
   static const Color lightGray2 = Color(0xFFBDBDBD);
