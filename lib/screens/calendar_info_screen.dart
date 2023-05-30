@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:intl/intl.dart';
 
-class CalenderInfoScreen extends StatefulWidget {
-  const CalenderInfoScreen({super.key});
+class CalendarInfoScreen extends StatefulWidget {
+  const CalendarInfoScreen({super.key});
 
   @override
-  State<CalenderInfoScreen> createState() => _CalenderInfoScreenState();
+  State<CalendarInfoScreen> createState() => _CalendarInfoScreenState();
 }
 
-class _CalenderInfoScreenState extends State<CalenderInfoScreen> {
+class _CalendarInfoScreenState extends State<CalendarInfoScreen> {
   List<String> textButtonData = [
     '종합백신',
     '코로나 장염',
