@@ -15,27 +15,31 @@ class MainScreen extends StatelessWidget {
       body: SafeArea(
         child: Stack(children: [
           Positioned(
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: MediaQuery.of(context).size.width * 0.06,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Transform.translate(
-                    offset: const Offset(0, 8),
-                    child: const Image(
-                      image: AssetImage('assets/images/logo/meonghae_logo.png'),
-                      width: 68,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 0.06,
                     ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 24, bottom: 32),
-                    child: BannerWidget(),
-                  ),
-                  const MyDogScrollWidget(),
-                ],
-              ),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Transform.translate(
+                            offset: const Offset(0, 8),
+                            child: const Image(
+                              image: AssetImage(
+                                  'assets/images/logo/meonghae_logo.png'),
+                              width: 68,
+                            ),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.only(top: 24, bottom: 32),
+                            child: BannerWidget(),
+                          )
+                        ])),
+                const MyDogScrollWidget(),
+              ],
             ),
           ),
           const Positioned(
