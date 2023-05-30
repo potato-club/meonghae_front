@@ -69,7 +69,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
           ),
           const Positioned(
             bottom: 0,
-            child: UnderBarWidget(currentScreen: 'calendar'),
+            child: UnderBarWidget(currentScreen: '캘린더'),
           ),
         ],
       ),

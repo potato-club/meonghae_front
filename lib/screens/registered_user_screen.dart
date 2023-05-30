@@ -1,16 +1,21 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:meonghae_front/screens/main_screen.dart';
 import 'package:meonghae_front/screens/register_dog_screen.dart';
 import 'package:meonghae_front/widgets/register_user_screen/user_registered_photo_widget.dart';
 
 import '../themes/customColor.dart';
 
 class RegisteredUserScreen extends StatefulWidget {
+  final bool hasAnimal;
   final File? imageFile;
   final String name;
   const RegisteredUserScreen(
-      {super.key, required this.imageFile, required this.name});
+      {super.key,
+      required this.imageFile,
+      required this.name,
+      required this.hasAnimal});
 
   @override
   State<RegisteredUserScreen> createState() => _RegisteredUserScreenState();
@@ -85,8 +90,9 @@ class _RegisteredUserScreenState extends State<RegisteredUserScreen> {
                 backgroundColor: CustomColor.black2,
               ),
               onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) =>
-                      const RegisterDogScreen())),
+                  builder: (BuildContext context) => widget.hasAnimal
+                      ? const RegisterDogScreen()
+                      : const MainScreen())),
               child: const Text(
                 '다음',
                 style: TextStyle(

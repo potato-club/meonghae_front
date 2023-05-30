@@ -68,13 +68,13 @@ class _InfoContentWidgetState extends State<InfoContentWidget> {
               ),
             ),
             const SizedBox(height: 22),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: MediaQuery.of(context).size.width * 0.06),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 0.06),
+                  child: Text(
                     "${widget.selectedDay.day}일 ${dayOfWeek[widget.selectedDay.weekday - 1]}요일",
                     style: const TextStyle(
                       fontSize: 16,
@@ -82,15 +82,21 @@ class _InfoContentWidgetState extends State<InfoContentWidget> {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  const SizedBox(height: 12),
-                  widget.events.isEmpty
-                      ? const NoInfoWidget()
-                      : SizedBox(
-                          height: MediaQuery.of(context).size.height -
-                              637 +
-                              _containerHeight,
-                          child: _containerHeight == 0
-                              ? Card(
+                ),
+                const SizedBox(height: 8),
+                widget.events.isEmpty
+                    ? const NoInfoWidget()
+                    : SizedBox(
+                        height: MediaQuery.of(context).size.height -
+                            633 +
+                            _containerHeight,
+                        child: _containerHeight == 0
+                            ? Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal:
+                                        MediaQuery.of(context).size.width *
+                                            0.06),
+                                child: Card(
                                   elevation: 0,
                                   shape: const RoundedRectangleBorder(
                                     borderRadius: BorderRadius.zero,
@@ -111,34 +117,62 @@ class _InfoContentWidgetState extends State<InfoContentWidget> {
                                         ),
                                     ],
                                   ),
-                                )
-                              : SingleChildScrollView(
-                                  child: Card(
-                                    elevation: 0,
-                                    shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.zero,
-                                    ),
-                                    clipBehavior: Clip.none,
-                                    child: Wrap(
-                                      children: [
-                                        for (var i = 0;
-                                            i < widget.events.length;
-                                            i++)
-                                          InfoItemWidget(
-                                            startTime:
-                                                widget.events[i].getStartTime(),
-                                            endTime:
-                                                widget.events[i].getStartTime(),
-                                            title: widget.events[i].getTitle(),
-                                            isEndItem: false,
-                                          ),
-                                      ],
+                                ),
+                              )
+                            : Stack(children: [
+                                SingleChildScrollView(
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 4,
+                                        horizontal:
+                                            MediaQuery.of(context).size.width *
+                                                0.06),
+                                    child: Card(
+                                      elevation: 0,
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.zero,
+                                      ),
+                                      clipBehavior: Clip.none,
+                                      child: Wrap(
+                                        children: [
+                                          for (var i = 0;
+                                              i < widget.events.length;
+                                              i++)
+                                            InfoItemWidget(
+                                              startTime: widget.events[i]
+                                                  .getStartTime(),
+                                              endTime: widget.events[i]
+                                                  .getStartTime(),
+                                              title:
+                                                  widget.events[i].getTitle(),
+                                              isEndItem:
+                                                  i + 1 == widget.events.length
+                                                      ? true
+                                                      : false,
+                                            )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
-                        ),
-                ],
-              ),
+                                Positioned(
+                                  top: 0,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                            begin: Alignment.topCenter,
+                                            end: Alignment.bottomCenter,
+                                            colors: [
+                                          CustomColor.white,
+                                          CustomColor.white.withOpacity(0),
+                                        ])),
+                                    height: 18,
+                                    width: MediaQuery.of(context).size.width,
+                                  ),
+                                ),
+                              ]),
+                      ),
+              ],
             )
           ],
         ),
