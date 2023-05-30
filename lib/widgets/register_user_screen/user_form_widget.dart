@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meonghae_front/widgets/common/select_input_widget.dart';
 import 'package:meonghae_front/widgets/format/date_input_formatter.dart';
 import '../../themes/customColor.dart';
 
@@ -26,7 +27,7 @@ class _UserFormWidgetState extends State<UserFormWidget> {
   Widget build(BuildContext context) {
     List<String> _generateNumberOptions() {
       List<String> options = [];
-      for (int i = 1; i <= 100; i++) {
+      for (int i = 1; i < 100; i++) {
         options.add(i.toString());
       }
       return options;
@@ -189,48 +190,13 @@ class _UserFormWidgetState extends State<UserFormWidget> {
                   style: TextStyle(fontSize: 14),
                 ),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.075),
-                Container(
-                  height: 30,
+                SelectInputWidget(
                   width: 58,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: ButtonTheme(
-                    alignedDropdown: true,
-                    child: DropdownButton(
-                      menuMaxHeight:
-                          MediaQuery.of(context).size.height * 0.175 + 16,
-                      isDense: false,
-                      isExpanded: true,
-                      underline: Container(),
-                      icon: const Icon(Icons.keyboard_arrow_down_rounded,
-                          size: 20, color: CustomColor.gray),
-                      items: _generateNumberOptions().map((value) {
-                        return DropdownMenuItem(
-                          value: value,
-                          child: Text(
-                            value,
-                            style: TextStyle(
-                                fontSize: 12,
-                                color: value == age
-                                    ? CustomColor.black1
-                                    : CustomColor.gray),
-                          ),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        // items 의 DropdownMenuItem 의 value 반환
-                        setState(() {
-                          age = value!;
-                          widget.setAge(value);
-                        });
-                      },
-                      value: age,
-                      elevation: 0,
-                    ),
-                  ),
-                ),
+                  height: 30,
+                  itemHeight: 30,
+                  listHeight: 120,
+                  list: _generateNumberOptions(),
+                )
               ],
             )
           ],
