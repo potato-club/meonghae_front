@@ -12,6 +12,7 @@ class SelectInputWidget extends StatefulWidget {
   final bool? isCenter;
   final bool? isIcon;
   final bool? isExpanded;
+  final Function setValue;
   final List<dynamic> list;
   const SelectInputWidget({
     super.key,
@@ -24,6 +25,7 @@ class SelectInputWidget extends StatefulWidget {
     this.isIcon = false,
     this.isExpanded = false,
     this.defaultValue,
+    required this.setValue,
   });
 
   @override
@@ -69,8 +71,8 @@ class _SelectInputWidgetState extends State<SelectInputWidget> {
               list: widget.list,
               selectLink: _selectLink,
               setValue: (String data) {
+                widget.setValue(data);
                 setState(() => value = data);
-                print(value);
               },
               value: value,
             ),

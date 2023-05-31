@@ -22,7 +22,6 @@ class _UserFormWidgetState extends State<UserFormWidget> {
   bool isErrorBirth = false;
   String name = '';
   String birth = '';
-  String? age;
   @override
   Widget build(BuildContext context) {
     List<String> _generateNumberOptions() {
@@ -196,6 +195,7 @@ class _UserFormWidgetState extends State<UserFormWidget> {
                   itemHeight: 30,
                   listHeight: 120,
                   list: _generateNumberOptions(),
+                  setValue: widget.setAge,
                 )
               ],
             )

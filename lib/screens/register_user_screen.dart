@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/screens/registered_user_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 import 'package:meonghae_front/widgets/register_user_screen/user_form_widget.dart';
 import 'package:meonghae_front/widgets/register_user_screen/user_photo_widget.dart';
 import 'package:meonghae_front/widgets/svg/arrow.dart';
@@ -41,7 +42,9 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                 name: name!,
                 imageFile: imageFile,
               )));
-    } else {}
+    } else {
+      SnackBarWidget.show(context);
+    }
   }
 
   @override
