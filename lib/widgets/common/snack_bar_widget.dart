@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 
+enum SnackBarType {
+  error,
+  alarm,
+  check,
+}
+
 class SnackBarWidget {
-  static void show(BuildContext context) {
+  static void show(BuildContext context, SnackBarType type, String content) {
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('모두 입력해주세요'),
-        duration: Duration(seconds: 2),
+      SnackBar(
+        content: Text(content),
+        duration: const Duration(seconds: 2),
       ),
     );
   }
