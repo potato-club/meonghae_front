@@ -31,6 +31,7 @@ class SelectModalWidget extends StatefulWidget {
 class _SelectWidgetState extends State<SelectModalWidget>
     with SingleTickerProviderStateMixin {
   String? lateValue;
+  late ScrollController _scrollController;
   late AnimationController _animationController;
   late Animation<double> _animation;
   @override
@@ -49,11 +50,14 @@ class _SelectWidgetState extends State<SelectModalWidget>
     if (widget.isOpen) {
       _animationController.forward();
     }
+    _scrollController = ScrollController(
+        initialScrollOffset: widget.list.indexOf(widget.value) * 30);
   }
 
   @override
   void dispose() {
     _animationController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -102,6 +106,7 @@ class _SelectWidgetState extends State<SelectModalWidget>
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(5)),
                   child: SingleChildScrollView(
+                    controller: _scrollController,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: List.generate(
