@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:meonghae_front/screens/main_screen.dart';
 import 'package:meonghae_front/screens/register_dog_screen.dart';
 import 'package:meonghae_front/widgets/register_user_screen/user_registered_photo_widget.dart';
+import 'package:meonghae_front/widgets/svg/tiny_right_arrow.dart';
 
 import '../themes/customColor.dart';
 
@@ -54,10 +55,10 @@ class _RegisteredUserScreenState extends State<RegisteredUserScreen> {
               ),
               GestureDetector(
                 onTap: () => Navigator.pop(context),
-                child: Row(
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
+                    Text(
                       '수정하기',
                       style: TextStyle(
                         fontSize: 12,
@@ -65,10 +66,9 @@ class _RegisteredUserScreenState extends State<RegisteredUserScreen> {
                         color: CustomColor.white,
                       ),
                     ),
-                    Transform.translate(
-                      offset: const Offset(-2, 1),
-                      child: const Icon(Icons.keyboard_arrow_right_rounded,
-                          size: 22, color: CustomColor.white),
+                    SizedBox(width: 6),
+                    TinyRightArrowSVG(
+                      color: CustomColor.white,
                     ),
                   ],
                 ),
