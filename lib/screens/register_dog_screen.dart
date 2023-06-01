@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/register_dog_screen/register_init_form.dart';
 import 'package:meonghae_front/widgets/svg/arrow.dart';
+import 'package:meonghae_front/widgets/svg/tiny_right_arrow.dart';
 
 class RegisterDogScreen extends StatefulWidget {
   const RegisterDogScreen({super.key});
@@ -125,29 +126,34 @@ class _RegisterDogScreenState extends State<RegisterDogScreen> {
             ),
           ),
           Positioned(
+            left: 0,
+            right: 0,
             bottom: MediaQuery.of(context).size.height * 0.65 - 420,
-            left: MediaQuery.of(context).size.width * 0.5 - 144,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                fixedSize: const Size(288, 49),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width * 0.145),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  fixedSize: const Size(288, 49),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  backgroundColor: CustomColor.black2,
                 ),
-                backgroundColor: CustomColor.black2,
-              ),
-              onPressed: () => {}, //수정필요
-              child: const Text(
-                '시작하기!',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
+                onPressed: () => {}, //수정필요
+                child: const Text(
+                  '시작하기!',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
           ),
           Positioned(
             bottom: MediaQuery.of(context).size.height * 0.65 - 344,
-            right: MediaQuery.of(context).size.width * 0.1,
+            right: MediaQuery.of(context).size.width * 0.145,
             child: GestureDetector(
               onTap: () => addSliderItem(),
               onTapDown: (_) {
@@ -162,16 +168,13 @@ class _RegisterDogScreenState extends State<RegisterDogScreen> {
                   Text(
                     '추가하기',
                     style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: isHovered ? FontWeight.bold : FontWeight.w400,
-                      color: CustomColor.gray,
+                      fontSize: 12,
+                      fontWeight: isHovered ? FontWeight.bold : FontWeight.w700,
+                      color: CustomColor.white,
                     ),
                   ),
-                  const Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    color: CustomColor.gray,
-                    size: 16,
-                  ),
+                  const SizedBox(width: 6),
+                  const TinyRightArrowSVG(color: CustomColor.white)
                 ],
               ),
             ),

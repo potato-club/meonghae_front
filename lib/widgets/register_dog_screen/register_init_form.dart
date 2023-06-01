@@ -27,7 +27,7 @@ class RegisterInitForm extends StatelessWidget {
             ),
             child: Padding(
               padding: EdgeInsets.symmetric(
-                  horizontal: MediaQuery.of(context).size.width * 0.1),
+                  horizontal: MediaQuery.of(context).size.width * 0.13),
               child: const RegisterForm(),
             ),
           ),
