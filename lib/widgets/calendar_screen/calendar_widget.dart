@@ -134,7 +134,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
             leftChevronVisible: false,
             rightChevronVisible: false,
             headerMargin: EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.width * 0.03 + 8,
+              horizontal: MediaQuery.of(context).size.width * 0.03,
               vertical: 12,
             )),
         calendarStyle: const CalendarStyle(
