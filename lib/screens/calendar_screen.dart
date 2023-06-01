@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:meonghae_front/screens/calendar_info_screen.dart';
 import 'package:meonghae_front/widgets/calendar_screen/calendar_widget.dart';
 import 'package:meonghae_front/widgets/calendar_screen/info_content_widget.dart';
+import 'package:meonghae_front/widgets/svg/plus.dart';
+import 'package:meonghae_front/widgets/svg/search.dart';
 import 'package:meonghae_front/widgets/under_bar/under_bar_widget.dart';
 
 class CalendarScreen extends StatefulWidget {
@@ -39,26 +42,18 @@ class _CalendarScreenState extends State<CalendarScreen> {
             ),
           ),
           Positioned(
-            top: 59,
-            right: MediaQuery.of(context).size.width * 0.03 + 52,
-            child: GestureDetector(
-              onTap: () => {},
-              child: const Image(
-                image: AssetImage('assets/images/icon/search.png'),
-                width: 21,
-              ),
-            ),
+            top: 58,
+            right: MediaQuery.of(context).size.width * 0.03 + 56,
+            child: GestureDetector(onTap: () => {}, child: const SearchSVG()),
           ),
           Positioned(
-            top: 60,
+            top: 58,
             right: MediaQuery.of(context).size.width * 0.03 + 16,
             child: GestureDetector(
-              onTap: () => {},
-              child: const Image(
-                image: AssetImage('assets/images/icon/plus.png'),
-                width: 19,
-              ),
-            ),
+                onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) =>
+                        const CalendarInfoScreen())),
+                child: const PlusSVG()),
           ),
           Positioned(
             bottom: 72,
