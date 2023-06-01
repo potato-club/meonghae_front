@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/widgets/svg/big_plus.dart';
+import 'package:meonghae_front/widgets/svg/pencil.dart';
 
 class RegisterImage extends StatefulWidget {
   const RegisterImage({super.key});
@@ -39,18 +41,15 @@ class _RegisterImageState extends State<RegisterImage> {
                 sigmaY: 5.0,
               ),
               child: Container(
-                color: CustomColor.white.withOpacity(0.5),
-                child: _imageFile != null
-                    ? CircleAvatar(
-                        backgroundImage: FileImage(_imageFile!),
-                        radius: 75,
-                      )
-                    : const Icon(
-                        Icons.add,
-                        size: 50,
-                        color: CustomColor.gray,
-                      ),
-              ),
+                  color: CustomColor.white.withOpacity(0.5),
+                  child: _imageFile != null
+                      ? CircleAvatar(
+                          backgroundImage: FileImage(_imageFile!),
+                          radius: 75,
+                        )
+                      : const Center(
+                          child: SizedBox(
+                              width: 31, height: 31, child: BigPlusSVG()))),
             ),
           ),
         ),
@@ -62,15 +61,10 @@ class _RegisterImageState extends State<RegisterImage> {
             width: 34,
             height: 34,
             child: FloatingActionButton(
-              elevation: 0,
-              backgroundColor: CustomColor.white.withOpacity(0.8),
-              onPressed: _pickImage,
-              child: const Icon(
-                Icons.edit,
-                color: CustomColor.gray,
-                size: 22,
-              ),
-            ),
+                elevation: 0,
+                backgroundColor: CustomColor.white.withOpacity(0.8),
+                onPressed: _pickImage,
+                child: const PencilSVG()),
           ),
         ),
       ],
