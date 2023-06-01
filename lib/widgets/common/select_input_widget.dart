@@ -4,14 +4,14 @@ import 'package:meonghae_front/widgets/common/select_modal_widget.dart';
 import 'package:meonghae_front/widgets/svg/tiny_bottom_arrow.dart';
 
 class SelectInputWidget extends StatefulWidget {
-  final double? width;
+  final double width;
   final double height;
   final double listHeight;
   final double itemHeight;
   final String? defaultValue;
-  final bool? isCenter;
-  final bool? isIcon;
-  final bool? isExpanded;
+  final String? hintText;
+  final bool isCenter;
+  final bool isIcon;
   final Function setValue;
   final List<dynamic> list;
   const SelectInputWidget({
@@ -21,11 +21,11 @@ class SelectInputWidget extends StatefulWidget {
     required this.itemHeight,
     required this.list,
     required this.listHeight,
-    this.isCenter = false,
-    this.isIcon = false,
-    this.isExpanded = false,
+    this.isCenter = true,
+    this.isIcon = true,
     this.defaultValue,
     required this.setValue,
+    this.hintText,
   });
 
   @override
@@ -110,17 +110,20 @@ class _SelectInputWidgetState extends State<SelectInputWidget> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 14),
                   child: Text(
-                    value ?? "",
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
+                    value ?? (widget.hintText ?? ""),
+                    textAlign:
+                        widget.isCenter ? TextAlign.center : TextAlign.left,
+                    style: TextStyle(
                       fontSize: 12,
-                      color: CustomColor.black2,
+                      color:
+                          value == null ? CustomColor.gray : CustomColor.black2,
+                      letterSpacing: value == null ? -1 : null,
                     ),
                   ),
                 ),
               ),
               const Padding(
-                padding: EdgeInsets.only(right: 6),
+                padding: EdgeInsets.only(right: 8),
                 child: TinyBottomArrowSVG(),
               ),
             ],

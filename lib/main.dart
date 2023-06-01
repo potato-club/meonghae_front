@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       locale: Locale('ko', 'KR'),
       title: 'Meonghae?',
-      home: RegisterUserScreen(hasAnimal: false),
+      home: RegisterUserScreen(hasAnimal: true),
     );
   }
 }

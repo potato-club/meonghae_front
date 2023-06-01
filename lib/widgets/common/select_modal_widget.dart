@@ -51,7 +51,9 @@ class _SelectWidgetState extends State<SelectModalWidget>
       _animationController.forward();
     }
     _scrollController = ScrollController(
-        initialScrollOffset: widget.list.indexOf(widget.value) * 30);
+        initialScrollOffset: !widget.list.contains(widget.value)
+            ? 0
+            : widget.list.indexOf(widget.value) * 30);
   }
 
   @override

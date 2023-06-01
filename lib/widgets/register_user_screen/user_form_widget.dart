@@ -46,7 +46,7 @@ class _UserFormWidgetState extends State<UserFormWidget> {
               children: [
                 const Text(
                   '이름',
-                  style: TextStyle(fontSize: 14),
+                  style: TextStyle(fontSize: 14, color: CustomColor.black2),
                 ),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.075),
                 Expanded(
@@ -104,7 +104,7 @@ class _UserFormWidgetState extends State<UserFormWidget> {
               children: [
                 const Text(
                   '생일',
-                  style: TextStyle(fontSize: 14),
+                  style: TextStyle(fontSize: 14, color: CustomColor.black2),
                 ),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.075),
                 Expanded(
@@ -165,11 +165,11 @@ class _UserFormWidgetState extends State<UserFormWidget> {
               children: [
                 const Text(
                   '나이',
-                  style: TextStyle(fontSize: 14),
+                  style: TextStyle(fontSize: 14, color: CustomColor.black2),
                 ),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.075),
                 SelectInputWidget(
-                  width: 58,
+                  width: 60,
                   height: 30,
                   itemHeight: 30,
                   listHeight: 120,
