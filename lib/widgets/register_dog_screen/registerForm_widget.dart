@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:meonghae_front/models/infoModel.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/widgets/common/select_input_widget.dart';
 
 class RegisterForm extends StatefulWidget {
   const RegisterForm({super.key});
@@ -13,15 +15,27 @@ class _RegisterFormState extends State<RegisterForm> {
   final formKey = GlobalKey<FormState>();
   bool isHovered = false;
 
-  List<String> genderList = ['성별을 선택해 주세요', '수컷', '암컷'];
-  List<String> kindList = ['견종/묘종을 선택해 주세요', '치와와', '불독'];
-  List<String> placeList = ['만나게 된 경로를 선택해 주세요', '길거리', '집'];
+  List<String> genderList = ['수컷', '암컷'];
+  List<String> kindList = ['치와와', '불독'];
+  List<String> placeList = ['길거리', '집', '병원'];
 
-  String selectedGender = '성별을 선택해 주세요';
-  String selectedKind = '견종/묘종을 선택해 주세요';
-  String selectedPlace = '만나게 된 경로를 선택해 주세요';
+  String? selectedGender;
+  String? selectedKind;
+  String? selectedPlace;
   String _name = '';
   String _birth = '';
+
+  void setGender(String value) {
+    setState(() => selectedGender = value);
+  }
+
+  void setKind(String value) {
+    setState(() => selectedKind = value);
+  }
+
+  void setPlace(String value) {
+    setState(() => selectedPlace = value);
+  }
 
   List<InfoModel> infoModelList = [];
 
@@ -85,156 +99,25 @@ class _RegisterFormState extends State<RegisterForm> {
           Row(
             children: [
               const SizedBox(
-                width: 80,
+                width: 76,
                 child: Text(
                   '이름',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ),
-              Container(
-                alignment: Alignment.center,
-                width: 205,
-                height: 30,
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    hintText: '이름을 입력해주세요',
-                    alignLabelWithHint: true,
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius: BorderRadius.all(Radius.circular(5)),
-                    ),
-                    filled: true,
-                    fillColor: Colors.white,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 14),
-                    hintStyle: TextStyle(
-                      color: CustomColor.gray,
-                      fontSize: 12,
-                    ),
-                  ),
-                  textAlignVertical: TextAlignVertical.center,
-                  style: const TextStyle(fontSize: 12),
-                  keyboardType: TextInputType.text,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('이름을 입력해주세요.'),
-                          duration: Duration(seconds: 2),
-                        ),
-                      );
-                      return null;
-                    } else if (!RegExp(r'^[ㄱ-ㅎ가-힣]+$').hasMatch(value)) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('한글만 입력 가능합니다.'),
-                          duration: Duration(seconds: 2),
-                        ),
-                      );
-                      return null;
-                    }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    _name = value!;
-                  },
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          Row(
-            children: [
-              const SizedBox(
-                width: 80,
-                child: Text(
-                  '성별',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                  ),
+                  style: TextStyle(fontSize: 14, color: CustomColor.black2),
                 ),
               ),
               Expanded(
-                child: Container(
-                  alignment: Alignment.center,
-                  width: 205,
-                  height: 30,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 14),
-                    child: DropdownButton(
-                      icon: const Icon(
-                        Icons.keyboard_arrow_down_rounded,
-                        size: 20,
-                        color: CustomColor.gray,
-                      ),
-                      value: selectedGender,
-                      isExpanded: true,
-                      underline: Container(),
-                      items: genderList.map((String item) {
-                        num index = genderList.indexOf(item);
-                        return DropdownMenuItem<String>(
-                          value: item,
-                          child: Text(
-                            item,
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: index == 0
-                                  ? CustomColor.gray
-                                  : CustomColor.black1,
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                      onChanged: (dynamic value) {
-                        setState(() {
-                          selectedGender = value;
-                        });
-                      },
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          Row(
-            children: [
-              const SizedBox(
-                width: 80,
-                child: Text(
-                  '출생일',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  alignment: Alignment.center,
-                  width: 205,
+                child: SizedBox(
                   height: 30,
                   child: TextFormField(
                     decoration: const InputDecoration(
-                      hintText: '2023.04.01',
+                      hintText: '이름을 입력해주세요',
                       alignLabelWithHint: true,
                       border: OutlineInputBorder(
                         borderSide: BorderSide.none,
                         borderRadius: BorderRadius.all(Radius.circular(5)),
                       ),
                       filled: true,
-                      fillColor: CustomColor.white,
+                      fillColor: Colors.white,
                       contentPadding: EdgeInsets.symmetric(horizontal: 14),
                       hintStyle: TextStyle(
                         color: CustomColor.gray,
@@ -244,6 +127,94 @@ class _RegisterFormState extends State<RegisterForm> {
                     textAlignVertical: TextAlignVertical.center,
                     style: const TextStyle(fontSize: 12),
                     keyboardType: TextInputType.text,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('이름을 입력해주세요.'),
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
+                        return null;
+                      } else if (!RegExp(r'^[ㄱ-ㅎ가-힣]+$').hasMatch(value)) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('한글만 입력 가능합니다.'),
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
+                        return null;
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      _name = value!;
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          Row(
+            children: [
+              const SizedBox(
+                width: 76,
+                child: Text(
+                  '성별',
+                  style: TextStyle(fontSize: 14, color: CustomColor.black2),
+                ),
+              ),
+              SelectInputWidget(
+                width: MediaQuery.of(context).size.width * 0.74 - 76,
+                height: 30,
+                itemHeight: 30,
+                list: genderList,
+                listHeight: 60,
+                hintText: "성별을 선택해 주세요",
+                isCenter: false,
+                setValue: setGender,
+                defaultValue: selectedGender,
+              )
+            ],
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          Row(
+            children: [
+              const SizedBox(
+                width: 76,
+                child: Text(
+                  '출생일',
+                  style: TextStyle(fontSize: 14, color: CustomColor.black2),
+                ),
+              ),
+              Expanded(
+                child: SizedBox(
+                  height: 30,
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      hintText: DateFormat('yyyy.MM.dd').format(DateTime.now()),
+                      alignLabelWithHint: true,
+                      border: const OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.all(Radius.circular(5)),
+                      ),
+                      filled: true,
+                      fillColor: CustomColor.white,
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 14),
+                      hintStyle: const TextStyle(
+                        color: CustomColor.gray,
+                        fontSize: 12,
+                      ),
+                    ),
+                    textAlignVertical: TextAlignVertical.center,
+                    style: const TextStyle(fontSize: 12),
+                    keyboardType: TextInputType.number,
                     validator: (value) {
                       if (value!.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -278,59 +249,27 @@ class _RegisterFormState extends State<RegisterForm> {
           Row(
             children: [
               const SizedBox(
-                width: 80,
+                width: 76,
                 child: Text(
                   '견종/묘종',
                   style: TextStyle(
                     fontSize: 14,
-                    fontWeight: FontWeight.w400,
+                    color: CustomColor.black2,
+                    letterSpacing: -1,
                   ),
                 ),
               ),
-              Expanded(
-                child: Container(
-                  alignment: Alignment.center,
-                  width: 205,
-                  height: 30,
-                  decoration: BoxDecoration(
-                    color: CustomColor.white,
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 14),
-                    child: DropdownButton(
-                      isExpanded: true,
-                      underline: Container(),
-                      icon: const Icon(
-                        Icons.keyboard_arrow_down_rounded,
-                        size: 20,
-                        color: CustomColor.gray,
-                      ),
-                      value: selectedKind,
-                      items: kindList.map((String item) {
-                        num index = kindList.indexOf(item);
-                        return DropdownMenuItem<String>(
-                          value: item,
-                          child: Text(
-                            item,
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: index == 0
-                                  ? CustomColor.gray
-                                  : CustomColor.black1,
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                      onChanged: (dynamic value) {
-                        setState(() {
-                          selectedKind = value;
-                        });
-                      },
-                    ),
-                  ),
-                ),
-              ),
+              SelectInputWidget(
+                width: MediaQuery.of(context).size.width * 0.74 - 76,
+                height: 30,
+                itemHeight: 30,
+                list: kindList,
+                listHeight: 150,
+                hintText: "견종/묘종을 선택해 주세요",
+                isCenter: false,
+                setValue: setKind,
+                defaultValue: selectedKind,
+              )
             ],
           ),
           const SizedBox(
@@ -339,59 +278,27 @@ class _RegisterFormState extends State<RegisterForm> {
           Row(
             children: [
               const SizedBox(
-                width: 80,
+                width: 76,
                 child: Text(
                   '만남의 경로',
                   style: TextStyle(
                     fontSize: 14,
-                    fontWeight: FontWeight.w400,
+                    color: CustomColor.black2,
+                    letterSpacing: -1,
                   ),
                 ),
               ),
-              Expanded(
-                child: Container(
-                  alignment: Alignment.center,
-                  width: 205,
-                  height: 30,
-                  decoration: BoxDecoration(
-                    color: CustomColor.white,
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 14),
-                    child: DropdownButton(
-                      icon: const Icon(
-                        Icons.keyboard_arrow_down_rounded,
-                        size: 20,
-                        color: CustomColor.gray,
-                      ),
-                      isExpanded: true,
-                      underline: Container(),
-                      value: selectedPlace,
-                      items: placeList.map((String item) {
-                        num index = placeList.indexOf(item);
-                        return DropdownMenuItem<String>(
-                          value: item,
-                          child: Text(
-                            item,
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: index == 0
-                                  ? CustomColor.gray
-                                  : CustomColor.black1,
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                      onChanged: (dynamic value) {
-                        setState(() {
-                          selectedPlace = value;
-                        });
-                      },
-                    ),
-                  ),
-                ),
-              ),
+              SelectInputWidget(
+                width: MediaQuery.of(context).size.width * 0.74 - 76,
+                height: 30,
+                itemHeight: 30,
+                list: placeList,
+                listHeight: 90,
+                hintText: "만나게 된 경로를 선택해 주세요",
+                isCenter: false,
+                setValue: setPlace,
+                defaultValue: selectedPlace,
+              )
             ],
           ),
           // const SizedBox(

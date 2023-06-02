@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:meonghae_front/widgets/svg/pencil.dart';
 
 class UserPhotoWidget extends StatefulWidget {
   final Function setImageFile;
@@ -55,15 +56,10 @@ class _UserPhotoWidgetState extends State<UserPhotoWidget> {
           width: 34,
           height: 34,
           child: FloatingActionButton(
-            elevation: 0,
-            backgroundColor: CustomColor.white.withOpacity(0.8),
-            onPressed: _pickImage,
-            child: const Icon(
-              Icons.edit,
-              color: CustomColor.gray,
-              size: 22,
-            ),
-          ),
+              elevation: 0,
+              backgroundColor: CustomColor.white.withOpacity(0.8),
+              onPressed: _pickImage,
+              child: const PencilSVG()),
         ),
       )
     ]);

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/widgets/common/select_input_widget.dart';
 import 'package:meonghae_front/widgets/format/date_input_formatter.dart';
-import '../../themes/customColor.dart';
+import 'package:intl/intl.dart';
 
 class UserFormWidget extends StatefulWidget {
   final GlobalKey<FormState> formKey;
@@ -21,12 +23,11 @@ class _UserFormWidgetState extends State<UserFormWidget> {
   bool isErrorBirth = false;
   String name = '';
   String birth = '';
-  String? age;
   @override
   Widget build(BuildContext context) {
     List<String> _generateNumberOptions() {
       List<String> options = [];
-      for (int i = 1; i <= 100; i++) {
+      for (int i = 1; i < 100; i++) {
         options.add(i.toString());
       }
       return options;
@@ -45,7 +46,7 @@ class _UserFormWidgetState extends State<UserFormWidget> {
               children: [
                 const Text(
                   '이름',
-                  style: TextStyle(fontSize: 14),
+                  style: TextStyle(fontSize: 14, color: CustomColor.black2),
                 ),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.075),
                 Expanded(
@@ -80,21 +81,9 @@ class _UserFormWidgetState extends State<UserFormWidget> {
                       keyboardType: TextInputType.text,
                       validator: (value) {
                         if (value!.isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('이름을 입력해 주세요'),
-                              duration: Duration(seconds: 2),
-                            ),
-                          );
                           setState(() => isErrorName = true);
                           return "이름을 입력해 주세요";
                         } else if (!RegExp(r'^[ㄱ-ㅎ가-힣]+$').hasMatch(value)) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('한글만 입력 가능합니다'),
-                              duration: Duration(seconds: 2),
-                            ),
-                          );
                           setState(() => isErrorName = true);
                           return "한글만 입력 가능합니다";
                         }
@@ -115,7 +104,7 @@ class _UserFormWidgetState extends State<UserFormWidget> {
               children: [
                 const Text(
                   '생일',
-                  style: TextStyle(fontSize: 14),
+                  style: TextStyle(fontSize: 14, color: CustomColor.black2),
                 ),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.075),
                 Expanded(
@@ -129,21 +118,23 @@ class _UserFormWidgetState extends State<UserFormWidget> {
                       inputFormatters: [
                         DateInputFormatter(),
                       ],
-                      decoration: const InputDecoration(
-                        hintText: '2023.04.01',
+                      decoration: InputDecoration(
+                        hintText:
+                            DateFormat('yyyy.MM.dd').format(DateTime.now()),
                         alignLabelWithHint: true,
-                        border: OutlineInputBorder(
+                        border: const OutlineInputBorder(
                           borderSide: BorderSide.none,
                           borderRadius: BorderRadius.all(Radius.circular(5)),
                         ),
                         filled: true,
                         fillColor: CustomColor.white,
-                        contentPadding: EdgeInsets.symmetric(horizontal: 14),
-                        hintStyle: TextStyle(
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 14),
+                        hintStyle: const TextStyle(
                           color: CustomColor.gray,
                           fontSize: 12,
                         ),
-                        errorStyle: TextStyle(color: Colors.transparent),
+                        errorStyle: const TextStyle(color: Colors.transparent),
                       ),
                       textAlignVertical: isErrorBirth
                           ? TextAlignVertical.bottom
@@ -152,21 +143,9 @@ class _UserFormWidgetState extends State<UserFormWidget> {
                       keyboardType: TextInputType.number,
                       validator: (value) {
                         if (value!.isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('출생일을 입력해 주세요'),
-                              duration: Duration(seconds: 2),
-                            ),
-                          );
                           setState(() => isErrorBirth = true);
                           return "출생일을 입력해 주세요";
                         } else if (!RegExp(r'^[0-9.]+$').hasMatch(value)) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('숫자만 입력 가능합니다'),
-                              duration: Duration(seconds: 2),
-                            ),
-                          );
                           setState(() => isErrorBirth = true);
                           return "숫자와 .만 입력 가능합니다";
                         }
@@ -186,51 +165,17 @@ class _UserFormWidgetState extends State<UserFormWidget> {
               children: [
                 const Text(
                   '나이',
-                  style: TextStyle(fontSize: 14),
+                  style: TextStyle(fontSize: 14, color: CustomColor.black2),
                 ),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.075),
-                Container(
+                SelectInputWidget(
+                  width: 60,
                   height: 30,
-                  width: 58,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: ButtonTheme(
-                    alignedDropdown: true,
-                    child: DropdownButton(
-                      menuMaxHeight:
-                          MediaQuery.of(context).size.height * 0.175 + 16,
-                      isDense: false,
-                      isExpanded: true,
-                      underline: Container(),
-                      icon: const Icon(Icons.keyboard_arrow_down_rounded,
-                          size: 20, color: CustomColor.gray),
-                      items: _generateNumberOptions().map((value) {
-                        return DropdownMenuItem(
-                          value: value,
-                          child: Text(
-                            value,
-                            style: TextStyle(
-                                fontSize: 12,
-                                color: value == age
-                                    ? CustomColor.black1
-                                    : CustomColor.gray),
-                          ),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        // items 의 DropdownMenuItem 의 value 반환
-                        setState(() {
-                          age = value!;
-                          widget.setAge(value);
-                        });
-                      },
-                      value: age,
-                      elevation: 0,
-                    ),
-                  ),
-                ),
+                  itemHeight: 30,
+                  listHeight: 120,
+                  list: _generateNumberOptions(),
+                  setValue: widget.setAge,
+                )
               ],
             )
           ],
