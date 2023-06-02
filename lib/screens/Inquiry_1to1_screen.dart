@@ -57,11 +57,11 @@ class _InQuiry1To1ScreenState extends State<InQuiry1To1Screen> {
                     Expanded(
                       child: TextButton(
                         onPressed: () {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    const InQuiry1To1Screen()),
+                              builder: (context) => const InQuiry1To1Screen(),
+                            ),
                           );
                         },
                         child: const Text(
@@ -77,11 +77,12 @@ class _InQuiry1To1ScreenState extends State<InQuiry1To1Screen> {
                     Expanded(
                       child: TextButton(
                         onPressed: () {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    const InQuiryHistoryScreen()),
+                              builder: (context) =>
+                                  const InQuiryHistoryScreen(),
+                            ),
                           );
                         },
                         child: const Text(
