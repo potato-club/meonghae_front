@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meonghae_front/screens/inquiry_history_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/svg/arrow.dart';
 import 'package:file_picker/file_picker.dart';
@@ -41,8 +42,7 @@ class _InQuiry1To1ScreenState extends State<InQuiry1To1Screen> {
                 padding: EdgeInsets.symmetric(
                     horizontal: MediaQuery.of(context).size.width * 0.06),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment
-                      .spaceBetween, // Updated mainAxisAlignment
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     InkWell(
                       onTap: () => Navigator.pop(context),
@@ -56,7 +56,14 @@ class _InQuiry1To1ScreenState extends State<InQuiry1To1Screen> {
                     ),
                     Expanded(
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const InQuiry1To1Screen()),
+                          );
+                        },
                         child: const Text(
                           '1대1 문의',
                           style: TextStyle(
@@ -69,7 +76,14 @@ class _InQuiry1To1ScreenState extends State<InQuiry1To1Screen> {
                     ),
                     Expanded(
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const InQuiryHistoryScreen()),
+                          );
+                        },
                         child: const Text(
                           '문의 내역',
                           style: TextStyle(
@@ -141,7 +155,7 @@ class _InQuiry1To1ScreenState extends State<InQuiry1To1Screen> {
                             ),
                             contentPadding: EdgeInsets.symmetric(vertical: 4.0),
                           ),
-                          maxLines: null, // 높이 조정을 위해 maxLines를 null로 설정
+                          maxLines: null,
                         ),
                       ),
                     ),
