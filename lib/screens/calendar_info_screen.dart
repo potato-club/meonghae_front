@@ -39,7 +39,7 @@ class _CalendarInfoScreenState extends State<CalendarInfoScreen> {
                         ),
                         AdditionalInfoWidget(),
                         SizedBox(
-                          height: 120,
+                          height: 60,
                         )
                       ],
                     ),

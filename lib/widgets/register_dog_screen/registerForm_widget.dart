@@ -174,7 +174,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 list: genderList,
                 listHeight: 60,
                 hintText: "성별을 선택해 주세요",
-                isCenter: false,
+                textAlign: TextAlign.left,
                 setValue: setGender,
                 defaultValue: selectedGender,
               )
@@ -266,7 +266,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 list: kindList,
                 listHeight: 150,
                 hintText: "견종/묘종을 선택해 주세요",
-                isCenter: false,
+                textAlign: TextAlign.left,
                 setValue: setKind,
                 defaultValue: selectedKind,
               )
@@ -295,7 +295,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 list: placeList,
                 listHeight: 90,
                 hintText: "만나게 된 경로를 선택해 주세요",
-                isCenter: false,
+                textAlign: TextAlign.left,
                 setValue: setPlace,
                 defaultValue: selectedPlace,
               )

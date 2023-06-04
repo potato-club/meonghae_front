@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/widgets/calendar_info_screen/swich_widget.dart';
+import 'package:meonghae_front/widgets/common/select_input_widget.dart';
 
 class AdditionalInfoWidget extends StatefulWidget {
   const AdditionalInfoWidget({super.key});
@@ -10,13 +12,14 @@ class AdditionalInfoWidget extends StatefulWidget {
 }
 
 class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
-  List<String> repeatList = ['안함', '1번', '2번'];
-  String selectedRepeatList = '안함';
+  bool isAllday = false;
+  List<String> repeatList = ['안 함', '함'];
+  String selectedRepeatList = '안 함';
 
-  List<String> informList = ['안함', '1번', '2번'];
-  String selectedInformList = '안함';
+  List<String> informList = ['안 함', '함'];
+  String selectedInformList = '안 함';
 
-  bool _isAlways = false;
+  final bool _isAlways = false;
   DateTime? _selectedStartDate;
   DateTime? _selectedFinishDate;
 
@@ -86,6 +89,7 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Container(
           decoration: BoxDecoration(
@@ -95,6 +99,7 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
           child: Column(
             children: [
               Container(
+                height: 45,
                 decoration: const BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -104,8 +109,8 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                   ),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.only(
-                    left: 19,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
                   ),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -119,17 +124,14 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                           color: CustomColor.black1,
                         ),
                       ),
-                      Transform.scale(
-                        scale: 0.7,
-                        child: Switch(
-                          value: _isAlways,
-                          onChanged: (bool newValue) {
-                            setState(() {
-                              _isAlways = newValue;
-                            });
-                          },
-                        ),
-                      ),
+                      SwitchWidget(
+                        clickSwitch: () {
+                          setState(() {
+                            isAllday = !isAllday;
+                          });
+                        },
+                        isChecked: isAllday,
+                      )
                     ],
                   ),
                 ),
@@ -145,7 +147,7 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.only(
-                    left: 19,
+                    left: 20,
                     right: 9,
                   ),
                   child: Row(
@@ -196,7 +198,7 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
               ),
               Padding(
                 padding: const EdgeInsets.only(
-                  left: 19,
+                  left: 20,
                   right: 9,
                 ),
                 child: Row(
@@ -250,20 +252,29 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
         const SizedBox(
           height: 24,
         ),
-        Container(
-          decoration: BoxDecoration(
-            color: CustomColor.white,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.only(
-              left: 19,
+        SizedBox(
+          height: 45,
+          child: Stack(children: [
+            SelectInputWidget(
+              width: MediaQuery.of(context).size.width * 0.88,
+              height: 45,
+              itemHeight: 45,
+              list: repeatList,
+              listHeight: 90,
+              borderRadius: 10,
+              fontSize: 13,
+              defaultValue: selectedRepeatList,
+              setValue: (String value) =>
+                  setState(() => selectedRepeatList = value),
+              isBigIcon: true,
+              textAlign: TextAlign.right,
             ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
+            const Positioned(
+              top: 0,
+              bottom: 0,
+              left: 20,
+              child: Center(
+                child: Text(
                   '반복',
                   style: TextStyle(
                     fontSize: 14,
@@ -271,42 +282,36 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                     color: CustomColor.black1,
                   ),
                 ),
-                DropdownButton(
-                  value: selectedRepeatList,
-                  items: repeatList.map((String item) {
-                    return DropdownMenuItem<String>(
-                      value: item,
-                      child: Text(item),
-                    );
-                  }).toList(),
-                  underline: Container(),
-                  onChanged: (dynamic value) {
-                    setState(() {
-                      selectedRepeatList = value;
-                    });
-                  },
-                ),
-              ],
-            ),
-          ),
+              ),
+            )
+          ]),
         ),
         const SizedBox(
           height: 24,
         ),
-        Container(
-          decoration: BoxDecoration(
-            color: CustomColor.white,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.only(
-              left: 19,
+        SizedBox(
+          height: 45,
+          child: Stack(children: [
+            SelectInputWidget(
+              width: MediaQuery.of(context).size.width * 0.88,
+              height: 45,
+              itemHeight: 45,
+              list: informList,
+              listHeight: 90,
+              borderRadius: 10,
+              fontSize: 13,
+              defaultValue: selectedInformList,
+              setValue: (String value) =>
+                  setState(() => selectedInformList = value),
+              isBigIcon: true,
+              textAlign: TextAlign.right,
             ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
+            const Positioned(
+              top: 0,
+              bottom: 0,
+              left: 20,
+              child: Center(
+                child: Text(
                   '알림',
                   style: TextStyle(
                     fontSize: 14,
@@ -314,24 +319,9 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                     color: CustomColor.black1,
                   ),
                 ),
-                DropdownButton(
-                  value: selectedInformList,
-                  items: informList.map((String item) {
-                    return DropdownMenuItem<String>(
-                      value: item,
-                      child: Text(item),
-                    );
-                  }).toList(),
-                  underline: Container(),
-                  onChanged: (dynamic value) {
-                    setState(() {
-                      selectedInformList = value;
-                    });
-                  },
-                ),
-              ],
-            ),
-          ),
+              ),
+            )
+          ]),
         ),
         const SizedBox(
           height: 24,
