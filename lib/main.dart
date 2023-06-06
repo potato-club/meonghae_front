@@ -3,6 +3,9 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:flutter/services.dart';
 import 'package:meonghae_front/screens/Inquiry_1to1_screen.dart';
+import 'package:meonghae_front/screens/login_screen.dart';
+import 'package:meonghae_front/screens/select_screen.dart';
+import 'package:meonghae_front/screens/video_player_screen.dart';
 
 void main() async {
   // 카카오 앱의 클라이언트 ID를 설정
@@ -24,9 +27,10 @@ class MyApp extends StatelessWidget {
     ));
 
     return const MaterialApp(
+      debugShowCheckedModeBanner: false,
       locale: Locale('ko', 'KR'),
       title: 'Meonghae?',
-      home: InQuiry1To1Screen(),
+      home: LoginScreen(),
     );
   }
 }

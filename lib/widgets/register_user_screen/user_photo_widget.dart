@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:image_picker/image_picker.dart';
@@ -13,20 +14,21 @@ class UserPhotoWidget extends StatefulWidget {
 }
 
 class _UserPhotoWidgetState extends State<UserPhotoWidget> {
+  File? imageFile;
+  void _pickImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      if (pickedFile != null) {
+        imageFile = File(pickedFile.path);
+        widget.setImageFile(imageFile);
+        print(imageFile);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    File? imageFile;
-    void _pickImage() async {
-      final picker = ImagePicker();
-      final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-      setState(() {
-        if (pickedFile != null) {
-          imageFile = File(pickedFile.path);
-          widget.setImageFile(imageFile);
-        }
-      });
-    }
-
     return Stack(children: [
       Center(
         child: Container(
@@ -34,19 +36,19 @@ class _UserPhotoWidgetState extends State<UserPhotoWidget> {
           height: MediaQuery.of(context).size.width * 0.35,
           decoration: const BoxDecoration(
               color: CustomColor.white, shape: BoxShape.circle),
-          child: Transform.scale(
-            scale: 1.8,
-            child: imageFile != null
-                ? CircleAvatar(
-                    backgroundImage: FileImage(imageFile!),
-                    radius: 75,
-                  )
-                : const Image(
+          child: imageFile != null
+              ? CircleAvatar(
+                  backgroundImage: FileImage(imageFile!),
+                  radius: 75,
+                )
+              : Transform.scale(
+                  scale: 1.8,
+                  child: const Image(
                     image: AssetImage(
                       'assets/images/dog_pictures/face.png',
                     ),
                   ),
-          ),
+                ),
         ),
       ),
       Positioned(

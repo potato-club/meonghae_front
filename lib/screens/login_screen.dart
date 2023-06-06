@@ -13,7 +13,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final kakaoModel = LoginModel(socialLogin: KakaoLogin());
+  var kakaoModel = LoginModel(socialLogin: KakaoLogin());
 
   @override
   Widget build(BuildContext context) {

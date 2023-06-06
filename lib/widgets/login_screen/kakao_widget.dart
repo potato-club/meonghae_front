@@ -18,6 +18,7 @@ class _KakaoButtonState extends State<KakaoButton> {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
+        elevation: 0,
         fixedSize: const Size(200, 40),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5),
@@ -29,18 +30,28 @@ class _KakaoButtonState extends State<KakaoButton> {
         setState(() {});
       },
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Image.asset(
-            'assets/images/logo/kakao.png',
-            width: 24,
-            height: 24,
+          Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: Image.asset(
+              'assets/images/logo/kakao.png',
+              width: 24,
+              height: 24,
+            ),
           ),
-          const SizedBox(width: 8),
-          const Text(
-            'KAKAO로 가입하기',
-            style: TextStyle(color: CustomColor.black1),
+          Container(
+              decoration: BoxDecoration(
+                  color: CustomColor.gray.withOpacity(0.5),
+                  borderRadius: BorderRadius.circular(1)),
+              width: 1,
+              height: 30),
+          const SizedBox(width: 10),
+          const Expanded(
+            child: Text(
+              'KAKAO로 가입하기',
+              textAlign: TextAlign.center,
+              style: TextStyle(color: CustomColor.black1),
+            ),
           ),
         ],
       ),
