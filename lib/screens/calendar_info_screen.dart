@@ -15,7 +15,7 @@ class _CalendarInfoScreenState extends State<CalendarInfoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColor.ivoey2,
+      backgroundColor: CustomColor.ivory2,
       body: SafeArea(
         child: Column(
           children: [
@@ -53,8 +53,8 @@ class _CalendarInfoScreenState extends State<CalendarInfoScreen> {
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
                             colors: [
-                          CustomColor.ivoey2,
-                          CustomColor.ivoey2.withOpacity(0),
+                          CustomColor.ivory2,
+                          CustomColor.ivory2.withOpacity(0),
                         ])),
                     height: 36,
                     width: MediaQuery.of(context).size.width,

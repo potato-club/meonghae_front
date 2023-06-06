@@ -30,7 +30,7 @@ class _InQuiryHistoryScreenState extends State<InQuiryHistoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColor.ivoey2,
+      backgroundColor: CustomColor.ivory2,
       body: SafeArea(
         child: Column(
           children: [
