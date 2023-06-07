@@ -18,7 +18,7 @@ class CustomColor {
   static const Color red = Color(0xFFFF5858);
   static const Color error1 = Color(0xFFEBC8C2);
   static const Color error2 = Color(0xFFCA5A5A);
-  static const Color error3 = Color(0xFFCA5A5A);
+  static const Color error3 = Color(0xFF841919);
   static const Color alarm1 = Color(0xFFF8F3D6);
   static const Color alarm2 = Color(0xFFDCAB9C);
   static const Color alarm3 = Color(0xFF8C6037);
