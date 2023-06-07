@@ -16,4 +16,13 @@ class CustomColor {
   static const Color lightGray3 = Color(0xFFDCDCDC);
   static const Color kakao = Color(0xFFFEE500);
   static const Color red = Color(0xFFFF5858);
+  static const Color error1 = Color(0xFFEBC8C2);
+  static const Color error2 = Color(0xFFCA5A5A);
+  static const Color error3 = Color(0xFFCA5A5A);
+  static const Color alarm1 = Color(0xFFF8F3D6);
+  static const Color alarm2 = Color(0xFFDCAB9C);
+  static const Color alarm3 = Color(0xFF8C6037);
+  static const Color check1 = Color(0xFFDEF2D6);
+  static const Color check2 = Color(0xFF83D363);
+  static const Color check3 = Color(0xFF3B841E);
 }
