@@ -18,11 +18,10 @@ class KakaoButton extends StatefulWidget {
 class _KakaoButtonState extends State<KakaoButton> {
   void handleLogin() async {
     bool successLogin = await widget.loginModel.login();
-    print(successLogin);
     if (successLogin) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => SelectScreen()),
+        MaterialPageRoute(builder: (context) => const SelectScreen()),
       );
     } else {
       SnackBarWidget.show(context, SnackBarType.error, '로그인에 실패했습니다');
@@ -69,7 +68,7 @@ class _KakaoButtonState extends State<KakaoButton> {
                 style: TextStyle(fontSize: 14, color: CustomColor.black2),
               ),
             ),
-            SizedBox(width: 10)
+            const SizedBox(width: 10)
           ],
         ),
       ),

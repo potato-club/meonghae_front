@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:image_picker/image_picker.dart';
@@ -22,7 +21,6 @@ class _UserPhotoWidgetState extends State<UserPhotoWidget> {
       if (pickedFile != null) {
         imageFile = File(pickedFile.path);
         widget.setImageFile(imageFile);
-        print(imageFile);
       }
     });
   }
