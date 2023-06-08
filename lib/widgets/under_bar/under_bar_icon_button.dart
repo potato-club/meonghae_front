@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:meonghae_front/themes/customColor.dart';
 
 class UnderBarIconButtonWidget extends StatelessWidget {
   final Widget routePath;
   final Widget iconSVG;
-  final bool isCurrent;
+  final String currentScreen;
+  final String label;
   const UnderBarIconButtonWidget({
     super.key,
     required this.iconSVG,
     required this.routePath,
-    required this.isCurrent,
+    required this.currentScreen,
+    required this.label,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => {
-        if (!isCurrent)
+        if (currentScreen != label)
           {
             Navigator.pushReplacement(
               context,
@@ -25,9 +28,21 @@ class UnderBarIconButtonWidget extends StatelessWidget {
             )
           }
       },
-      child: SizedBox(
-        width: 36,
-        child: iconSVG,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(
+            width: 24,
+            child: iconSVG,
+          ),
+          const SizedBox(height: 6),
+          Text(label,
+              style: TextStyle(
+                  fontSize: 10,
+                  color: currentScreen != label
+                      ? CustomColor.lightGray2
+                      : CustomColor.brown1))
+        ],
       ),
     );
   }

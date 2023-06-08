@@ -41,26 +41,30 @@ class UnderBarWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   UnderBarIconButtonWidget(
-                    iconSVG: CalendarSVG(isCurrent: '캘린더' == currentScreen),
-                    routePath: const CalendarScreen(),
-                    isCurrent: '캘린더' == currentScreen,
-                  ),
+                      iconSVG: CalendarSVG(isCurrent: '캘린더' == currentScreen),
+                      routePath: const CalendarScreen(),
+                      currentScreen: currentScreen,
+                      label: '캘린더'),
                   UnderBarIconButtonWidget(
                       iconSVG: PostSVG(isCurrent: '게시물' == currentScreen),
                       routePath: const PostScreen(),
-                      isCurrent: '게시물' == currentScreen),
+                      currentScreen: currentScreen,
+                      label: '게시물'),
                   UnderBarIconButtonWidget(
                       iconSVG: HomeSVG(isCurrent: '홈' == currentScreen),
                       routePath: const MainScreen(),
-                      isCurrent: '홈' == currentScreen),
+                      currentScreen: currentScreen,
+                      label: '홈'),
                   UnderBarIconButtonWidget(
                       iconSVG: ReviewSVG(isCurrent: '리뷰' == currentScreen),
                       routePath: const ReviewMenuScreen(),
-                      isCurrent: '리뷰' == currentScreen),
+                      currentScreen: currentScreen,
+                      label: '리뷰'),
                   UnderBarIconButtonWidget(
                       iconSVG: AskSVG(isCurrent: '문의' == currentScreen),
                       routePath: const CalendarScreen(),
-                      isCurrent: '문의' == currentScreen)
+                      currentScreen: currentScreen,
+                      label: '문의')
                 ],
               ),
             )
