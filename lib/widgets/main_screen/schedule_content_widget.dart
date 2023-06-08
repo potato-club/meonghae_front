@@ -56,7 +56,7 @@ class ScheduleContentWidget extends StatelessWidget {
         ),
         const SizedBox(height: 4),
         SizedBox(
-          height: MediaQuery.of(context).size.height - 640,
+          height: MediaQuery.of(context).size.height - 624,
           child: Stack(children: [
             SingleChildScrollView(
               scrollDirection: Axis.vertical,
@@ -66,10 +66,6 @@ class ScheduleContentWidget extends StatelessWidget {
                 child: Column(
                   children: [
                     const SizedBox(height: 8),
-                    createPostItem(8, '1차 예방접종', '흥이1', false),
-                    createPostItem(22, '2차 예방접종', '흥이2', false),
-                    createPostItem(24, '3차 예방접종', '흥이3', false),
-                    createPostItem(36, '4차 예방접종', '흥이4', true),
                     createPostItem(8, '1차 예방접종', '흥이1', false),
                     createPostItem(22, '2차 예방접종', '흥이2', false),
                     createPostItem(24, '3차 예방접종', '흥이3', false),
