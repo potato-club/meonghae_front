@@ -17,7 +17,6 @@ class _ReviewScreenState extends State<ReviewScreen> {
   bool isCheckedPhotoReview = false;
   void setIsCheckedPhotoReview() {
     setState(() => isCheckedPhotoReview = !isCheckedPhotoReview);
-    print(isCheckedPhotoReview);
   }
 
   @override

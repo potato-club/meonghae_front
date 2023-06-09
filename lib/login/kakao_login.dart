@@ -1,5 +1,6 @@
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:meonghae_front/login/social_login.dart';
+import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 
 class KakaoLogin implements SocialLogin {
   @override
@@ -11,7 +12,6 @@ class KakaoLogin implements SocialLogin {
           await UserApi.instance.loginWithKakaoTalk();
           return true;
         } catch (err) {
-          print(err);
           return false;
         }
       } else {
@@ -19,12 +19,10 @@ class KakaoLogin implements SocialLogin {
           await UserApi.instance.loginWithKakaoAccount();
           return true;
         } catch (err) {
-          print('kakaoLogin: $err');
           return false;
         }
       }
     } catch (err) {
-      print(err);
       return false;
     }
   }

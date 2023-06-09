@@ -13,14 +13,14 @@ class _MyDogScrollWidgetState extends State<MyDogScrollWidget> {
 
   Widget createDogCardItem(String dogName, bool isEnd) {
     return Padding(
-      padding: EdgeInsets.only(right: isEnd ? 0 : 32),
+      padding: EdgeInsets.only(right: isEnd ? 0 : 30),
       child: Column(
         children: [
           Container(
             width: 70,
             height: 70,
             decoration: BoxDecoration(
-                color: CustomColor.ivoey2,
+                color: CustomColor.ivory2,
                 borderRadius: BorderRadius.circular(35)),
           ),
           Padding(
@@ -40,17 +40,56 @@ class _MyDogScrollWidgetState extends State<MyDogScrollWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: [
-          for (var i = 0; i < dogs.length; i++)
-            createDogCardItem(
-              dogs[i],
-              i + 1 == dogs.length,
-            )
-        ],
-      ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 4),
+      child: Stack(children: [
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              SizedBox(width: MediaQuery.of(context).size.width * 0.06),
+              for (var i = 0; i < dogs.length; i++)
+                createDogCardItem(
+                  dogs[i],
+                  i + 1 == dogs.length,
+                ),
+              SizedBox(width: MediaQuery.of(context).size.width * 0.06),
+            ],
+          ),
+        ),
+        Positioned(
+          top: 0,
+          left: 0,
+          child: Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: [
+                  CustomColor.white,
+                  CustomColor.white.withOpacity(0),
+                ])),
+            height: 91,
+            width: MediaQuery.of(context).size.width * 0.06,
+          ),
+        ),
+        Positioned(
+          top: 0,
+          right: 0,
+          child: Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.centerRight,
+                    end: Alignment.centerLeft,
+                    colors: [
+                  CustomColor.white,
+                  CustomColor.white.withOpacity(0),
+                ])),
+            height: 91,
+            width: MediaQuery.of(context).size.width * 0.06,
+          ),
+        ),
+      ]),
     );
   }
 }
