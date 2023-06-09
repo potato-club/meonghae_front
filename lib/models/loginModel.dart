@@ -10,13 +10,14 @@ class LoginModel {
     required this.socialLogin,
   });
 
-  Future login() async {
+  Future<bool> login() async {
     isLogined = await socialLogin.login();
     if (isLogined) {
       user = await UserApi.instance.me();
+      return true;
+    } else {
+      return false;
     }
-    print(await hasToken());
-    print('isLogined: $isLogined');
   }
 
   Future logout() async {

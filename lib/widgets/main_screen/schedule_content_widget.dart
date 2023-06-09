@@ -13,8 +13,8 @@ class ScheduleContentWidget extends StatelessWidget {
             ? null
             : const Border(
                 bottom: BorderSide(
-                  color: CustomColor.gray,
-                  width: 0.4,
+                  color: CustomColor.lightGray1,
+                  width: 1,
                 ),
               ),
       ),
@@ -49,21 +49,63 @@ class ScheduleContentWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const MainContentLabelWidget(label: "일정"),
-        const SizedBox(height: 12),
+        Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width * 0.06),
+          child: const MainContentLabelWidget(label: "일정"),
+        ),
+        const SizedBox(height: 4),
         SizedBox(
-          height: MediaQuery.of(context).size.height - 646,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Column(
-              children: [
-                createPostItem(8, '1차 예방접종', '흥이1', false),
-                createPostItem(22, '2차 예방접종', '흥이2', false),
-                createPostItem(24, '3차 예방접종', '흥이3', false),
-                createPostItem(36, '4차 예방접종', '흥이4', true),
-              ],
+          height: MediaQuery.of(context).size.height - 624,
+          child: Stack(children: [
+            SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * 0.06),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 8),
+                    createPostItem(8, '1차 예방접종', '흥이1', false),
+                    createPostItem(22, '2차 예방접종', '흥이2', false),
+                    createPostItem(24, '3차 예방접종', '흥이3', false),
+                    createPostItem(36, '4차 예방접종', '흥이4', true),
+                    const SizedBox(height: 20),
+                  ],
+                ),
+              ),
             ),
-          ),
+            Positioned(
+              top: 0,
+              child: Container(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                      CustomColor.white,
+                      CustomColor.white.withOpacity(0),
+                    ])),
+                height: 8,
+                width: MediaQuery.of(context).size.width,
+              ),
+            ),
+            Positioned(
+              bottom: 0,
+              child: Container(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
+                        colors: [
+                      CustomColor.white,
+                      CustomColor.white.withOpacity(0),
+                    ])),
+                height: 20,
+                width: MediaQuery.of(context).size.width,
+              ),
+            ),
+          ]),
         )
       ],
     );

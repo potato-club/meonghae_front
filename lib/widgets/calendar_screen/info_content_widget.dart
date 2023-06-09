@@ -53,66 +53,50 @@ class _InfoContentWidgetState extends State<InfoContentWidget> {
                 spreadRadius: 0)
           ],
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 16),
-              child: Container(
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: CustomColor.lightGray1,
-                  borderRadius: BorderRadius.circular(2),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 16),
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: CustomColor.lightGray1,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 22),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: MediaQuery.of(context).size.width * 0.06),
-              child: Column(
+              const SizedBox(height: 22),
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text(
-                    "${widget.selectedDay.day}일 ${dayOfWeek[widget.selectedDay.weekday - 1]}요일",
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: CustomColor.brown1,
-                      fontWeight: FontWeight.w700,
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width * 0.06),
+                    child: Text(
+                      "${widget.selectedDay.day}일 ${dayOfWeek[widget.selectedDay.weekday - 1]}요일",
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: CustomColor.brown1,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 8),
                   widget.events.isEmpty
                       ? const NoInfoWidget()
                       : SizedBox(
                           height: MediaQuery.of(context).size.height -
-                              637 +
+                              633 +
                               _containerHeight,
                           child: _containerHeight == 0
-                              ? Card(
-                                  elevation: 0,
-                                  shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.zero,
-                                  ),
-                                  clipBehavior: Clip.none,
-                                  child: Wrap(
-                                    children: [
-                                      for (var i = 0;
-                                          i < widget.events.length;
-                                          i++)
-                                        InfoItemWidget(
-                                          startTime:
-                                              widget.events[i].getStartTime(),
-                                          endTime:
-                                              widget.events[i].getStartTime(),
-                                          title: widget.events[i].getTitle(),
-                                          isEndItem: false,
-                                        ),
-                                    ],
-                                  ),
-                                )
-                              : SingleChildScrollView(
+                              ? Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal:
+                                          MediaQuery.of(context).size.width *
+                                              0.06),
                                   child: Card(
                                     elevation: 0,
                                     shape: const RoundedRectangleBorder(
@@ -135,12 +119,65 @@ class _InfoContentWidgetState extends State<InfoContentWidget> {
                                       ],
                                     ),
                                   ),
-                                ),
+                                )
+                              : Stack(children: [
+                                  SingleChildScrollView(
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 4,
+                                          horizontal: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.06),
+                                      child: Card(
+                                        elevation: 0,
+                                        shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.zero,
+                                        ),
+                                        clipBehavior: Clip.none,
+                                        child: Wrap(
+                                          children: [
+                                            for (var i = 0;
+                                                i < widget.events.length;
+                                                i++)
+                                              InfoItemWidget(
+                                                startTime: widget.events[i]
+                                                    .getStartTime(),
+                                                endTime: widget.events[i]
+                                                    .getStartTime(),
+                                                title:
+                                                    widget.events[i].getTitle(),
+                                                isEndItem: i + 1 ==
+                                                        widget.events.length
+                                                    ? true
+                                                    : false,
+                                              )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    top: 0,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                              begin: Alignment.topCenter,
+                                              end: Alignment.bottomCenter,
+                                              colors: [
+                                            CustomColor.white,
+                                            CustomColor.white.withOpacity(0),
+                                          ])),
+                                      height: 18,
+                                      width: MediaQuery.of(context).size.width,
+                                    ),
+                                  ),
+                                ]),
                         ),
                 ],
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );
