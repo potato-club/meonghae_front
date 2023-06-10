@@ -20,7 +20,6 @@ class LoginModel {
         'http://meonghae.site:8000/user-service/login',
         queryParameters: {'email': user!.kakaoAccount!.email},
       );
-
       if (response.statusCode == 200) {
         return {'success': true, 'response': response.data};
       } else {

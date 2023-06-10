@@ -8,11 +8,13 @@ class UserFormWidget extends StatefulWidget {
   final GlobalKey<FormState> formKey;
   final Function setAge;
   final Function setName;
+  final Function setBirth;
   const UserFormWidget(
       {super.key,
       required this.formKey,
       required this.setAge,
-      required this.setName});
+      required this.setName,
+      required this.setBirth});
 
   @override
   State<UserFormWidget> createState() => _UserFormWidgetState();
@@ -154,6 +156,7 @@ class _UserFormWidgetState extends State<UserFormWidget> {
                       },
                       onSaved: (value) {
                         birth = value!;
+                        widget.setBirth(birth);
                       },
                     ),
                   ),
