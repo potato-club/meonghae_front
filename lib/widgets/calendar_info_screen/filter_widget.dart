@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/themes/customColor.dart';
-import 'package:meonghae_front/widgets/calendar_info_screen/filter_input_widget.dart';
 
 class FilterWidget extends StatefulWidget {
   const FilterWidget({super.key});
@@ -28,15 +27,62 @@ class _FilterWidgetState extends State<FilterWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        FilterInputWidget(
-            width: MediaQuery.of(context).size.width * 0.88,
-            height: 45,
-            itemHeight: 45,
-            list: textButtonData,
-            listHeight: 180,
-            borderRadius: 10,
-            setValue: (String value) =>
-                setState(() => selectedDropdown = value)),
+        Row(
+          children: [
+            Expanded(
+              child: Container(
+                height: 45,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 22),
+                  child: PopupMenuButton<String>(
+                    initialValue: selectedDropdown,
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            selectedDropdown,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                              color: CustomColor.gray,
+                            ),
+                          ),
+                          const Icon(Icons.arrow_drop_down),
+                        ],
+                      ),
+                    ),
+                    itemBuilder: (BuildContext context) {
+                      return dropdownList.map((String item) {
+                        return PopupMenuItem<String>(
+                          value: item,
+                          child: Text(
+                            item,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                              color: CustomColor.gray,
+                            ),
+                          ),
+                        );
+                      }).toList();
+                    },
+                    onSelected: (String value) {
+                      setState(() {
+                        selectedDropdown = value;
+                      });
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
         const SizedBox(
           height: 24,
         ),
@@ -45,35 +91,53 @@ class _FilterWidgetState extends State<FilterWidget> {
             color: CustomColor.white,
             borderRadius: BorderRadius.circular(10),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+          child: Row(
             children: [
-              for (int index = 0; index < textButtonData.length; index++)
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      if (selectedIndex == index) {
-                        selectedIndex = -1;
-                      } else {
-                        selectedIndex = index;
-                      }
-                    });
-                  },
-                  child: Container(
-                    alignment: Alignment.centerLeft,
-                    height: 45,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 22),
-                      child: Text(
-                        textButtonData[index],
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    for (int index = 0; index < textButtonData.length; index++)
+                      TextButton(
+                        onPressed: () {
+                          setState(() {
+                            if (selectedIndex == index) {
+                              selectedIndex = -1;
+                            } else {
+                              selectedIndex = index;
+                            }
+                          });
+                        },
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.resolveWith<Color>(
+                            (states) {
+                              if (states.contains(MaterialState.pressed) ||
+                                  selectedIndex == index) {
+                                return CustomColor.brown1;
+                              }
+                              return Colors.transparent;
+                            },
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 22),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              textButtonData[index],
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w700,
+                                color: CustomColor.black1,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
+                  ],
                 ),
+              ),
             ],
           ),
         ),
