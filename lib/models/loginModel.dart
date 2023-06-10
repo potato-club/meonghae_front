@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
+import 'package:meonghae_front/config/base_url.dart';
 import 'package:meonghae_front/login/social_login.dart';
 
 class LoginModel {
@@ -17,7 +18,7 @@ class LoginModel {
       user = await UserApi.instance.me();
       Dio dio = Dio();
       final response = await dio.get(
-        'http://meonghae.site:8000/user-service/login',
+        '${baseUrl}user-service/login',
         queryParameters: {'email': user!.kakaoAccount!.email},
       );
 

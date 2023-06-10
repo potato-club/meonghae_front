@@ -20,7 +20,6 @@ class KakaoButton extends StatefulWidget {
 class _KakaoButtonState extends State<KakaoButton> {
   void handleLogin() async {
     Map<String, dynamic> result = await widget.loginModel.login();
-    print(result['success']);
     if (result['success']) {
       Navigator.pushReplacement(
           context,
