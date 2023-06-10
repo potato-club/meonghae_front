@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/models/infoModel.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 import 'package:meonghae_front/widgets/register_dog_screen/register_init_form.dart';
 import 'package:meonghae_front/widgets/svg/arrow.dart';
 import 'package:meonghae_front/widgets/svg/tiny_right_arrow.dart';
@@ -82,12 +83,32 @@ class _RegisterDogScreenState extends State<RegisterDogScreen> {
   }
 
   Future<void> _submitForm() async {
-    print(currentSlideIndex);
-    print(formsData);
-    print(formsData.length);
-    formsData.forEach((i) {
-      print("${i.name}/${i.gender}/${i.birth}/${i.kind}/${i.place}");
-    });
+    List<Map<String, dynamic>> result =
+        formsData.map((i) => validator(i)).toList();
+    List<dynamic> validatorList = result.map((i) => i['validator']).toList();
+    bool isValidator = !validatorList.contains(false);
+    if (isValidator) {
+      //값보내기!
+    } else {
+      int index = validatorList.indexOf(false);
+      SnackBarWidget.show(context, SnackBarType.error, result[index]['error']);
+    }
+  }
+
+  Map<String, dynamic> validator(InfoModel data) {
+    if (data.birth != '' &&
+        data.gender != '' &&
+        data.kind != '' &&
+        data.name != '' &&
+        data.imageFile != null) {
+      if (data.birth.length != 10) {
+        return {'validator': false, 'error': '출생일은 숫자 8자만 입력해주세요'};
+      } else {
+        return {'validator': true};
+      }
+    } else {
+      return {'validator': false, 'error': '모든 정보를 입력해주세요'};
+    }
   }
 
   @override
