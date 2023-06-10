@@ -1,5 +1,6 @@
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:meonghae_front/login/social_login.dart';
+import 'package:http/http.dart' as http;
 
 class LoginModel {
   final SocialLogin socialLogin;
@@ -10,13 +11,19 @@ class LoginModel {
     required this.socialLogin,
   });
 
-  Future<bool> login() async {
+  Future<Map<String, dynamic>> login() async {
     isLogined = await socialLogin.login();
     if (isLogined) {
       user = await UserApi.instance.me();
-      return true;
+      final response = await http.get(Uri.parse(
+          'http://meonghae.site:8000/user-service/login?email=${user!.kakaoAccount!.email}'));
+      if (response.statusCode == 200) {
+        return {'success': true, 'response': response.body};
+      } else {
+        return {'success': true};
+      }
     } else {
-      return false;
+      return {'success': true};
     }
   }
 
