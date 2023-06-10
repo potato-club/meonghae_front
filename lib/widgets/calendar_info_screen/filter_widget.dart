@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/widgets/calendar_info_screen/filter_input_widget.dart';
 
 class FilterWidget extends StatefulWidget {
   const FilterWidget({super.key});
@@ -27,68 +28,15 @@ class _FilterWidgetState extends State<FilterWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              flex: 6,
-              child: Container(
-                height: 45,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 22),
-                    child: Text(
-                      selectedDropdown,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Flexible(
-              flex: 4,
-              child: Container(
-                height: 45,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Center(
-                  child: DropdownButton(
-                    value: selectedDropdown,
-                    underline: Container(),
-                    items: dropdownList.map((String item) {
-                      return DropdownMenuItem<String>(
-                        value: item,
-                        child: Text(
-                          item,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w700,
-                            color: CustomColor.gray,
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                    onChanged: (dynamic value) {
-                      setState(() {
-                        selectedDropdown = value;
-                      });
-                    },
-                  ),
-                ),
-              ),
-            )
-          ],
-        ),
+        FilterInputWidget(
+            width: MediaQuery.of(context).size.width * 0.88,
+            height: 45,
+            itemHeight: 45,
+            list: textButtonData,
+            listHeight: 180,
+            borderRadius: 10,
+            setValue: (String value) =>
+                setState(() => selectedDropdown = value)),
         const SizedBox(
           height: 24,
         ),
@@ -97,47 +45,35 @@ class _FilterWidgetState extends State<FilterWidget> {
             color: CustomColor.white,
             borderRadius: BorderRadius.circular(10),
           ),
-          child: Row(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 22),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    for (int index = 0; index < textButtonData.length; index++)
-                      TextButton(
-                        onPressed: () {
-                          setState(() {
-                            if (selectedIndex == index) {
-                              selectedIndex = -1;
-                            } else {
-                              selectedIndex = index;
-                            }
-                          });
-                        },
-                        style: ButtonStyle(
-                          foregroundColor:
-                              MaterialStateProperty.resolveWith<Color>(
-                            (states) {
-                              if (states.contains(MaterialState.pressed) ||
-                                  selectedIndex == index) {
-                                return Colors.red;
-                              }
-                              return CustomColor.black1;
-                            },
-                          ),
-                        ),
-                        child: Text(
-                          textButtonData[index],
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w700,
-                          ),
+              for (int index = 0; index < textButtonData.length; index++)
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      if (selectedIndex == index) {
+                        selectedIndex = -1;
+                      } else {
+                        selectedIndex = index;
+                      }
+                    });
+                  },
+                  child: Container(
+                    alignment: Alignment.centerLeft,
+                    height: 45,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 22),
+                      child: Text(
+                        textButtonData[index],
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
-                  ],
+                    ),
+                  ),
                 ),
-              ),
             ],
           ),
         ),

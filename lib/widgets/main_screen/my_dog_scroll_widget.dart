@@ -20,7 +20,7 @@ class _MyDogScrollWidgetState extends State<MyDogScrollWidget> {
             width: 70,
             height: 70,
             decoration: BoxDecoration(
-                color: CustomColor.ivoey2,
+                color: CustomColor.ivory2,
                 borderRadius: BorderRadius.circular(35)),
           ),
           Padding(

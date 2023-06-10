@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:meonghae_front/screens/review_write_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/review_screen/filter_bar_widget.dart';
 import 'package:meonghae_front/widgets/review_screen/review_list_item_widget.dart';
 import 'package:meonghae_front/widgets/review_screen/search_bar_widget.dart';
 import 'package:meonghae_front/widgets/svg/arrow.dart';
+import 'package:meonghae_front/widgets/svg/pencil.dart';
 
 class ReviewScreen extends StatefulWidget {
   final String menuValue;
@@ -17,7 +19,6 @@ class _ReviewScreenState extends State<ReviewScreen> {
   bool isCheckedPhotoReview = false;
   void setIsCheckedPhotoReview() {
     setState(() => isCheckedPhotoReview = !isCheckedPhotoReview);
-    print(isCheckedPhotoReview);
   }
 
   @override
@@ -109,6 +110,28 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   width: MediaQuery.of(context).size.width,
                 ),
               ),
+              Positioned(
+                  bottom: 16,
+                  right: 16,
+                  child: InkWell(
+                    onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            const ReviewWriteScreen())),
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: CustomColor.brown1,
+                      ),
+                      width: 70,
+                      height: 70,
+                      child: const Padding(
+                        padding: EdgeInsets.all(22),
+                        child: PencilSVG(
+                          color: CustomColor.white,
+                        ),
+                      ),
+                    ),
+                  ))
             ]),
           )
         ],

@@ -43,7 +43,7 @@ class MainScreen extends StatelessWidget {
             ),
           ),
           const Positioned(
-            bottom: 74,
+            bottom: 0,
             child: MainContentWidget(),
           ),
           const Positioned(bottom: 0, child: UnderBarWidget(currentScreen: '홈'))

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/screens/calendar_info_screen.dart';
+import 'package:meonghae_front/screens/calendar_search_screen.dart';
+import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/calendar_screen/calendar_widget.dart';
 import 'package:meonghae_front/widgets/calendar_screen/info_content_widget.dart';
 import 'package:meonghae_front/widgets/svg/plus.dart';
@@ -44,7 +46,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
           Positioned(
             top: 58,
             right: MediaQuery.of(context).size.width * 0.03 + 56,
-            child: GestureDetector(onTap: () => {}, child: const SearchSVG()),
+            child: GestureDetector(
+                onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) =>
+                        const CalendarSearchScreen())),
+                child: const SearchSVG()),
           ),
           Positioned(
             top: 58,
@@ -53,7 +59,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 onTap: () => Navigator.of(context).push(MaterialPageRoute(
                     builder: (BuildContext context) =>
                         const CalendarInfoScreen())),
-                child: const PlusSVG()),
+                child: const PlusSVG(color: CustomColor.black2)),
           ),
           Positioned(
             bottom: 72,

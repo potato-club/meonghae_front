@@ -35,6 +35,7 @@ class MenuButtonsWidget extends StatelessWidget {
             child: Column(
               children: [
                 widget1,
+                SizedBox(height: 4),
                 Text(
                   label1,
                   style:
@@ -55,6 +56,7 @@ class MenuButtonsWidget extends StatelessWidget {
             child: Column(
               children: [
                 widget2,
+                SizedBox(height: 4),
                 Text(
                   label2,
                   style:
@@ -75,6 +77,7 @@ class MenuButtonsWidget extends StatelessWidget {
             child: Column(
               children: [
                 widget3,
+                SizedBox(height: 4),
                 Text(
                   label3,
                   style:
