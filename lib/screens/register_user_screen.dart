@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:meonghae_front/config/base_url.dart';
 import 'package:meonghae_front/screens/registered_user_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
@@ -45,15 +46,12 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
     if (age != null && formKey.currentState!.validate()) {
       formKey.currentState!.save();
       Dio dio = Dio();
-      final response = await dio
-          .post('http://meonghae.site:8000/user-service/signup', data: {
+      final response = await dio.post('${baseUrl}user-service/signup', data: {
         'age': int.parse(age!),
-        'birth': birth,
+        'birth': birth!.replaceAll('.', ''),
         'email': widget.email,
         'nickname': name
       });
-      print('###Response status code: ${response.statusCode}');
-      print('###Response body: ${response.data}');
       if (response.statusCode == 200) {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (BuildContext context) => RegisteredUserScreen(
