@@ -76,7 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ))
                       ],
                     ),
-                    SizedBox(height: 6),
+                    const SizedBox(height: 6),
                     const Text(
                       '간편하게 애완동물의',
                       style: TextStyle(
@@ -85,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         fontWeight: FontWeight.w400,
                       ),
                     ),
-                    SizedBox(height: 4),
+                    const SizedBox(height: 4),
                     const Text(
                       '스케줄을 관리해 보세요!',
                       style: TextStyle(
@@ -100,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       loginModel: kakaoModel,
                     ),
                     const SizedBox(height: 20),
-                    SizedBox(height: 16)
+                    const SizedBox(height: 16)
                   ],
                 ),
               ),
