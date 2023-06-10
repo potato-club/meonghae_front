@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:meonghae_front/models/infoModel.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/register_dog_screen/register_init_form.dart';
 import 'package:meonghae_front/widgets/svg/arrow.dart';
@@ -14,28 +15,78 @@ class RegisterDogScreen extends StatefulWidget {
 
 class _RegisterDogScreenState extends State<RegisterDogScreen> {
   final CarouselController _carouselController = CarouselController();
+  List<InfoModel> formsData = [];
   List<Widget> registerSliders = [];
   int currentSlideIndex = 0;
-  bool isHovered = false;
 
-  void _handleHover(bool isHovered) {
-    setState(() {
-      this.isHovered = isHovered;
-    });
-    _carouselController.animateToPage(registerSliders.length);
+  void addFormsData() {
+    InfoModel newItem = InfoModel(
+      gender: '',
+      kind: '',
+      place: '',
+      name: '',
+      birth: '',
+      imageFile: null,
+    );
+    formsData.add(newItem);
+  }
+
+  void setData(int index, String key, dynamic value) {
+    switch (key) {
+      case 'gender':
+        formsData[index].gender = value;
+        break;
+      case 'kind':
+        formsData[index].kind = value;
+        break;
+      case 'place':
+        formsData[index].place = value;
+        break;
+      case 'name':
+        formsData[index].name = value;
+        break;
+      case 'birth':
+        formsData[index].birth = value;
+        break;
+      case 'imageFile':
+        formsData[index].imageFile = value;
+        break;
+      default:
+        break;
+    }
   }
 
   @override
   void initState() {
     super.initState();
+    addFormsData();
     registerSliders = [
-      const RegisterInitForm(),
+      RegisterInitForm(
+        data: formsData[registerSliders.length],
+        index: registerSliders.length,
+        setData: setData,
+      ),
     ];
   }
 
   void addSliderItem() {
+    _carouselController.animateToPage(registerSliders.length);
     setState(() {
-      registerSliders.add(const RegisterInitForm());
+      addFormsData();
+      registerSliders.add(RegisterInitForm(
+        data: formsData[registerSliders.length],
+        index: registerSliders.length,
+        setData: setData,
+      ));
+    });
+  }
+
+  Future<void> _submitForm() async {
+    print(currentSlideIndex);
+    print(formsData);
+    print(formsData.length);
+    formsData.forEach((i) {
+      print("${i.name}/${i.gender}/${i.birth}/${i.kind}/${i.place}");
     });
   }
 
@@ -140,7 +191,7 @@ class _RegisterDogScreenState extends State<RegisterDogScreen> {
                   ),
                   backgroundColor: CustomColor.black2,
                 ),
-                onPressed: () => {}, //수정필요
+                onPressed: _submitForm, //수정필요
                 child: const Text(
                   '시작하기!',
                   style: TextStyle(
@@ -156,25 +207,19 @@ class _RegisterDogScreenState extends State<RegisterDogScreen> {
             right: MediaQuery.of(context).size.width * 0.145,
             child: GestureDetector(
               onTap: () => addSliderItem(),
-              onTapDown: (_) {
-                _handleHover(true);
-              },
-              onTapUp: (_) {
-                _handleHover(false);
-              },
-              child: Row(
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
                     '추가하기',
                     style: TextStyle(
                       fontSize: 12,
-                      fontWeight: isHovered ? FontWeight.bold : FontWeight.w700,
+                      fontWeight: FontWeight.bold,
                       color: CustomColor.white,
                     ),
                   ),
-                  const SizedBox(width: 6),
-                  const TinyRightArrowSVG(color: CustomColor.white)
+                  SizedBox(width: 6),
+                  TinyRightArrowSVG(color: CustomColor.white)
                 ],
               ),
             ),

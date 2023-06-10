@@ -7,23 +7,34 @@ import 'package:meonghae_front/widgets/svg/big_plus.dart';
 import 'package:meonghae_front/widgets/svg/pencil.dart';
 
 class RegisterImage extends StatefulWidget {
-  const RegisterImage({super.key});
+  final num index;
+  final File? imageFile;
+  final Function setData;
+  const RegisterImage(
+      {super.key, this.imageFile, required this.setData, required this.index});
 
   @override
   _RegisterImageState createState() => _RegisterImageState();
 }
 
 class _RegisterImageState extends State<RegisterImage> {
-  File? _imageFile;
+  File? imageFile;
 
   void _pickImage() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     setState(() {
       if (pickedFile != null) {
-        _imageFile = File(pickedFile.path);
+        imageFile = File(pickedFile.path);
+        widget.setData(widget.index, 'imageFile', imageFile);
       }
     });
+  }
+
+  @override
+  void initState() {
+    imageFile = widget.imageFile;
+    super.initState();
   }
 
   @override
@@ -42,9 +53,9 @@ class _RegisterImageState extends State<RegisterImage> {
               ),
               child: Container(
                   color: CustomColor.white.withOpacity(0.5),
-                  child: _imageFile != null
+                  child: imageFile != null
                       ? CircleAvatar(
-                          backgroundImage: FileImage(_imageFile!),
+                          backgroundImage: FileImage(imageFile!),
                           radius: 75,
                         )
                       : const Center(

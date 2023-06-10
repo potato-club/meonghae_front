@@ -1,15 +1,19 @@
+import 'dart:io';
+
 class InfoModel {
-  String selectedGender;
-  String selectedKind;
-  String selectedPlace;
+  String gender;
+  String kind;
+  String place;
   String name;
   String birth;
+  File? imageFile;
 
   InfoModel({
-    required this.selectedGender,
-    required this.selectedKind,
-    required this.selectedPlace,
+    required this.gender,
+    required this.kind,
+    required this.place,
     required this.name,
     required this.birth,
+    this.imageFile,
   });
 }
