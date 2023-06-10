@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/models/loginModel.dart';
 import 'package:meonghae_front/screens/select_screen.dart';
@@ -21,17 +20,18 @@ class KakaoButton extends StatefulWidget {
 class _KakaoButtonState extends State<KakaoButton> {
   void handleLogin() async {
     Map<String, dynamic> result = await widget.loginModel.login();
+    print(result['success']);
     if (result['success']) {
-      Map<String, dynamic> response = jsonDecode(result['response']);
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => response['responseCode'] == "201_CREATED"
-                ? SelectScreen(email: response['email'])
-                : const VideoPlayerScreen(),
+            builder: (context) =>
+                result['response']['responseCode'] == "201_CREATED"
+                    ? SelectScreen(email: result['response']['email'])
+                    : const VideoPlayerScreen(),
           ));
     } else {
-      SnackBarWidget.show(context, SnackBarType.error, '로그인에 실패했습니다');
+      SnackBarWidget.show(context, SnackBarType.error, result['error']);
     }
     setState(() {});
   }

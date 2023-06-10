@@ -1,6 +1,6 @@
+import 'package:dio/dio.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:meonghae_front/login/social_login.dart';
-import 'package:http/http.dart' as http;
 
 class LoginModel {
   final SocialLogin socialLogin;
@@ -15,15 +15,19 @@ class LoginModel {
     isLogined = await socialLogin.login();
     if (isLogined) {
       user = await UserApi.instance.me();
-      final response = await http.get(Uri.parse(
-          'http://meonghae.site:8000/user-service/login?email=${user!.kakaoAccount!.email}'));
+      Dio dio = Dio();
+      final response = await dio.get(
+        'http://meonghae.site:8000/user-service/login',
+        queryParameters: {'email': user!.kakaoAccount!.email},
+      );
+
       if (response.statusCode == 200) {
-        return {'success': true, 'response': response.body};
+        return {'success': true, 'response': response.data};
       } else {
-        return {'success': true};
+        return {'success': false, 'error': '유저정보 확인에 실패하였습니다'};
       }
     } else {
-      return {'success': true};
+      return {'success': false, 'error': '로그인에 실패하였습니다'};
     }
   }
 
