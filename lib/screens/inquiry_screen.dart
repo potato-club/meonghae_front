@@ -376,7 +376,7 @@ class _InquiryScreenState extends State<InquiryScreen> {
                                     fontWeight: FontWeight.w700,
                                   ),
                                 ),
-                                PencilSVG(),
+                                PencilSVG(color: CustomColor.brown1)
                               ],
                             ),
                           ),

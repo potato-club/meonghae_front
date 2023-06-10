@@ -64,7 +64,7 @@ class _RegisterImageState extends State<RegisterImage> {
                 elevation: 0,
                 backgroundColor: CustomColor.white.withOpacity(0.8),
                 onPressed: _pickImage,
-                child: const PencilSVG()),
+                child: const PencilSVG(color: CustomColor.gray)),
           ),
         ),
       ],
