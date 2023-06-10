@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/widgets/calendar_info_screen/swich_widget.dart';
 import 'package:meonghae_front/widgets/common/select_input_widget.dart';
 
 class AdditionalInfoWidget extends StatefulWidget {
@@ -123,16 +124,14 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                           color: CustomColor.black1,
                         ),
                       ),
-                      Switch(
-                        value: isAllday,
-                        onChanged: (value) {
+                      SwitchWidget(
+                        clickSwitch: () {
                           setState(() {
-                            isAllday = value;
+                            isAllday = !isAllday;
                           });
                         },
-                        activeColor: Colors.transparent,
-                        activeTrackColor: isAllday ? Colors.green : Colors.grey,
-                      )
+                        isChecked: isAllday,
+                      ),
                     ],
                   ),
                 ),
