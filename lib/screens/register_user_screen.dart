@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:meonghae_front/screens/registered_user_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
@@ -10,7 +9,9 @@ import 'package:meonghae_front/widgets/svg/arrow.dart';
 
 class RegisterUserScreen extends StatefulWidget {
   final bool hasAnimal;
-  const RegisterUserScreen({super.key, required this.hasAnimal});
+  final String email;
+  const RegisterUserScreen(
+      {super.key, required this.hasAnimal, required this.email});
 
   @override
   State<RegisterUserScreen> createState() => _RegisterUserScreenState();
