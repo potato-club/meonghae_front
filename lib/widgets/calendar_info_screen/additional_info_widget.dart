@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/calendar_info_screen/swich_widget.dart';
 import 'package:meonghae_front/widgets/common/select_input_widget.dart';
+import 'package:spinner_date_time_picker/spinner_date_time_picker.dart';
 
 class AdditionalInfoWidget extends StatefulWidget {
   const AdditionalInfoWidget({super.key});
@@ -19,72 +21,12 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
   List<String> informList = ['안 함', '함'];
   String selectedInformList = '안 함';
 
-  final bool _isAlways = false;
-  DateTime? _selectedStartDate;
-  DateTime? _selectedFinishDate;
-
-  TimeOfDay? _selectedStartTime;
-  TimeOfDay? _selectedFinishTime;
-
-  Future<void> _selectStartTime(BuildContext context) async {
-    print(_textEditingController.text);
-
-    final TimeOfDay? pickedTime = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
-    );
-
-    if (pickedTime != null) {
-      setState(() {
-        _selectedStartTime = pickedTime;
-      });
-    }
-  }
-
-  Future<void> _selectFinishTime(BuildContext context) async {
-    final TimeOfDay? pickedTime = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
-    );
-
-    if (pickedTime != null) {
-      setState(() {
-        _selectedFinishTime = pickedTime;
-      });
-    }
-  }
+  DateTime selectedStartDate = DateTime.now();
+  DateTime selectedStartTime = DateTime.now();
+  DateTime selectedFinishDate = DateTime.now();
+  DateTime selectedFinishTime = DateTime.now();
 
   final TextEditingController _textEditingController = TextEditingController();
-
-  void _selectStartDate(BuildContext context) async {
-    final DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
-    );
-
-    if (pickedDate != null) {
-      setState(() {
-        _selectedStartDate = pickedDate;
-      });
-    }
-  }
-
-  void _selectFinishDate(BuildContext context) async {
-    final DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
-    );
-
-    if (pickedDate != null) {
-      setState(() {
-        _selectedFinishDate = pickedDate;
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -163,13 +105,31 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                       ),
                       TextButton(
                         onPressed: () {
-                          _selectStartDate(context);
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              var today = DateTime.now();
+                              return Dialog(
+                                child: SpinnerDateTimePicker(
+                                  initialDateTime: today,
+                                  maximumDate:
+                                      today.add(const Duration(days: 7500)),
+                                  minimumDate: today
+                                      .subtract(const Duration(days: 7500)),
+                                  mode: CupertinoDatePickerMode.date,
+                                  use24hFormat: true,
+                                  didSetTime: (value) {
+                                    setState(() {
+                                      selectedStartDate = value;
+                                    });
+                                  },
+                                ),
+                              );
+                            },
+                          );
                         },
                         child: Text(
-                          _selectedStartDate != null
-                              ? DateFormat('yyyy-MM-dd')
-                                  .format(_selectedStartDate!)
-                              : '0000-00-00',
+                          DateFormat('yyyy-MM-dd').format(selectedStartDate),
                           style: const TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w400,
@@ -179,12 +139,31 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                       ),
                       TextButton(
                         onPressed: () {
-                          _selectStartTime(context);
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              var today = DateTime.now();
+                              return Dialog(
+                                child: SpinnerDateTimePicker(
+                                  initialDateTime: today,
+                                  maximumDate:
+                                      today.add(const Duration(days: 7)),
+                                  minimumDate:
+                                      today.subtract(const Duration(days: 1)),
+                                  mode: CupertinoDatePickerMode.time,
+                                  use24hFormat: true,
+                                  didSetTime: (value) {
+                                    setState(() {
+                                      selectedStartTime = value;
+                                    });
+                                  },
+                                ),
+                              );
+                            },
+                          );
                         },
                         child: Text(
-                          _selectedStartTime != null
-                              ? _selectedStartTime!.format(context)
-                              : '00:00 AM',
+                          DateFormat('HH:mm').format(selectedStartTime),
                           style: const TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w400,
@@ -214,13 +193,31 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                     ),
                     TextButton(
                       onPressed: () {
-                        _selectFinishDate(context);
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            var today = DateTime.now();
+                            return Dialog(
+                              child: SpinnerDateTimePicker(
+                                initialDateTime: today,
+                                maximumDate:
+                                    today.add(const Duration(days: 7500)),
+                                minimumDate:
+                                    today.subtract(const Duration(days: 7500)),
+                                mode: CupertinoDatePickerMode.date,
+                                use24hFormat: true,
+                                didSetTime: (value) {
+                                  setState(() {
+                                    selectedFinishDate = value;
+                                  });
+                                },
+                              ),
+                            );
+                          },
+                        );
                       },
                       child: Text(
-                        _selectedFinishDate != null
-                            ? DateFormat('yyyy-MM-dd')
-                                .format(_selectedFinishDate!)
-                            : '0000-00-00',
+                        DateFormat('yyyy-MM-dd').format(selectedFinishDate),
                         style: const TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w400,
@@ -230,12 +227,30 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                     ),
                     TextButton(
                       onPressed: () {
-                        _selectFinishTime(context);
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            var today = DateTime.now();
+                            return Dialog(
+                              child: SpinnerDateTimePicker(
+                                initialDateTime: today,
+                                maximumDate: today.add(const Duration(days: 7)),
+                                minimumDate:
+                                    today.subtract(const Duration(days: 1)),
+                                mode: CupertinoDatePickerMode.time,
+                                use24hFormat: true,
+                                didSetTime: (value) {
+                                  setState(() {
+                                    selectedFinishTime = value;
+                                  });
+                                },
+                              ),
+                            );
+                          },
+                        );
                       },
                       child: Text(
-                        _selectedFinishTime != null
-                            ? _selectedFinishTime!.format(context)
-                            : '00:00 AM',
+                        DateFormat('HH:mm').format(selectedFinishTime),
                         style: const TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w400,
