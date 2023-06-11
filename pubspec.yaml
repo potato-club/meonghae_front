@@ -46,6 +46,7 @@ dependencies:
   flutter_rating_stars: ^1.0.3+4
   dotted_border: ^2.0.0+3
   dio: ^5.2.0+1
+  flutter_secure_storage: ^8.0.0
 
 dev_dependencies:
   flutter_test:

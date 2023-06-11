@@ -1,19 +1,25 @@
-import 'dart:io';
-
 class InfoModel {
-  String gender;
-  String kind;
-  String place;
-  String name;
-  String birth;
-  File? imageFile;
+  String petGender;
+  String petSpecies;
+  String meetRoute;
+  String petName;
+  String petBirth;
 
   InfoModel({
-    required this.gender,
-    required this.kind,
-    required this.place,
-    required this.name,
-    required this.birth,
-    this.imageFile,
+    required this.petGender,
+    required this.petSpecies,
+    required this.meetRoute,
+    required this.petName,
+    required this.petBirth,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'petGender': petGender,
+      'petSpecies': petSpecies,
+      'meetRoute': meetRoute,
+      'petName': petName,
+      'petBirth': petBirth.replaceAll('.', '-')
+    };
+  }
 }

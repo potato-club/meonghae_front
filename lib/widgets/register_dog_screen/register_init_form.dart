@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/models/infoModel.dart';
 import 'package:meonghae_front/themes/customColor.dart';
@@ -5,14 +7,17 @@ import 'registerForm_widget.dart';
 import 'registerImage_widget.dart';
 
 class RegisterInitForm extends StatelessWidget {
-  final InfoModel data;
+  final InfoModel formData;
+  final File? imageFile;
   final num index;
   final Function setData;
-  const RegisterInitForm(
-      {super.key,
-      required this.index,
-      required this.setData,
-      required this.data});
+  const RegisterInitForm({
+    super.key,
+    required this.index,
+    required this.setData,
+    required this.formData,
+    this.imageFile,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +40,8 @@ class RegisterInitForm extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: MediaQuery.of(context).size.width * 0.13),
-              child: RegisterForm(data: data, index: index, setData: setData),
+              child: RegisterForm(
+                  formData: formData, index: index, setData: setData),
             ),
           ),
         ),
@@ -44,7 +50,7 @@ class RegisterInitForm extends StatelessWidget {
             right: 0,
             top: 40,
             child: RegisterImage(
-                index: index, imageFile: data.imageFile, setData: setData)),
+                index: index, imageFile: imageFile, setData: setData)),
       ],
     );
   }

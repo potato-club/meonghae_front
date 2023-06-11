@@ -6,14 +6,14 @@ import 'package:meonghae_front/widgets/common/select_input_widget.dart';
 import 'package:meonghae_front/widgets/format/date_input_formatter.dart';
 
 class RegisterForm extends StatefulWidget {
-  final InfoModel data;
+  final InfoModel formData;
   final num index;
   final Function setData;
   const RegisterForm(
       {super.key,
       required this.setData,
       required this.index,
-      required this.data});
+      required this.formData});
 
   @override
   State<RegisterForm> createState() => _RegisterFormState();
@@ -50,12 +50,17 @@ class _RegisterFormState extends State<RegisterForm> {
   @override
   void initState() {
     super.initState();
-    birth = widget.data.birth;
-    name = widget.data.name;
-    selectedGender =
-        widget.data.gender != '' ? widget.data.gender : selectedGender;
-    selectedKind = widget.data.kind != '' ? widget.data.kind : selectedKind;
-    selectedPlace = widget.data.place != '' ? widget.data.place : selectedPlace;
+    birth = widget.formData.petBirth;
+    name = widget.formData.petName;
+    selectedGender = widget.formData.petGender != ''
+        ? widget.formData.petGender
+        : selectedGender;
+    selectedKind = widget.formData.petSpecies != ''
+        ? widget.formData.petSpecies
+        : selectedKind;
+    selectedPlace = widget.formData.meetRoute != ''
+        ? widget.formData.meetRoute
+        : selectedPlace;
   }
 
   @override

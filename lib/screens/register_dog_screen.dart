@@ -1,5 +1,10 @@
+import 'dart:convert';
+import 'dart:io';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:meonghae_front/config/base_url.dart';
+import 'package:meonghae_front/login/token.dart';
 import 'package:meonghae_front/models/infoModel.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
@@ -17,17 +22,17 @@ class RegisterDogScreen extends StatefulWidget {
 class _RegisterDogScreenState extends State<RegisterDogScreen> {
   final CarouselController _carouselController = CarouselController();
   List<InfoModel> formsData = [];
+  List<File?> images = [];
   List<Widget> registerSliders = [];
   int currentSlideIndex = 0;
 
   void addFormsData() {
     InfoModel newItem = InfoModel(
-      gender: '',
-      kind: '',
-      place: '',
-      name: '',
-      birth: '',
-      imageFile: null,
+      petGender: '',
+      petSpecies: '',
+      meetRoute: '',
+      petName: '',
+      petBirth: '',
     );
     formsData.add(newItem);
   }
@@ -35,22 +40,22 @@ class _RegisterDogScreenState extends State<RegisterDogScreen> {
   void setData(int index, String key, dynamic value) {
     switch (key) {
       case 'gender':
-        formsData[index].gender = value;
+        formsData[index].petGender = value;
         break;
       case 'kind':
-        formsData[index].kind = value;
+        formsData[index].petSpecies = value;
         break;
       case 'place':
-        formsData[index].place = value;
+        formsData[index].meetRoute = value;
         break;
       case 'name':
-        formsData[index].name = value;
+        formsData[index].petName = value;
         break;
       case 'birth':
-        formsData[index].birth = value;
+        formsData[index].petBirth = value;
         break;
       case 'imageFile':
-        formsData[index].imageFile = value;
+        images[index] = value;
         break;
       default:
         break;
@@ -61,9 +66,11 @@ class _RegisterDogScreenState extends State<RegisterDogScreen> {
   void initState() {
     super.initState();
     addFormsData();
+    images.add(null);
     registerSliders = [
       RegisterInitForm(
-        data: formsData[registerSliders.length],
+        imageFile: images[registerSliders.length],
+        formData: formsData[registerSliders.length],
         index: registerSliders.length,
         setData: setData,
       ),
@@ -74,8 +81,10 @@ class _RegisterDogScreenState extends State<RegisterDogScreen> {
     _carouselController.animateToPage(registerSliders.length);
     setState(() {
       addFormsData();
+      images.add(null);
       registerSliders.add(RegisterInitForm(
-        data: formsData[registerSliders.length],
+        imageFile: images[registerSliders.length],
+        formData: formsData[registerSliders.length],
         index: registerSliders.length,
         setData: setData,
       ));
@@ -88,7 +97,27 @@ class _RegisterDogScreenState extends State<RegisterDogScreen> {
     List<dynamic> validatorList = result.map((i) => i['validator']).toList();
     bool isValidator = !validatorList.contains(false);
     if (isValidator) {
-      //값보내기!
+      FormData formData = FormData();
+      Dio dio = Dio();
+      var token = await readAccessToken();
+      dio.options.headers['Authorization'] = token;
+      String formDataJson =
+          jsonEncode(formsData.map((data) => data.toJson()).toList());
+      formData.fields.add(MapEntry('petListDto', formDataJson));
+      for (int i = 0; i < images.length; i++) {
+        formData.files.add(MapEntry(
+          'images',
+          await MultipartFile.fromFile(images[i]!.path),
+        ));
+      }
+      final response =
+          await dio.post('${baseUrl}profile-service/profile', data: formData);
+      if (response.statusCode == 200) {
+        print("######${response.data}");
+        print("######${response.headers}");
+      } else {
+        SnackBarWidget.show(context, SnackBarType.error, "애완동물정보 등록에 실패하였습니다");
+      }
     } else {
       int index = validatorList.indexOf(false);
       SnackBarWidget.show(context, SnackBarType.error, result[index]['error']);
@@ -96,12 +125,11 @@ class _RegisterDogScreenState extends State<RegisterDogScreen> {
   }
 
   Map<String, dynamic> validator(InfoModel data) {
-    if (data.birth != '' &&
-        data.gender != '' &&
-        data.kind != '' &&
-        data.name != '' &&
-        data.imageFile != null) {
-      if (data.birth.length != 10) {
+    if (data.petBirth != '' &&
+        data.petGender != '' &&
+        data.petSpecies != '' &&
+        data.petName != '') {
+      if (data.petBirth.length != 10) {
         return {'validator': false, 'error': '출생일은 숫자 8자만 입력해주세요'};
       } else {
         return {'validator': true};
