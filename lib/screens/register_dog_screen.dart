@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:meonghae_front/config/base_url.dart';
 import 'package:meonghae_front/login/token.dart';
 import 'package:meonghae_front/models/infoModel.dart';
+import 'package:meonghae_front/screens/video_player_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 import 'package:meonghae_front/widgets/register_dog_screen/register_init_form.dart';
@@ -115,6 +116,8 @@ class _RegisterDogScreenState extends State<RegisterDogScreen> {
       if (response.statusCode == 200) {
         print("######${response.data}");
         print("######${response.headers}");
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const VideoPlayerScreen()));
       } else {
         SnackBarWidget.show(context, SnackBarType.error, "애완동물정보 등록에 실패하였습니다");
       }
