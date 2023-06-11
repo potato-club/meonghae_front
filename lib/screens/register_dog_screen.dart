@@ -98,28 +98,31 @@ class _RegisterDogScreenState extends State<RegisterDogScreen> {
     List<dynamic> validatorList = result.map((i) => i['validator']).toList();
     bool isValidator = !validatorList.contains(false);
     if (isValidator) {
-      FormData formData = FormData();
       Dio dio = Dio();
       var token = await readAccessToken();
+      print("#################${token}");
       dio.options.headers['Authorization'] = token;
-      String formDataJson =
-          jsonEncode(formsData.map((data) => data.toJson()).toList());
-      formData.fields.add(MapEntry('petListDto', formDataJson));
-      for (int i = 0; i < images.length; i++) {
-        formData.files.add(MapEntry(
-          'images',
-          await MultipartFile.fromFile(images[i]!.path),
-        ));
-      }
-      final response =
-          await dio.post('${baseUrl}profile-service/profile', data: formData);
-      if (response.statusCode == 200) {
-        print("######${response.data}");
-        print("######${response.headers}");
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const VideoPlayerScreen()));
-      } else {
-        SnackBarWidget.show(context, SnackBarType.error, "애완동물정보 등록에 실패하였습니다");
+      for (int i = 0; i < formsData.length; i++) {
+        FormData formData = FormData();
+        formData.files.add(
+            MapEntry('image', await MultipartFile.fromFile(images[i]!.path)));
+        formData.fields
+            .add(MapEntry('petDto', jsonEncode(formsData[i].toJson())));
+        final response = await dio.post(
+          '${baseUrl}profile-service/profile',
+          data: {'petDto': formsData[i].toJson(), 'image': formData},
+        );
+        if (response.statusCode == 200) {
+          print("######${response.data}");
+          print("######${response.headers}");
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const VideoPlayerScreen()));
+        } else {
+          SnackBarWidget.show(
+              context, SnackBarType.error, "애완동물정보 등록에 실패하였습니다");
+        }
       }
     } else {
       int index = validatorList.indexOf(false);
