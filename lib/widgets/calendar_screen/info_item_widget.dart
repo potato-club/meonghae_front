@@ -22,8 +22,8 @@ class InfoItemWidget extends StatelessWidget {
             ? null
             : const Border(
                 bottom: BorderSide(
-                  color: CustomColor.gray,
-                  width: 0.4,
+                  color: CustomColor.lightGray1,
+                  width: 1,
                 ),
               ),
       ),

@@ -4,7 +4,8 @@ import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/select_screen/select_button_widget.dart';
 
 class SelectScreen extends StatelessWidget {
-  const SelectScreen({super.key});
+  final String email;
+  const SelectScreen({super.key, required this.email});
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +66,7 @@ class SelectScreen extends StatelessWidget {
               ),
             ),
           ),
-          const Flexible(
+          Flexible(
             flex: 45,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -74,16 +75,18 @@ class SelectScreen extends StatelessWidget {
                   content: "키우는 강아지/고양이가 있어요!",
                   routingWidget: RegisterUserScreen(
                     hasAnimal: true,
+                    email: email,
                   ),
                 ),
-                SizedBox(height: 40),
+                const SizedBox(height: 40),
                 SelectButtonWidget(
                   content: "나만 강아지/고양이 없어...",
                   routingWidget: RegisterUserScreen(
                     hasAnimal: false,
+                    email: email,
                   ),
                 ),
-                SizedBox(height: 40),
+                const SizedBox(height: 40),
               ],
             ),
           )

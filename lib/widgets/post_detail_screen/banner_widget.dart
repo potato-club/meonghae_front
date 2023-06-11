@@ -11,7 +11,7 @@ class BannerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 100,
-      color: CustomColor.ivoey2,
+      color: CustomColor.ivory2,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [

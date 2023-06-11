@@ -33,7 +33,9 @@ class MainContentLabelWidget extends StatelessWidget {
               ),
               Padding(
                   padding: EdgeInsets.only(top: 2, left: 4),
-                  child: TinyRightArrowSVG())
+                  child: TinyRightArrowSVG(
+                    color: CustomColor.gray,
+                  ))
             ],
           ),
         )

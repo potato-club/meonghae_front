@@ -23,32 +23,42 @@ class _PostScreenState extends State<PostScreen> {
     return Scaffold(
       backgroundColor: CustomColor.white,
       body: SafeArea(
-        child: Stack(children: [
-          Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: MediaQuery.of(context).size.width * 0.06),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const SizedBox(height: 32),
-                PostMenuBarWidget(
-                  currentSection: sectionName,
-                  setSectionName: setSectionName,
-                ),
-                const SizedBox(height: 14),
-                Expanded(
-                  child: Padding(
-                      padding: const EdgeInsets.only(top: 8),
-                      child: PostViewWidget(currentSection: sectionName)),
-                )
-              ],
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const SizedBox(height: 32),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width * 0.06),
+              child: PostMenuBarWidget(
+                currentSection: sectionName,
+                setSectionName: setSectionName,
+              ),
             ),
-          ),
-          const Positioned(
-            bottom: 0,
-            child: UnderBarWidget(currentScreen: '게시물'),
-          ),
-        ]),
+            const SizedBox(height: 4),
+            Expanded(
+              child: Stack(children: [
+                PostViewWidget(currentSection: sectionName),
+                Positioned(
+                  top: 0,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                          CustomColor.white,
+                          CustomColor.white.withOpacity(0),
+                        ])),
+                    height: 20,
+                    width: MediaQuery.of(context).size.width,
+                  ),
+                ),
+              ]),
+            ),
+            const UnderBarWidget(currentScreen: '게시물'),
+          ],
+        ),
       ),
     );
   }

@@ -2,13 +2,16 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/screens/registered_user_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 import 'package:meonghae_front/widgets/register_user_screen/user_form_widget.dart';
 import 'package:meonghae_front/widgets/register_user_screen/user_photo_widget.dart';
 import 'package:meonghae_front/widgets/svg/arrow.dart';
 
 class RegisterUserScreen extends StatefulWidget {
   final bool hasAnimal;
-  const RegisterUserScreen({super.key, required this.hasAnimal});
+  final String email;
+  const RegisterUserScreen(
+      {super.key, required this.hasAnimal, required this.email});
 
   @override
   State<RegisterUserScreen> createState() => _RegisterUserScreenState();
@@ -41,7 +44,9 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                 name: name!,
                 imageFile: imageFile,
               )));
-    } else {}
+    } else {
+      SnackBarWidget.show(context, SnackBarType.alarm, '모두 입력해주세요');
+    }
   }
 
   @override
@@ -54,21 +59,27 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Stack(children: [
-            const Center(
-              child: Text(
-                '내 정보 입력',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+            const SizedBox(
+              height: 21,
+              child: Center(
+                child: Text(
+                  '내 정보 입력',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                ),
               ),
             ),
             Positioned(
-              left: MediaQuery.of(context).size.width * 0.22,
-              child: GestureDetector(
+              left: MediaQuery.of(context).size.width * 0.21,
+              child: InkWell(
                   onTap: () => Navigator.pop(context),
-                  child: const ArrowSVG(strokeColor: CustomColor.black2)),
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 4),
+                    child: ArrowSVG(strokeColor: CustomColor.black2),
+                  )),
             ),
           ]),
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.07,
+            height: MediaQuery.of(context).size.height * 0.06,
           ),
           UserPhotoWidget(setImageFile: setImageFile),
           SizedBox(

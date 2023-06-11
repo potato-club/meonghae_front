@@ -56,36 +56,27 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Row(
+                    const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        const Text(
+                        Text(
                           '멍해',
                           style: TextStyle(
                             color: CustomColor.black1,
-                            fontSize: 18,
+                            fontSize: 20,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
-                        const Text(
-                          '로',
-                          style: TextStyle(
-                            color: CustomColor.black1,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        Text(
-                          '${kakaoModel.isLogined}',
-                          style: const TextStyle(
-                            color: CustomColor.black1,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        )
+                        Text('로',
+                            style: TextStyle(
+                              color: CustomColor.black1,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w400,
+                            ))
                       ],
                     ),
+                    const SizedBox(height: 6),
                     const Text(
                       '간편하게 애완동물의',
                       style: TextStyle(
@@ -94,21 +85,22 @@ class _LoginScreenState extends State<LoginScreen> {
                         fontWeight: FontWeight.w400,
                       ),
                     ),
+                    const SizedBox(height: 4),
                     const Text(
-                      '스케줄을 관리해 보세요.',
+                      '스케줄을 관리해 보세요!',
                       style: TextStyle(
                         color: CustomColor.black1,
                         fontSize: 18,
                         fontWeight: FontWeight.w400,
                       ),
                     ),
-                    const SizedBox(
-                      height: 80,
-                    ),
+                    SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.178),
                     KakaoButton(
                       loginModel: kakaoModel,
                     ),
                     const SizedBox(height: 20),
+                    const SizedBox(height: 16)
                   ],
                 ),
               ),
