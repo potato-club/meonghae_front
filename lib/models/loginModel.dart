@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:meonghae_front/config/base_url.dart';
 import 'package:meonghae_front/login/social_login.dart';
+import 'package:meonghae_front/login/token.dart';
 
 class LoginModel {
   final SocialLogin socialLogin;
@@ -21,8 +22,11 @@ class LoginModel {
         '${baseUrl}user-service/login',
         queryParameters: {'email': user!.kakaoAccount!.email},
       );
-
       if (response.statusCode == 200) {
+        if (response.data['responseCode'] == "200_OK") {
+          saveAccessToken(response.headers['authorization']![0]);
+          saveRefreshToken(response.headers['refreshtoken']![0]);
+        }
         return {'success': true, 'response': response.data};
       } else {
         return {'success': false, 'error': '유저정보 확인에 실패하였습니다'};
