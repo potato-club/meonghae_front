@@ -61,12 +61,17 @@ class _FilterWidgetState extends State<FilterWidget> {
                       return dropdownList.map((String item) {
                         return PopupMenuItem<String>(
                           value: item,
-                          child: Text(
-                            item,
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w700,
-                              color: CustomColor.gray,
+                          child: ConstrainedBox(
+                            constraints: const BoxConstraints(
+                              maxWidth: double.infinity, // 최대 넓이를 설정
+                            ),
+                            child: Text(
+                              item,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w700,
+                                color: CustomColor.gray,
+                              ),
                             ),
                           ),
                         );
