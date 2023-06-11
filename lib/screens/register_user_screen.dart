@@ -1,5 +1,8 @@
 import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:meonghae_front/config/base_url.dart';
+import 'package:meonghae_front/login/token.dart';
 import 'package:meonghae_front/screens/registered_user_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
@@ -25,6 +28,11 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
     setState(() => name = value);
   }
 
+  String? birth;
+  void setBirth(String value) {
+    setState(() => birth = value);
+  }
+
   String? age;
   void setAge(String value) {
     setState(() => age = value);
@@ -35,15 +43,28 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
     setState(() => imageFile = value);
   }
 
-  void _submitForm() {
+  Future<void> _submitForm() async {
     if (age != null && formKey.currentState!.validate()) {
       formKey.currentState!.save();
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (BuildContext context) => RegisteredUserScreen(
-                hasAnimal: widget.hasAnimal,
-                name: name!,
-                imageFile: imageFile,
-              )));
+      Dio dio = Dio();
+      final response = await dio.post('${baseUrl}user-service/signup', data: {
+        'age': int.parse(age!),
+        'birth': birth!.replaceAll('.', ''),
+        'email': widget.email,
+        'nickname': name
+      });
+      if (response.statusCode == 200) {
+        saveAccessToken(response.headers['authorization']![0]);
+        saveRefreshToken(response.headers['refreshtoken']![0]);
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (BuildContext context) => RegisteredUserScreen(
+                  hasAnimal: widget.hasAnimal,
+                  name: name!,
+                  imageFile: imageFile,
+                )));
+      } else {
+        SnackBarWidget.show(context, SnackBarType.error, '유저정보 등록에 실패하였습니다');
+      }
     } else {
       SnackBarWidget.show(context, SnackBarType.alarm, '모두 입력해주세요');
     }
@@ -88,6 +109,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
           UserFormWidget(
             setName: setName,
             setAge: setAge,
+            setBirth: setBirth,
             formKey: formKey,
           ),
           SizedBox(

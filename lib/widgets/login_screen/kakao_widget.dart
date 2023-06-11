@@ -1,4 +1,5 @@
-import 'dart:convert';
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/models/loginModel.dart';
 import 'package:meonghae_front/screens/select_screen.dart';
