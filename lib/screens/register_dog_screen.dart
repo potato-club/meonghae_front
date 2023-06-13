@@ -100,7 +100,6 @@ class _RegisterDogScreenState extends State<RegisterDogScreen> {
     if (isValidator) {
       Dio dio = Dio();
       var token = await readAccessToken();
-      print("#################${token}");
       dio.options.headers['Authorization'] = token;
       for (int i = 0; i < formsData.length; i++) {
         FormData formData = FormData();
