@@ -15,7 +15,7 @@ import '../themes/customColor.dart';
 class RegisteredUserScreen extends StatefulWidget {
   final bool hasAnimal;
   final File? imageFile;
-  final Map<String, dynamic?> userInfo;
+  final Map<String, dynamic> userInfo;
   const RegisteredUserScreen(
       {super.key,
       required this.imageFile,
@@ -40,7 +40,6 @@ class _RegisteredUserScreenState extends State<RegisteredUserScreen> {
     try {
       final response =
           await dio.post('${baseUrl}user-service/signup', data: formData);
-      print(response.statusCode);
       if (response.statusCode == 200) {
         saveAccessToken(response.headers['authorization']![0]);
         saveRefreshToken(response.headers['refreshtoken']![0]);
@@ -48,14 +47,13 @@ class _RegisteredUserScreenState extends State<RegisteredUserScreen> {
             context,
             MaterialPageRoute(
                 builder: (context) => widget.hasAnimal
-                    ? RegisterDogScreen()
-                    : VideoPlayerScreen()),
+                    ? const RegisterDogScreen()
+                    : const VideoPlayerScreen()),
             (Route<dynamic> route) => false);
       } else {
         SnackBarWidget.show(context, SnackBarType.error, '유저정보 등록에 실패하였습니다');
       }
     } catch (error) {
-      print(error);
       SnackBarWidget.show(context, SnackBarType.error, error.toString());
     }
   }
@@ -82,7 +80,7 @@ class _RegisteredUserScreenState extends State<RegisteredUserScreen> {
                 '안녕하세요',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
               ),
-              SizedBox(height: 6),
+              const SizedBox(height: 6),
               Text(
                 '${widget.userInfo['nickname']} 님!',
                 style:
