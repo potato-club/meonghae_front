@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meonghae_front/screens/register_dog_screen.dart';
 import 'package:meonghae_front/screens/register_user_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/select_screen/select_button_widget.dart';
@@ -72,20 +73,18 @@ class SelectScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SelectButtonWidget(
-                  content: "키우는 강아지/고양이가 있어요!",
-                  routingWidget: RegisterUserScreen(
-                    hasAnimal: true,
-                    email: email,
-                  ),
-                ),
+                    content: "키우는 강아지/고양이가 있어요!",
+                    routingWidget: RegisterUserScreen(
+                      hasAnimal: true,
+                      email: email,
+                    )),
                 const SizedBox(height: 40),
                 SelectButtonWidget(
-                  content: "나만 강아지/고양이 없어...",
-                  routingWidget: RegisterUserScreen(
-                    hasAnimal: false,
-                    email: email,
-                  ),
-                ),
+                    content: "나만 강아지/고양이 없어...",
+                    routingWidget: RegisterUserScreen(
+                      hasAnimal: false,
+                      email: email,
+                    )),
                 const SizedBox(height: 40),
               ],
             ),

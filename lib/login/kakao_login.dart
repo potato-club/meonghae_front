@@ -11,8 +11,6 @@ class KakaoLogin implements SocialLogin {
           OAuthToken tokenResponse =
               await UserApi.instance.loginWithKakaoTalk();
           TokenManagerProvider.instance.manager.setToken(tokenResponse);
-          OAuthToken? token =
-              await TokenManagerProvider.instance.manager.getToken();
           return true;
         } catch (err) {
           return false;

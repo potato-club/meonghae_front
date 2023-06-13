@@ -1,6 +1,9 @@
-import 'dart:convert';
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/models/loginModel.dart';
+import 'package:meonghae_front/screens/main_screen.dart';
+import 'package:meonghae_front/screens/register_dog_screen.dart';
 import 'package:meonghae_front/screens/select_screen.dart';
 import 'package:meonghae_front/screens/video_player_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';

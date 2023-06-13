@@ -1,8 +1,14 @@
+import 'dart:io';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:meonghae_front/config/base_url.dart';
+import 'package:meonghae_front/login/token.dart';
+import 'package:meonghae_front/models/infoModel.dart';
+import 'package:meonghae_front/screens/video_player_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 import 'package:meonghae_front/widgets/register_dog_screen/register_init_form.dart';
-import 'package:meonghae_front/widgets/svg/arrow.dart';
 import 'package:meonghae_front/widgets/svg/tiny_right_arrow.dart';
 
 class RegisterDogScreen extends StatefulWidget {
@@ -14,29 +20,128 @@ class RegisterDogScreen extends StatefulWidget {
 
 class _RegisterDogScreenState extends State<RegisterDogScreen> {
   final CarouselController _carouselController = CarouselController();
+  List<InfoModel> formsData = [];
   List<Widget> registerSliders = [];
   int currentSlideIndex = 0;
-  bool isHovered = false;
 
-  void _handleHover(bool isHovered) {
-    setState(() {
-      this.isHovered = isHovered;
-    });
-    _carouselController.animateToPage(registerSliders.length);
+  void addFormsData() {
+    InfoModel newItem = InfoModel(
+      petGender: '',
+      petSpecies: '',
+      meetRoute: '',
+      petName: '',
+      petBirth: '',
+      file: null,
+    );
+    formsData.add(newItem);
+  }
+
+  void setData(int index, String key, dynamic value) {
+    switch (key) {
+      case 'gender':
+        formsData[index].petGender = value;
+        break;
+      case 'kind':
+        formsData[index].petSpecies = value;
+        break;
+      case 'place':
+        formsData[index].meetRoute = value;
+        break;
+      case 'name':
+        formsData[index].petName = value;
+        break;
+      case 'birth':
+        formsData[index].petBirth = value;
+        break;
+      case 'imageFile':
+        formsData[index].file = value;
+        break;
+      default:
+        break;
+    }
   }
 
   @override
   void initState() {
     super.initState();
+    addFormsData();
     registerSliders = [
-      const RegisterInitForm(),
+      RegisterInitForm(
+        formData: formsData[registerSliders.length],
+        index: registerSliders.length,
+        setData: setData,
+      ),
     ];
   }
 
   void addSliderItem() {
+    _carouselController.animateToPage(registerSliders.length);
     setState(() {
-      registerSliders.add(const RegisterInitForm());
+      addFormsData();
+      registerSliders.add(RegisterInitForm(
+        formData: formsData[registerSliders.length],
+        index: registerSliders.length,
+        setData: setData,
+      ));
     });
+  }
+
+  Future<void> _submitForm() async {
+    print(formsData[0].file);
+    List<Map<String, dynamic>> result =
+        formsData.map((i) => validator(i)).toList();
+    List<dynamic> validatorList = result.map((i) => i['validator']).toList();
+    bool isValidator = !validatorList.contains(false);
+    if (isValidator) {
+      try {
+        Dio dio = Dio();
+        var token = await readAccessToken();
+        dio.options.headers['Authorization'] = token;
+        for (int i = 0; i < formsData.length; i++) {
+          FormData formData = FormData.fromMap({
+            "meetRoute": formsData[i].toJson()['meetRoute'],
+            "petBirth": formsData[i].toJson()['petBirth'],
+            "petGender":
+                formsData[i].toJson()['petGender'] == '남' ? 'BOY' : 'GIRL',
+            "petName": formsData[i].toJson()['petName'],
+            "petSpecies": formsData[i].toJson()['petSpecies'],
+            if (formsData[i].file != null)
+              "image": await MultipartFile.fromFile(formsData[i].file!.path)
+          });
+          final response = await dio.post('${baseUrl}profile-service/profile',
+              data: formData);
+          if (response.statusCode == 200) {
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const VideoPlayerScreen()));
+          } else {
+            SnackBarWidget.show(
+                context, SnackBarType.error, "애완동물정보 등록에 실패하였습니다");
+          }
+        }
+      } catch (error) {
+        SnackBarWidget.show(context, SnackBarType.error, error.toString());
+      }
+    } else {
+      int index = validatorList.indexOf(false);
+      SnackBarWidget.show(context, SnackBarType.error, result[index]['error']);
+    }
+  }
+
+  Map<String, dynamic> validator(InfoModel data) {
+    if (data.petBirth != '' &&
+        data.petGender != '' &&
+        data.petSpecies != '' &&
+        data.petName != '') {
+      if (data.petBirth.length != 10) {
+        return {'validator': false, 'error': '출생일은 숫자 8자만 입력해주세요'};
+      } else {
+        return {'validator': true};
+      }
+    } else {
+      return {'validator': false, 'error': '모든 정보를 입력해주세요'};
+    }
   }
 
   @override
@@ -51,41 +156,29 @@ class _RegisterDogScreenState extends State<RegisterDogScreen> {
             children: [
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.35 - 130,
-                child: Stack(children: [
-                  Stack(children: [
-                    Positioned(
-                      bottom: 12,
-                      left: MediaQuery.of(context).size.width * 0.16,
-                      child: GestureDetector(
-                          onTap: () => Navigator.pop(context),
-                          child:
-                              const ArrowSVG(strokeColor: CustomColor.black2)),
-                    ),
-                    const Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            '내 강아지/고양이',
-                            style: TextStyle(
-                              color: CustomColor.black2,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          Text(
-                            '정보 입력',
-                            style: TextStyle(
-                              color: CustomColor.black2,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ],
+                child: const Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        '내 강아지/고양이',
+                        style: TextStyle(
+                          color: CustomColor.black2,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
-                    ),
-                  ]),
-                ]),
+                      Text(
+                        '정보 입력',
+                        style: TextStyle(
+                          color: CustomColor.black2,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
               CarouselSlider(
                 carouselController: _carouselController,
@@ -140,7 +233,7 @@ class _RegisterDogScreenState extends State<RegisterDogScreen> {
                   ),
                   backgroundColor: CustomColor.black2,
                 ),
-                onPressed: () => {}, //수정필요
+                onPressed: _submitForm, //수정필요
                 child: const Text(
                   '시작하기!',
                   style: TextStyle(
@@ -156,25 +249,19 @@ class _RegisterDogScreenState extends State<RegisterDogScreen> {
             right: MediaQuery.of(context).size.width * 0.145,
             child: GestureDetector(
               onTap: () => addSliderItem(),
-              onTapDown: (_) {
-                _handleHover(true);
-              },
-              onTapUp: (_) {
-                _handleHover(false);
-              },
-              child: Row(
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
                     '추가하기',
                     style: TextStyle(
                       fontSize: 12,
-                      fontWeight: isHovered ? FontWeight.bold : FontWeight.w700,
+                      fontWeight: FontWeight.bold,
                       color: CustomColor.white,
                     ),
                   ),
-                  const SizedBox(width: 6),
-                  const TinyRightArrowSVG(color: CustomColor.white)
+                  SizedBox(width: 6),
+                  TinyRightArrowSVG(color: CustomColor.white)
                 ],
               ),
             ),

@@ -25,6 +25,11 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
     setState(() => name = value);
   }
 
+  String? birth;
+  void setBirth(String value) {
+    setState(() => birth = value);
+  }
+
   String? age;
   void setAge(String value) {
     setState(() => age = value);
@@ -35,13 +40,18 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
     setState(() => imageFile = value);
   }
 
-  void _submitForm() {
+  Future<void> _submitForm() async {
     if (age != null && formKey.currentState!.validate()) {
       formKey.currentState!.save();
       Navigator.of(context).push(MaterialPageRoute(
           builder: (BuildContext context) => RegisteredUserScreen(
                 hasAnimal: widget.hasAnimal,
-                name: name!,
+                userInfo: {
+                  'nickname': name,
+                  'birth': birth!.replaceAll('.', ''),
+                  'age': int.parse(age!),
+                  'email': widget.email
+                },
                 imageFile: imageFile,
               )));
     } else {
@@ -88,6 +98,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
           UserFormWidget(
             setName: setName,
             setAge: setAge,
+            setBirth: setBirth,
             formKey: formKey,
           ),
           SizedBox(
