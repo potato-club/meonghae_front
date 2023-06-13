@@ -26,6 +26,9 @@ class LoginModel {
         if (response.data['responseCode'] == "200_OK") {
           saveAccessToken(response.headers['authorization']![0]);
           saveRefreshToken(response.headers['refreshtoken']![0]);
+          var token = await readAccessToken();
+          print(response.headers['authorization']![0]);
+          print(response.headers['refreshtoken']![0]);
         }
         return {'success': true, 'response': response.data};
       } else {

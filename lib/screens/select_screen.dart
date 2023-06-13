@@ -72,22 +72,19 @@ class SelectScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SelectButtonWidget(
+                SelectButtonWidget(
                     content: "키우는 강아지/고양이가 있어요!",
-                    routingWidget: RegisterDogScreen()
-                    // RegisterUserScreen(
-                    //   hasAnimal: true,
-                    //   email: email,
-                    // ),
-                    ),
+                    routingWidget: RegisterUserScreen(
+                      hasAnimal: true,
+                      email: email,
+                    )),
                 const SizedBox(height: 40),
                 SelectButtonWidget(
-                  content: "나만 강아지/고양이 없어...",
-                  routingWidget: RegisterUserScreen(
-                    hasAnimal: false,
-                    email: email,
-                  ),
-                ),
+                    content: "나만 강아지/고양이 없어...",
+                    routingWidget: RegisterUserScreen(
+                      hasAnimal: false,
+                      email: email,
+                    )),
                 const SizedBox(height: 40),
               ],
             ),
