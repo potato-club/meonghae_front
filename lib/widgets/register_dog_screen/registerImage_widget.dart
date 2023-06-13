@@ -34,6 +34,7 @@ class _RegisterImageState extends State<RegisterImage> {
   @override
   void initState() {
     imageFile = widget.imageFile;
+    print(imageFile);
     super.initState();
   }
 
