@@ -19,9 +19,11 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  List<dynamic>? dogsInfo;
   @override
   void initState() {
     _saveUserInfo();
+    _getDogsInfo();
     super.initState();
   }
 
@@ -29,7 +31,6 @@ class _MainScreenState extends State<MainScreen> {
     var userEmail = await readUserEmail();
     if (userEmail == null) {
       var token = await readAccessToken();
-      print("############$token");
       try {
         Dio dio = Dio();
         var token = await readAccessToken();
@@ -41,8 +42,26 @@ class _MainScreenState extends State<MainScreen> {
           SnackBarWidget.show(context, SnackBarType.error, "유저정보 호출에 실패하였습니다");
         }
       } catch (error) {
-        SnackBarWidget.show(context, SnackBarType.error, "유저정보 호출에 실패하였습니다");
+        SnackBarWidget.show(context, SnackBarType.error, error.toString());
       }
+    }
+  }
+
+  Future<void> _getDogsInfo() async {
+    try {
+      Dio dio = Dio();
+      var token = await readAccessToken();
+      dio.options.headers['Authorization'] = token;
+      final response = await dio.get('${baseUrl}profile-service/profile');
+      if (response.statusCode == 200) {
+        dogsInfo = await response.data;
+        setState(() {});
+        print(dogsInfo);
+      } else {
+        SnackBarWidget.show(context, SnackBarType.error, "애완동물정보 호출에 실패하였습니다");
+      }
+    } catch (error) {
+      SnackBarWidget.show(context, SnackBarType.error, error.toString());
     }
   }
 
@@ -76,7 +95,7 @@ class _MainScreenState extends State<MainScreen> {
                             child: BannerWidget(),
                           )
                         ])),
-                const MyDogScrollWidget(),
+                MyDogScrollWidget(dogsInfo: dogsInfo),
               ],
             ),
           ),
