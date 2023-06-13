@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:meonghae_front/config/base_url.dart';
 import 'package:meonghae_front/login/token.dart';
 import 'package:meonghae_front/themes/customColor.dart';
@@ -30,7 +29,6 @@ class _MainScreenState extends State<MainScreen> {
   Future<void> _saveUserInfo() async {
     var userEmail = await readUserEmail();
     if (userEmail == null) {
-      var token = await readAccessToken();
       try {
         Dio dio = Dio();
         var token = await readAccessToken();
@@ -56,7 +54,6 @@ class _MainScreenState extends State<MainScreen> {
       if (response.statusCode == 200) {
         dogsInfo = await response.data;
         setState(() {});
-        print(dogsInfo);
       } else {
         SnackBarWidget.show(context, SnackBarType.error, "애완동물정보 호출에 실패하였습니다");
       }

@@ -10,14 +10,7 @@ class MyDogScrollWidget extends StatefulWidget {
 }
 
 class _MyDogScrollWidgetState extends State<MyDogScrollWidget> {
-  @override
-  void initState() {
-    print(widget.dogsInfo);
-    super.initState();
-  }
-
   Widget createDogCardItem(dynamic dogInfo, bool isEnd) {
-    print("#####${dogInfo['s3ResponseDto']}");
     return Padding(
       padding: EdgeInsets.only(right: isEnd ? 0 : 30),
       child: Column(
@@ -26,7 +19,7 @@ class _MyDogScrollWidgetState extends State<MyDogScrollWidget> {
             clipBehavior: Clip.hardEdge,
             width: 70,
             height: 70,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 color: CustomColor.ivory2, shape: BoxShape.circle),
             child: dogInfo['s3ResponseDto'] != null
                 ? Image.network(dogInfo['s3ResponseDto']['fileUrl'],
