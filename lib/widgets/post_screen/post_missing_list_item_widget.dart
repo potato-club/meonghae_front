@@ -5,9 +5,15 @@ import 'package:meonghae_front/widgets/svg/tiny_comment.dart';
 import 'package:meonghae_front/widgets/svg/tiny_heart.dart';
 import 'package:meonghae_front/widgets/svg/tiny_picture.dart';
 
-class PostMissingListItemWidget extends StatelessWidget {
-  const PostMissingListItemWidget({super.key});
+class PostMissingListItemWidget extends StatefulWidget {
+  const PostMissingListItemWidget({super.key, required this.postData});
+  final Map<String, dynamic> postData;
+  @override
+  State<PostMissingListItemWidget> createState() =>
+      _PostMissingListItemWidgetState();
+}
 
+class _PostMissingListItemWidgetState extends State<PostMissingListItemWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -49,21 +55,23 @@ class PostMissingListItemWidget extends StatelessWidget {
                     const SizedBox(height: 6),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.88 - 87,
-                      child: const Text(
-                        '서울역 근처에서 강아지를 잃어버렸어요',
+                      child: Text(
+                        widget.postData['title'],
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w700),
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 8),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.88 - 87,
-                      child: const Text(
-                        '이름: 멍멍이\n나이: 7살\n견종: 시고르자브종\n특징: 등에 흰 무늬가 있어요, 어깨에도 동그란 흰 무늬가 있어요',
+                      child: Text(
+                        widget.postData['content'],
                         overflow: TextOverflow.ellipsis,
                         maxLines: 4,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 11,
                           color: CustomColor.black2,
                         ),
@@ -73,27 +81,29 @@ class PostMissingListItemWidget extends StatelessWidget {
                 )
               ],
             ),
-            const Positioned(
+            Positioned(
                 bottom: 0,
                 right: 0,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    TinyHeartSVG(),
-                    SizedBox(width: 2),
+                    const TinyHeartSVG(),
+                    const SizedBox(width: 2),
                     Text(
-                      '12',
-                      style: TextStyle(fontSize: 11, color: CustomColor.gray),
+                      '${widget.postData['likes']}',
+                      style: const TextStyle(
+                          fontSize: 11, color: CustomColor.gray),
                     ),
-                    SizedBox(width: 6),
-                    TinyCommentSVG(),
-                    SizedBox(width: 2),
+                    const SizedBox(width: 6),
+                    const TinyCommentSVG(),
+                    const SizedBox(width: 2),
                     Text(
-                      '12',
-                      style: TextStyle(fontSize: 11, color: CustomColor.gray),
+                      '${widget.postData['commentSize']}',
+                      style: const TextStyle(
+                          fontSize: 11, color: CustomColor.gray),
                     ),
-                    SizedBox(width: 6),
-                    TinyPictureSVG()
+                    const SizedBox(width: 6),
+                    const TinyPictureSVG()
                   ],
                 ))
           ]),
