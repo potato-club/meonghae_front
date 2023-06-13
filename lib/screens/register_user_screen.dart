@@ -1,8 +1,5 @@
 import 'dart:io';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/config/base_url.dart';
-import 'package:meonghae_front/login/token.dart';
 import 'package:meonghae_front/screens/registered_user_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
@@ -54,7 +51,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                   'birth': birth!.replaceAll('.', ''),
                   'age': int.parse(age!),
                   'email': widget.email
-                }!,
+                },
                 imageFile: imageFile,
               )));
     } else {
