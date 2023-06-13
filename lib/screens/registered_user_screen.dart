@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/config/base_url.dart';
 import 'package:meonghae_front/login/token.dart';
-import 'package:meonghae_front/screens/main_screen.dart';
 import 'package:meonghae_front/screens/register_dog_screen.dart';
 import 'package:meonghae_front/screens/video_player_screen.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
@@ -28,39 +27,21 @@ class RegisteredUserScreen extends StatefulWidget {
 }
 
 class _RegisteredUserScreenState extends State<RegisteredUserScreen> {
-  Map<String, dynamic> json = {
-    "nickname": "조금주",
-    "birth": "20000625",
-    "age": 1,
-    "email": "rmawn3245@naver.com",
-  };
   Future<void> handleNext() async {
-    var file = await MultipartFile.fromFile(widget.imageFile!.path);
     Dio dio = Dio();
-    dio.options.contentType = 'multipart/form-data';
-    FormData formData = FormData();
-    formData.fields.add(
-      MapEntry(
-        'userDto',
-        '{ "nickname": "조금주", "birth": "20000625", "age": 4, "email": "rmawn3245@naver.com" }',
-      ),
-    );
-    formData.files.add(
-      MapEntry(
-        'file',
-        await MultipartFile.fromFile(widget.imageFile!.path),
-      ),
-    );
-
+    FormData formData = FormData.fromMap({
+      "age": widget.userInfo['age'],
+      "birth": widget.userInfo['birth'],
+      "email": widget.userInfo['email'],
+      "nickname": widget.userInfo['nickname'],
+      if (widget.imageFile != null)
+        "file": await MultipartFile.fromFile(widget.imageFile!.path)
+    });
     try {
-      final response = await dio.post(
-        '${baseUrl}user-service/signup',
-        data: formData,
-      );
+      final response =
+          await dio.post('${baseUrl}user-service/signup', data: formData);
       print(response.statusCode);
       if (response.statusCode == 200) {
-        print("######HEADER:${response.headers}");
-        print("######BODY:${response.data}");
         saveAccessToken(response.headers['authorization']![0]);
         saveRefreshToken(response.headers['refreshtoken']![0]);
         Navigator.pushAndRemoveUntil(
