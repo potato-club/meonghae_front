@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:flutter/services.dart';
-import 'package:meonghae_front/screens/calendar_info_screen.dart';
 import 'package:meonghae_front/screens/login_screen.dart';
 
 void main() async {

@@ -22,7 +22,7 @@ class RegisterForm extends StatefulWidget {
 class _RegisterFormState extends State<RegisterForm> {
   final formKey = GlobalKey<FormState>();
 
-  List<String> genderList = ['수컷', '암컷'];
+  List<String> genderList = ['남', '여'];
   List<String> kindList = ['치와와', '불독'];
   List<String> placeList = ['길거리', '집', '병원'];
 
