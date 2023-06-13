@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/post_detail_screen/custom_under_modal_widget.dart';
@@ -7,8 +8,8 @@ import 'package:meonghae_front/widgets/post_detail_screen/detail_content_widget.
 import 'package:meonghae_front/widgets/post_detail_screen/write_comment_bar_widget.dart';
 
 class PostDetailScreen extends StatefulWidget {
-  const PostDetailScreen({super.key});
-
+  const PostDetailScreen({super.key, required this.id});
+  final int id;
   @override
   State<PostDetailScreen> createState() => _PostDetailScreenState();
 }
@@ -22,6 +23,39 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
   bool isCommentMoreModalOpen = false;
   void setIsCommentMoreModal(bool value) {
     setState(() => isCommentMoreModalOpen = value);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  Map<String, dynamic>? post;
+
+  Future<void> fetchData() async {
+    try {
+      final dio = Dio();
+      dio.options.headers['Authorization'] =
+          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0aGR3bzk5OUBuYXZlci5jb20iLCJyb2xlcyI6WyJVU0VSIl0sImlhdCI6MTY4NjY4NDQwNywiZXhwIjoxNjg2Njg2MjA3fQ.5kSXCxz7xU2wBEjel5ER1SGvAnk5UPCfuNbR66df-lI';
+
+      final response = await dio.get(
+        'https://api.meonghae.site/community-service/boards/${widget.id}',
+      );
+
+      if (response.statusCode == 200) {
+        final data = response.data as Map<String, dynamic>;
+        setState(() {
+          post = data;
+        });
+
+        print(post!['images']);
+      } else {
+        print('Request failed with status: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Error occurredd: $error');
+    }
   }
 
   @override
@@ -39,8 +73,10 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                 child: SingleChildScrollView(
                     child: Column(
               children: [
-                const DetailContentWidget(images: dummyImage),
+                if (post != null) // Conditional check
+                  DetailContentWidget(post: post, images: dummyImage),
                 DetailCommentWidget(
+                  id: widget.id,
                   setIsCommentMoreModal: setIsCommentMoreModal,
                 ),
               ],

@@ -4,7 +4,11 @@ import 'package:meonghae_front/widgets/svg/tiny_more.dart';
 
 class CocomentWidget extends StatefulWidget {
   final Function setIsCommentMoreModal;
-  const CocomentWidget({super.key, required this.setIsCommentMoreModal});
+  final Map<String, dynamic> cocomment;
+  const CocomentWidget(
+      {super.key,
+      required this.cocomment,
+      required this.setIsCommentMoreModal});
 
   @override
   State<CocomentWidget> createState() => _CocomentWidgetState();
@@ -39,13 +43,18 @@ class _CocomentWidgetState extends State<CocomentWidget> {
               children: [
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.88 - 76,
-                  child: const Text('글쓴이',
-                      style: TextStyle(fontSize: 11, color: CustomColor.red)),
+                  child: (widget.cocomment['isWriter'] == true)
+                      ? const Text(
+                          '글쓴이',
+                          style:
+                              TextStyle(fontSize: 11, color: CustomColor.red),
+                        )
+                      : null,
                 ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.88 - 98,
-                  child: const Text('꼭 찾으시길 바래요ㅠㅠ',
-                      style: TextStyle(fontSize: 12, height: 1.2)),
+                  child: Text('${widget.cocomment['comment']}',
+                      style: const TextStyle(fontSize: 12, height: 1.2)),
                 ),
               ],
             ),

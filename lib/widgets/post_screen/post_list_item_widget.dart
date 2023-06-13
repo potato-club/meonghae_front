@@ -12,7 +12,9 @@ class PostListItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => Navigator.of(context).push(MaterialPageRoute(
-          builder: (BuildContext context) => const PostDetailScreen())),
+          builder: (BuildContext context) => const PostDetailScreen(
+                id: 1,
+              ))),
       child: Container(
         height: 122,
         decoration: BoxDecoration(
