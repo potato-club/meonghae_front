@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/widgets/common/select_input_widget.dart';
 
 class FilterWidget extends StatefulWidget {
-  const FilterWidget({super.key});
+  final Function setContent;
+  const FilterWidget({super.key, required this.setContent});
 
   @override
   State<FilterWidget> createState() => _FilterWidgetState();
@@ -30,68 +32,28 @@ class _FilterWidgetState extends State<FilterWidget> {
         Row(
           children: [
             Expanded(
-              child: Container(
-                height: 45,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 22),
-                  child: PopupMenuButton<String>(
-                    initialValue: selectedDropdown,
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            selectedDropdown,
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w700,
-                              color: CustomColor.gray,
-                            ),
-                          ),
-                          const Icon(Icons.arrow_drop_down),
-                        ],
-                      ),
-                    ),
-                    itemBuilder: (BuildContext context) {
-                      return dropdownList.map((String item) {
-                        return PopupMenuItem<String>(
-                          value: item,
-                          child: ConstrainedBox(
-                            constraints: const BoxConstraints(
-                              maxWidth: double.infinity, // 최대 넓이를 설정
-                            ),
-                            child: Text(
-                              item,
-                              style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700,
-                                color: CustomColor.gray,
-                              ),
-                            ),
-                          ),
-                        );
-                      }).toList();
-                    },
-                    onSelected: (String value) {
-                      setState(() {
-                        selectedDropdown = value;
-                      });
-                    },
-                  ),
-                ),
-              ),
-            ),
+                child: SelectInputWidget(
+              width: MediaQuery.of(context).size.width * 0.88,
+              height: 45,
+              itemHeight: 45,
+              list: dropdownList,
+              listHeight: 180,
+              setValue: (String value) =>
+                  setState(() => selectedDropdown = value),
+              isBigIcon: true,
+              defaultValue: selectedDropdown,
+              fontSize: 14,
+              borderRadius: 10,
+              textAlign: TextAlign.left,
+              isBold: true,
+            )),
           ],
         ),
         const SizedBox(
           height: 24,
         ),
         Container(
+          clipBehavior: Clip.hardEdge,
           decoration: BoxDecoration(
             color: CustomColor.white,
             borderRadius: BorderRadius.circular(10),
@@ -108,12 +70,22 @@ class _FilterWidgetState extends State<FilterWidget> {
                           setState(() {
                             if (selectedIndex == index) {
                               selectedIndex = -1;
+                              widget.setContent(null);
                             } else {
                               selectedIndex = index;
+                              widget.setContent(textButtonData[index]);
                             }
                           });
                         },
                         style: ButtonStyle(
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(0))),
+                          minimumSize: MaterialStateProperty.all<Size>(
+                              const Size(double.infinity, 48)),
+                          padding: const MaterialStatePropertyAll<EdgeInsets>(
+                              EdgeInsets.symmetric(horizontal: 22)),
                           backgroundColor:
                               MaterialStateProperty.resolveWith<Color>(
                             (states) {
@@ -125,17 +97,14 @@ class _FilterWidgetState extends State<FilterWidget> {
                             },
                           ),
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 22),
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              textButtonData[index],
-                              style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700,
-                                color: CustomColor.black1,
-                              ),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            textButtonData[index],
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                              color: CustomColor.black1,
                             ),
                           ),
                         ),
