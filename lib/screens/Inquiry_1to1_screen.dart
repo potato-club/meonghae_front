@@ -32,7 +32,7 @@ class _InQuiry1To1ScreenState extends State<InQuiry1To1Screen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColor.ivoey2,
+      backgroundColor: CustomColor.ivory2,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(

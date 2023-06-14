@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:meonghae_front/screens/register_dog_screen.dart';
 import 'package:meonghae_front/screens/register_user_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/select_screen/select_button_widget.dart';
 
 class SelectScreen extends StatelessWidget {
-  const SelectScreen({super.key});
+  final String email;
+  const SelectScreen({super.key, required this.email});
 
   @override
   Widget build(BuildContext context) {
@@ -65,25 +67,25 @@ class SelectScreen extends StatelessWidget {
               ),
             ),
           ),
-          const Flexible(
+          Flexible(
             flex: 45,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SelectButtonWidget(
-                  content: "키우는 강아지/고양이가 있어요!",
-                  routingWidget: RegisterUserScreen(
-                    hasAnimal: true,
-                  ),
-                ),
-                SizedBox(height: 40),
+                    content: "키우는 강아지/고양이가 있어요!",
+                    routingWidget: RegisterUserScreen(
+                      hasAnimal: true,
+                      email: email,
+                    )),
+                const SizedBox(height: 40),
                 SelectButtonWidget(
-                  content: "나만 강아지/고양이 없어...",
-                  routingWidget: RegisterUserScreen(
-                    hasAnimal: false,
-                  ),
-                ),
-                SizedBox(height: 40),
+                    content: "나만 강아지/고양이 없어...",
+                    routingWidget: RegisterUserScreen(
+                      hasAnimal: false,
+                      email: email,
+                    )),
+                const SizedBox(height: 40),
               ],
             ),
           )

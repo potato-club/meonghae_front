@@ -1,91 +1,45 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/widgets/calendar_info_screen/swich_widget.dart';
+import 'package:meonghae_front/widgets/common/select_input_widget.dart';
+import 'package:spinner_date_time_picker/spinner_date_time_picker.dart';
 
 class AdditionalInfoWidget extends StatefulWidget {
-  const AdditionalInfoWidget({super.key});
+  final bool isAllday;
+  final Function setIsAllday;
+  final Map<String, String?> time;
+  final Function setTime;
+  const AdditionalInfoWidget(
+      {super.key,
+      required this.isAllday,
+      required this.setIsAllday,
+      required this.time,
+      required this.setTime});
 
   @override
   State<AdditionalInfoWidget> createState() => _AdditionalInfoWidgetState();
 }
 
 class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
-  List<String> repeatList = ['안함', '1번', '2번'];
-  String selectedRepeatList = '안함';
+  List<String> repeatList = ['안 함', '함'];
+  String selectedRepeatList = '안 함';
 
-  List<String> informList = ['안함', '1번', '2번'];
-  String selectedInformList = '안함';
+  List<String> informList = ['안 함', '함'];
+  String selectedInformList = '안 함';
 
-  bool _isAlways = false;
-  DateTime? _selectedStartDate;
-  DateTime? _selectedFinishDate;
-
-  TimeOfDay? _selectedStartTime;
-  TimeOfDay? _selectedFinishTime;
-
-  Future<void> _selectStartTime(BuildContext context) async {
-    print(_textEditingController.text);
-
-    final TimeOfDay? pickedTime = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
-    );
-
-    if (pickedTime != null) {
-      setState(() {
-        _selectedStartTime = pickedTime;
-      });
-    }
-  }
-
-  Future<void> _selectFinishTime(BuildContext context) async {
-    final TimeOfDay? pickedTime = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
-    );
-
-    if (pickedTime != null) {
-      setState(() {
-        _selectedFinishTime = pickedTime;
-      });
-    }
-  }
+  DateTime selectedStartDate = DateTime.now();
+  DateTime selectedStartTime = DateTime.now();
+  DateTime selectedFinishDate = DateTime.now();
+  DateTime selectedFinishTime = DateTime.now();
 
   final TextEditingController _textEditingController = TextEditingController();
-
-  void _selectStartDate(BuildContext context) async {
-    final DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
-    );
-
-    if (pickedDate != null) {
-      setState(() {
-        _selectedStartDate = pickedDate;
-      });
-    }
-  }
-
-  void _selectFinishDate(BuildContext context) async {
-    final DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
-    );
-
-    if (pickedDate != null) {
-      setState(() {
-        _selectedFinishDate = pickedDate;
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Container(
           decoration: BoxDecoration(
@@ -95,17 +49,20 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
           child: Column(
             children: [
               Container(
-                decoration: const BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: CustomColor.lightGray1,
-                      width: 1.0,
-                    ),
-                  ),
+                height: 45,
+                decoration: BoxDecoration(
+                  border: widget.isAllday
+                      ? null
+                      : const Border(
+                          bottom: BorderSide(
+                            color: CustomColor.lightGray1,
+                            width: 1.0,
+                          ),
+                        ),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.only(
-                    left: 19,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
                   ),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -119,40 +76,127 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                           color: CustomColor.black1,
                         ),
                       ),
-                      Transform.scale(
-                        scale: 0.7,
-                        child: Switch(
-                          value: _isAlways,
-                          onChanged: (bool newValue) {
-                            setState(() {
-                              _isAlways = newValue;
-                            });
-                          },
-                        ),
+                      SwitchWidget(
+                        clickSwitch: widget.setIsAllday,
+                        isChecked: widget.isAllday,
                       ),
                     ],
                   ),
                 ),
               ),
-              Container(
-                decoration: const BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: CustomColor.lightGray1,
-                      width: 1.0,
+              if (!widget.isAllday)
+                Container(
+                  decoration: const BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: CustomColor.lightGray1,
+                        width: 1.0,
+                      ),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      left: 20,
+                      right: 9,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          '시작',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700,
+                            color: CustomColor.black1,
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return Dialog(
+                                  child: SpinnerDateTimePicker(
+                                    initialDateTime: selectedStartDate,
+                                    maximumDate: selectedStartDate
+                                        .add(const Duration(days: 7500)),
+                                    minimumDate: selectedStartDate
+                                        .subtract(const Duration(days: 7500)),
+                                    mode: CupertinoDatePickerMode.date,
+                                    use24hFormat: true,
+                                    didSetTime: (value) {
+                                      setState(() {
+                                        selectedStartDate = value;
+                                        print(value);
+                                        print(selectedStartDate);
+                                        widget.setTime('date',
+                                            "${selectedStartDate.year}-${selectedStartDate.month.toString().padLeft(2, '0')}-${selectedStartDate.day.toString().padLeft(2, '0')}");
+                                      });
+                                    },
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                          child: Text(
+                            DateFormat('yyyy-MM-dd').format(selectedStartDate),
+                            style: const TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w400,
+                              color: CustomColor.gray,
+                            ),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return Dialog(
+                                  child: SpinnerDateTimePicker(
+                                    initialDateTime: selectedStartTime,
+                                    maximumDate: selectedStartTime
+                                        .add(const Duration(days: 7)),
+                                    minimumDate: selectedStartTime
+                                        .subtract(const Duration(days: 1)),
+                                    mode: CupertinoDatePickerMode.time,
+                                    use24hFormat: true,
+                                    didSetTime: (value) {
+                                      setState(() {
+                                        selectedStartTime = value;
+                                        widget.setTime('time',
+                                            "${selectedStartTime.hour.toString().padLeft(2, '0')}:${selectedStartTime.hour.toString().padLeft(2, '0')}");
+                                      });
+                                    },
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                          child: Text(
+                            DateFormat('HH:mm').format(selectedStartTime),
+                            style: const TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w400,
+                              color: CustomColor.gray,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
-                child: Padding(
+              if (!widget.isAllday)
+                Padding(
                   padding: const EdgeInsets.only(
-                    left: 19,
+                    left: 20,
                     right: 9,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text(
-                        '시작',
+                        '종료',
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w700,
@@ -161,13 +205,30 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                       ),
                       TextButton(
                         onPressed: () {
-                          _selectStartDate(context);
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return Dialog(
+                                child: SpinnerDateTimePicker(
+                                  initialDateTime: selectedFinishDate,
+                                  maximumDate: selectedFinishDate
+                                      .add(const Duration(days: 7500)),
+                                  minimumDate: selectedFinishDate
+                                      .subtract(const Duration(days: 7500)),
+                                  mode: CupertinoDatePickerMode.date,
+                                  use24hFormat: true,
+                                  didSetTime: (value) {
+                                    setState(() {
+                                      selectedFinishDate = value;
+                                    });
+                                  },
+                                ),
+                              );
+                            },
+                          );
                         },
                         child: Text(
-                          _selectedStartDate != null
-                              ? DateFormat('yyyy-MM-dd')
-                                  .format(_selectedStartDate!)
-                              : '0000-00-00',
+                          DateFormat('yyyy-MM-dd').format(selectedFinishDate),
                           style: const TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w400,
@@ -177,12 +238,30 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                       ),
                       TextButton(
                         onPressed: () {
-                          _selectStartTime(context);
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return Dialog(
+                                child: SpinnerDateTimePicker(
+                                  initialDateTime: selectedFinishTime,
+                                  maximumDate: selectedFinishTime
+                                      .add(const Duration(days: 7)),
+                                  minimumDate: selectedFinishTime
+                                      .subtract(const Duration(days: 1)),
+                                  mode: CupertinoDatePickerMode.time,
+                                  use24hFormat: true,
+                                  didSetTime: (value) {
+                                    setState(() {
+                                      selectedFinishTime = value;
+                                    });
+                                  },
+                                ),
+                              );
+                            },
+                          );
                         },
                         child: Text(
-                          _selectedStartTime != null
-                              ? _selectedStartTime!.format(context)
-                              : '00:00 AM',
+                          DateFormat('HH:mm').format(selectedFinishTime),
                           style: const TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w400,
@@ -193,77 +272,35 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                     ],
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 19,
-                  right: 9,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      '종료',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                        color: CustomColor.black1,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        _selectFinishDate(context);
-                      },
-                      child: Text(
-                        _selectedFinishDate != null
-                            ? DateFormat('yyyy-MM-dd')
-                                .format(_selectedFinishDate!)
-                            : '0000-00-00',
-                        style: const TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w400,
-                          color: CustomColor.gray,
-                        ),
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        _selectFinishTime(context);
-                      },
-                      child: Text(
-                        _selectedFinishTime != null
-                            ? _selectedFinishTime!.format(context)
-                            : '00:00 AM',
-                        style: const TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w400,
-                          color: CustomColor.gray,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
             ],
           ),
         ),
         const SizedBox(
           height: 24,
         ),
-        Container(
-          decoration: BoxDecoration(
-            color: CustomColor.white,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.only(
-              left: 19,
+        SizedBox(
+          height: 45,
+          child: Stack(children: [
+            SelectInputWidget(
+              width: MediaQuery.of(context).size.width * 0.88,
+              height: 45,
+              itemHeight: 45,
+              list: repeatList,
+              listHeight: 90,
+              borderRadius: 10,
+              fontSize: 13,
+              defaultValue: selectedRepeatList,
+              setValue: (String value) =>
+                  setState(() => selectedRepeatList = value),
+              isBigIcon: true,
+              textAlign: TextAlign.right,
             ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
+            const Positioned(
+              top: 0,
+              bottom: 0,
+              left: 20,
+              child: Center(
+                child: Text(
                   '반복',
                   style: TextStyle(
                     fontSize: 14,
@@ -271,42 +308,36 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                     color: CustomColor.black1,
                   ),
                 ),
-                DropdownButton(
-                  value: selectedRepeatList,
-                  items: repeatList.map((String item) {
-                    return DropdownMenuItem<String>(
-                      value: item,
-                      child: Text(item),
-                    );
-                  }).toList(),
-                  underline: Container(),
-                  onChanged: (dynamic value) {
-                    setState(() {
-                      selectedRepeatList = value;
-                    });
-                  },
-                ),
-              ],
-            ),
-          ),
+              ),
+            )
+          ]),
         ),
         const SizedBox(
           height: 24,
         ),
-        Container(
-          decoration: BoxDecoration(
-            color: CustomColor.white,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.only(
-              left: 19,
+        SizedBox(
+          height: 45,
+          child: Stack(children: [
+            SelectInputWidget(
+              width: MediaQuery.of(context).size.width * 0.88,
+              height: 45,
+              itemHeight: 45,
+              list: informList,
+              listHeight: 90,
+              borderRadius: 10,
+              fontSize: 13,
+              defaultValue: selectedInformList,
+              setValue: (String value) =>
+                  setState(() => selectedInformList = value),
+              isBigIcon: true,
+              textAlign: TextAlign.right,
             ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
+            const Positioned(
+              top: 0,
+              bottom: 0,
+              left: 20,
+              child: Center(
+                child: Text(
                   '알림',
                   style: TextStyle(
                     fontSize: 14,
@@ -314,24 +345,9 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                     color: CustomColor.black1,
                   ),
                 ),
-                DropdownButton(
-                  value: selectedInformList,
-                  items: informList.map((String item) {
-                    return DropdownMenuItem<String>(
-                      value: item,
-                      child: Text(item),
-                    );
-                  }).toList(),
-                  underline: Container(),
-                  onChanged: (dynamic value) {
-                    setState(() {
-                      selectedInformList = value;
-                    });
-                  },
-                ),
-              ],
-            ),
-          ),
+              ),
+            )
+          ]),
         ),
         const SizedBox(
           height: 24,

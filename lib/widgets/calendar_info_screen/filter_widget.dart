@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/widgets/common/select_input_widget.dart';
 
 class FilterWidget extends StatefulWidget {
-  const FilterWidget({super.key});
+  final Function setContent;
+  const FilterWidget({super.key, required this.setContent});
 
   @override
   State<FilterWidget> createState() => _FilterWidgetState();
@@ -28,79 +30,37 @@ class _FilterWidgetState extends State<FilterWidget> {
     return Column(
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
-              flex: 6,
-              child: Container(
-                height: 45,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 22),
-                    child: Text(
-                      selectedDropdown,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Flexible(
-              flex: 4,
-              child: Container(
-                height: 45,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Center(
-                  child: DropdownButton(
-                    value: selectedDropdown,
-                    underline: Container(),
-                    items: dropdownList.map((String item) {
-                      return DropdownMenuItem<String>(
-                        value: item,
-                        child: Text(
-                          item,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w700,
-                            color: CustomColor.gray,
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                    onChanged: (dynamic value) {
-                      setState(() {
-                        selectedDropdown = value;
-                      });
-                    },
-                  ),
-                ),
-              ),
-            )
+                child: SelectInputWidget(
+              width: MediaQuery.of(context).size.width * 0.88,
+              height: 45,
+              itemHeight: 45,
+              list: dropdownList,
+              listHeight: 180,
+              setValue: (String value) =>
+                  setState(() => selectedDropdown = value),
+              isBigIcon: true,
+              defaultValue: selectedDropdown,
+              fontSize: 14,
+              borderRadius: 10,
+              textAlign: TextAlign.left,
+              isBold: true,
+            )),
           ],
         ),
         const SizedBox(
           height: 24,
         ),
         Container(
+          clipBehavior: Clip.hardEdge,
           decoration: BoxDecoration(
             color: CustomColor.white,
             borderRadius: BorderRadius.circular(10),
           ),
           child: Row(
             children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 22),
+              Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -110,28 +70,42 @@ class _FilterWidgetState extends State<FilterWidget> {
                           setState(() {
                             if (selectedIndex == index) {
                               selectedIndex = -1;
+                              widget.setContent(null);
                             } else {
                               selectedIndex = index;
+                              widget.setContent(textButtonData[index]);
                             }
                           });
                         },
                         style: ButtonStyle(
-                          foregroundColor:
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(0))),
+                          minimumSize: MaterialStateProperty.all<Size>(
+                              const Size(double.infinity, 48)),
+                          padding: const MaterialStatePropertyAll<EdgeInsets>(
+                              EdgeInsets.symmetric(horizontal: 22)),
+                          backgroundColor:
                               MaterialStateProperty.resolveWith<Color>(
                             (states) {
                               if (states.contains(MaterialState.pressed) ||
                                   selectedIndex == index) {
-                                return Colors.red;
+                                return CustomColor.brown1;
                               }
-                              return CustomColor.black1;
+                              return Colors.transparent;
                             },
                           ),
                         ),
-                        child: Text(
-                          textButtonData[index],
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w700,
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            textButtonData[index],
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                              color: CustomColor.black1,
+                            ),
                           ),
                         ),
                       ),

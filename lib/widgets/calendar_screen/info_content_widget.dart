@@ -6,7 +6,7 @@ import 'package:meonghae_front/widgets/calendar_screen/no_info_widget.dart';
 
 class InfoContentWidget extends StatefulWidget {
   final DateTime selectedDay;
-  final List<Event> events;
+  final List<dynamic> events;
   const InfoContentWidget({
     super.key,
     required this.selectedDay,
@@ -32,6 +32,13 @@ class _InfoContentWidgetState extends State<InfoContentWidget> {
   @override
   Widget build(BuildContext context) {
     List<String> dayOfWeek = ["월", "화", "수", "목", "금", "토", "일"];
+
+    String formatTime(String time) {
+      var timeArr = time.toString().split('T')[1].split(':');
+      var time_ = int.parse(timeArr[0]) >= 12 ? "오후" : "오전";
+      return "${time_} ${timeArr[0]}:${timeArr[1]}";
+    }
+
     return GestureDetector(
       onVerticalDragUpdate: _onVerticalDragUpdate,
       child: AnimatedContainer(
@@ -53,128 +60,129 @@ class _InfoContentWidgetState extends State<InfoContentWidget> {
                 spreadRadius: 0)
           ],
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 16),
-              child: Container(
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: CustomColor.lightGray1,
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-            ),
-            const SizedBox(height: 22),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * 0.06),
-                  child: Text(
-                    "${widget.selectedDay.day}일 ${dayOfWeek[widget.selectedDay.weekday - 1]}요일",
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: CustomColor.brown1,
-                      fontWeight: FontWeight.w700,
-                    ),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 16),
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: CustomColor.lightGray1,
+                    borderRadius: BorderRadius.circular(2),
                   ),
                 ),
-                const SizedBox(height: 8),
-                widget.events.isEmpty
-                    ? const NoInfoWidget()
-                    : SizedBox(
-                        height: MediaQuery.of(context).size.height -
-                            633 +
-                            _containerHeight,
-                        child: _containerHeight == 0
-                            ? Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal:
-                                        MediaQuery.of(context).size.width *
-                                            0.06),
-                                child: Card(
-                                  elevation: 0,
-                                  shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.zero,
+              ),
+              const SizedBox(height: 22),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width * 0.06),
+                    child: Text(
+                      "${widget.selectedDay.day}일 ${dayOfWeek[widget.selectedDay.weekday - 1]}요일",
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: CustomColor.brown1,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  widget.events.isEmpty
+                      ? const NoInfoWidget()
+                      : SizedBox(
+                          height: MediaQuery.of(context).size.height -
+                              633 +
+                              _containerHeight,
+                          child: _containerHeight == 0
+                              ? Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal:
+                                          MediaQuery.of(context).size.width *
+                                              0.06),
+                                  child: Card(
+                                    elevation: 0,
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.zero,
+                                    ),
+                                    clipBehavior: Clip.none,
+                                    child: Wrap(
+                                      children: [
+                                        for (var i = 0;
+                                            i < widget.events.length;
+                                            i++)
+                                          InfoItemWidget(
+                                            startTime: formatTime(widget
+                                                .events[i]['scheduleTime']),
+                                            endTime: formatTime(widget.events[i]
+                                                ['scheduleTime']),
+                                            title: widget.events[i]['text'],
+                                            isEndItem:
+                                                i + 1 == widget.events.length,
+                                          ),
+                                      ],
+                                    ),
                                   ),
-                                  clipBehavior: Clip.none,
-                                  child: Wrap(
-                                    children: [
-                                      for (var i = 0;
-                                          i < widget.events.length;
-                                          i++)
-                                        InfoItemWidget(
-                                          startTime:
-                                              widget.events[i].getStartTime(),
-                                          endTime:
-                                              widget.events[i].getStartTime(),
-                                          title: widget.events[i].getTitle(),
-                                          isEndItem: false,
+                                )
+                              : Stack(children: [
+                                  SingleChildScrollView(
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 4,
+                                          horizontal: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.06),
+                                      child: Card(
+                                        elevation: 0,
+                                        shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.zero,
                                         ),
-                                    ],
-                                  ),
-                                ),
-                              )
-                            : Stack(children: [
-                                SingleChildScrollView(
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 4,
-                                        horizontal:
-                                            MediaQuery.of(context).size.width *
-                                                0.06),
-                                    child: Card(
-                                      elevation: 0,
-                                      shape: const RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.zero,
-                                      ),
-                                      clipBehavior: Clip.none,
-                                      child: Wrap(
-                                        children: [
-                                          for (var i = 0;
-                                              i < widget.events.length;
-                                              i++)
-                                            InfoItemWidget(
-                                              startTime: widget.events[i]
-                                                  .getStartTime(),
-                                              endTime: widget.events[i]
-                                                  .getStartTime(),
-                                              title:
-                                                  widget.events[i].getTitle(),
-                                              isEndItem:
-                                                  i + 1 == widget.events.length
-                                                      ? true
-                                                      : false,
-                                            )
-                                        ],
+                                        clipBehavior: Clip.none,
+                                        child: Wrap(
+                                          children: [
+                                            for (var i = 0;
+                                                i < widget.events.length;
+                                                i++)
+                                              InfoItemWidget(
+                                                startTime: formatTime(widget
+                                                    .events[i]['scheduleTime']),
+                                                endTime: formatTime(widget
+                                                    .events[i]['scheduleTime']),
+                                                title: widget.events[i]['text'],
+                                                isEndItem: i + 1 ==
+                                                    widget.events.length,
+                                              )
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                Positioned(
-                                  top: 0,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                            begin: Alignment.topCenter,
-                                            end: Alignment.bottomCenter,
-                                            colors: [
-                                          CustomColor.white,
-                                          CustomColor.white.withOpacity(0),
-                                        ])),
-                                    height: 18,
-                                    width: MediaQuery.of(context).size.width,
+                                  Positioned(
+                                    top: 0,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                              begin: Alignment.topCenter,
+                                              end: Alignment.bottomCenter,
+                                              colors: [
+                                            CustomColor.white,
+                                            CustomColor.white.withOpacity(0),
+                                          ])),
+                                      height: 18,
+                                      width: MediaQuery.of(context).size.width,
+                                    ),
                                   ),
-                                ),
-                              ]),
-                      ),
-              ],
-            )
-          ],
+                                ]),
+                        ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

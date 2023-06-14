@@ -9,7 +9,9 @@ import 'package:meonghae_front/widgets/svg/arrow.dart';
 
 class RegisterUserScreen extends StatefulWidget {
   final bool hasAnimal;
-  const RegisterUserScreen({super.key, required this.hasAnimal});
+  final String email;
+  const RegisterUserScreen(
+      {super.key, required this.hasAnimal, required this.email});
 
   @override
   State<RegisterUserScreen> createState() => _RegisterUserScreenState();
@@ -23,6 +25,11 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
     setState(() => name = value);
   }
 
+  String? birth;
+  void setBirth(String value) {
+    setState(() => birth = value);
+  }
+
   String? age;
   void setAge(String value) {
     setState(() => age = value);
@@ -33,13 +40,18 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
     setState(() => imageFile = value);
   }
 
-  void _submitForm() {
+  Future<void> _submitForm() async {
     if (age != null && formKey.currentState!.validate()) {
       formKey.currentState!.save();
       Navigator.of(context).push(MaterialPageRoute(
           builder: (BuildContext context) => RegisteredUserScreen(
                 hasAnimal: widget.hasAnimal,
-                name: name!,
+                userInfo: {
+                  'nickname': name,
+                  'birth': birth!.replaceAll('.', ''),
+                  'age': int.parse(age!),
+                  'email': widget.email
+                },
                 imageFile: imageFile,
               )));
     } else {
@@ -57,21 +69,27 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Stack(children: [
-            const Center(
-              child: Text(
-                '내 정보 입력',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+            const SizedBox(
+              height: 21,
+              child: Center(
+                child: Text(
+                  '내 정보 입력',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                ),
               ),
             ),
             Positioned(
-              left: MediaQuery.of(context).size.width * 0.22,
-              child: GestureDetector(
+              left: MediaQuery.of(context).size.width * 0.21,
+              child: InkWell(
                   onTap: () => Navigator.pop(context),
-                  child: const ArrowSVG(strokeColor: CustomColor.black2)),
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 4),
+                    child: ArrowSVG(strokeColor: CustomColor.black2),
+                  )),
             ),
           ]),
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.07,
+            height: MediaQuery.of(context).size.height * 0.06,
           ),
           UserPhotoWidget(setImageFile: setImageFile),
           SizedBox(
@@ -80,6 +98,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
           UserFormWidget(
             setName: setName,
             setAge: setAge,
+            setBirth: setBirth,
             formKey: formKey,
           ),
           SizedBox(

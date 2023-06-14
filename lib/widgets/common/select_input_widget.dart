@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/common/select_modal_widget.dart';
+import 'package:meonghae_front/widgets/svg/bottom_arrow.dart';
 import 'package:meonghae_front/widgets/svg/tiny_bottom_arrow.dart';
 
 class SelectInputWidget extends StatefulWidget {
   final double width;
   final double height;
   final double listHeight;
+  final double fontSize;
   final double itemHeight;
+  final double borderRadius;
   final String? defaultValue;
   final String? hintText;
-  final bool isCenter;
-  final bool isIcon;
+  final TextAlign textAlign;
+  final bool isBigIcon;
+  final bool isBold;
   final Function setValue;
   final List<dynamic> list;
   const SelectInputWidget({
@@ -21,11 +25,14 @@ class SelectInputWidget extends StatefulWidget {
     required this.itemHeight,
     required this.list,
     required this.listHeight,
-    this.isCenter = true,
-    this.isIcon = true,
+    this.isBigIcon = false,
     this.defaultValue,
     required this.setValue,
     this.hintText,
+    this.borderRadius = 5,
+    this.fontSize = 12,
+    this.textAlign = TextAlign.center,
+    this.isBold = false,
   });
 
   @override
@@ -47,7 +54,7 @@ class _SelectInputWidgetState extends State<SelectInputWidget> {
 
   @override
   void dispose() {
-    _overlayEntry!.remove();
+    _overlayEntry!.dispose();
     super.dispose();
   }
 
@@ -63,12 +70,16 @@ class _SelectInputWidgetState extends State<SelectInputWidget> {
               });
             },
             child: SelectModalWidget(
-              term: widget.height + 6,
+              term: widget.isBigIcon ? widget.height + 9 : widget.height + 6,
               isOpen: isOpen,
               width: widget.width,
               height: widget.listHeight,
               itemHeight: widget.itemHeight,
+              fontSize: widget.fontSize,
+              borderRadius: widget.borderRadius,
               list: widget.list,
+              textAlign: widget.textAlign,
+              isBold: widget.isBold,
               selectLink: _selectLink,
               setValue: (String data) {
                 widget.setValue(data);
@@ -102,29 +113,33 @@ class _SelectInputWidgetState extends State<SelectInputWidget> {
           height: widget.height,
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(5),
+            borderRadius: BorderRadius.circular(widget.borderRadius),
           ),
           child: Row(
             children: [
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 14),
+                  padding: EdgeInsets.only(
+                      left: widget.isBigIcon ? 22 : 14,
+                      right: widget.isBigIcon ? 12 : 8),
                   child: Text(
                     value ?? (widget.hintText ?? ""),
-                    textAlign:
-                        widget.isCenter ? TextAlign.center : TextAlign.left,
+                    textAlign: widget.textAlign,
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: widget.fontSize,
                       color:
                           value == null ? CustomColor.gray : CustomColor.black2,
                       letterSpacing: value == null ? -1 : null,
+                      fontWeight: widget.isBold ? FontWeight.w700 : null,
                     ),
                   ),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.only(right: 8),
-                child: TinyBottomArrowSVG(),
+              Padding(
+                padding: EdgeInsets.only(right: widget.isBigIcon ? 16 : 8),
+                child: widget.isBigIcon
+                    ? const BottomArrowSVG(size: 12, color: CustomColor.gray)
+                    : const TinyBottomArrowSVG(),
               ),
             ],
           ),

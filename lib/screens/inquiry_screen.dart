@@ -14,7 +14,7 @@ class _InquiryScreenState extends State<InquiryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColor.ivoey2,
+      backgroundColor: CustomColor.ivory2,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -376,7 +376,7 @@ class _InquiryScreenState extends State<InquiryScreen> {
                                     fontWeight: FontWeight.w700,
                                   ),
                                 ),
-                                PencilSVG(),
+                                PencilSVG(color: CustomColor.brown1)
                               ],
                             ),
                           ),

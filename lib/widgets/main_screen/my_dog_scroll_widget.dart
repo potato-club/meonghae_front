@@ -2,31 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 
 class MyDogScrollWidget extends StatefulWidget {
-  const MyDogScrollWidget({super.key});
+  final List<dynamic>? dogsInfo;
+  const MyDogScrollWidget({super.key, required this.dogsInfo});
 
   @override
   State<MyDogScrollWidget> createState() => _MyDogScrollWidgetState();
 }
 
 class _MyDogScrollWidgetState extends State<MyDogScrollWidget> {
-  List<String> dogs = ['흥이1', '흥이2', '흥이3', '흥이4', '흥이5'];
-
-  Widget createDogCardItem(String dogName, bool isEnd) {
+  Widget createDogCardItem(dynamic dogInfo, bool isEnd) {
     return Padding(
       padding: EdgeInsets.only(right: isEnd ? 0 : 30),
       child: Column(
         children: [
           Container(
+            clipBehavior: Clip.hardEdge,
             width: 70,
             height: 70,
-            decoration: BoxDecoration(
-                color: CustomColor.ivoey2,
-                borderRadius: BorderRadius.circular(35)),
+            decoration: const BoxDecoration(
+                color: CustomColor.ivory2, shape: BoxShape.circle),
+            child: dogInfo['s3ResponseDto'] != null
+                ? Image.network(dogInfo['s3ResponseDto']['fileUrl'],
+                    fit: BoxFit.cover)
+                : null,
           ),
           Padding(
             padding: const EdgeInsets.only(top: 4),
             child: Text(
-              dogName,
+              dogInfo['petName'],
               style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w700,
@@ -48,11 +51,12 @@ class _MyDogScrollWidgetState extends State<MyDogScrollWidget> {
           child: Row(
             children: [
               SizedBox(width: MediaQuery.of(context).size.width * 0.06),
-              for (var i = 0; i < dogs.length; i++)
-                createDogCardItem(
-                  dogs[i],
-                  i + 1 == dogs.length,
-                ),
+              if (widget.dogsInfo != null)
+                for (var i = 0; i < widget.dogsInfo!.length; i++)
+                  createDogCardItem(
+                    widget.dogsInfo![i],
+                    i + 1 == widget.dogsInfo!.length,
+                  ),
               SizedBox(width: MediaQuery.of(context).size.width * 0.06),
             ],
           ),

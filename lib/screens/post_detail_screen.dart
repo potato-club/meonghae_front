@@ -1,5 +1,9 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:meonghae_front/config/base_url.dart';
+import 'package:meonghae_front/login/token.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 import 'package:meonghae_front/widgets/post_detail_screen/custom_under_modal_widget.dart';
 import 'package:meonghae_front/widgets/post_detail_screen/banner_widget.dart';
 import 'package:meonghae_front/widgets/post_detail_screen/detail_comment_widget.dart';
@@ -7,8 +11,8 @@ import 'package:meonghae_front/widgets/post_detail_screen/detail_content_widget.
 import 'package:meonghae_front/widgets/post_detail_screen/write_comment_bar_widget.dart';
 
 class PostDetailScreen extends StatefulWidget {
-  const PostDetailScreen({super.key});
-
+  const PostDetailScreen({super.key, required this.id});
+  final int id;
   @override
   State<PostDetailScreen> createState() => _PostDetailScreenState();
 }
@@ -22,6 +26,33 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
   bool isCommentMoreModalOpen = false;
   void setIsCommentMoreModal(bool value) {
     setState(() => isCommentMoreModalOpen = value);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  Map<String, dynamic>? post;
+
+  Future<void> fetchData() async {
+    try {
+      final dio = Dio();
+      var token = await readAccessToken();
+      dio.options.headers['Authorization'] = token;
+      final response = await dio.get(
+        '${baseUrl}community-service/boards/${widget.id}',
+      );
+      if (response.statusCode == 200) {
+        final data = response.data as Map<String, dynamic>;
+        setState(() => post = data);
+      } else {
+        SnackBarWidget.show(context, SnackBarType.error, "게시글 정보 호출에 실패하였습니다");
+      }
+    } catch (error) {
+      SnackBarWidget.show(context, SnackBarType.error, error.toString());
+    }
   }
 
   @override
@@ -39,8 +70,10 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                 child: SingleChildScrollView(
                     child: Column(
               children: [
-                const DetailContentWidget(images: dummyImage),
+                if (post != null) // Conditional check
+                  DetailContentWidget(post: post, images: dummyImage),
                 DetailCommentWidget(
+                  id: widget.id,
                   setIsCommentMoreModal: setIsCommentMoreModal,
                 ),
               ],

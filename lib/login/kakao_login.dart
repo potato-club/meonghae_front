@@ -8,23 +8,24 @@ class KakaoLogin implements SocialLogin {
       bool isInstalled = await isKakaoTalkInstalled();
       if (isInstalled) {
         try {
-          await UserApi.instance.loginWithKakaoTalk();
+          OAuthToken tokenResponse =
+              await UserApi.instance.loginWithKakaoTalk();
+          TokenManagerProvider.instance.manager.setToken(tokenResponse);
           return true;
         } catch (err) {
-          print(err);
           return false;
         }
       } else {
         try {
-          await UserApi.instance.loginWithKakaoAccount();
+          OAuthToken tokenResponse =
+              await UserApi.instance.loginWithKakaoAccount();
+          TokenManagerProvider.instance.manager.setToken(tokenResponse);
           return true;
         } catch (err) {
-          print('kakaoLogin: $err');
           return false;
         }
       }
     } catch (err) {
-      print(err);
       return false;
     }
   }

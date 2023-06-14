@@ -6,11 +6,15 @@ class SelectModalWidget extends StatefulWidget {
   final double height;
   final double itemHeight;
   final double term;
+  final double fontSize;
+  final double borderRadius;
   final List<dynamic> list;
   final LayerLink selectLink;
   final String? value;
   final Function setValue;
   final double? width;
+  final TextAlign textAlign;
+  final bool isBold;
   const SelectModalWidget({
     super.key,
     required this.isOpen,
@@ -22,6 +26,10 @@ class SelectModalWidget extends StatefulWidget {
     required this.term,
     required this.setValue,
     required this.value,
+    required this.fontSize,
+    required this.borderRadius,
+    this.textAlign = TextAlign.center,
+    this.isBold = false,
   });
 
   @override
@@ -70,15 +78,16 @@ class _SelectWidgetState extends State<SelectModalWidget>
         widget.setValue(value);
       },
       child: Container(
-        height: 30,
+        height: widget.itemHeight,
         color: value == lateValue ? CustomColor.lightGray1 : CustomColor.white,
         child: Center(
             child: Text(
           value,
+          textAlign: widget.textAlign,
           style: TextStyle(
-              fontSize: 12,
+              fontSize: widget.fontSize,
               color: value == lateValue ? CustomColor.gray : CustomColor.black2,
-              fontWeight: FontWeight.w400),
+              fontWeight: widget.isBold ? FontWeight.w700 : FontWeight.w400),
         )),
       ),
     );
@@ -106,7 +115,14 @@ class _SelectWidgetState extends State<SelectModalWidget>
                   clipBehavior: Clip.hardEdge,
                   decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(5)),
+                      borderRadius: BorderRadius.circular(widget.borderRadius),
+                      boxShadow: [
+                        BoxShadow(
+                            color: CustomColor.black1.withOpacity(0.12),
+                            offset: const Offset(0, 4),
+                            blurRadius: 8,
+                            spreadRadius: 0)
+                      ]),
                   child: SingleChildScrollView(
                     controller: _scrollController,
                     child: Column(

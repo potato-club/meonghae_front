@@ -36,7 +36,7 @@ class _WriteCommentBarWidgetState extends State<WriteCommentBarWidget> {
               borderRadius: BorderRadius.all(Radius.circular(10)),
             ),
             filled: true,
-            fillColor: CustomColor.ivoey2,
+            fillColor: CustomColor.ivory2,
             contentPadding: EdgeInsets.symmetric(horizontal: 14),
             hintStyle: TextStyle(
               color: CustomColor.gray,

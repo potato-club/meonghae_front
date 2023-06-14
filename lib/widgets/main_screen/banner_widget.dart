@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/user/user_info.dart';
 import 'package:meonghae_front/widgets/svg/tiny_gear.dart';
 
 class BannerWidget extends StatefulWidget {
@@ -10,6 +11,20 @@ class BannerWidget extends StatefulWidget {
 }
 
 class _BannerWidgetState extends State<BannerWidget> {
+  String? name = '멍해';
+  late String? image;
+
+  @override
+  void initState() {
+    readUserInfo();
+    super.initState();
+  }
+
+  Future<void> readUserInfo() async {
+    var userName = await readUserNickname();
+    setState(() => name = userName);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(clipBehavior: Clip.none, children: [
@@ -39,13 +54,13 @@ class _BannerWidgetState extends State<BannerWidget> {
                   ),
                 ),
               ),
-              const Padding(
+              Padding(
                 padding: EdgeInsets.only(left: 13),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "멍해님 안녕하세요!",
+                      "${name}님 안녕하세요!",
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
                     ),
