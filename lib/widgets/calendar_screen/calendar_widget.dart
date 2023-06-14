@@ -1,101 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarWidget extends StatefulWidget {
-  final Function(DateTime, List<Event>) onSelectedDay;
-  const CalendarWidget({super.key, required this.onSelectedDay});
+  final Function(DateTime) onSelectedDay;
+  final Function(DateTime) onFocusedDay;
+  final Function(DateTime) getEventForDay;
+  final Function getCalendarData;
+  final List<dynamic> event;
+  final DateTime selectedDay;
+  final DateTime focusedDay;
+  const CalendarWidget(
+      {super.key,
+      required this.onSelectedDay,
+      required this.event,
+      required this.selectedDay,
+      required this.getEventForDay,
+      required this.getCalendarData,
+      required this.onFocusedDay,
+      required this.focusedDay});
 
   @override
   State<CalendarWidget> createState() => _CalendarWidgetState();
 }
 
-class Event {
-  DateTime startTime;
-  DateTime endTime;
-  String title;
-  Event(this.startTime, this.endTime, this.title);
-
-  String getStartTime() {
-    return DateFormat('a h:mm', 'ko_KR').format(startTime);
-  }
-
-  String getEndTime() {
-    return DateFormat('a h:mm', 'ko_KR').format(endTime);
-  }
-
-  String getTitle() {
-    return title;
-  }
-}
-
 class _CalendarWidgetState extends State<CalendarWidget> {
-  DateTime focusedDay = DateTime.now();
-  DateTime firstDay = DateTime(DateTime.now().year - 1);
-  DateTime lastDay = DateTime(DateTime.now().year + 1, 12, 31);
-  DateTime selected = DateTime.now();
-  Map<DateTime, List<Event>> events = {
-    DateTime.utc(2023, 6, 2): [
-      Event(
-        DateTime(2023, 6, 2, 10, 0, 0, 0),
-        DateTime(2023, 6, 2, 12, 0, 0, 0),
-        '멍멍이 예방주사 맞는 날',
-      ),
-      Event(
-        DateTime(2023, 6, 2, 15, 0, 0, 0),
-        DateTime(2023, 6, 2, 17, 30, 0, 0),
-        '멍멍이 신발 사주는 날',
-      ),
-      Event(
-        DateTime(2023, 6, 2, 9, 0, 0, 0),
-        DateTime(2023, 6, 2, 11, 0, 0, 0),
-        '야옹이 예방주사 맞는 날',
-      ),
-      Event(
-        DateTime(2023, 6, 2, 10, 0, 0, 0),
-        DateTime(2023, 6, 2, 12, 0, 0, 0),
-        '멍멍이 예방주사 맞는 날',
-      ),
-      Event(
-        DateTime(2023, 6, 2, 15, 0, 0, 0),
-        DateTime(2023, 6, 2, 17, 30, 0, 0),
-        '멍멍이 신발 사주는 날',
-      ),
-      Event(
-        DateTime(2023, 6, 2, 9, 0, 0, 0),
-        DateTime(2023, 6, 2, 11, 0, 0, 0),
-        '야옹이 예방주사 맞는 날',
-      ),
-    ],
-    DateTime.utc(2023, 6, 3): [
-      Event(
-        DateTime(2023, 6, 3, 9, 0, 0, 0),
-        DateTime(2023, 6, 3, 11, 0, 0, 0),
-        '야옹이 예방주사 맞는 날',
-      )
-    ],
-  };
-
-  List<Event> _getEventsForDay(DateTime day) {
-    return events[day] ?? [];
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    DateTime day =
-        DateTime(focusedDay.year, focusedDay.month, focusedDay.day).toUtc();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      widget.onSelectedDay(day, events[day] ?? []);
-    });
-  }
-
-  void onDaySelected(DateTime selectedDay, DateTime focusedDay) {
-    selected = selectedDay;
-    widget.onSelectedDay(selectedDay, _getEventsForDay(selectedDay));
-  }
-
   @override
   Widget build(BuildContext context) {
     return TableCalendar(
@@ -123,7 +52,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
               offset: const Offset(0, -12),
               child: Container(
                 decoration: BoxDecoration(
-                    color: day == selected
+                    color: day == widget.selectedDay
                         ? CustomColor.brown1
                         : CustomColor.black2,
                     shape: BoxShape.circle),
@@ -136,7 +65,8 @@ class _CalendarWidgetState extends State<CalendarWidget> {
         },
       ),
       selectedDayPredicate: (day) =>
-          isSameDay(selected, day) && !isSameDay(selected, focusedDay),
+          isSameDay(widget.selectedDay, day) &&
+          !isSameDay(widget.selectedDay, DateTime.now()),
       daysOfWeekStyle: const DaysOfWeekStyle(
         weekdayStyle: TextStyle(
           fontSize: 12,
@@ -182,10 +112,6 @@ class _CalendarWidgetState extends State<CalendarWidget> {
           fontSize: 14,
           fontWeight: FontWeight.w700,
         ),
-        holidayTextStyle: TextStyle(
-          color: Colors.red,
-          fontWeight: FontWeight.bold,
-        ),
         outsideTextStyle: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w700,
@@ -199,12 +125,17 @@ class _CalendarWidgetState extends State<CalendarWidget> {
       daysOfWeekHeight: 50,
       availableGestures: AvailableGestures.horizontalSwipe,
       locale: 'ko_KR',
-      focusedDay: selected,
-      firstDay: firstDay,
-      lastDay: lastDay,
+      focusedDay: widget.focusedDay,
+      firstDay: DateTime(DateTime.now().year - 1),
+      lastDay: DateTime(DateTime.now().year + 1, 12, 31),
       calendarFormat: CalendarFormat.month,
-      eventLoader: _getEventsForDay,
-      onDaySelected: onDaySelected,
+      eventLoader: (day) => widget.getEventForDay(day),
+      onDaySelected: (selectedDay, focusedDay) =>
+          widget.onSelectedDay(selectedDay),
+      onPageChanged: (focusedDay) {
+        widget.onFocusedDay(focusedDay);
+        widget.getCalendarData(focusedDay.year, focusedDay.month);
+      },
       currentDay: DateTime.now(),
     );
   }

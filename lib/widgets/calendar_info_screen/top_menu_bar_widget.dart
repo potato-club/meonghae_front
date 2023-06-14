@@ -3,7 +3,8 @@ import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/svg/arrow.dart';
 
 class TopMenuBarWidget extends StatelessWidget {
-  const TopMenuBarWidget({super.key});
+  final Function handleSave;
+  const TopMenuBarWidget({super.key, required this.handleSave});
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +18,7 @@ class TopMenuBarWidget extends StatelessWidget {
             onTap: () => Navigator.pop(context),
             child: const SizedBox(
                 width: 30,
+                height: 30,
                 child: Align(
                     alignment: Alignment.centerLeft,
                     child: ArrowSVG(strokeColor: CustomColor.black2))),
@@ -28,16 +30,20 @@ class TopMenuBarWidget extends StatelessWidget {
                 fontWeight: FontWeight.w700,
                 color: CustomColor.black2),
           ),
-          const SizedBox(
-            width: 30,
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: Text(
-                '저장',
-                style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                    color: CustomColor.gray),
+          InkWell(
+            onTap: () => handleSave(),
+            child: const SizedBox(
+              width: 30,
+              height: 30,
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  '저장',
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      color: CustomColor.gray),
+                ),
               ),
             ),
           ),

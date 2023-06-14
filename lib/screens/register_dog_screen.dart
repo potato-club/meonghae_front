@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dio/dio.dart';
@@ -10,7 +9,6 @@ import 'package:meonghae_front/screens/video_player_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 import 'package:meonghae_front/widgets/register_dog_screen/register_init_form.dart';
-import 'package:meonghae_front/widgets/svg/arrow.dart';
 import 'package:meonghae_front/widgets/svg/tiny_right_arrow.dart';
 
 class RegisterDogScreen extends StatefulWidget {
@@ -23,7 +21,6 @@ class RegisterDogScreen extends StatefulWidget {
 class _RegisterDogScreenState extends State<RegisterDogScreen> {
   final CarouselController _carouselController = CarouselController();
   List<InfoModel> formsData = [];
-  List<File?> images = [];
   List<Widget> registerSliders = [];
   int currentSlideIndex = 0;
 
@@ -34,6 +31,7 @@ class _RegisterDogScreenState extends State<RegisterDogScreen> {
       meetRoute: '',
       petName: '',
       petBirth: '',
+      file: null,
     );
     formsData.add(newItem);
   }
@@ -56,7 +54,7 @@ class _RegisterDogScreenState extends State<RegisterDogScreen> {
         formsData[index].petBirth = value;
         break;
       case 'imageFile':
-        images[index] = value;
+        formsData[index].file = value;
         break;
       default:
         break;
@@ -67,10 +65,8 @@ class _RegisterDogScreenState extends State<RegisterDogScreen> {
   void initState() {
     super.initState();
     addFormsData();
-    images.add(null);
     registerSliders = [
       RegisterInitForm(
-        imageFile: images[registerSliders.length],
         formData: formsData[registerSliders.length],
         index: registerSliders.length,
         setData: setData,
@@ -82,9 +78,7 @@ class _RegisterDogScreenState extends State<RegisterDogScreen> {
     _carouselController.animateToPage(registerSliders.length);
     setState(() {
       addFormsData();
-      images.add(null);
       registerSliders.add(RegisterInitForm(
-        imageFile: images[registerSliders.length],
         formData: formsData[registerSliders.length],
         index: registerSliders.length,
         setData: setData,
@@ -110,8 +104,8 @@ class _RegisterDogScreenState extends State<RegisterDogScreen> {
                 formsData[i].toJson()['petGender'] == '남' ? 'BOY' : 'GIRL',
             "petName": formsData[i].toJson()['petName'],
             "petSpecies": formsData[i].toJson()['petSpecies'],
-            if (images[i] != null)
-              "file": await MultipartFile.fromFile(images[i]!.path)
+            if (formsData[i].file != null)
+              "image": await MultipartFile.fromFile(formsData[i].file!.path)
           });
           final response = await dio.post('${baseUrl}profile-service/profile',
               data: formData);
@@ -161,41 +155,29 @@ class _RegisterDogScreenState extends State<RegisterDogScreen> {
             children: [
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.35 - 130,
-                child: Stack(children: [
-                  Stack(children: [
-                    Positioned(
-                      bottom: 12,
-                      left: MediaQuery.of(context).size.width * 0.16,
-                      child: GestureDetector(
-                          onTap: () => Navigator.pop(context),
-                          child:
-                              const ArrowSVG(strokeColor: CustomColor.black2)),
-                    ),
-                    const Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            '내 강아지/고양이',
-                            style: TextStyle(
-                              color: CustomColor.black2,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          Text(
-                            '정보 입력',
-                            style: TextStyle(
-                              color: CustomColor.black2,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ],
+                child: const Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        '내 강아지/고양이',
+                        style: TextStyle(
+                          color: CustomColor.black2,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
-                    ),
-                  ]),
-                ]),
+                      Text(
+                        '정보 입력',
+                        style: TextStyle(
+                          color: CustomColor.black2,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
               CarouselSlider(
                 carouselController: _carouselController,

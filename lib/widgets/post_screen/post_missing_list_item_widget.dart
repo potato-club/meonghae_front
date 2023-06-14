@@ -16,9 +16,12 @@ class PostMissingListItemWidget extends StatefulWidget {
 class _PostMissingListItemWidgetState extends State<PostMissingListItemWidget> {
   @override
   Widget build(BuildContext context) {
+    final bool hasToken = widget.postData['hasToken'] as bool? ?? false;
     return GestureDetector(
       onTap: () => Navigator.of(context).push(MaterialPageRoute(
-          builder: (BuildContext context) => const PostDetailScreen())),
+          builder: (BuildContext context) => PostDetailScreen(
+                id: widget.postData['id'],
+              ))),
       child: Container(
         height: 160,
         decoration: BoxDecoration(
@@ -35,17 +38,23 @@ class _PostMissingListItemWidgetState extends State<PostMissingListItemWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
+                  clipBehavior: Clip.hardEdge,
                   width: 37,
                   height: 37,
                   decoration: const BoxDecoration(
                       color: CustomColor.lightGray3, shape: BoxShape.circle),
                   child: Transform.scale(
                     scale: 1.8,
-                    child: const Image(
-                      image: AssetImage(
-                        'assets/images/dog_pictures/face.png',
-                      ),
-                    ),
+                    child: widget.postData["profileUrl"] != null
+                        ? Image.network(
+                            widget.postData["profileUrl"],
+                            fit: BoxFit.cover,
+                          )
+                        : const Image(
+                            image: AssetImage(
+                              'assets/images/dog_pictures/face.png',
+                            ),
+                          ),
                   ),
                 ),
                 const SizedBox(width: 16),
@@ -103,7 +112,7 @@ class _PostMissingListItemWidgetState extends State<PostMissingListItemWidget> {
                           fontSize: 11, color: CustomColor.gray),
                     ),
                     const SizedBox(width: 6),
-                    const TinyPictureSVG()
+                    if (hasToken) const TinyPictureSVG()
                   ],
                 ))
           ]),

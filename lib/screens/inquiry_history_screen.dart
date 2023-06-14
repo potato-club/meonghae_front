@@ -54,7 +54,7 @@ class _InQuiryHistoryScreenState extends State<InQuiryHistoryScreen> {
                   Expanded(
                     child: TextButton(
                       onPressed: () {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) => const InQuiry1To1Screen()),
@@ -182,7 +182,6 @@ class _InQuiryHistoryScreenState extends State<InQuiryHistoryScreen> {
                 ),
               ),
             ),
-            const UnderBarWidget(currentScreen: '문의'),
           ],
         ),
       ),

@@ -6,7 +6,9 @@ import 'package:meonghae_front/widgets/svg/heart.dart';
 
 class DetailContentWidget extends StatefulWidget {
   final List<String> images;
-  const DetailContentWidget({super.key, required this.images});
+  final Map<String, dynamic>? post;
+  const DetailContentWidget(
+      {super.key, required this.images, required this.post});
 
   @override
   State<DetailContentWidget> createState() => _DetailContentWidgetState();
@@ -27,17 +29,23 @@ class _DetailContentWidgetState extends State<DetailContentWidget> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
+                clipBehavior: Clip.hardEdge,
                 width: 37,
                 height: 37,
                 decoration: const BoxDecoration(
                     color: CustomColor.lightGray3, shape: BoxShape.circle),
                 child: Transform.scale(
                   scale: 1.8,
-                  child: const Image(
-                    image: AssetImage(
-                      'assets/images/dog_pictures/face.png',
-                    ),
-                  ),
+                  child: widget.post?["profileUrl"] != null
+                      ? Image.network(
+                          widget.post?["profileUrl"],
+                          fit: BoxFit.cover,
+                        )
+                      : const Image(
+                          image: AssetImage(
+                            'assets/images/dog_pictures/face.png',
+                          ),
+                        ),
                 ),
               ),
               const SizedBox(width: 12),
@@ -45,37 +53,42 @@ class _DetailContentWidgetState extends State<DetailContentWidget> {
                 width: MediaQuery.of(context).size.width * 0.88 - 49,
                 child: Transform.translate(
                   offset: const Offset(0, 8),
-                  child: const Text(
-                    '서울역 근처에서 강아지를 잃어버렸어요',
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                        color: CustomColor.black2),
+                  child: Text(
+                    widget.post?['title'] ?? 'No Title',
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      color: CustomColor.black2,
+                    ),
                   ),
                 ),
               ),
             ],
           ),
           const SizedBox(height: 20),
-          ImagesSwiperWidget(images: widget.images),
+          ImagesSwiperWidget(
+            images: (widget.post?['images']),
+          ),
           const SizedBox(height: 40),
-          const Text(
-            '이름: 멍멍이\n나이: 7살\n견종: 시고르자브종\n특징: 등에 흰 무늬가 있어요, 어깨에도 동그란 흰 무늬가 있어요\n내용: 진돗개, 시바견 종을 많이 닮은 시고르자브종입니다. 3/29 19시경에 실종되었습니다',
-            style: TextStyle(fontSize: 12, height: 1.4),
+          Text(
+            widget.post?['content'] ?? 'No Content',
+            style: const TextStyle(fontSize: 12, height: 1.4),
           ),
           const SizedBox(height: 6),
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              HeartSVG(isFilled: false),
-              SizedBox(width: 4),
-              Text('12',
-                  style: TextStyle(fontSize: 13, color: CustomColor.gray)),
-              SizedBox(width: 12),
-              CommentSVG(),
-              SizedBox(width: 4),
-              Text('12',
-                  style: TextStyle(fontSize: 13, color: CustomColor.gray)),
+              const HeartSVG(isFilled: false),
+              const SizedBox(width: 4),
+              Text("${widget.post?['likes']}",
+                  style:
+                      const TextStyle(fontSize: 13, color: CustomColor.gray)),
+              const SizedBox(width: 12),
+              const CommentSVG(),
+              const SizedBox(width: 4),
+              Text("${widget.post?['commentSize']}",
+                  style:
+                      const TextStyle(fontSize: 13, color: CustomColor.gray)),
             ],
           )
         ],

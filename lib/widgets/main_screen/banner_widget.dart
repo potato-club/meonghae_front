@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/user/user_info.dart';
 import 'package:meonghae_front/widgets/svg/tiny_gear.dart';
 
 class BannerWidget extends StatefulWidget {
@@ -10,6 +11,24 @@ class BannerWidget extends StatefulWidget {
 }
 
 class _BannerWidgetState extends State<BannerWidget> {
+  String? name = '멍해';
+  String? image;
+
+  @override
+  void initState() {
+    readUserInfo();
+    super.initState();
+  }
+
+  Future<void> readUserInfo() async {
+    var userName = await readUserNickname();
+    var userFileUrl = await readUserFileUrl();
+    setState(() {
+      name = userName;
+      image = userFileUrl.toString();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(clipBehavior: Clip.none, children: [
@@ -26,30 +45,31 @@ class _BannerWidgetState extends State<BannerWidget> {
               Container(
                 width: 54,
                 height: 54,
-                decoration: BoxDecoration(
-                  color: CustomColor.white,
-                  borderRadius: BorderRadius.circular(27),
-                ),
-                child: Transform.scale(
-                  scale: 1.8,
-                  child: const Image(
-                    image: AssetImage(
-                      'assets/images/dog_pictures/face.png',
-                    ),
-                  ),
-                ),
+                decoration: const BoxDecoration(
+                    color: CustomColor.white, shape: BoxShape.circle),
+                clipBehavior: Clip.hardEdge,
+                child: image != null
+                    ? Image.network(image!, fit: BoxFit.cover)
+                    : Transform.scale(
+                        scale: 1.8,
+                        child: const Image(
+                          image: AssetImage(
+                            'assets/images/dog_pictures/face.png',
+                          ),
+                        ),
+                      ),
               ),
-              const Padding(
-                padding: EdgeInsets.only(left: 13),
+              Padding(
+                padding: const EdgeInsets.only(left: 13),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "멍해님 안녕하세요!",
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                      "$name님 안녕하세요!",
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.w700),
                     ),
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.only(top: 4),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
