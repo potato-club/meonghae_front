@@ -127,8 +127,6 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                                     didSetTime: (value) {
                                       setState(() {
                                         selectedStartDate = value;
-                                        print(value);
-                                        print(selectedStartDate);
                                         widget.setTime('date',
                                             "${selectedStartDate.year}-${selectedStartDate.month.toString().padLeft(2, '0')}-${selectedStartDate.day.toString().padLeft(2, '0')}");
                                       });

@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/config/base_url.dart';
+import 'package:meonghae_front/login/token.dart';
 import 'package:meonghae_front/screens/review_write_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
@@ -19,22 +20,22 @@ class ReviewScreen extends StatefulWidget {
 }
 
 class _ReviewScreenState extends State<ReviewScreen> {
-  void setIsCheckedPhotoReview() {
-    setState(() => searchingForm['isCheckedPhotoReviews'] =
-        !searchingForm['isCheckedPhotoReviews']);
-  }
-
   Map<String, dynamic> searchingForm = {
     'isCheckedPhotoReviews': false,
     'sort': 'LATEST',
-    'keyword': '',
+    'keyword': null,
   };
+
+  void setIsCheckedPhotoReview() {
+    setState(() => searchingForm['isCheckedPhotoReviews'] =
+        !searchingForm['isCheckedPhotoReviews']);
+    fetchData();
+  }
 
   @override
   void initState() {
     super.initState();
     fetchData();
-    print(widget.menuValue);
   }
 
   Map<String, int> ReviewMenuMap = {
@@ -56,17 +57,21 @@ class _ReviewScreenState extends State<ReviewScreen> {
   Future<void> fetchData() async {
     try {
       final dio = Dio();
-      // var token = await readAccessToken();
-      dio.options.headers['Authorization'] =
-          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0aGR3bzk5OUBuYXZlci5jb20iLCJyb2xlcyI6WyJVU0VSIl0sImlhdCI6MTY4Njc3MDQ0OSwiZXhwIjoxNjg2NzcyMjQ5fQ.K9_VfhQcC_PAeW6IN5CIAT00MHH59Xn7wn-tLnvgJJU';
+      var token = await readAccessToken();
+      print(token);
+      dio.options.headers['Authorization'] = token;
       final response = await dio.get(
         '${baseUrl}community-service/reviews/${ReviewMenuMap[widget.menuValue]}',
-        queryParameters: {},
+        queryParameters: {
+          "sort": searchingForm['sort'],
+          if (searchingForm['keyword'] != null)
+            "keyword": searchingForm['keyword'],
+          "photo": searchingForm['isCheckedPhotoReviews']
+        },
       );
       if (response.statusCode == 200) {
         final data = response.data as Map<String, dynamic>;
         setState(() => reviews = data['content']);
-        print(reviews);
       } else {
         SnackBarWidget.show(context, SnackBarType.error, "리뷰 정보 호출에 실패하였습니다");
       }
@@ -105,13 +110,15 @@ class _ReviewScreenState extends State<ReviewScreen> {
           Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: MediaQuery.of(context).size.width * 0.06),
-            child: SearchBarWidget(searchingForm: searchingForm),
+            child: SearchBarWidget(
+                fetchReviewData: fetchData, searchingForm: searchingForm),
           ),
           const SizedBox(height: 26),
           Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: MediaQuery.of(context).size.width * 0.06),
             child: FilterBarWidget(
+              fetchReviewData: fetchData,
               searchingForm: searchingForm,
               setIsCheckedPhotoReview: setIsCheckedPhotoReview,
             ),
@@ -122,19 +129,12 @@ class _ReviewScreenState extends State<ReviewScreen> {
               ListView(
                 children: [
                   const SizedBox(height: 26),
-                  if (searchingForm['isCheckedPhotoReviews'])
-                    ...reviews
-                        .where((element) => element['image'] != null)
-                        .map((e) => ReviewListItemWidget(
-                              review: e,
-                            ))
-                        .toList()
-                  else
-                    ...reviews
-                        .map((e) => ReviewListItemWidget(
-                              review: e,
-                            ))
-                        .toList(),
+                  ...reviews
+                      .map((e) => ReviewListItemWidget(
+                            fetchReviewData: fetchData,
+                            review: e,
+                          ))
+                      .toList(),
                   const SizedBox(height: 60),
                 ],
               ),

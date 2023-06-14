@@ -1,14 +1,39 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:meonghae_front/config/base_url.dart';
+import 'package:meonghae_front/login/token.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 import 'package:meonghae_front/widgets/review_screen/star_rating_widget.dart';
-import 'package:meonghae_front/widgets/svg/tiny_picture.dart';
+import 'package:meonghae_front/widgets/svg/like.dart';
 
 class ReviewListItemWidget extends StatelessWidget {
+  final Function fetchReviewData;
   final Map<String, dynamic> review;
-  const ReviewListItemWidget({super.key, required this.review});
+  const ReviewListItemWidget(
+      {super.key, required this.review, required this.fetchReviewData});
 
   @override
   Widget build(BuildContext context) {
+    Future<void> onClickLike(bool isLike) async {
+      try {
+        final dio = Dio();
+        var token = await readAccessToken();
+        dio.options.headers['Authorization'] = token;
+        final response = await dio.post(
+            '${baseUrl}community-service/reviews/${review['id']}/recommend',
+            data: {"isLike": isLike});
+        if (response.statusCode == 200) {
+          fetchReviewData();
+        } else {
+          SnackBarWidget.show(context, SnackBarType.error,
+              "${isLike ? "좋아요" : "싫어요"} 등록에 실패하였습니다");
+        }
+      } catch (error) {
+        SnackBarWidget.show(context, SnackBarType.error, error.toString());
+      }
+    }
+
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: MediaQuery.of(context).size.width * 0.06,
@@ -68,7 +93,7 @@ class ReviewListItemWidget extends StatelessWidget {
                           children: [
                             StarRatingWidget(rate: review['rating']),
                             const SizedBox(width: 8),
-                            const Text('2023.05.21 날짜 데이터가 없음!',
+                            const Text('2023.05.21',
                                 style: TextStyle(
                                     fontSize: 10, color: CustomColor.gray))
                           ],
@@ -91,22 +116,22 @@ class ReviewListItemWidget extends StatelessWidget {
                             color: CustomColor.black2),
                       ),
                     ),
-                    if (review['isImage'] != null)
+                    if (review['images'] != null)
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 6),
                         child: Container(
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10)),
                           clipBehavior: Clip.hardEdge,
-                          child: const Image(
-                            image: AssetImage('assets/images/dummy/dummy3.png'),
+                          child: Image.network(
+                            review['images'][0]['fileUrl'],
                             fit: BoxFit.cover,
                           ),
                         ),
                       ),
                     const SizedBox(height: 8),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.88 - 72,
+                      width: MediaQuery.of(context).size.width * 0.88 - 100,
                       child: Text(
                         review['content'],
                         style: const TextStyle(
@@ -126,15 +151,21 @@ class ReviewListItemWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    const TinyPictureSVG(),
-                    const SizedBox(width: 2),
-                    Transform.translate(
-                      offset: const Offset(0, 2),
-                      child: const Text(
-                        '12',
-                        style: TextStyle(fontSize: 11, color: CustomColor.gray),
-                      ),
-                    ),
+                    InkWell(
+                        onTap: () => onClickLike(true), child: const LikeSVG()),
+                    const SizedBox(width: 4),
+                    Text("${review['likes']}",
+                        style: const TextStyle(
+                            fontSize: 11, color: CustomColor.gray)),
+                    const SizedBox(width: 10),
+                    InkWell(
+                        onTap: () => onClickLike(false),
+                        child: Transform.rotate(
+                            angle: -3.14, child: const LikeSVG())),
+                    const SizedBox(width: 4),
+                    Text("${review['dislikes']}",
+                        style: const TextStyle(
+                            fontSize: 11, color: CustomColor.gray)),
                   ],
                 ))
           ]),
