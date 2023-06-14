@@ -87,7 +87,6 @@ class _RegisterDogScreenState extends State<RegisterDogScreen> {
   }
 
   Future<void> _submitForm() async {
-    print(formsData[0].file);
     List<Map<String, dynamic>> result =
         formsData.map((i) => validator(i)).toList();
     List<dynamic> validatorList = result.map((i) => i['validator']).toList();
