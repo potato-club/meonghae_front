@@ -27,7 +27,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   @override
   void initState() {
-    getCalendarData(selectedDay.year, selectedDay.month);
+    getCalendarData(focusedDay.year, focusedDay.month);
     super.initState();
   }
 
@@ -45,11 +45,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
           queryParameters: {'year': year, 'month': month});
       if (response.statusCode == 200) {
         events = response.data;
-        event = events
-            .where((e) =>
-                e['scheduleTime'].toString().split('T')[0] ==
-                "${selectedDay.year}-${formatDate(selectedDay.month)}-${formatDate(selectedDay.day)}")
-            .toList();
+        if (selectedDay.year == focusedDay.year &&
+            selectedDay.month == focusedDay.month)
+          event = events
+              .where((e) =>
+                  e['scheduleTime'].toString().split('T')[0] ==
+                  "${selectedDay.year}-${formatDate(selectedDay.month)}-${formatDate(selectedDay.day)}")
+              .toList();
         setState(() {});
       } else {
         SnackBarWidget.show(context, SnackBarType.error, "애완동물정보 호출에 실패하였습니다");
