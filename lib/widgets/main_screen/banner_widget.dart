@@ -12,7 +12,7 @@ class BannerWidget extends StatefulWidget {
 
 class _BannerWidgetState extends State<BannerWidget> {
   String? name = '멍해';
-  late String? image;
+  String? image;
 
   @override
   void initState() {
@@ -22,7 +22,11 @@ class _BannerWidgetState extends State<BannerWidget> {
 
   Future<void> readUserInfo() async {
     var userName = await readUserNickname();
-    setState(() => name = userName);
+    var userFileUrl = await readUserFileUrl();
+    setState(() {
+      name = userName;
+      image = userFileUrl.toString();
+    });
   }
 
   @override
@@ -41,30 +45,31 @@ class _BannerWidgetState extends State<BannerWidget> {
               Container(
                 width: 54,
                 height: 54,
-                decoration: BoxDecoration(
-                  color: CustomColor.white,
-                  borderRadius: BorderRadius.circular(27),
-                ),
-                child: Transform.scale(
-                  scale: 1.8,
-                  child: const Image(
-                    image: AssetImage(
-                      'assets/images/dog_pictures/face.png',
-                    ),
-                  ),
-                ),
+                decoration: const BoxDecoration(
+                    color: CustomColor.white, shape: BoxShape.circle),
+                clipBehavior: Clip.hardEdge,
+                child: image != null
+                    ? Image.network(image!, fit: BoxFit.cover)
+                    : Transform.scale(
+                        scale: 1.8,
+                        child: const Image(
+                          image: AssetImage(
+                            'assets/images/dog_pictures/face.png',
+                          ),
+                        ),
+                      ),
               ),
               Padding(
-                padding: EdgeInsets.only(left: 13),
+                padding: const EdgeInsets.only(left: 13),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "${name}님 안녕하세요!",
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                      "$name님 안녕하세요!",
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.w700),
                     ),
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.only(top: 4),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,

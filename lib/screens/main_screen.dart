@@ -27,7 +27,9 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Future<void> _saveUserInfo() async {
-    var userEmail = await readUserEmail();
+    // var userEmail = await readUserEmail();
+    var userEmail = null;
+
     if (userEmail == null) {
       try {
         Dio dio = Dio();
@@ -36,6 +38,7 @@ class _MainScreenState extends State<MainScreen> {
         final response = await dio.get('${baseUrl}user-service/mypage');
         if (response.statusCode == 200) {
           saveUserInfo(response.data);
+          print("########${response.data['fileUrl']}#######");
         } else {
           SnackBarWidget.show(context, SnackBarType.error, "유저정보 호출에 실패하였습니다");
         }

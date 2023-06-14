@@ -33,7 +33,6 @@ class _PostContentWidgetState extends State<PostContentWidget> {
       dio.options.headers['Authorization'] = token;
       final response = await dio.get('${baseUrl}community-service/boards/main');
       if (response.statusCode == 200) {
-        print(response.data);
         preview = response.data;
         for (int i = 0; i < preview!.length; i++) {
           if (preview![i]['type'] == 'SHOW')
