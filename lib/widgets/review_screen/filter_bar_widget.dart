@@ -10,11 +10,11 @@ enum FilterType {
 }
 
 class FilterBarWidget extends StatefulWidget {
-  final bool isCheckedPhotoReview;
+  final Map<String, dynamic> searchingForm;
   final Function setIsCheckedPhotoReview;
   const FilterBarWidget(
       {super.key,
-      required this.isCheckedPhotoReview,
+      required this.searchingForm,
       required this.setIsCheckedPhotoReview});
 
   @override
@@ -23,6 +23,13 @@ class FilterBarWidget extends StatefulWidget {
 
 class _FilterBarWidgetState extends State<FilterBarWidget> {
   FilterType filterType = FilterType.late;
+
+  void updateSortValue(String sortValue) {
+    setState(() {
+      widget.searchingForm['sort'] = sortValue;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -36,17 +43,17 @@ class _FilterBarWidgetState extends State<FilterBarWidget> {
                   width: 20,
                   height: 20,
                   decoration: BoxDecoration(
-                      color: widget.isCheckedPhotoReview
+                      color: widget.searchingForm['isCheckedPhotoReviews']
                           ? CustomColor.brown1
                           : Colors.transparent,
-                      border: widget.isCheckedPhotoReview
+                      border: widget.searchingForm['isCheckedPhotoReviews']
                           ? null
                           : Border.all(
                               color: CustomColor.black4, // 테두리 색상 설정
                               width: 1 // 테두리 두께 설정
                               ),
                       borderRadius: BorderRadius.circular(5)),
-                  child: widget.isCheckedPhotoReview
+                  child: widget.searchingForm['isCheckedPhotoReviews']
                       ? const Center(child: CheckSVG(color: CustomColor.white))
                       : null),
             ),
@@ -64,7 +71,10 @@ class _FilterBarWidgetState extends State<FilterBarWidget> {
             InkWell(
               onTap: () {
                 if (filterType != FilterType.late) {
-                  setState(() => filterType = FilterType.late);
+                  setState(() {
+                    filterType = FilterType.late;
+                    updateSortValue('LATEST');
+                  });
                 }
               },
               child: Row(
@@ -87,7 +97,11 @@ class _FilterBarWidgetState extends State<FilterBarWidget> {
             InkWell(
               onTap: () {
                 if (filterType != FilterType.star) {
-                  setState(() => filterType = FilterType.star);
+                  setState(() {
+                    filterType = FilterType.late;
+                    updateSortValue(
+                        'RATING_ASC'); // Update the sort value to 'LATEST'
+                  });
                 }
               },
               child: Row(
@@ -110,7 +124,10 @@ class _FilterBarWidgetState extends State<FilterBarWidget> {
             InkWell(
               onTap: () {
                 if (filterType != FilterType.comment) {
-                  setState(() => filterType = FilterType.comment);
+                  setState(() {
+                    filterType = FilterType.late;
+                    updateSortValue('RECOMMEND');
+                  });
                 }
               },
               child: Row(

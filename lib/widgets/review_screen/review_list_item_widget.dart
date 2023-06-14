@@ -4,8 +4,8 @@ import 'package:meonghae_front/widgets/review_screen/star_rating_widget.dart';
 import 'package:meonghae_front/widgets/svg/tiny_picture.dart';
 
 class ReviewListItemWidget extends StatelessWidget {
-  final bool isImage;
-  const ReviewListItemWidget({super.key, required this.isImage});
+  final Map<String, dynamic> review;
+  const ReviewListItemWidget({super.key, required this.review});
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +31,7 @@ class ReviewListItemWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
+                      clipBehavior: Clip.hardEdge,
                       width: 37,
                       height: 37,
                       decoration: const BoxDecoration(
@@ -38,31 +39,36 @@ class ReviewListItemWidget extends StatelessWidget {
                           shape: BoxShape.circle),
                       child: Transform.scale(
                         scale: 1.8,
-                        child: const Image(
-                          image: AssetImage(
-                            'assets/images/dog_pictures/face.png',
-                          ),
-                        ),
+                        child: review["profileUrl"] != null
+                            ? Image.network(
+                                review["profileUrl"],
+                                fit: BoxFit.cover,
+                              )
+                            : const Image(
+                                image: AssetImage(
+                                  'assets/images/dog_pictures/face.png',
+                                ),
+                              ),
                       ),
                     ),
                     const SizedBox(width: 12),
-                    const Column(
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '곤듀님',
-                          style: TextStyle(
+                          review['nickname'],
+                          style: const TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w700,
                               color: CustomColor.black2),
                         ),
-                        SizedBox(height: 2),
+                        const SizedBox(height: 2),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            StarRatingWidget(rate: 4),
-                            SizedBox(width: 8),
-                            Text('2023.05.21',
+                            StarRatingWidget(rate: review['rating']),
+                            const SizedBox(width: 8),
+                            const Text('2023.05.21 날짜 데이터가 없음!',
                                 style: TextStyle(
                                     fontSize: 10, color: CustomColor.gray))
                           ],
@@ -77,15 +83,15 @@ class ReviewListItemWidget extends StatelessWidget {
                   children: [
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.88 - 40,
-                      child: const Text(
-                        '반려동물 샴푸 강추요!!!',
-                        style: TextStyle(
+                      child: Text(
+                        review['title'],
+                        style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w700,
                             color: CustomColor.black2),
                       ),
                     ),
-                    if (isImage)
+                    if (review['isImage'] != null)
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 6),
                         child: Container(
@@ -101,9 +107,9 @@ class ReviewListItemWidget extends StatelessWidget {
                     const SizedBox(height: 8),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.88 - 72,
-                      child: const Text(
-                        '샴푸하면서 느낀건데 향기가 좋았고요.\n제형도 너무 묽지 않고 쫀쫀해서 샴푸하기 좋았어요!\n정말 추천해드리고픈 요 제품!!',
-                        style: TextStyle(
+                      child: Text(
+                        review['content'],
+                        style: const TextStyle(
                           fontSize: 11,
                           color: CustomColor.black2,
                         ),

@@ -3,7 +3,8 @@ import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/svg/search.dart';
 
 class SearchBarWidget extends StatefulWidget {
-  const SearchBarWidget({super.key});
+  const SearchBarWidget({super.key, this.searchingForm});
+  final Map<String, dynamic>? searchingForm;
 
   @override
   State<SearchBarWidget> createState() => _SearchBarWidgetState();
@@ -42,7 +43,11 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
                   validator: (value) {
                     return null;
                   },
-                  onSaved: (value) {},
+                  onSaved: (value) {
+                    if (widget.searchingForm != null) {
+                      widget.searchingForm!['keyword'] = value;
+                    }
+                  },
                 ),
               ),
             )
