@@ -35,22 +35,22 @@ class _PostViewWidgetState extends State<PostViewWidget> {
       final dio = Dio();
       var token = await readAccessToken();
       dio.options.headers['Authorization'] = token;
-      String type;
+      int type;
       switch (widget.currentSection) {
         case 'boast':
-          type = '1';
+          type = 1;
           break;
         case 'fun':
-          type = '2';
+          type = 2;
           break;
         case 'missing':
-          type = '3';
+          type = 3;
           break;
         default:
-          type = '1';
+          type = 1;
       }
       final response = await dio.get(
-        '$baseUrl/community-service/boards',
+        '${baseUrl}community-service/boards',
         queryParameters: {'type': type},
       );
       if (response.statusCode == 200) {
@@ -60,6 +60,7 @@ class _PostViewWidgetState extends State<PostViewWidget> {
         SnackBarWidget.show(context, SnackBarType.error, "게시글 리스트 호출에 실패하였습니다");
       }
     } catch (error) {
+      print(error.toString());
       SnackBarWidget.show(context, SnackBarType.error, error.toString());
     }
   }
