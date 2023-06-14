@@ -3,9 +3,11 @@ import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/svg/tiny_right_arrow.dart';
 
 class MainContentLabelWidget extends StatelessWidget {
+  final Widget routingScreen;
   final String label;
 
-  const MainContentLabelWidget({super.key, required this.label});
+  const MainContentLabelWidget(
+      {super.key, required this.label, required this.routingScreen});
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +22,8 @@ class MainContentLabelWidget extends StatelessWidget {
           ),
         ),
         GestureDetector(
+          onTap: () => Navigator.push(
+              context, MaterialPageRoute(builder: (context) => routingScreen)),
           child: const Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -32,7 +36,7 @@ class MainContentLabelWidget extends StatelessWidget {
                 ),
               ),
               Padding(
-                  padding: EdgeInsets.only(top: 2, left: 4),
+                  padding: EdgeInsets.only(left: 4),
                   child: TinyRightArrowSVG(
                     color: CustomColor.gray,
                   ))

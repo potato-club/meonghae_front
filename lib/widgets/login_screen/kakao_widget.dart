@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/models/loginModel.dart';
+import 'package:meonghae_front/screens/main_screen.dart';
 import 'package:meonghae_front/screens/register_dog_screen.dart';
 import 'package:meonghae_front/screens/select_screen.dart';
 import 'package:meonghae_front/screens/video_player_screen.dart';
@@ -29,8 +30,7 @@ class _KakaoButtonState extends State<KakaoButton> {
             builder: (context) =>
                 result['response']['responseCode'] == "201_CREATED"
                     ? SelectScreen(email: result['response']['email'])
-                    // : const VideoPlayerScreen(),
-                    : const RegisterDogScreen(),
+                    : const VideoPlayerScreen(),
           ));
     } else {
       SnackBarWidget.show(context, SnackBarType.error, result['error']);

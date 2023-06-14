@@ -6,7 +6,7 @@ import 'package:meonghae_front/widgets/calendar_screen/no_info_widget.dart';
 
 class InfoContentWidget extends StatefulWidget {
   final DateTime selectedDay;
-  final List<Event> events;
+  final List<dynamic> events;
   const InfoContentWidget({
     super.key,
     required this.selectedDay,
@@ -32,6 +32,13 @@ class _InfoContentWidgetState extends State<InfoContentWidget> {
   @override
   Widget build(BuildContext context) {
     List<String> dayOfWeek = ["월", "화", "수", "목", "금", "토", "일"];
+
+    String formatTime(String time) {
+      var timeArr = time.toString().split('T')[1].split(':');
+      var time_ = int.parse(timeArr[0]) >= 12 ? "오후" : "오전";
+      return "${time_} ${timeArr[0]}:${timeArr[1]}";
+    }
+
     return GestureDetector(
       onVerticalDragUpdate: _onVerticalDragUpdate,
       child: AnimatedContainer(
@@ -109,12 +116,13 @@ class _InfoContentWidgetState extends State<InfoContentWidget> {
                                             i < widget.events.length;
                                             i++)
                                           InfoItemWidget(
-                                            startTime:
-                                                widget.events[i].getStartTime(),
-                                            endTime:
-                                                widget.events[i].getStartTime(),
-                                            title: widget.events[i].getTitle(),
-                                            isEndItem: false,
+                                            startTime: formatTime(widget
+                                                .events[i]['scheduleTime']),
+                                            endTime: formatTime(widget.events[i]
+                                                ['scheduleTime']),
+                                            title: widget.events[i]['text'],
+                                            isEndItem:
+                                                i + 1 == widget.events.length,
                                           ),
                                       ],
                                     ),
@@ -141,16 +149,13 @@ class _InfoContentWidgetState extends State<InfoContentWidget> {
                                                 i < widget.events.length;
                                                 i++)
                                               InfoItemWidget(
-                                                startTime: widget.events[i]
-                                                    .getStartTime(),
-                                                endTime: widget.events[i]
-                                                    .getStartTime(),
-                                                title:
-                                                    widget.events[i].getTitle(),
+                                                startTime: formatTime(widget
+                                                    .events[i]['scheduleTime']),
+                                                endTime: formatTime(widget
+                                                    .events[i]['scheduleTime']),
+                                                title: widget.events[i]['text'],
                                                 isEndItem: i + 1 ==
-                                                        widget.events.length
-                                                    ? true
-                                                    : false,
+                                                    widget.events.length,
                                               )
                                           ],
                                         ),

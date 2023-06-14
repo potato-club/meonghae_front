@@ -26,7 +26,8 @@ class _SwitchWidgetState extends State<SwitchWidget> {
         width: 52,
         height: 27,
         decoration: BoxDecoration(
-            color: CustomColor.lightGray1,
+            color:
+                widget.isChecked ? CustomColor.brown1 : CustomColor.lightGray1,
             borderRadius: BorderRadius.circular(14)),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 2),
