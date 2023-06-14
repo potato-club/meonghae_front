@@ -1,6 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:meonghae_front/config/base_url.dart';
+import 'package:meonghae_front/login/token.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 import 'package:meonghae_front/widgets/post_detail_screen/comment_widget.dart';
 
 class DetailCommentWidget extends StatefulWidget {
@@ -27,47 +30,39 @@ class _DetailCommentWidgetState extends State<DetailCommentWidget> {
   Future<void> fetchData() async {
     try {
       final dio = Dio();
-      dio.options.headers['Authorization'] =
-          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0aGR3bzk5OUBuYXZlci5jb20iLCJyb2xlcyI6WyJVU0VSIl0sImlhdCI6MTY4NjY4NDQwNywiZXhwIjoxNjg2Njg2MjA3fQ.5kSXCxz7xU2wBEjel5ER1SGvAnk5UPCfuNbR66df-lI';
-
+      var token = await readAccessToken();
+      dio.options.headers['Authorization'] = token;
       final response = await dio.get(
-        'https://api.meonghae.site/community-service/boards/${widget.id}',
+        '${baseUrl}community-service/boards/${widget.id}',
       );
-
       if (response.statusCode == 200) {
         final data = response.data as Map<String, dynamic>;
-        setState(() {
-          post = data;
-        });
+        setState(() => post = data);
       } else {
-        print('Request failed with status: ${response.statusCode}');
+        SnackBarWidget.show(context, SnackBarType.error, "게시글 정보 호출에 실패하였습니다");
       }
     } catch (error) {
-      print('Error occurddred: $error');
+      SnackBarWidget.show(context, SnackBarType.error, error.toString());
     }
   }
 
   Future<void> fetchReplyData() async {
     try {
       final dio = Dio();
-      dio.options.headers['Authorization'] =
-          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0aGR3bzk5OUBuYXZlci5jb20iLCJyb2xlcyI6WyJVU0VSIl0sImlhdCI6MTY4NjY4NDQwNywiZXhwIjoxNjg2Njg2MjA3fQ.5kSXCxz7xU2wBEjel5ER1SGvAnk5UPCfuNbR66df-lI';
-
+      var token = await readAccessToken();
+      dio.options.headers['Authorization'] = token;
       final response = await dio.get(
-        'https://api.meonghae.site/community-service/boardComments/${widget.id}',
+        '${baseUrl}community-service/boardComments/${widget.id}',
       );
 
       if (response.statusCode == 200) {
         final data = response.data;
-        setState(() {
-          content = data['content'];
-        });
-        print(content);
+        setState(() => content = data['content']);
       } else {
-        print('Request failed with status: ${response.statusCode}');
+        SnackBarWidget.show(context, SnackBarType.error, "댓글 정보 호출에 실패하였습니다");
       }
     } catch (error) {
-      print('댓글에러: $error');
+      SnackBarWidget.show(context, SnackBarType.error, error.toString());
     }
   }
 
