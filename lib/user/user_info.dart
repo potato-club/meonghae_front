@@ -3,7 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 Future<void> saveUserInfo(Map<String, dynamic> userInfo) async {
   const storage = FlutterSecureStorage();
   await storage.write(key: 'userFileUrl', value: userInfo['fileUrl']);
-  await storage.write(key: 'userAge', value: userInfo['age']);
+  await storage.write(key: 'userAge', value: userInfo['age'].toString());
   await storage.write(key: 'userBirth', value: userInfo['birth']);
   await storage.write(key: 'userEmail', value: userInfo['email']);
   await storage.write(key: 'userNickname', value: userInfo['nickname']);

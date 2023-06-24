@@ -53,7 +53,7 @@ class _ReviewWriteScreenState extends State<ReviewWriteScreen> {
         });
         final response = await dio.post('${baseUrl}community-service/reviews',
             data: formData);
-        if (response.statusCode == 200) {
+        if (response.statusCode == 201) {
           Navigator.pop(context);
           SnackBarWidget.show(context, SnackBarType.check, '성공적으로 리뷰를 작성하였습니다');
         } else {
