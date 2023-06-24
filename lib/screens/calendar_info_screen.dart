@@ -33,7 +33,6 @@ class _CalendarInfoScreenState extends State<CalendarInfoScreen> {
   }
 
   Future<void> handleSave() async {
-    print(time);
     if (content != null &&
         (isAllday || (time['date'] != null && time['time'] != null))) {
       try {

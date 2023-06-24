@@ -5,7 +5,10 @@ import 'package:meonghae_front/widgets/review_write_screen/images_widget.dart';
 import 'package:meonghae_front/widgets/svg/clip.dart';
 
 class WriteFormWidget extends StatefulWidget {
-  const WriteFormWidget({super.key});
+  final Function setWriteData;
+  final Map<String, dynamic> writeData;
+  const WriteFormWidget(
+      {super.key, required this.setWriteData, required this.writeData});
 
   @override
   State<WriteFormWidget> createState() => _WriteFormWidgetState();
@@ -25,11 +28,7 @@ class _WriteFormWidgetState extends State<WriteFormWidget> {
             SizedBox(
               height: 40,
               child: TextField(
-                onChanged: (value) {
-                  setState(() {
-                    title = value;
-                  });
-                },
+                onChanged: (value) => widget.setWriteData("title", value),
                 decoration: InputDecoration(
                   hintText: "제목을 입력해주세요",
                   hintStyle:
@@ -59,36 +58,31 @@ class _WriteFormWidgetState extends State<WriteFormWidget> {
                   borderRadius: BorderRadius.circular(10)),
               height: 202,
               child: TextField(
-                onChanged: (value) {
-                  setState(() {
-                    content = value;
-                  });
-                },
-                decoration: InputDecoration(
+                onChanged: (value) => widget.setWriteData("content", value),
+                decoration: const InputDecoration(
                   hintText: "내용을 입력해주세요",
-                  hintStyle:
-                      const TextStyle(fontSize: 12, color: CustomColor.gray),
+                  hintStyle: TextStyle(fontSize: 12, color: CustomColor.gray),
                   border: InputBorder.none,
                   focusedBorder: InputBorder.none,
                   errorBorder: InputBorder.none,
                   contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                      EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                 ),
                 maxLines: 16,
                 style: const TextStyle(fontSize: 12, color: CustomColor.black2),
               ),
             ),
-            SizedBox(height: 14),
+            const SizedBox(height: 14),
             Container(
               decoration: BoxDecoration(
                   border: Border.all(color: CustomColor.gray, width: 1),
                   borderRadius: BorderRadius.circular(10)),
               child: Padding(
-                padding:
-                    EdgeInsets.only(top: 12, left: 12, right: 12, bottom: 24),
+                padding: const EdgeInsets.only(
+                    top: 12, left: 12, right: 12, bottom: 24),
                 child: Column(
                   children: [
-                    Row(
+                    const Row(
                       children: [
                         SizedBox(width: 4),
                         Text("포토",
@@ -100,8 +94,10 @@ class _WriteFormWidgetState extends State<WriteFormWidget> {
                         ClipSVG()
                       ],
                     ),
-                    SizedBox(height: 12),
-                    ImagesWidget(),
+                    const SizedBox(height: 12),
+                    ImagesWidget(
+                        writeData: widget.writeData,
+                        setWriteData: widget.setWriteData),
                   ],
                 ),
               ),

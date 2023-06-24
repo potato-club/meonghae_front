@@ -5,14 +5,16 @@ import 'package:meonghae_front/widgets/svg/arrow.dart';
 import 'package:meonghae_front/widgets/svg/star.dart';
 
 class StarRatingWidget extends StatefulWidget {
-  const StarRatingWidget({super.key});
+  final Function setWriteData;
+  final Map<String, dynamic> writeData;
+  const StarRatingWidget(
+      {super.key, required this.setWriteData, required this.writeData});
 
   @override
   State<StarRatingWidget> createState() => _StarRatingWidgetState();
 }
 
 class _StarRatingWidgetState extends State<StarRatingWidget> {
-  double rate = 0;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -30,8 +32,8 @@ class _StarRatingWidgetState extends State<StarRatingWidget> {
                   )),
               const SizedBox(height: 16),
               RatingStars(
-                value: rate,
-                onValueChanged: (v) => setState(() => rate = v),
+                value: widget.writeData["rating"],
+                onValueChanged: (v) => widget.setWriteData("rating", v),
                 starBuilder: (index, color) => StarSVG(color: color),
                 starCount: 5,
                 starSize: 40,

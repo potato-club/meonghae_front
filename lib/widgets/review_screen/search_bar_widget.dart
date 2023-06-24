@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 import 'package:meonghae_front/widgets/svg/search.dart';
 
 class SearchBarWidget extends StatefulWidget {
-  const SearchBarWidget({super.key});
+  final Function fetchReviewData;
+  final Map<String, dynamic>? searchingForm;
+  const SearchBarWidget({
+    super.key,
+    this.searchingForm,
+    required this.fetchReviewData,
+  });
 
   @override
   State<SearchBarWidget> createState() => _SearchBarWidgetState();
@@ -20,7 +27,15 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
         padding: const EdgeInsets.only(left: 16),
         child: Row(
           children: [
-            GestureDetector(child: const SearchSVG()),
+            GestureDetector(
+                onTap: () => {
+                      if (widget.searchingForm!['keyword'] != null)
+                        widget.fetchReviewData()
+                      else
+                        SnackBarWidget.show(
+                            context, SnackBarType.error, "2글자 이상의 단어를 검색해주세요")
+                    },
+                child: const SearchSVG()),
             Expanded(
               child: Transform.translate(
                 offset: const Offset(0, 2),
@@ -42,7 +57,16 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
                   validator: (value) {
                     return null;
                   },
-                  onSaved: (value) {},
+                  onChanged: (value) {
+                    if (value.length > 1) {
+                      widget.searchingForm!['keyword'] = value;
+                    } else if (value.isEmpty) {
+                      if (widget.searchingForm!['keyword'] != null) {
+                        widget.searchingForm!['keyword'] = null;
+                        widget.fetchReviewData();
+                      }
+                    }
+                  },
                 ),
               ),
             )

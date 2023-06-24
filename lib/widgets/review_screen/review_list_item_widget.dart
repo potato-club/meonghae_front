@@ -1,14 +1,39 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:meonghae_front/config/base_url.dart';
+import 'package:meonghae_front/login/token.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 import 'package:meonghae_front/widgets/review_screen/star_rating_widget.dart';
-import 'package:meonghae_front/widgets/svg/tiny_picture.dart';
+import 'package:meonghae_front/widgets/svg/like.dart';
 
 class ReviewListItemWidget extends StatelessWidget {
-  final bool isImage;
-  const ReviewListItemWidget({super.key, required this.isImage});
+  final Function fetchReviewData;
+  final Map<String, dynamic> review;
+  const ReviewListItemWidget(
+      {super.key, required this.review, required this.fetchReviewData});
 
   @override
   Widget build(BuildContext context) {
+    Future<void> onClickLike(bool isLike) async {
+      try {
+        final dio = Dio();
+        var token = await readAccessToken();
+        dio.options.headers['Authorization'] = token;
+        final response = await dio.post(
+            '${baseUrl}community-service/reviews/${review['id']}/recommend',
+            data: {"isLike": isLike});
+        if (response.statusCode == 200) {
+          fetchReviewData();
+        } else {
+          SnackBarWidget.show(context, SnackBarType.error,
+              "${isLike ? "좋아요" : "싫어요"} 등록에 실패하였습니다");
+        }
+      } catch (error) {
+        SnackBarWidget.show(context, SnackBarType.error, error.toString());
+      }
+    }
+
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: MediaQuery.of(context).size.width * 0.06,
@@ -31,6 +56,7 @@ class ReviewListItemWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
+                      clipBehavior: Clip.hardEdge,
                       width: 37,
                       height: 37,
                       decoration: const BoxDecoration(
@@ -38,31 +64,36 @@ class ReviewListItemWidget extends StatelessWidget {
                           shape: BoxShape.circle),
                       child: Transform.scale(
                         scale: 1.8,
-                        child: const Image(
-                          image: AssetImage(
-                            'assets/images/dog_pictures/face.png',
-                          ),
-                        ),
+                        child: review["profileUrl"] != null
+                            ? Image.network(
+                                review["profileUrl"],
+                                fit: BoxFit.cover,
+                              )
+                            : const Image(
+                                image: AssetImage(
+                                  'assets/images/dog_pictures/face.png',
+                                ),
+                              ),
                       ),
                     ),
                     const SizedBox(width: 12),
-                    const Column(
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '곤듀님',
-                          style: TextStyle(
+                          review['nickname'],
+                          style: const TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w700,
                               color: CustomColor.black2),
                         ),
-                        SizedBox(height: 2),
+                        const SizedBox(height: 2),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            StarRatingWidget(rate: 4),
-                            SizedBox(width: 8),
-                            Text('2023.05.21',
+                            StarRatingWidget(rate: review['rating']),
+                            const SizedBox(width: 8),
+                            const Text('2023.05.21',
                                 style: TextStyle(
                                     fontSize: 10, color: CustomColor.gray))
                           ],
@@ -77,33 +108,33 @@ class ReviewListItemWidget extends StatelessWidget {
                   children: [
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.88 - 40,
-                      child: const Text(
-                        '반려동물 샴푸 강추요!!!',
-                        style: TextStyle(
+                      child: Text(
+                        review['title'],
+                        style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w700,
                             color: CustomColor.black2),
                       ),
                     ),
-                    if (isImage)
+                    if (review['images'] != null)
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 6),
                         child: Container(
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10)),
                           clipBehavior: Clip.hardEdge,
-                          child: const Image(
-                            image: AssetImage('assets/images/dummy/dummy3.png'),
+                          child: Image.network(
+                            review['images'][0]['fileUrl'],
                             fit: BoxFit.cover,
                           ),
                         ),
                       ),
                     const SizedBox(height: 8),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.88 - 72,
-                      child: const Text(
-                        '샴푸하면서 느낀건데 향기가 좋았고요.\n제형도 너무 묽지 않고 쫀쫀해서 샴푸하기 좋았어요!\n정말 추천해드리고픈 요 제품!!',
-                        style: TextStyle(
+                      width: MediaQuery.of(context).size.width * 0.88 - 100,
+                      child: Text(
+                        review['content'],
+                        style: const TextStyle(
                           fontSize: 11,
                           color: CustomColor.black2,
                         ),
@@ -120,15 +151,21 @@ class ReviewListItemWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    const TinyPictureSVG(),
-                    const SizedBox(width: 2),
-                    Transform.translate(
-                      offset: const Offset(0, 2),
-                      child: const Text(
-                        '12',
-                        style: TextStyle(fontSize: 11, color: CustomColor.gray),
-                      ),
-                    ),
+                    InkWell(
+                        onTap: () => onClickLike(true), child: const LikeSVG()),
+                    const SizedBox(width: 4),
+                    Text("${review['likes']}",
+                        style: const TextStyle(
+                            fontSize: 11, color: CustomColor.gray)),
+                    const SizedBox(width: 10),
+                    InkWell(
+                        onTap: () => onClickLike(false),
+                        child: Transform.rotate(
+                            angle: -3.14, child: const LikeSVG())),
+                    const SizedBox(width: 4),
+                    Text("${review['dislikes']}",
+                        style: const TextStyle(
+                            fontSize: 11, color: CustomColor.gray)),
                   ],
                 ))
           ]),

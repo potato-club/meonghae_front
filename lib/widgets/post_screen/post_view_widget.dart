@@ -60,7 +60,6 @@ class _PostViewWidgetState extends State<PostViewWidget> {
         SnackBarWidget.show(context, SnackBarType.error, "게시글 리스트 호출에 실패하였습니다");
       }
     } catch (error) {
-      print(error.toString());
       SnackBarWidget.show(context, SnackBarType.error, error.toString());
     }
   }
