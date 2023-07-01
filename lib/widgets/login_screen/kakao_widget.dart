@@ -1,12 +1,13 @@
 // ignore_for_file: use_build_context_synchronously
-
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:meonghae_front/config/base_url.dart';
+import 'package:meonghae_front/login/token.dart';
 import 'package:meonghae_front/models/loginModel.dart';
-import 'package:meonghae_front/screens/main_screen.dart';
-import 'package:meonghae_front/screens/register_dog_screen.dart';
 import 'package:meonghae_front/screens/select_screen.dart';
 import 'package:meonghae_front/screens/video_player_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/user/user_info.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 
 class KakaoButton extends StatefulWidget {
@@ -21,17 +22,42 @@ class KakaoButton extends StatefulWidget {
 }
 
 class _KakaoButtonState extends State<KakaoButton> {
+  Future<void> _saveUserInfo() async {
+    var userEmail = await readUserEmail();
+    if (userEmail == null) {
+      try {
+        Dio dio = Dio();
+        var token = await readAccessToken();
+        dio.options.headers['Authorization'] = token;
+        final response = await dio.get('${baseUrl}user-service/mypage');
+        if (response.statusCode == 200) {
+          saveUserInfo(response.data);
+        } else {
+          SnackBarWidget.show(context, SnackBarType.error, "유저정보 호출에 실패하였습니다");
+        }
+      } catch (error) {
+        SnackBarWidget.show(context, SnackBarType.error, error.toString());
+      }
+    }
+  }
+
   void handleLogin() async {
     Map<String, dynamic> result = await widget.loginModel.login();
     if (result['success']) {
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) =>
-                result['response']['responseCode'] == "201_CREATED"
-                    ? SelectScreen(email: result['response']['email'])
-                    : const VideoPlayerScreen(),
-          ));
+      if (result['response']['responseCode'] == "201_CREATED") {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    SelectScreen(email: result['response']['email'])));
+      } else {
+        _saveUserInfo();
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const VideoPlayerScreen(),
+            ));
+      }
     } else {
       SnackBarWidget.show(context, SnackBarType.error, result['error']);
     }

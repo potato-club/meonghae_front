@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:meonghae_front/config/base_url.dart';
 import 'package:meonghae_front/login/token.dart';
 import 'package:meonghae_front/themes/customColor.dart';
-import 'package:meonghae_front/user/user_info.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 import 'package:meonghae_front/widgets/main_screen/banner_widget.dart';
 import 'package:meonghae_front/widgets/main_screen/main_content_widget.dart';
@@ -21,30 +20,8 @@ class _MainScreenState extends State<MainScreen> {
   List<dynamic>? dogsInfo;
   @override
   void initState() {
-    _saveUserInfo();
     _getDogsInfo();
     super.initState();
-  }
-
-  Future<void> _saveUserInfo() async {
-    // var userEmail = await readUserEmail();
-    var userEmail;
-
-    if (userEmail == null) {
-      try {
-        Dio dio = Dio();
-        var token = await readAccessToken();
-        dio.options.headers['Authorization'] = token;
-        final response = await dio.get('${baseUrl}user-service/mypage');
-        if (response.statusCode == 200) {
-          saveUserInfo(response.data);
-        } else {
-          SnackBarWidget.show(context, SnackBarType.error, "유저정보 호출에 실패하였습니다");
-        }
-      } catch (error) {
-        SnackBarWidget.show(context, SnackBarType.error, error.toString());
-      }
-    }
   }
 
   Future<void> _getDogsInfo() async {

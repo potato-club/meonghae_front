@@ -58,7 +58,6 @@ class _ReviewScreenState extends State<ReviewScreen> {
     try {
       final dio = Dio();
       var token = await readAccessToken();
-      print(token);
       dio.options.headers['Authorization'] = token;
       final response = await dio.get(
         '${baseUrl}community-service/reviews/${ReviewMenuMap[widget.menuValue]}',

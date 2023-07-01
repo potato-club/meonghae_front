@@ -27,11 +27,9 @@ class _ReviewWriteScreenState extends State<ReviewWriteScreen> {
 
   void setWriteData(String key, dynamic value) {
     setState(() => writeData[key] = value);
-    print(writeData);
   }
 
   Future<void> handleSubmit() async {
-    print(writeData);
     if (writeData["title"] != "" &&
         writeData["content"] != "" &&
         writeData["rating"] != 0 &&
