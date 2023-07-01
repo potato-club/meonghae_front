@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/screens/calendar_screen.dart';
+import 'package:meonghae_front/screens/inquiry_screen.dart';
 import 'package:meonghae_front/screens/main_screen.dart';
 import 'package:meonghae_front/screens/post_screen.dart';
 import 'package:meonghae_front/screens/review_menu_screen.dart';
@@ -62,7 +63,7 @@ class UnderBarWidget extends StatelessWidget {
                       label: '리뷰'),
                   UnderBarIconButtonWidget(
                       iconSVG: AskSVG(isCurrent: '문의' == currentScreen),
-                      routePath: const CalendarScreen(),
+                      routePath: const InquiryScreen(),
                       currentScreen: currentScreen,
                       label: '문의')
                 ],

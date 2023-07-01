@@ -4,25 +4,36 @@ import 'package:meonghae_front/widgets/svg/check.dart';
 import 'package:meonghae_front/widgets/svg/filter_check.dart';
 
 enum FilterType {
-  late,
-  star,
-  comment,
+  LATEST,
+  RATING_ASC,
+  RATING_DESC,
+  RECOMMEND,
 }
 
 class FilterBarWidget extends StatefulWidget {
-  final bool isCheckedPhotoReview;
+  final Map<String, dynamic> searchingForm;
   final Function setIsCheckedPhotoReview;
+  final Function fetchReviewData;
   const FilterBarWidget(
       {super.key,
-      required this.isCheckedPhotoReview,
-      required this.setIsCheckedPhotoReview});
+      required this.searchingForm,
+      required this.setIsCheckedPhotoReview,
+      required this.fetchReviewData});
 
   @override
   State<FilterBarWidget> createState() => _FilterBarWidgetState();
 }
 
 class _FilterBarWidgetState extends State<FilterBarWidget> {
-  FilterType filterType = FilterType.late;
+  FilterType filterType = FilterType.LATEST;
+
+  void updateSortValue(String sortValue) {
+    setState(() {
+      widget.searchingForm['sort'] = sortValue;
+    });
+    widget.fetchReviewData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -36,17 +47,17 @@ class _FilterBarWidgetState extends State<FilterBarWidget> {
                   width: 20,
                   height: 20,
                   decoration: BoxDecoration(
-                      color: widget.isCheckedPhotoReview
+                      color: widget.searchingForm['isCheckedPhotoReviews']
                           ? CustomColor.brown1
                           : Colors.transparent,
-                      border: widget.isCheckedPhotoReview
+                      border: widget.searchingForm['isCheckedPhotoReviews']
                           ? null
                           : Border.all(
                               color: CustomColor.black4, // 테두리 색상 설정
                               width: 1 // 테두리 두께 설정
                               ),
                       borderRadius: BorderRadius.circular(5)),
-                  child: widget.isCheckedPhotoReview
+                  child: widget.searchingForm['isCheckedPhotoReviews']
                       ? const Center(child: CheckSVG(color: CustomColor.white))
                       : null),
             ),
@@ -63,71 +74,93 @@ class _FilterBarWidgetState extends State<FilterBarWidget> {
           children: [
             InkWell(
               onTap: () {
-                if (filterType != FilterType.late) {
-                  setState(() => filterType = FilterType.late);
+                if (filterType != FilterType.LATEST) {
+                  setState(() {
+                    filterType = FilterType.LATEST;
+                    updateSortValue('LATEST');
+                  });
                 }
               },
-              child: Row(
-                children: [
-                  Text('최신순',
-                      style: TextStyle(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w700,
-                        color: filterType == FilterType.late
-                            ? CustomColor.black2
-                            : CustomColor.lightGray2,
-                      )),
-                  const SizedBox(width: 2),
-                  FilterCheckSVG(
-                      isChecked: filterType == FilterType.late ? true : false),
-                ],
+              child: SizedBox(
+                height: 20,
+                child: Row(
+                  children: [
+                    Text('최신순',
+                        style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w700,
+                          color: filterType == FilterType.LATEST
+                              ? CustomColor.black2
+                              : CustomColor.lightGray2,
+                        )),
+                    const SizedBox(width: 2),
+                    FilterCheckSVG(
+                        isChecked:
+                            filterType == FilterType.LATEST ? true : false),
+                  ],
+                ),
               ),
             ),
             const SizedBox(width: 16),
             InkWell(
               onTap: () {
-                if (filterType != FilterType.star) {
-                  setState(() => filterType = FilterType.star);
+                if (filterType != FilterType.RATING_DESC) {
+                  setState(() {
+                    filterType = FilterType.RATING_DESC;
+                    updateSortValue(
+                        'RATING_DESC'); // Update the sort value to 'LATEST'
+                  });
                 }
               },
-              child: Row(
-                children: [
-                  Text('별점순',
-                      style: TextStyle(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w700,
-                        color: filterType == FilterType.star
-                            ? CustomColor.black2
-                            : CustomColor.lightGray2,
-                      )),
-                  const SizedBox(width: 2),
-                  FilterCheckSVG(
-                      isChecked: filterType == FilterType.star ? true : false),
-                ],
+              child: SizedBox(
+                height: 20,
+                child: Row(
+                  children: [
+                    Text('별점순',
+                        style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w700,
+                          color: filterType == FilterType.RATING_DESC
+                              ? CustomColor.black2
+                              : CustomColor.lightGray2,
+                        )),
+                    const SizedBox(width: 2),
+                    FilterCheckSVG(
+                        isChecked: filterType == FilterType.RATING_DESC
+                            ? true
+                            : false),
+                  ],
+                ),
               ),
             ),
             const SizedBox(width: 16),
             InkWell(
               onTap: () {
-                if (filterType != FilterType.comment) {
-                  setState(() => filterType = FilterType.comment);
+                if (filterType != FilterType.RECOMMEND) {
+                  setState(() {
+                    filterType = FilterType.RECOMMEND;
+                    updateSortValue('RECOMMEND');
+                  });
                 }
               },
-              child: Row(
-                children: [
-                  Text('댓글순',
-                      style: TextStyle(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w700,
-                        color: filterType == FilterType.comment
-                            ? CustomColor.black2
-                            : CustomColor.lightGray2,
-                      )),
-                  const SizedBox(width: 2),
-                  FilterCheckSVG(
-                      isChecked:
-                          filterType == FilterType.comment ? true : false),
-                ],
+              child: SizedBox(
+                height: 20,
+                child: Row(
+                  children: [
+                    Text('관심순',
+                        style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w700,
+                          color: filterType == FilterType.RECOMMEND
+                              ? CustomColor.black2
+                              : CustomColor.lightGray2,
+                        )),
+                    const SizedBox(width: 2),
+                    FilterCheckSVG(
+                        isChecked:
+                            filterType == FilterType.RECOMMEND ? true : false),
+                  ],
+                ),
               ),
             ),
           ],

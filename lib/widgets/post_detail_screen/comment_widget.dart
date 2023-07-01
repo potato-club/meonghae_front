@@ -103,7 +103,6 @@ class _CommentWidgetState extends State<CommentWidget> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           ...cocomment.map((cocomment) {
-                            print(cocomment);
                             return CocomentWidget(
                                 cocomment: cocomment,
                                 setIsCommentMoreModal:

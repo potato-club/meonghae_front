@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/review_screen/review_menu_buttons_widget.dart';
-import 'package:meonghae_front/widgets/review_screen/search_bar_widget.dart';
 import 'package:meonghae_front/widgets/under_bar/under_bar_widget.dart';
 
 class ReviewMenuScreen extends StatefulWidget {
@@ -21,11 +20,6 @@ class _ReviewMenuScreenState extends State<ReviewMenuScreen> {
         children: [
           const SizedBox(
             height: 62,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: MediaQuery.of(context).size.width * 0.06),
-            child: const SearchBarWidget(),
           ),
           Expanded(
               child: Padding(
