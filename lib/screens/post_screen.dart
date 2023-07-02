@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:meonghae_front/screens/post_write_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/post_screen/post_menu_bar_widget.dart';
 import 'package:meonghae_front/widgets/post_screen/post_view_widget.dart';
+import 'package:meonghae_front/widgets/svg/pencil.dart';
 import 'package:meonghae_front/widgets/under_bar/under_bar_widget.dart';
 
 class PostScreen extends StatefulWidget {
@@ -54,6 +56,28 @@ class _PostScreenState extends State<PostScreen> {
                     width: MediaQuery.of(context).size.width,
                   ),
                 ),
+                Positioned(
+                    bottom: 16,
+                    right: 16,
+                    child: InkWell(
+                      onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              const PostWriteScreen())),
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: CustomColor.brown1,
+                        ),
+                        width: 70,
+                        height: 70,
+                        child: const Padding(
+                          padding: EdgeInsets.all(22),
+                          child: PencilSVG(
+                            color: CustomColor.white,
+                          ),
+                        ),
+                      ),
+                    ))
               ]),
             ),
             const UnderBarWidget(currentScreen: '게시물'),
