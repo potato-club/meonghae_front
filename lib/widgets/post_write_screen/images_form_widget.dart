@@ -5,7 +5,13 @@ import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/svg/camera.dart';
 
 class ImagesFormWidget extends StatefulWidget {
-  const ImagesFormWidget({super.key});
+  final Map<String, dynamic> writeData;
+  final Function setWriteData;
+  const ImagesFormWidget({
+    super.key,
+    required this.writeData,
+    required this.setWriteData,
+  });
 
   @override
   State<ImagesFormWidget> createState() => _ImagesFormWidgetState();
@@ -17,12 +23,10 @@ class _ImagesFormWidgetState extends State<ImagesFormWidget> {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     setState(() {
       if (pickedFile != null) {
-        setState(() => files.add(File(pickedFile.path)));
+        setState(() => widget.writeData['images'].add(File(pickedFile.path)));
       }
     });
   }
-
-  List<File> files = [];
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +37,7 @@ class _ImagesFormWidgetState extends State<ImagesFormWidget> {
             horizontal: MediaQuery.of(context).size.width * 0.06),
         child: Row(
           children: [
-            if (files.length < 5)
+            if (widget.writeData['images'].length < 5)
               Padding(
                 padding: const EdgeInsets.only(right: 14),
                 child: InkWell(
@@ -49,7 +53,7 @@ class _ImagesFormWidgetState extends State<ImagesFormWidget> {
                   ),
                 ),
               ),
-            for (int i = 0; i < files.length; i++)
+            for (int i = 0; i < widget.writeData['images'].length; i++)
               Row(
                 children: [
                   Padding(
@@ -60,7 +64,8 @@ class _ImagesFormWidgetState extends State<ImagesFormWidget> {
                       clipBehavior: Clip.hardEdge,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10)),
-                      child: Image.file(files[i], fit: BoxFit.cover),
+                      child: Image.file(widget.writeData['images'][i],
+                          fit: BoxFit.cover),
                     ),
                   )
                 ],

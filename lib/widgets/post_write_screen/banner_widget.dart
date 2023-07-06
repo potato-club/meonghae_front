@@ -3,7 +3,8 @@ import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/svg/arrow.dart';
 
 class BannerWidget extends StatelessWidget {
-  const BannerWidget({super.key});
+  final Function handleSubmit;
+  const BannerWidget({super.key, required this.handleSubmit});
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +33,9 @@ class BannerWidget extends StatelessWidget {
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
                         color: CustomColor.black2)),
-                const InkWell(
-                    child: SizedBox(
+                InkWell(
+                    onTap: () => handleSubmit(),
+                    child: const SizedBox(
                         width: 20,
                         child: Align(
                             alignment: Alignment.centerRight,

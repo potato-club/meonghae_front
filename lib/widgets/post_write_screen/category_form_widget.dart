@@ -2,14 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 
 class CategoryFormWidget extends StatefulWidget {
-  const CategoryFormWidget({super.key});
+  final Map<String, dynamic> writeData;
+  final Function setWriteData;
+  const CategoryFormWidget({
+    super.key,
+    required this.writeData,
+    required this.setWriteData,
+  });
 
   @override
   State<CategoryFormWidget> createState() => _CategoryFormWidgetState();
 }
 
 class _CategoryFormWidgetState extends State<CategoryFormWidget> {
-  num? category;
   Widget categoryButton(bool selected, String label, Function onTap) {
     return InkWell(
       onTap: () {
@@ -43,25 +48,22 @@ class _CategoryFormWidgetState extends State<CategoryFormWidget> {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             categoryButton(
-                category == 1,
-                '멍자랑',
-                () => setState(() {
-                      if (category != 1) category = 1;
-                    })),
+              widget.writeData['type'] == 1,
+              '멍자랑',
+              () => widget.setWriteData('type', 1),
+            ),
             const SizedBox(width: 16),
             categoryButton(
-                category == 2,
-                '웃긴멍',
-                () => setState(() {
-                      if (category != 2) category = 2;
-                    })),
+              widget.writeData['type'] == 2,
+              '웃긴멍',
+              () => widget.setWriteData('type', 2),
+            ),
             const SizedBox(width: 16),
             categoryButton(
-                category == 3,
-                '실종신고',
-                () => setState(() {
-                      if (category != 3) category = 3;
-                    })),
+              widget.writeData['type'] == 3,
+              '실종신고',
+              () => widget.setWriteData('type', 3),
+            ),
           ],
         ),
       ),

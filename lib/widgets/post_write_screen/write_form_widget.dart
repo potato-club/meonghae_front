@@ -4,7 +4,13 @@ import 'package:meonghae_front/widgets/post_write_screen/category_form_widget.da
 import 'package:meonghae_front/widgets/post_write_screen/images_form_widget.dart';
 
 class WriteFormWidget extends StatefulWidget {
-  const WriteFormWidget({super.key});
+  final Map<String, dynamic> writeData;
+  final Function setWriteData;
+  const WriteFormWidget({
+    super.key,
+    required this.writeData,
+    required this.setWriteData,
+  });
 
   @override
   State<WriteFormWidget> createState() => _WriteFormWidgetState();
@@ -51,9 +57,13 @@ class _WriteFormWidgetState extends State<WriteFormWidget> {
                 fontWeight: FontWeight.bold,
               ),
               maxLines: 1,
+              onChanged: (value) => widget.setWriteData("title", value),
             ),
           ),
-          const CategoryFormWidget(),
+          CategoryFormWidget(
+            writeData: widget.writeData,
+            setWriteData: widget.setWriteData,
+          ),
           SizedBox(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height - 320,
@@ -78,13 +88,17 @@ class _WriteFormWidgetState extends State<WriteFormWidget> {
                 color: CustomColor.black2,
               ),
               maxLines: 1,
+              onChanged: (value) => widget.setWriteData("content", value),
             ),
           ),
-          const SizedBox(
+          SizedBox(
             height: 104,
             child: Align(
               alignment: Alignment.topLeft,
-              child: ImagesFormWidget(),
+              child: ImagesFormWidget(
+                writeData: widget.writeData,
+                setWriteData: widget.setWriteData,
+              ),
             ),
           )
         ],
