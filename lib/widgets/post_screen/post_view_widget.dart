@@ -1,4 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:meonghae_front/config/base_url.dart';
+import 'package:meonghae_front/login/token.dart';
+import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 import 'package:meonghae_front/widgets/post_screen/post_missing_list_item_widget.dart';
 
 class PostViewWidget extends StatefulWidget {
@@ -27,43 +31,37 @@ class _PostViewWidgetState extends State<PostViewWidget> {
   }
 
   Future<void> fetchData() async {
-    // try {
-    //   final dio = Dio();
-    //   dio.options.headers['Authorization'] =
-    //       'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0aGR3bzk5OUBuYXZlci5jb20iLCJyb2xlcyI6WyJVU0VSIl0sImlhdCI6MTY4NjY1MDAxNywiZXhwIjoxNjg2NjUxODE3fQ.gieEpzu3jn6G-qYhr4zAHUo0ccz19YmRNcD_sgRiJPw';
-
-    //   String type;
-    //   switch (widget.currentSection) {
-    //     case 'boast':
-    //       type = '1';
-    //       break;
-    //     case 'fun':
-    //       type = '2';
-    //       break;
-    //     case 'missing':
-    //       type = '3';
-    //       break;
-    //     default:
-    //       type = '1';
-    //   }
-
-    //   final response = await dio.get(
-    //     'https://api.meonghae.site/community-service/boards',
-    //     queryParameters: {'type': type},
-    //   );
-
-    //   if (response.statusCode == 200) {
-    //     final data = response.data['content'];
-    //     setState(() {
-    //       posts = data;
-    //     });
-    //     print(posts);
-    //   } else {
-    //     print('Request failed with status: ${response.statusCode}');
-    //   }
-    // } catch (error) {
-    //   print('Error occurred: $error');
-    // }
+    try {
+      final dio = Dio();
+      var token = await readAccessToken();
+      dio.options.headers['Authorization'] = token;
+      int type;
+      switch (widget.currentSection) {
+        case 'boast':
+          type = 1;
+          break;
+        case 'fun':
+          type = 2;
+          break;
+        case 'missing':
+          type = 3;
+          break;
+        default:
+          type = 1;
+      }
+      final response = await dio.get(
+        '${baseUrl}community-service/boards',
+        queryParameters: {'type': type},
+      );
+      if (response.statusCode == 200) {
+        final data = response.data['content'];
+        setState(() => posts = data);
+      } else {
+        SnackBarWidget.show(context, SnackBarType.error, "게시글 리스트 호출에 실패하였습니다");
+      }
+    } catch (error) {
+      SnackBarWidget.show(context, SnackBarType.error, error.toString());
+    }
   }
 
   @override

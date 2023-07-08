@@ -6,20 +6,22 @@ import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/svg/plus.dart';
 
 class ImagesWidget extends StatefulWidget {
-  const ImagesWidget({super.key});
+  final Function setWriteData;
+  final Map<String, dynamic> writeData;
+  const ImagesWidget(
+      {super.key, required this.setWriteData, required this.writeData});
 
   @override
   State<ImagesWidget> createState() => _ImagesWidgetState();
 }
 
 class _ImagesWidgetState extends State<ImagesWidget> {
-  List<File?> images = [];
   void pickImage() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     setState(() {
       if (pickedFile != null) {
-        images.add(File(pickedFile.path));
+        setState(() => widget.writeData["images"].add(File(pickedFile.path)));
       }
     });
   }
@@ -28,7 +30,7 @@ class _ImagesWidgetState extends State<ImagesWidget> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        for (var image in images)
+        for (var image in widget.writeData["images"])
           Row(
             children: [
               Container(
@@ -42,7 +44,7 @@ class _ImagesWidgetState extends State<ImagesWidget> {
               SizedBox(width: 14)
             ],
           ),
-        if (images.length < 3)
+        if (widget.writeData["images"].length < 3)
           InkWell(
             onTap: pickImage,
             child: SizedBox(
