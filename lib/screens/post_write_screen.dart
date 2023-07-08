@@ -44,12 +44,9 @@ class _PostWriteScreenState extends State<PostWriteScreen> {
                 await MultipartFile.fromFile(image.path)
             ]
         });
-        print('${baseUrl}boards/${writeData['type']}');
-        final response = await dio.post('${baseUrl}boards/${writeData['type']}',
+        final response = await dio.post(
+            '${baseUrl}community-service/boards/${writeData['type']}',
             data: formData);
-        print('############${response.statusCode}');
-        print('############${response.headers}');
-        print('############${response.data}');
         if (response.statusCode == 201) {
           Navigator.pop(context);
           SnackBarWidget.show(

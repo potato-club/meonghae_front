@@ -24,40 +24,42 @@ class _WriteFormWidgetState extends State<WriteFormWidget> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Container(
-            decoration: const BoxDecoration(
-                border: Border(
-                    bottom: BorderSide(
-              color: CustomColor.lightGray1,
-              width: 1.0,
-            ))),
-            width: MediaQuery.of(context).size.width,
-            height: 60,
-            child: TextField(
-              // onChanged: (value) => widget.setWriteData("title", value),
-              decoration: InputDecoration(
-                hintText: "제목",
-                hintStyle: const TextStyle(
+          Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width * 0.06),
+            child: Container(
+              decoration: const BoxDecoration(
+                  border: Border(
+                      bottom: BorderSide(
+                color: CustomColor.lightGray1,
+                width: 1.0,
+              ))),
+              width: MediaQuery.of(context).size.width,
+              height: 60,
+              child: TextField(
+                // onChanged: (value) => widget.setWriteData("title", value),
+                decoration: InputDecoration(
+                  hintText: "제목",
+                  hintStyle: const TextStyle(
+                    fontSize: 16,
+                    color: CustomColor.gray,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  border: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  errorBorder: InputBorder.none,
+                  contentPadding: EdgeInsets.only(
+                    top: 20,
+                  ),
+                ),
+                style: const TextStyle(
                   fontSize: 16,
-                  color: CustomColor.gray,
+                  color: CustomColor.black2,
                   fontWeight: FontWeight.bold,
                 ),
-                border: InputBorder.none,
-                focusedBorder: InputBorder.none,
-                errorBorder: InputBorder.none,
-                contentPadding: EdgeInsets.only(
-                  top: 20,
-                  left: MediaQuery.of(context).size.width * 0.06,
-                  right: MediaQuery.of(context).size.width * 0.06,
-                ),
+                maxLines: 1,
+                onChanged: (value) => widget.setWriteData("title", value),
               ),
-              style: const TextStyle(
-                fontSize: 16,
-                color: CustomColor.black2,
-                fontWeight: FontWeight.bold,
-              ),
-              maxLines: 1,
-              onChanged: (value) => widget.setWriteData("title", value),
             ),
           ),
           CategoryFormWidget(

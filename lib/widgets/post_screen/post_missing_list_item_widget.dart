@@ -23,7 +23,6 @@ class _PostMissingListItemWidgetState extends State<PostMissingListItemWidget> {
                 id: widget.postData['id'],
               ))),
       child: Container(
-        height: 160,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
@@ -33,89 +32,82 @@ class _PostMissingListItemWidgetState extends State<PostMissingListItemWidget> {
         ),
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: Stack(children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  clipBehavior: Clip.hardEdge,
-                  width: 37,
-                  height: 37,
-                  decoration: const BoxDecoration(
-                      color: CustomColor.lightGray3, shape: BoxShape.circle),
-                  child: Transform.scale(
-                    scale: 1.8,
-                    child: widget.postData["profileUrl"] != null
-                        ? Image.network(
-                            widget.postData["profileUrl"],
-                            fit: BoxFit.cover,
-                          )
-                        : const Image(
-                            image: AssetImage(
-                              'assets/images/dog_pictures/face.png',
-                            ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                clipBehavior: Clip.hardEdge,
+                width: 37,
+                height: 37,
+                decoration: const BoxDecoration(
+                    color: CustomColor.lightGray3, shape: BoxShape.circle),
+                child: Transform.scale(
+                  scale: 1.8,
+                  child: widget.postData["profileUrl"] != null
+                      ? Image.network(
+                          widget.postData["profileUrl"],
+                          fit: BoxFit.cover,
+                        )
+                      : const Image(
+                          image: AssetImage(
+                            'assets/images/dog_pictures/face.png',
                           ),
-                  ),
+                        ),
                 ),
-                const SizedBox(width: 16),
-                Column(
+              ),
+              const SizedBox(width: 16),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.88 - 87,
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 6),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.88 - 87,
-                      child: Text(
-                        widget.postData['title'],
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700,
-                        ),
+                    Text(
+                      widget.postData['title'],
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                     const SizedBox(height: 8),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.88 - 87,
-                      child: Text(
-                        widget.postData['content'],
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 4,
-                        style: const TextStyle(
-                          fontSize: 11,
-                          color: CustomColor.black2,
-                        ),
+                    Text(
+                      widget.postData['content'],
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 4,
+                      style: const TextStyle(
+                        fontSize: 11,
+                        color: CustomColor.black2,
                       ),
+                    ),
+                    SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        const TinyHeartSVG(),
+                        const SizedBox(width: 2),
+                        Text(
+                          '${widget.postData['likes']}',
+                          style: const TextStyle(
+                              fontSize: 11, color: CustomColor.gray),
+                        ),
+                        const SizedBox(width: 6),
+                        const TinyCommentSVG(),
+                        const SizedBox(width: 2),
+                        Text(
+                          '${widget.postData['commentSize']}',
+                          style: const TextStyle(
+                              fontSize: 11, color: CustomColor.gray),
+                        ),
+                        const SizedBox(width: 6),
+                        if (hasToken) const TinyPictureSVG()
+                      ],
                     )
                   ],
-                )
-              ],
-            ),
-            Positioned(
-                bottom: 0,
-                right: 0,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    const TinyHeartSVG(),
-                    const SizedBox(width: 2),
-                    Text(
-                      '${widget.postData['likes']}',
-                      style: const TextStyle(
-                          fontSize: 11, color: CustomColor.gray),
-                    ),
-                    const SizedBox(width: 6),
-                    const TinyCommentSVG(),
-                    const SizedBox(width: 2),
-                    Text(
-                      '${widget.postData['commentSize']}',
-                      style: const TextStyle(
-                          fontSize: 11, color: CustomColor.gray),
-                    ),
-                    const SizedBox(width: 6),
-                    if (hasToken) const TinyPictureSVG()
-                  ],
-                ))
-          ]),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
