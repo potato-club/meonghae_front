@@ -17,7 +17,7 @@ class _FilterWidgetState extends State<FilterWidget> {
   @override
   Widget build(BuildContext context) {
     int detailIndex = -1;
-    String category = categoryDetail[1];
+    String category = categoryKey[1];
     return Column(
       children: [
         Row(
@@ -93,7 +93,7 @@ class _FilterWidgetState extends State<FilterWidget> {
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            categoryDetail[category][index],
+                            categoryDetail[category][index][0],
                             style: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w700,

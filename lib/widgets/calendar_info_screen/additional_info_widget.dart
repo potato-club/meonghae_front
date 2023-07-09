@@ -40,62 +40,52 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
           ),
           child: Column(
             children: [
-              Container(
-                decoration: const BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: CustomColor.lightGray1,
-                      width: 1.0,
-                    ),
-                  ),
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 20,
+                  right: 9,
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    left: 20,
-                    right: 9,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        '시작',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700,
-                          color: CustomColor.black1,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      '시작',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: CustomColor.black1,
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return Dialog(
+                                child: SpinnerDateTimePicker(
+                                    initialDateTime: DateTime.now(),
+                                    maximumDate: DateTime.now()
+                                        .add(const Duration(days: 7500)),
+                                    minimumDate: DateTime.now()
+                                        .subtract(const Duration(days: 7500)),
+                                    mode: CupertinoDatePickerMode.date,
+                                    use24hFormat: true,
+                                    didSetTime: (value) => widget.setCalendarData(
+                                        'scheduleTime',
+                                        '${DateFormat('yyyyMMdd').format(selectedDate)}')));
+                          },
+                        );
+                      },
+                      child: Text(
+                        DateFormat('yyyy-MM-dd').format(selectedDate),
+                        style: const TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w400,
+                          color: CustomColor.gray,
                         ),
                       ),
-                      TextButton(
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return Dialog(
-                                  child: SpinnerDateTimePicker(
-                                      initialDateTime: DateTime.now(),
-                                      maximumDate: DateTime.now()
-                                          .add(const Duration(days: 7500)),
-                                      minimumDate: DateTime.now()
-                                          .subtract(const Duration(days: 7500)),
-                                      mode: CupertinoDatePickerMode.date,
-                                      use24hFormat: true,
-                                      didSetTime: (value) => widget.setCalendarData(
-                                          'scheduleTime',
-                                          '${DateFormat('yyyyMMdd').format(selectedDate)}')));
-                            },
-                          );
-                        },
-                        child: Text(
-                          DateFormat('yyyy-MM-dd').format(selectedDate),
-                          style: const TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w400,
-                            color: CustomColor.gray,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -104,51 +94,49 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
         const SizedBox(
           height: 24,
         ),
-        // SizedBox(
-        //   height: 45,
-        //   child: Stack(children: [
-        //     SelectInputWidget(
-        //       width: MediaQuery.of(context).size.width * 0.88,
-        //       height: 45,
-        //       itemHeight: 45,
-        //       list: repeatList,
-        //       listHeight: 90,
-        //       borderRadius: 10,
-        //       fontSize: 13,
-        //       defaultValue: repeat,
-        //       setValue: (String value) => setState(() => repeat = value),
-        //       isBigIcon: true,
-        //       textAlign: TextAlign.right,
-        //     ),
-        //     const Positioned(
-        //       top: 0,
-        //       bottom: 0,
-        //       left: 20,
-        //       child: Center(
-        //         child: Text(
-        //           '반복',
-        //           style: TextStyle(
-        //             fontSize: 14,
-        //             fontWeight: FontWeight.w700,
-        //             color: CustomColor.black1,
-        //           ),
-        //         ),
-        //       ),
-        //     )
-        //   ]),
-        // ),
-        // const SizedBox(
-        //   height: 24,
-        // ),
+        SizedBox(
+          height: 45,
+          child: Stack(children: [
+            SelectInputWidget(
+              width: MediaQuery.of(context).size.width * 0.88,
+              height: 45,
+              itemHeight: 45,
+              list: repeatList,
+              listHeight: 90,
+              borderRadius: 10,
+              fontSize: 13,
+              defaultValue: repeat,
+              setValue: (String value) => setState(() => repeat = value),
+              isBigIcon: true,
+              textAlign: TextAlign.right,
+            ),
+            const Positioned(
+              top: 0,
+              bottom: 0,
+              left: 20,
+              child: Center(
+                child: Text(
+                  '반복',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    color: CustomColor.black1,
+                  ),
+                ),
+              ),
+            )
+          ]),
+        ),
+        const SizedBox(
+          height: 24,
+        ),
         SizedBox(
             height: 45,
             child: Container(
-              decoration: const BoxDecoration(
-                  border: Border(
-                      bottom: BorderSide(
-                color: CustomColor.lightGray1,
-                width: 1.0,
-              ))),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: CustomColor.white,
+              ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 20,
@@ -158,7 +146,7 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
-                      '하루종일',
+                      '알림',
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
@@ -166,8 +154,8 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                       ),
                     ),
                     SwitchWidget(
-                      clickSwitch: widget.setCalendarData(
-                          'isAlarm', widget.calendarData['isAlarm']),
+                      clickSwitch: () => widget.setCalendarData(
+                          'isAlarm', !widget.calendarData['isAlarm']),
                       isChecked: widget.calendarData['isAlarm'],
                     ),
                   ],
