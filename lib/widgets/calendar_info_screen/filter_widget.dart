@@ -1,32 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/widgets/calendar_info_screen/category_dummy.dart';
 import 'package:meonghae_front/widgets/common/select_input_widget.dart';
 
 class FilterWidget extends StatefulWidget {
-  final Function setContent;
-  const FilterWidget({super.key, required this.setContent});
+  final Function setCalendarData;
+  final Map<String, dynamic> calendarData;
+  const FilterWidget(
+      {super.key, required this.setCalendarData, required this.calendarData});
 
   @override
   State<FilterWidget> createState() => _FilterWidgetState();
 }
 
 class _FilterWidgetState extends State<FilterWidget> {
-  List<String> dropdownList = ['예방접종', '구충제 바르기', '건강검진', '기타'];
-  String selectedDropdown = '예방접종';
-  List<String> textButtonData = [
-    '종합백신',
-    '코로나 장염',
-    '켄넬코프',
-    '인플루엔자',
-    '광견병 ',
-    '항체가검사',
-    '심장사상충',
-    '외부기생충',
-  ];
-  int selectedIndex = -1;
-
   @override
   Widget build(BuildContext context) {
+    int detailIndex = -1;
+    String category = categoryDetail[1];
     return Column(
       children: [
         Row(
@@ -36,12 +27,11 @@ class _FilterWidgetState extends State<FilterWidget> {
               width: MediaQuery.of(context).size.width * 0.88,
               height: 45,
               itemHeight: 45,
-              list: dropdownList,
+              list: categoryKey,
               listHeight: 180,
-              setValue: (String value) =>
-                  setState(() => selectedDropdown = value),
+              setValue: (String value) => setState(() => category = value),
               isBigIcon: true,
-              defaultValue: selectedDropdown,
+              defaultValue: category,
               fontSize: 14,
               borderRadius: 10,
               textAlign: TextAlign.left,
@@ -64,16 +54,19 @@ class _FilterWidgetState extends State<FilterWidget> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    for (int index = 0; index < textButtonData.length; index++)
+                    for (int index = 0;
+                        index < categoryDetail[category].length;
+                        index++)
                       TextButton(
                         onPressed: () {
                           setState(() {
-                            if (selectedIndex == index) {
-                              selectedIndex = -1;
-                              widget.setContent(null);
+                            if (detailIndex == index) {
+                              detailIndex = -1;
+                              widget.setCalendarData('vaccinationType', null);
                             } else {
-                              selectedIndex = index;
-                              widget.setContent(textButtonData[index]);
+                              detailIndex = index;
+                              widget.setCalendarData('vaccinationType',
+                                  categoryDetail[category][detailIndex]);
                             }
                           });
                         },
@@ -90,7 +83,7 @@ class _FilterWidgetState extends State<FilterWidget> {
                               MaterialStateProperty.resolveWith<Color>(
                             (states) {
                               if (states.contains(MaterialState.pressed) ||
-                                  selectedIndex == index) {
+                                  detailIndex == index) {
                                 return CustomColor.brown1;
                               }
                               return Colors.transparent;
@@ -100,7 +93,7 @@ class _FilterWidgetState extends State<FilterWidget> {
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            textButtonData[index],
+                            categoryDetail[category][index],
                             style: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w700,

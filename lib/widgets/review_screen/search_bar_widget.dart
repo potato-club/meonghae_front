@@ -35,7 +35,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
                         SnackBarWidget.show(
                             context, SnackBarType.error, "2글자 이상의 단어를 검색해주세요")
                     },
-                child: const SearchSVG()),
+                child: const SearchSVG(strokeColor: CustomColor.black2)),
             Expanded(
               child: Transform.translate(
                 offset: const Offset(0, 2),

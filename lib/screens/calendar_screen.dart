@@ -114,7 +114,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 onTap: () => Navigator.of(context).push(MaterialPageRoute(
                     builder: (BuildContext context) =>
                         const CalendarSearchScreen())),
-                child: const SearchSVG()),
+                child: const SearchSVG(strokeColor: CustomColor.black2)),
           ),
           Positioned(
             top: 58,
