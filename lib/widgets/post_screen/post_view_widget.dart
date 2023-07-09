@@ -78,6 +78,7 @@ class _PostViewWidgetState extends State<PostViewWidget> {
                   ),
                   child: PostMissingListItemWidget(
                     postData: posts[index],
+                    currentSection: '멍자랑',
                   ),
                 ),
             itemCount: posts.length);
@@ -92,6 +93,7 @@ class _PostViewWidgetState extends State<PostViewWidget> {
                   ),
                   child: PostMissingListItemWidget(
                     postData: posts[index],
+                    currentSection: '웃긴멍',
                   ),
                 ),
             itemCount: posts.length);
@@ -106,6 +108,7 @@ class _PostViewWidgetState extends State<PostViewWidget> {
                   ),
                   child: PostMissingListItemWidget(
                     postData: posts[index],
+                    currentSection: '실종신고',
                   ),
                 ),
             itemCount: posts.length);

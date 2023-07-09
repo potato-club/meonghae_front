@@ -6,8 +6,14 @@ import 'package:meonghae_front/widgets/svg/tiny_heart.dart';
 import 'package:meonghae_front/widgets/svg/tiny_picture.dart';
 
 class PostMissingListItemWidget extends StatefulWidget {
-  const PostMissingListItemWidget({super.key, required this.postData});
   final Map<String, dynamic> postData;
+  final String currentSection;
+  const PostMissingListItemWidget({
+    super.key,
+    required this.postData,
+    required this.currentSection,
+  });
+
   @override
   State<PostMissingListItemWidget> createState() =>
       _PostMissingListItemWidgetState();
@@ -21,6 +27,7 @@ class _PostMissingListItemWidgetState extends State<PostMissingListItemWidget> {
       onTap: () => Navigator.of(context).push(MaterialPageRoute(
           builder: (BuildContext context) => PostDetailScreen(
                 id: widget.postData['id'],
+                currentSection: widget.currentSection,
               ))),
       child: Container(
         decoration: BoxDecoration(

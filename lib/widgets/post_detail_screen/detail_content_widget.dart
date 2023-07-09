@@ -5,10 +5,8 @@ import 'package:meonghae_front/widgets/svg/comment.dart';
 import 'package:meonghae_front/widgets/svg/heart.dart';
 
 class DetailContentWidget extends StatefulWidget {
-  final List<String> images;
   final Map<String, dynamic>? post;
-  const DetailContentWidget(
-      {super.key, required this.images, required this.post});
+  const DetailContentWidget({super.key, required this.post});
 
   @override
   State<DetailContentWidget> createState() => _DetailContentWidgetState();
@@ -65,14 +63,21 @@ class _DetailContentWidgetState extends State<DetailContentWidget> {
               ),
             ],
           ),
-          const SizedBox(height: 20),
-          ImagesSwiperWidget(
-            images: (widget.post?['images']),
-          ),
-          const SizedBox(height: 40),
-          Text(
-            widget.post?['content'] ?? 'No Content',
-            style: const TextStyle(fontSize: 12, height: 1.4),
+          widget.post?['images'] != null
+              ? Column(children: [
+                  const SizedBox(height: 20),
+                  ImagesSwiperWidget(
+                    images: (widget.post?['images']),
+                  ),
+                  const SizedBox(height: 30)
+                ])
+              : SizedBox(height: 18),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.88,
+            child: Text(
+              widget.post?['content'] ?? 'No Content',
+              style: const TextStyle(fontSize: 12, height: 1.4),
+            ),
           ),
           const SizedBox(height: 6),
           Row(
