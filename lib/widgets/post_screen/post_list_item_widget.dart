@@ -6,14 +6,21 @@ import 'package:meonghae_front/widgets/svg/tiny_heart.dart';
 import 'package:meonghae_front/widgets/svg/tiny_picture.dart';
 
 class PostListItemWidget extends StatelessWidget {
-  const PostListItemWidget({super.key});
+  final Map<String, dynamic> postData;
+  final String currentSection;
+  const PostListItemWidget({
+    super.key,
+    required this.currentSection,
+    required this.postData,
+  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => Navigator.of(context).push(MaterialPageRoute(
-          builder: (BuildContext context) => const PostDetailScreen(
+          builder: (BuildContext context) => PostDetailScreen(
                 id: 1,
+                currentSection: currentSection,
               ))),
       child: Container(
         height: 122,
