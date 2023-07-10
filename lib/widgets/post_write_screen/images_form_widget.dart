@@ -2,15 +2,18 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/widgets/common/custom_modal.widget.dart';
 import 'package:meonghae_front/widgets/svg/camera.dart';
 
 class ImagesFormWidget extends StatefulWidget {
   final Map<String, dynamic> writeData;
   final Function setWriteData;
+  final Function removeFocus;
   const ImagesFormWidget({
     super.key,
     required this.writeData,
     required this.setWriteData,
+    required this.removeFocus,
   });
 
   @override
@@ -30,6 +33,14 @@ class _ImagesFormWidgetState extends State<ImagesFormWidget> {
 
   @override
   Widget build(BuildContext context) {
+    void handleDeleteImage(int index) {
+      List editImages = widget.writeData['images'];
+      editImages.removeAt(index);
+      widget.setWriteData('images', editImages);
+      Navigator.pop(context);
+      widget.removeFocus();
+    }
+
     int maxImage = widget.writeData['type'] == 3 ? 5 : 3;
 
     return SingleChildScrollView(
@@ -61,7 +72,11 @@ class _ImagesFormWidgetState extends State<ImagesFormWidget> {
                   Padding(
                     padding: EdgeInsets.only(left: i != 0 ? 14 : 0),
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () => CustomModalWidget.show(
+                        context,
+                        "사진을 삭제하시겠어요?",
+                        () => handleDeleteImage(i),
+                      ),
                       child: Container(
                         width: 80,
                         height: 80,

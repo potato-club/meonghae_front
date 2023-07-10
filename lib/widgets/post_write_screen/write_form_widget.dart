@@ -17,6 +17,10 @@ class WriteFormWidget extends StatefulWidget {
 }
 
 class _WriteFormWidgetState extends State<WriteFormWidget> {
+  void removeFocus() {
+    FocusScope.of(context).unfocus();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -103,6 +107,7 @@ class _WriteFormWidgetState extends State<WriteFormWidget> {
               child: ImagesFormWidget(
                 writeData: widget.writeData,
                 setWriteData: widget.setWriteData,
+                removeFocus: removeFocus,
               ),
             ),
           )

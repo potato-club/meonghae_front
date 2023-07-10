@@ -85,13 +85,13 @@ class _DetailContentWidgetState extends State<DetailContentWidget> {
             children: [
               const HeartSVG(isFilled: false),
               const SizedBox(width: 4),
-              Text("${widget.post?['likes']}",
+              Text("${widget.post?['likes'] ?? ''}",
                   style:
                       const TextStyle(fontSize: 13, color: CustomColor.gray)),
               const SizedBox(width: 12),
               const CommentSVG(),
               const SizedBox(width: 4),
-              Text("${widget.post?['commentSize']}",
+              Text("${widget.post?['commentSize'] ?? ''}",
                   style:
                       const TextStyle(fontSize: 13, color: CustomColor.gray)),
             ],
