@@ -1,18 +1,47 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:meonghae_front/config/base_url.dart';
+import 'package:meonghae_front/login/token.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 import 'package:meonghae_front/widgets/post_detail_screen/images_swiper_widget.dart';
 import 'package:meonghae_front/widgets/svg/comment.dart';
 import 'package:meonghae_front/widgets/svg/heart.dart';
 
 class DetailContentWidget extends StatefulWidget {
   final Map<String, dynamic>? post;
-  const DetailContentWidget({super.key, required this.post});
+  final Function fetchData;
+  final int id;
+  const DetailContentWidget({
+    super.key,
+    required this.post,
+    required this.fetchData,
+    required this.id,
+  });
 
   @override
   State<DetailContentWidget> createState() => _DetailContentWidgetState();
 }
 
 class _DetailContentWidgetState extends State<DetailContentWidget> {
+  Future<void> onClickHeart() async {
+    try {
+      final dio = Dio();
+      var token = await readAccessToken();
+      dio.options.headers['Authorization'] = token;
+      final response = await dio.post(
+        '${baseUrl}community-service/boards/${widget.id}/like',
+      );
+      if (response.statusCode == 200) {
+        widget.fetchData();
+      } else {
+        SnackBarWidget.show(context, SnackBarType.error, "좋아요 변경에 실패하였습니다");
+      }
+    } catch (error) {
+      SnackBarWidget.show(context, SnackBarType.error, error.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -71,7 +100,7 @@ class _DetailContentWidgetState extends State<DetailContentWidget> {
                   ),
                   const SizedBox(height: 30)
                 ])
-              : SizedBox(height: 18),
+              : const SizedBox(height: 18),
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.88,
             child: Text(
@@ -83,11 +112,18 @@ class _DetailContentWidgetState extends State<DetailContentWidget> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              const HeartSVG(isFilled: false),
-              const SizedBox(width: 4),
-              Text("${widget.post?['likes'] ?? ''}",
-                  style:
-                      const TextStyle(fontSize: 13, color: CustomColor.gray)),
+              InkWell(
+                onTap: () => onClickHeart(),
+                child: Row(
+                  children: [
+                    const HeartSVG(isFilled: false),
+                    const SizedBox(width: 4),
+                    Text("${widget.post?['likes'] ?? ''}",
+                        style: const TextStyle(
+                            fontSize: 13, color: CustomColor.gray)),
+                  ],
+                ),
+              ),
               const SizedBox(width: 12),
               const CommentSVG(),
               const SizedBox(width: 4),

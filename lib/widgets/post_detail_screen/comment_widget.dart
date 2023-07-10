@@ -56,7 +56,7 @@ class _CommentWidgetState extends State<CommentWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Transform.translate(
-              offset: const Offset(0, 6),
+              offset: const Offset(0, 2),
               child: Container(
                 clipBehavior: Clip.hardEdge,
                 width: 24,
@@ -83,49 +83,48 @@ class _CommentWidgetState extends State<CommentWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.88 - 38,
-                  child: widget.comment['isWriter'] == true
-                      ? const Text(
-                          '글쓴이',
-                          style:
-                              TextStyle(fontSize: 11, color: CustomColor.red),
-                        )
-                      : null, // Omit the child if isWriter is true
-                ),
+                    width: MediaQuery.of(context).size.width * 0.88 - 38,
+                    child: Text(
+                      widget.comment['isWriter'] == true ? '글쓴이' : '익명',
+                      style: TextStyle(fontSize: 11, color: CustomColor.red),
+                    )),
+                SizedBox(height: 4),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.88 - 56,
                   child: Text("${widget.comment['comment']}",
                       style: const TextStyle(fontSize: 12, height: 1.2)),
                 ),
                 const SizedBox(height: 10),
-                isOpen
-                    ? Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ...cocomment.map((cocomment) {
-                            return CocomentWidget(
-                                cocomment: cocomment,
-                                setIsCommentMoreModal:
-                                    widget.setIsCommentMoreModal);
-                          }),
-                          GestureDetector(
+                widget.comment['replies'] != 0
+                    ? isOpen
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ...cocomment.map((cocomment) {
+                                return CocomentWidget(
+                                    cocomment: cocomment,
+                                    setIsCommentMoreModal:
+                                        widget.setIsCommentMoreModal);
+                              }),
+                              GestureDetector(
+                                onTap: () => setState(() => isOpen = !isOpen),
+                                child: const Text(
+                                  '간략히',
+                                  style: TextStyle(
+                                      fontSize: 10, color: CustomColor.gray),
+                                ),
+                              ),
+                            ],
+                          )
+                        : GestureDetector(
                             onTap: () => setState(() => isOpen = !isOpen),
-                            child: const Text(
-                              '간략히',
+                            child: Text(
+                              '댓글 ${widget.comment['replies']}개',
                               style: TextStyle(
                                   fontSize: 10, color: CustomColor.gray),
                             ),
-                          ),
-                        ],
-                      )
-                    : GestureDetector(
-                        onTap: () => setState(() => isOpen = !isOpen),
-                        child: const Text(
-                          '댓글 32개',
-                          style:
-                              TextStyle(fontSize: 10, color: CustomColor.gray),
-                        ),
-                      ),
+                          )
+                    : Container()
               ],
             ),
           ],

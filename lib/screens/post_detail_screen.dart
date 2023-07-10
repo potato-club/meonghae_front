@@ -37,6 +37,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
   }
 
   Map<String, dynamic>? post;
+  List comments = [];
 
   Future<void> fetchData() async {
     try {
@@ -47,10 +48,24 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
         '${baseUrl}community-service/boards/${widget.id}',
       );
       if (response.statusCode == 200) {
-        final data = response.data as Map<String, dynamic>;
-        setState(() => post = data);
+        setState(() => post = response.data);
       } else {
         SnackBarWidget.show(context, SnackBarType.error, "게시글 정보 호출에 실패하였습니다");
+      }
+    } catch (error) {
+      SnackBarWidget.show(context, SnackBarType.error, error.toString());
+    }
+    try {
+      final dio = Dio();
+      var token = await readAccessToken();
+      dio.options.headers['Authorization'] = token;
+      final response = await dio.get(
+        '${baseUrl}community-service/boardComments/${widget.id}',
+      );
+      if (response.statusCode == 200) {
+        setState(() => comments = response.data['content']);
+      } else {
+        SnackBarWidget.show(context, SnackBarType.error, "댓글 정보 호출에 실패하였습니다");
       }
     } catch (error) {
       SnackBarWidget.show(context, SnackBarType.error, error.toString());
@@ -68,10 +83,11 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
               child: Column(
             children: [
               SizedBox(height: 100),
-              DetailContentWidget(post: post),
+              DetailContentWidget(
+                  post: post, fetchData: fetchData, id: widget.id),
               DetailCommentWidget(
-                id: widget.id,
                 setIsCommentMoreModal: setIsCommentMoreModal,
+                comments: comments,
               ),
             ],
           )),
@@ -82,7 +98,9 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
               setIsPostMoreModal: setIsPostMoreModal,
               currentSection: widget.currentSection,
             )),
-        const Positioned(bottom: 0, child: WriteCommentBarWidget()),
+        Positioned(
+            bottom: 0,
+            child: WriteCommentBarWidget(id: widget.id, fetchData: fetchData)),
         if (isPostMoreModalOpen)
           Positioned(
               bottom: 0,
