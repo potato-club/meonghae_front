@@ -38,9 +38,9 @@ class _WriteFormWidgetState extends State<WriteFormWidget> {
               height: 60,
               child: TextField(
                 // onChanged: (value) => widget.setWriteData("title", value),
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: "제목",
-                  hintStyle: const TextStyle(
+                  hintStyle: TextStyle(
                     fontSize: 16,
                     color: CustomColor.gray,
                     fontWeight: FontWeight.bold,
@@ -72,7 +72,9 @@ class _WriteFormWidgetState extends State<WriteFormWidget> {
             child: TextField(
               // onChanged: (value) => widget.setWriteData("title", value),
               decoration: InputDecoration(
-                hintText: "내용을 입력해주세요",
+                hintText: widget.writeData['type'] == 3
+                    ? '이름: 멍멍이\n나이: 5살\n견종: 시고르자브종\n특징: 등에 흰 무늬가 있어요\n\n위의 정보들을 포함하여 입력해주세요'
+                    : "내용을 입력해주세요",
                 hintStyle: const TextStyle(
                   fontSize: 14,
                   color: CustomColor.gray,
@@ -89,7 +91,8 @@ class _WriteFormWidgetState extends State<WriteFormWidget> {
                 fontSize: 14,
                 color: CustomColor.black2,
               ),
-              maxLines: 1,
+              maxLines: null,
+              textInputAction: TextInputAction.newline,
               onChanged: (value) => widget.setWriteData("content", value),
             ),
           ),

@@ -30,6 +30,8 @@ class _ImagesFormWidgetState extends State<ImagesFormWidget> {
 
   @override
   Widget build(BuildContext context) {
+    int maxImage = widget.writeData['type'] == 3 ? 5 : 3;
+
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Padding(
@@ -37,7 +39,7 @@ class _ImagesFormWidgetState extends State<ImagesFormWidget> {
             horizontal: MediaQuery.of(context).size.width * 0.06),
         child: Row(
           children: [
-            if (widget.writeData['images'].length < 5)
+            if (widget.writeData['images'].length < maxImage)
               Padding(
                 padding: const EdgeInsets.only(right: 14),
                 child: InkWell(
@@ -58,14 +60,17 @@ class _ImagesFormWidgetState extends State<ImagesFormWidget> {
                 children: [
                   Padding(
                     padding: EdgeInsets.only(left: i != 0 ? 14 : 0),
-                    child: Container(
-                      width: 80,
-                      height: 80,
-                      clipBehavior: Clip.hardEdge,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Image.file(widget.writeData['images'][i],
-                          fit: BoxFit.cover),
+                    child: InkWell(
+                      onTap: () {},
+                      child: Container(
+                        width: 80,
+                        height: 80,
+                        clipBehavior: Clip.hardEdge,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Image.file(widget.writeData['images'][i],
+                            fit: BoxFit.cover),
+                      ),
                     ),
                   )
                 ],

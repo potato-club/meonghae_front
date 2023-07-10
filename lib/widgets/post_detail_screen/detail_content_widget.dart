@@ -52,7 +52,7 @@ class _DetailContentWidgetState extends State<DetailContentWidget> {
                 child: Transform.translate(
                   offset: const Offset(0, 8),
                   child: Text(
-                    widget.post?['title'] ?? 'No Title',
+                    widget.post?['title'] ?? '',
                     style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
@@ -75,7 +75,7 @@ class _DetailContentWidgetState extends State<DetailContentWidget> {
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.88,
             child: Text(
-              widget.post?['content'] ?? 'No Content',
+              widget.post?['content'] ?? '',
               style: const TextStyle(fontSize: 12, height: 1.4),
             ),
           ),

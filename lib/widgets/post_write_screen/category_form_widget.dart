@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 
 class CategoryFormWidget extends StatefulWidget {
   final Map<String, dynamic> writeData;
@@ -15,10 +16,21 @@ class CategoryFormWidget extends StatefulWidget {
 }
 
 class _CategoryFormWidgetState extends State<CategoryFormWidget> {
+  void handleEditImages() {
+    if (widget.writeData['type'] != 3) {
+      if (widget.writeData['images'].length > 3) {
+        widget.setWriteData('images', widget.writeData['images'].sublist(0, 3));
+        SnackBarWidget.show(
+            context, SnackBarType.error, '실종신고외의 게시글에서는 최대 3장의 사진만 등록 가능합니다');
+      }
+    }
+  }
+
   Widget categoryButton(bool selected, String label, Function onTap) {
     return InkWell(
       onTap: () {
         onTap();
+        handleEditImages();
       },
       child: AnimatedContainer(
           width: selected ? 80 : 64,

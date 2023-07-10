@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:meonghae_front/config/base_url.dart';
 import 'package:meonghae_front/login/token.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
-import 'package:meonghae_front/widgets/post_screen/post_missing_list_item_widget.dart';
+import 'package:meonghae_front/widgets/post_screen/post_list_item_widget.dart';
 
 class PostViewWidget extends StatefulWidget {
   final String currentSection;
@@ -76,7 +76,7 @@ class _PostViewWidgetState extends State<PostViewWidget> {
                     right: MediaQuery.of(context).size.width * 0.06,
                     bottom: 16,
                   ),
-                  child: PostMissingListItemWidget(
+                  child: PostListItemWidget(
                     postData: posts[index],
                     currentSection: '멍자랑',
                   ),
@@ -91,7 +91,7 @@ class _PostViewWidgetState extends State<PostViewWidget> {
                     right: MediaQuery.of(context).size.width * 0.06,
                     bottom: 16,
                   ),
-                  child: PostMissingListItemWidget(
+                  child: PostListItemWidget(
                     postData: posts[index],
                     currentSection: '웃긴멍',
                   ),
@@ -106,7 +106,7 @@ class _PostViewWidgetState extends State<PostViewWidget> {
                     right: MediaQuery.of(context).size.width * 0.06,
                     bottom: 16,
                   ),
-                  child: PostMissingListItemWidget(
+                  child: PostListItemWidget(
                     postData: posts[index],
                     currentSection: '실종신고',
                   ),
