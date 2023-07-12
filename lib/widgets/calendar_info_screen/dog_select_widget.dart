@@ -23,6 +23,8 @@ class _DogSelectWidgetState extends State<DogSelectWidget> {
         duration: const Duration(milliseconds: 250),
         curve: Curves.ease,
         child: InkWell(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
           onTap: () => widget.setCalendarData('petId', dogInfo['id']),
           child: Column(
             children: [
@@ -31,19 +33,19 @@ class _DogSelectWidgetState extends State<DogSelectWidget> {
                 width: 70,
                 height: 70,
                 decoration: BoxDecoration(
-                  color: CustomColor.ivory2,
+                  color: CustomColor.brown3,
                   shape: BoxShape.circle,
                 ),
-                child: ColorFiltered(
-                  colorFilter: widget.calendarData['petId'] == dogInfo['id']
-                      ? ColorFilter.mode(
-                          Colors.transparent, BlendMode.saturation)
-                      : ColorFilter.mode(CustomColor.gray, BlendMode.screen),
-                  child: dogInfo['s3ResponseDto'] != null
-                      ? Image.network(dogInfo['s3ResponseDto']['fileUrl'],
-                          fit: BoxFit.cover)
-                      : null,
-                ),
+                child: dogInfo['s3ResponseDto'] != null
+                    ? Opacity(
+                        opacity: widget.calendarData['petId'] == dogInfo['id']
+                            ? 1
+                            : 0.5,
+                        child: Image.network(
+                            dogInfo['s3ResponseDto']['fileUrl'],
+                            fit: BoxFit.cover),
+                      )
+                    : null,
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 4),
@@ -96,8 +98,8 @@ class _DogSelectWidgetState extends State<DogSelectWidget> {
                       begin: Alignment.centerLeft,
                       end: Alignment.centerRight,
                       colors: [
-                    CustomColor.ivory2,
-                    CustomColor.ivory2.withOpacity(0),
+                    CustomColor.brown3,
+                    CustomColor.brown3.withOpacity(0),
                   ])),
               height: 91,
               width: MediaQuery.of(context).size.width * 0.06,
@@ -112,8 +114,8 @@ class _DogSelectWidgetState extends State<DogSelectWidget> {
                       begin: Alignment.centerRight,
                       end: Alignment.centerLeft,
                       colors: [
-                    CustomColor.ivory2,
-                    CustomColor.ivory2.withOpacity(0),
+                    CustomColor.brown3,
+                    CustomColor.brown3.withOpacity(0),
                   ])),
               height: 91,
               width: MediaQuery.of(context).size.width * 0.06,

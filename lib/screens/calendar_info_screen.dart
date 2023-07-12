@@ -20,11 +20,16 @@ class CalendarInfoScreen extends StatefulWidget {
 class _CalendarInfoScreenState extends State<CalendarInfoScreen> {
   List<dynamic>? dogsInfo;
   Map<String, dynamic> calendarData = {
-    'vaccinationType': null,
-    'title': null,
     'petId': null,
+    'title': null,
+    'vaccinationType': null,
     'isRepeat': false,
+    'repeat': {
+      'term': {'month': 0, 'day': 7},
+      'times': 3
+    },
     'isAlarm': true,
+    'alarm': {'day': 0, 'time': ''},
     'memo': null,
     'scheduleTime': '${DateFormat('yyyyMMdd').format(DateTime.now())}'
   };
@@ -87,70 +92,49 @@ class _CalendarInfoScreenState extends State<CalendarInfoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColor.ivory2,
-      body: SafeArea(
-        child: Column(
-          children: [
-            const SizedBox(height: 32),
-            TopMenuBarWidget(handleSave: handleSave),
-            const SizedBox(height: 4),
-            Expanded(
-              child: Stack(children: [
-                SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      const SizedBox(height: 44),
-                      DogSelectWidget(
-                        dogsInfo: dogsInfo,
+      backgroundColor: CustomColor.brown3,
+      body: Column(
+        children: [
+          const SizedBox(height: 32),
+          TopMenuBarWidget(handleSave: handleSave),
+          const SizedBox(height: 4),
+          Expanded(
+            child: Stack(children: [
+              SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const SizedBox(height: 26),
+                    DogSelectWidget(
+                      dogsInfo: dogsInfo,
+                      calendarData: calendarData,
+                      setCalendarData: setCalendarData,
+                    ),
+                    const SizedBox(height: 24),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.06),
+                      child: FilterWidget(
                         calendarData: calendarData,
                         setCalendarData: setCalendarData,
                       ),
-                      const SizedBox(height: 24),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal:
-                                MediaQuery.of(context).size.width * 0.06),
-                        child: FilterWidget(
-                          calendarData: calendarData,
-                          setCalendarData: setCalendarData,
-                        ),
+                    ),
+                    const SizedBox(height: 24),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.06),
+                      child: AdditionalInfoWidget(
+                        calendarData: calendarData,
+                        setCalendarData: setCalendarData,
                       ),
-                      const SizedBox(height: 24),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal:
-                                MediaQuery.of(context).size.width * 0.06),
-                        child: AdditionalInfoWidget(
-                          calendarData: calendarData,
-                          setCalendarData: setCalendarData,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 60,
-                      )
-                    ],
-                  ),
+                    ),
+                    const SizedBox(height: 60)
+                  ],
                 ),
-                Positioned(
-                  top: 0,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                          CustomColor.ivory2,
-                          CustomColor.ivory2.withOpacity(0),
-                        ])),
-                    height: 36,
-                    width: MediaQuery.of(context).size.width,
-                  ),
-                ),
-              ]),
-            )
-          ],
-        ),
+              ),
+            ]),
+          )
+        ],
       ),
     );
   }

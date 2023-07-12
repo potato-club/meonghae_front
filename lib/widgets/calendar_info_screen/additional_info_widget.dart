@@ -21,10 +21,6 @@ class AdditionalInfoWidget extends StatefulWidget {
 
 class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
   DateTime selectedDate = DateTime.now();
-  final repeatList = ['안함', '함'];
-  String repeat = '안함';
-  final alarmList = ['끄기', '켜기'];
-  String alarm = '켜기';
 
   final TextEditingController _textEditingController = TextEditingController();
 
@@ -34,137 +30,158 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Container(
-          decoration: BoxDecoration(
-            color: CustomColor.white,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 20,
-                  right: 9,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      '시작',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                        color: CustomColor.black1,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return Dialog(
-                                child: SpinnerDateTimePicker(
-                                    initialDateTime: DateTime.now(),
-                                    maximumDate: DateTime.now()
-                                        .add(const Duration(days: 7500)),
-                                    minimumDate: DateTime.now()
-                                        .subtract(const Duration(days: 7500)),
-                                    mode: CupertinoDatePickerMode.date,
-                                    use24hFormat: true,
-                                    didSetTime: (value) => widget.setCalendarData(
-                                        'scheduleTime',
-                                        '${DateFormat('yyyyMMdd').format(selectedDate)}')));
-                          },
-                        );
-                      },
-                      child: Text(
-                        DateFormat('yyyy-MM-dd').format(selectedDate),
-                        style: const TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w400,
-                          color: CustomColor.gray,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(
-          height: 24,
-        ),
-        SizedBox(
           height: 45,
-          child: Stack(children: [
-            SelectInputWidget(
-              width: MediaQuery.of(context).size.width * 0.88,
-              height: 45,
-              itemHeight: 45,
-              list: repeatList,
-              listHeight: 90,
-              borderRadius: 10,
-              fontSize: 13,
-              defaultValue: repeat,
-              setValue: (String value) => setState(() => repeat = value),
-              isBigIcon: true,
-              textAlign: TextAlign.right,
-            ),
-            const Positioned(
-              top: 0,
-              bottom: 0,
-              left: 20,
-              child: Center(
-                child: Text(
-                  '반복',
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: CustomColor.white,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  '일정일',
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
                     color: CustomColor.black1,
                   ),
                 ),
-              ),
-            )
-          ]),
-        ),
-        const SizedBox(
-          height: 24,
-        ),
-        SizedBox(
-            height: 45,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: CustomColor.white,
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      '알림',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                        color: CustomColor.black1,
-                      ),
+                TextButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return Dialog(
+                            child: SpinnerDateTimePicker(
+                                initialDateTime: DateTime.now(),
+                                maximumDate: DateTime.now()
+                                    .add(const Duration(days: 7500)),
+                                minimumDate: DateTime.now()
+                                    .subtract(const Duration(days: 7500)),
+                                mode: CupertinoDatePickerMode.date,
+                                use24hFormat: true,
+                                didSetTime: (value) => widget.setCalendarData(
+                                    'scheduleTime',
+                                    '${DateFormat('yyyyMMdd').format(selectedDate)}')));
+                      },
+                    );
+                  },
+                  child: Text(
+                    DateFormat('yyyy-MM-dd').format(selectedDate),
+                    style: const TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w400,
+                      color: CustomColor.gray,
                     ),
-                    SwitchWidget(
-                      clickSwitch: () => widget.setCalendarData(
-                          'isAlarm', !widget.calendarData['isAlarm']),
-                      isChecked: widget.calendarData['isAlarm'],
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-            )),
-        const SizedBox(
-          height: 24,
+              ],
+            ),
+          ),
         ),
+        const SizedBox(height: 24),
+        AnimatedContainer(
+          clipBehavior: Clip.hardEdge,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.ease,
+          height: widget.calendarData['isAlarm'] ? 91 : 45,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: CustomColor.white,
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 45,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          '알림',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700,
+                            color: CustomColor.black1,
+                          ),
+                        ),
+                        SwitchWidget(
+                          clickSwitch: () => widget.setCalendarData(
+                              'isAlarm', !widget.calendarData['isAlarm']),
+                          isChecked: widget.calendarData['isAlarm'],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                if (widget.calendarData['isAlarm'])
+                  Column(
+                    children: [
+                      Container(height: 1, color: CustomColor.brown3),
+                      SizedBox(
+                        height: 45,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text(
+                                '알림 설정',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                  color: CustomColor.black1,
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return Dialog(
+                                          child: SpinnerDateTimePicker(
+                                              initialDateTime: DateTime.now(),
+                                              maximumDate: DateTime.now().add(
+                                                  const Duration(days: 7500)),
+                                              minimumDate: DateTime.now()
+                                                  .subtract(const Duration(
+                                                      days: 7500)),
+                                              mode:
+                                                  CupertinoDatePickerMode.date,
+                                              use24hFormat: true,
+                                              didSetTime: (value) =>
+                                                  widget.setCalendarData(
+                                                      'scheduleTime',
+                                                      '${DateFormat('yyyyMMdd').format(selectedDate)}')));
+                                    },
+                                  );
+                                },
+                                child: Text(
+                                  DateFormat('yyyy-MM-dd').format(selectedDate),
+                                  style: const TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w400,
+                                    color: CustomColor.gray,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 24),
         Container(
           height: 376,
           decoration: BoxDecoration(
