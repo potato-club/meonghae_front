@@ -8,10 +8,12 @@ import 'package:meonghae_front/widgets/svg/tiny_picture.dart';
 class PostListItemWidget extends StatefulWidget {
   final Map<String, dynamic> postData;
   final String currentSection;
+  final Function fetchData;
   const PostListItemWidget({
     super.key,
     required this.postData,
     required this.currentSection,
+    required this.fetchData,
   });
 
   @override
@@ -27,6 +29,7 @@ class _PostListItemWidgetState extends State<PostListItemWidget> {
           builder: (BuildContext context) => PostDetailScreen(
                 id: widget.postData['id'],
                 currentSection: widget.currentSection,
+                fetchData: widget.fetchData,
               ))),
       child: Container(
         decoration: BoxDecoration(

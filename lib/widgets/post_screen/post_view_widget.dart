@@ -54,8 +54,7 @@ class _PostViewWidgetState extends State<PostViewWidget> {
         queryParameters: {'type': type},
       );
       if (response.statusCode == 200) {
-        final data = response.data['content'];
-        setState(() => posts = data);
+        setState(() => posts = response.data['content']);
       } else {
         SnackBarWidget.show(context, SnackBarType.error, "게시글 리스트 호출에 실패하였습니다");
       }
@@ -79,6 +78,7 @@ class _PostViewWidgetState extends State<PostViewWidget> {
                   child: PostListItemWidget(
                     postData: posts[index],
                     currentSection: '멍자랑',
+                    fetchData: fetchData,
                   ),
                 ),
             itemCount: posts.length);
@@ -94,6 +94,7 @@ class _PostViewWidgetState extends State<PostViewWidget> {
                   child: PostListItemWidget(
                     postData: posts[index],
                     currentSection: '웃긴멍',
+                    fetchData: fetchData,
                   ),
                 ),
             itemCount: posts.length);
@@ -109,6 +110,7 @@ class _PostViewWidgetState extends State<PostViewWidget> {
                   child: PostListItemWidget(
                     postData: posts[index],
                     currentSection: '실종신고',
+                    fetchData: fetchData,
                   ),
                 ),
             itemCount: posts.length);

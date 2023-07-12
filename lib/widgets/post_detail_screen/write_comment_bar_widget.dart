@@ -43,6 +43,7 @@ class _WriteCommentBarWidgetState extends State<WriteCommentBarWidget> {
         print(response.data);
         print(response.statusCode);
         if (response.statusCode == 201) {
+          FocusScope.of(context).unfocus();
           handleClearText();
           widget.fetchData();
         } else {
