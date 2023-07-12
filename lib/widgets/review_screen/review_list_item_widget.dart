@@ -8,33 +8,39 @@ import 'package:meonghae_front/widgets/review_screen/images_swiper_widget.dart';
 import 'package:meonghae_front/widgets/review_screen/star_rating_widget.dart';
 import 'package:meonghae_front/widgets/svg/like.dart';
 
-class ReviewListItemWidget extends StatelessWidget {
+class ReviewListItemWidget extends StatefulWidget {
   final Function fetchReviewData;
   final Map<String, dynamic> review;
   const ReviewListItemWidget(
       {super.key, required this.review, required this.fetchReviewData});
 
   @override
-  Widget build(BuildContext context) {
-    Future<void> onClickLike(bool isLike) async {
-      try {
-        final dio = Dio();
-        var token = await readAccessToken();
-        dio.options.headers['Authorization'] = token;
-        final response = await dio.post(
-            '${baseUrl}community-service/reviews/${review['id']}/recommend',
-            data: {"isLike": isLike});
-        if (response.statusCode == 200) {
-          fetchReviewData();
-        } else {
-          SnackBarWidget.show(context, SnackBarType.error,
-              "${isLike ? "좋아요" : "싫어요"} 등록에 실패하였습니다");
-        }
-      } catch (error) {
-        SnackBarWidget.show(context, SnackBarType.error, error.toString());
-      }
-    }
+  State<ReviewListItemWidget> createState() => _ReviewListItemWidgetState();
+}
 
+class _ReviewListItemWidgetState extends State<ReviewListItemWidget> {
+  Future<void> onClickLike(bool isLike) async {
+    try {
+      final dio = Dio();
+      var token = await readAccessToken();
+      dio.options.headers['Authorization'] = token;
+      final response = await dio.post(
+          '${baseUrl}community-service/reviews/${widget.review['id']}/recommend',
+          data: {"isLike": isLike});
+      if (response.statusCode == 200) {
+        widget.fetchReviewData();
+      } else {
+        SnackBarWidget.show(context, SnackBarType.error,
+            "${isLike ? "좋아요" : "싫어요"} 등록에 실패하였습니다");
+      }
+    } catch (error) {
+      SnackBarWidget.show(context, SnackBarType.error, error.toString());
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    print(widget.review);
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: MediaQuery.of(context).size.width * 0.06,
@@ -65,9 +71,9 @@ class ReviewListItemWidget extends StatelessWidget {
                           shape: BoxShape.circle),
                       child: Transform.scale(
                         scale: 1.8,
-                        child: review["profileUrl"] != null
+                        child: widget.review["profileUrl"] != null
                             ? Image.network(
-                                review["profileUrl"],
+                                widget.review["profileUrl"],
                                 fit: BoxFit.cover,
                               )
                             : const Image(
@@ -82,7 +88,7 @@ class ReviewListItemWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          review['nickname'],
+                          widget.review['nickname'],
                           style: const TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w700,
@@ -92,9 +98,13 @@ class ReviewListItemWidget extends StatelessWidget {
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            StarRatingWidget(rate: review['rating']),
+                            StarRatingWidget(rate: widget.review['rating']),
                             const SizedBox(width: 8),
-                            const Text('2023.05.21',
+                            Text(
+                                widget.review['date']
+                                        .substring(0, 10)
+                                        .replaceAll('-', '.') ??
+                                    '',
                                 style: TextStyle(
                                     fontSize: 10, color: CustomColor.gray))
                           ],
@@ -110,22 +120,23 @@ class ReviewListItemWidget extends StatelessWidget {
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.88 - 40,
                       child: Text(
-                        review['title'],
+                        widget.review['title'],
                         style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w700,
                             color: CustomColor.black2),
                       ),
                     ),
-                    if (review['images'] != null)
+                    if (widget.review['images'] != null)
                       Padding(
                           padding: const EdgeInsets.symmetric(vertical: 6),
-                          child: ImagesSwiperWidget(images: review['images'])),
+                          child: ImagesSwiperWidget(
+                              images: widget.review['images'])),
                     const SizedBox(height: 8),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.88 - 100,
                       child: Text(
-                        review['content'],
+                        widget.review['content'],
                         style: const TextStyle(
                           fontSize: 11,
                           color: CustomColor.black2,
@@ -144,18 +155,27 @@ class ReviewListItemWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     InkWell(
-                        onTap: () => onClickLike(true), child: const LikeSVG()),
+                        onTap: () => onClickLike(true),
+                        child: LikeSVG(
+                            color: widget.review['recommendStatus'] == 'TRUE'
+                                ? CustomColor.brown1
+                                : CustomColor.lightGray2)),
                     const SizedBox(width: 4),
-                    Text("${review['likes']}",
+                    Text("${widget.review['likes']}",
                         style: const TextStyle(
                             fontSize: 11, color: CustomColor.gray)),
                     const SizedBox(width: 10),
                     InkWell(
                         onTap: () => onClickLike(false),
                         child: Transform.rotate(
-                            angle: -3.14, child: const LikeSVG())),
+                            angle: -3.14,
+                            child: LikeSVG(
+                                color:
+                                    widget.review['recommendStatus'] == 'FALSE'
+                                        ? CustomColor.brown1
+                                        : CustomColor.lightGray2))),
                     const SizedBox(width: 4),
-                    Text("${review['dislikes']}",
+                    Text("${widget.review['dislikes']}",
                         style: const TextStyle(
                             fontSize: 11, color: CustomColor.gray)),
                   ],
