@@ -7,6 +7,7 @@ import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 import 'package:meonghae_front/widgets/post_detail_screen/images_swiper_widget.dart';
 import 'package:meonghae_front/widgets/svg/comment.dart';
 import 'package:meonghae_front/widgets/svg/heart.dart';
+import 'package:meonghae_front/widgets/svg/tiny_heart.dart';
 
 class DetailContentWidget extends StatefulWidget {
   final Map<String, dynamic>? post;
@@ -116,7 +117,9 @@ class _DetailContentWidgetState extends State<DetailContentWidget> {
                 onTap: () => onClickHeart(),
                 child: Row(
                   children: [
-                    const HeartSVG(isFilled: false),
+                    widget.post?['likeStatus'] ?? false
+                        ? SizedBox(width: 15, height: 15, child: TinyHeartSVG())
+                        : const HeartSVG(isFilled: false),
                     const SizedBox(width: 4),
                     Text("${widget.post?['likes'] ?? ''}",
                         style: const TextStyle(
