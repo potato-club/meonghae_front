@@ -4,6 +4,7 @@ import 'package:meonghae_front/config/base_url.dart';
 import 'package:meonghae_front/login/token.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
+import 'package:meonghae_front/widgets/review_screen/images_swiper_widget.dart';
 import 'package:meonghae_front/widgets/review_screen/star_rating_widget.dart';
 import 'package:meonghae_front/widgets/svg/like.dart';
 
@@ -118,17 +119,8 @@ class ReviewListItemWidget extends StatelessWidget {
                     ),
                     if (review['images'] != null)
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 6),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10)),
-                          clipBehavior: Clip.hardEdge,
-                          child: Image.network(
-                            review['images'][0]['fileUrl'],
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
+                          padding: const EdgeInsets.symmetric(vertical: 6),
+                          child: ImagesSwiperWidget(images: review['images'])),
                     const SizedBox(height: 8),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.88 - 100,
