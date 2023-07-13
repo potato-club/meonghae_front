@@ -32,6 +32,8 @@ class _CategoryFormWidgetState extends State<CategoryFormWidget> {
         onTap();
         handleEditImages();
       },
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
       child: AnimatedContainer(
           width: selected ? 80 : 64,
           height: selected ? 30 : 24,

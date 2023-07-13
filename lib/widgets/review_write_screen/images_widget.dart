@@ -53,6 +53,8 @@ class _ImagesWidgetState extends State<ImagesWidget> {
                   "사진을 삭제하시겠어요?",
                   () => handleDeleteImage(i),
                 ),
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
                 child: Container(
                   width: 78,
                   height: 78,
@@ -69,6 +71,8 @@ class _ImagesWidgetState extends State<ImagesWidget> {
         if (widget.writeData["images"].length < 3)
           InkWell(
             onTap: pickImage,
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
             child: SizedBox(
               width: 80,
               height: 80,

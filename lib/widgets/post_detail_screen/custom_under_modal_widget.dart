@@ -107,6 +107,8 @@ class _CustomUnderModalWidgetState extends State<CustomUnderModalWidget>
                             ),
                             InkWell(
                               onTap: () => widget.func1(),
+                              splashColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
                               child: Padding(
                                 padding: EdgeInsets.only(
                                     top: 30,
@@ -130,6 +132,8 @@ class _CustomUnderModalWidgetState extends State<CustomUnderModalWidget>
                             ),
                             InkWell(
                               onTap: () => widget.func2(),
+                              splashColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
                               child: Padding(
                                 padding: EdgeInsets.only(
                                     top: 25,

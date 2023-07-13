@@ -89,6 +89,8 @@ class _ReviewWriteScreenState extends State<ReviewWriteScreen> {
                   horizontal: MediaQuery.of(context).size.width * 0.06),
               child: InkWell(
                 onTap: handleSubmit,
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
                 child: Container(
                   height: 45,
                   decoration: BoxDecoration(

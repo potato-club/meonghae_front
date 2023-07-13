@@ -32,7 +32,7 @@ class Category {
 }
 
 class _ReviewCategoryWidgetState extends State<ReviewCategoryWidget> {
-  CarouselController _carouselController = CarouselController();
+  final CarouselController _carouselController = CarouselController();
   void moveSlide(int index) {
     _carouselController.animateToPage(index);
   }
@@ -191,10 +191,12 @@ class _ReviewCategoryWidgetState extends State<ReviewCategoryWidget> {
                 widget.setWriteData('type', i.id);
                 moveSlide(i.id - 1);
               },
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
               child: Column(
                 children: [
                   i.svg,
-                  SizedBox(height: 4),
+                  const SizedBox(height: 4),
                   Text(i.label,
                       style: TextStyle(
                           color: widget.writeData['type'] == i.id

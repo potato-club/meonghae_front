@@ -40,7 +40,6 @@ class _ReviewListItemWidgetState extends State<ReviewListItemWidget> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.review);
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: MediaQuery.of(context).size.width * 0.06,
@@ -105,7 +104,7 @@ class _ReviewListItemWidgetState extends State<ReviewListItemWidget> {
                                         .substring(0, 10)
                                         .replaceAll('-', '.') ??
                                     '',
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 10, color: CustomColor.gray))
                           ],
                         ),
@@ -156,6 +155,8 @@ class _ReviewListItemWidgetState extends State<ReviewListItemWidget> {
                   children: [
                     InkWell(
                         onTap: () => onClickLike(true),
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
                         child: LikeSVG(
                             color: widget.review['recommendStatus'] == 'TRUE'
                                 ? CustomColor.brown1
@@ -167,6 +168,8 @@ class _ReviewListItemWidgetState extends State<ReviewListItemWidget> {
                     const SizedBox(width: 10),
                     InkWell(
                         onTap: () => onClickLike(false),
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
                         child: Transform.rotate(
                             angle: -3.14,
                             child: LikeSVG(

@@ -46,6 +46,8 @@ class _InQuiry1To1ScreenState extends State<InQuiry1To1Screen> {
                   children: [
                     InkWell(
                       onTap: () => Navigator.pop(context),
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
                       child: const SizedBox(
                         width: 30,
                         child: Align(

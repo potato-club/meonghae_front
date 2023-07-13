@@ -23,6 +23,8 @@ class _SwitchWidgetState extends State<SwitchWidget> {
         });
         widget.clickSwitch(); // clickSwitch 콜백 호출
       },
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 400),
         curve: Curves.ease,

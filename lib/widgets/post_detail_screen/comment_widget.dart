@@ -86,9 +86,10 @@ class _CommentWidgetState extends State<CommentWidget> {
                     width: MediaQuery.of(context).size.width * 0.88 - 38,
                     child: Text(
                       widget.comment['isWriter'] == true ? '글쓴이' : '익명',
-                      style: TextStyle(fontSize: 11, color: CustomColor.red),
+                      style:
+                          const TextStyle(fontSize: 11, color: CustomColor.red),
                     )),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.88 - 56,
                   child: Text("${widget.comment['comment']}",
@@ -120,7 +121,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                             onTap: () => setState(() => isOpen = !isOpen),
                             child: Text(
                               '댓글 ${widget.comment['replies']}개',
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 10, color: CustomColor.gray),
                             ),
                           )
@@ -134,6 +135,8 @@ class _CommentWidgetState extends State<CommentWidget> {
             right: 0,
             child: InkWell(
                 onTap: () => widget.setIsCommentMoreModal(true),
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
                 child: const SizedBox(
                     width: 12,
                     child: TinyMoreSVG(color: CustomColor.lightGray2))))

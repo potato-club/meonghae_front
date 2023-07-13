@@ -108,6 +108,8 @@ class _SelectInputWidgetState extends State<SelectInputWidget> {
             _overlayEntry!.remove();
           }
         },
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
         child: Container(
           width: widget.width,
           height: widget.height,

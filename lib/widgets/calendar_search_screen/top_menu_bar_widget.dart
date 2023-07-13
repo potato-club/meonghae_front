@@ -52,6 +52,8 @@ class _TopMenuBarWidgetState extends State<TopMenuBarWidget> {
         children: [
           InkWell(
             onTap: () => Navigator.pop(context),
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
             child: const SizedBox(
                 width: 34,
                 child: Align(
@@ -91,6 +93,8 @@ class _TopMenuBarWidgetState extends State<TopMenuBarWidget> {
           ),
           InkWell(
             onTap: () => handleSearch(),
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
             child: const SizedBox(
                 width: 30,
                 child: Align(

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/svg/arrow.dart';
-import 'package:meonghae_front/widgets/svg/check.dart';
 import 'package:meonghae_front/widgets/svg/saveCheck.dart';
 
 class BannerWidget extends StatelessWidget {
@@ -12,7 +11,7 @@ class BannerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 100,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: CustomColor.brown1,
       ),
       child: Column(
@@ -24,12 +23,14 @@ class BannerWidget extends StatelessWidget {
             children: [
               InkWell(
                   onTap: () => Navigator.pop(context),
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
                   child: Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: MediaQuery.of(context).size.width * 0.06,
                       vertical: 20,
                     ),
-                    child: SizedBox(
+                    child: const SizedBox(
                         width: 24,
                         child: Align(
                             alignment: Alignment.centerLeft,
@@ -42,12 +43,14 @@ class BannerWidget extends StatelessWidget {
                       color: CustomColor.black2)),
               InkWell(
                   onTap: () => handleSubmit(),
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
                   child: Padding(
                       padding: EdgeInsets.symmetric(
                         horizontal: MediaQuery.of(context).size.width * 0.06,
                         vertical: 20,
                       ),
-                      child: SaveCheckSVG()))
+                      child: const SaveCheckSVG()))
             ],
           ),
         ],

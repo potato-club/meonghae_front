@@ -115,10 +115,13 @@ class _DetailContentWidgetState extends State<DetailContentWidget> {
             children: [
               InkWell(
                 onTap: () => onClickHeart(),
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
                 child: Row(
                   children: [
                     widget.post?['likeStatus'] ?? false
-                        ? SizedBox(width: 15, height: 15, child: TinyHeartSVG())
+                        ? const SizedBox(
+                            width: 15, height: 15, child: TinyHeartSVG())
                         : const HeartSVG(isFilled: false),
                     const SizedBox(width: 4),
                     Text("${widget.post?['likes'] ?? ''}",

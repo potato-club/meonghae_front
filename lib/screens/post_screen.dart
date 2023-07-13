@@ -63,6 +63,8 @@ class _PostScreenState extends State<PostScreen> {
                       onTap: () => Navigator.of(context).push(MaterialPageRoute(
                           builder: (BuildContext context) =>
                               const PostWriteScreen())),
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
                       child: Container(
                         decoration: const BoxDecoration(
                           shape: BoxShape.circle,

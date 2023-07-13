@@ -38,7 +38,7 @@ class _WriteCommentBarWidgetState extends State<WriteCommentBarWidget> {
         print('${baseUrl}community-service/boardComments/${widget.id}');
         final response = await dio.post(
             '${baseUrl}community-service/boardComments/${widget.id}',
-            data: {"comment": "${textController.text}"});
+            data: {"comment": textController.text});
         print(response.headers);
         print(response.data);
         print(response.statusCode);
@@ -99,6 +99,8 @@ class _WriteCommentBarWidgetState extends State<WriteCommentBarWidget> {
             right: 0,
             child: InkWell(
               onTap: () => handlePostComment(),
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
               child: const SizedBox(
                   width: 34,
                   height: 44,

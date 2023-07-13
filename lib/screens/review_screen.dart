@@ -159,6 +159,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     onTap: () => Navigator.of(context).push(MaterialPageRoute(
                         builder: (BuildContext context) =>
                             ReviewWriteScreen(fetchData: fetchData))),
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
                     child: Container(
                       decoration: const BoxDecoration(
                         shape: BoxShape.circle,

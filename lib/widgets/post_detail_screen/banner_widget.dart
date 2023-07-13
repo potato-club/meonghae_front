@@ -24,7 +24,7 @@ class _BannerWidgetState extends State<BannerWidget> {
     return Container(
       height: 100,
       width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: CustomColor.brown1,
       ),
       child: Column(
@@ -36,6 +36,8 @@ class _BannerWidgetState extends State<BannerWidget> {
             children: [
               InkWell(
                   onTap: () => widget.handlePop(),
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
                   child: Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: MediaQuery.of(context).size.width * 0.06,
@@ -48,12 +50,14 @@ class _BannerWidgetState extends State<BannerWidget> {
                             child: ArrowSVG(strokeColor: CustomColor.black2))),
                   )),
               Text(widget.currentSection,
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
                       color: CustomColor.black2)),
               InkWell(
                   onTap: () => widget.setIsPostMoreModal(true),
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
                   child: Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: MediaQuery.of(context).size.width * 0.06,
