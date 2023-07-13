@@ -26,8 +26,7 @@ class SendAPI {
       }
     } catch (error) {
       SnackBarWidget.show(context, SnackBarType.error, error.toString());
-      print("111111########### $error");
-      print("111111########### $errorMsg");
+      print("$url");
     }
   }
 
@@ -55,8 +54,6 @@ class SendAPI {
       }
     } catch (error) {
       SnackBarWidget.show(context, SnackBarType.error, error.toString());
-      print("222222########### $error");
-      print("222222########### $errorMsg");
     }
   }
 

@@ -2,7 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meonghae_front/themes/customColor.dart';
-import 'package:meonghae_front/widgets/common/custom_modal.widget.dart';
+import 'package:meonghae_front/widgets/common/custom_modal_widget.dart';
+import 'package:meonghae_front/widgets/common/custom_warning_modal_widget.dart';
 import 'package:meonghae_front/widgets/svg/camera.dart';
 
 class ImagesFormWidget extends StatefulWidget {

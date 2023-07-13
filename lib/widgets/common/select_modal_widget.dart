@@ -85,6 +85,7 @@ class _SelectWidgetState extends State<SelectModalWidget>
           value,
           textAlign: widget.textAlign,
           style: TextStyle(
+              decoration: TextDecoration.none,
               fontSize: widget.fontSize,
               color: value == lateValue ? CustomColor.gray : CustomColor.black2,
               fontWeight: widget.isBold ? FontWeight.w700 : FontWeight.w400),

@@ -3,7 +3,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meonghae_front/themes/customColor.dart';
-import 'package:meonghae_front/widgets/common/custom_modal.widget.dart';
+import 'package:meonghae_front/widgets/common/custom_modal_widget.dart';
 import 'package:meonghae_front/widgets/svg/plus.dart';
 
 class ImagesWidget extends StatefulWidget {
