@@ -1,7 +1,5 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/config/base_url.dart';
-import 'package:meonghae_front/login/token.dart';
+import 'package:meonghae_front/api/dio.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 import 'package:meonghae_front/widgets/svg/arrow.dart';
@@ -20,23 +18,13 @@ class _TopMenuBarWidgetState extends State<TopMenuBarWidget> {
 
   Future<void> handleSearch() async {
     String searchValue = _searchController.text;
-    print(searchValue);
     if (searchValue.length >= 2) {
-      Dio dio = Dio();
-      var token = await readAccessToken();
-      dio.options.headers['Authorization'] = token;
-      try {
-        final response = await dio.get(
-            '${baseUrl}profile-service/profile/calendar/find',
-            queryParameters: {'key': searchValue});
-        if (response.statusCode == 200) {
-          widget.setSearchResult(response.data);
-        } else {
-          SnackBarWidget.show(context, SnackBarType.error, '일정 검색에 실패하였습니다');
-        }
-      } catch (error) {
-        SnackBarWidget.show(context, SnackBarType.error, error.toString());
-      }
+      SendAPI.get(
+          context: context,
+          url: "/profile-service/profile/calendar/find",
+          request: {'key': searchValue},
+          successFunc: (data) => widget.setSearchResult(data),
+          errorMsg: "일정 검색에 실패하였습니다");
     } else {
       SnackBarWidget.show(context, SnackBarType.error, '2글자 이상의 단어를 검색해주세요');
     }

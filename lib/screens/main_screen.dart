@@ -1,9 +1,6 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/config/base_url.dart';
-import 'package:meonghae_front/login/token.dart';
+import 'package:meonghae_front/api/dio.dart';
 import 'package:meonghae_front/themes/customColor.dart';
-import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 import 'package:meonghae_front/widgets/main_screen/banner_widget.dart';
 import 'package:meonghae_front/widgets/main_screen/main_content_widget.dart';
 import 'package:meonghae_front/widgets/main_screen/my_dog_scroll_widget.dart';
@@ -25,20 +22,11 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Future<void> _getDogsInfo() async {
-    try {
-      Dio dio = Dio();
-      var token = await readAccessToken();
-      dio.options.headers['Authorization'] = token;
-      final response = await dio.get('${baseUrl}profile-service/profile');
-      if (response.statusCode == 200) {
-        dogsInfo = await response.data;
-        setState(() {});
-      } else {
-        SnackBarWidget.show(context, SnackBarType.error, "애완동물정보 호출에 실패하였습니다");
-      }
-    } catch (error) {
-      SnackBarWidget.show(context, SnackBarType.error, error.toString());
-    }
+    SendAPI.get(
+        context: context,
+        url: "/profile-service/profile",
+        successFunc: (data) => setState(() => dogsInfo = data),
+        errorMsg: "애완동물정보 호출에 실패하였습니다");
   }
 
   @override

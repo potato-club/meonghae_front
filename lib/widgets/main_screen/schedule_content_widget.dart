@@ -1,10 +1,7 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/config/base_url.dart';
-import 'package:meonghae_front/login/token.dart';
+import 'package:meonghae_front/api/dio.dart';
 import 'package:meonghae_front/screens/calendar_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
-import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 import 'package:meonghae_front/widgets/main_screen/main_content_label_widget.dart';
 
 class ScheduleContentWidget extends StatefulWidget {
@@ -24,22 +21,12 @@ class _ScheduleContentWidgetState extends State<ScheduleContentWidget> {
   }
 
   Future<void> getPreview() async {
-    try {
-      var token = await readAccessToken();
-      Dio dio = Dio();
-      dio.options.headers['Authorization'] = token;
-      final response =
-          await dio.get('${baseUrl}profile-service/profile/calendar/preview');
-      if (response.statusCode == 200) {
-        preview = response.data;
-        setState(() {});
-      } else {
-        SnackBarWidget.show(
-            context, SnackBarType.error, '일정 미리보기 정보 호출에 실패하였습니다');
-      }
-    } catch (error) {
-      SnackBarWidget.show(context, SnackBarType.error, error.toString());
-    }
+    SendAPI.get(
+      context: context,
+      url: "/profile-service/profile/calendar/preview",
+      successFunc: (data) => setState(() => preview = data),
+      errorMsg: "일정 미리보기 정보 호출에 실패하였습니다",
+    );
   }
 
   Widget createPostItem(
@@ -66,7 +53,7 @@ class _ScheduleContentWidgetState extends State<ScheduleContentWidget> {
             SizedBox(
               width: 32,
               child: Text(
-                'D-${difference}',
+                'D-$difference',
                 style: const TextStyle(fontSize: 13),
               ),
             ),
@@ -107,7 +94,7 @@ class _ScheduleContentWidgetState extends State<ScheduleContentWidget> {
                 child: Column(
                   children: [
                     const SizedBox(height: 8),
-                    for (int i = 0; i < preview!.length; i++)
+                    for (int i = 0; i < preview.length; i++)
                       createPostItem(
                           preview[i]['scheduleTime'],
                           preview[i]['text'],

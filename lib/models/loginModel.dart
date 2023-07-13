@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
-import 'package:meonghae_front/config/base_url.dart';
 import 'package:meonghae_front/login/social_login.dart';
 import 'package:meonghae_front/login/token.dart';
 
@@ -17,9 +16,9 @@ class LoginModel {
     isLogined = await socialLogin.login();
     if (isLogined) {
       user = await UserApi.instance.me();
-      Dio dio = Dio();
+      Dio dio = Dio(BaseOptions(baseUrl: 'https://api.meonghae.site/'));
       final response = await dio.get(
-        '${baseUrl}user-service/login',
+        '/user-service/login',
         queryParameters: {'email': user!.kakaoAccount!.email},
       );
       if (response.statusCode == 200) {

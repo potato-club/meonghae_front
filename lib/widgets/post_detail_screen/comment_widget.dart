@@ -1,9 +1,6 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/config/base_url.dart';
-import 'package:meonghae_front/login/token.dart';
+import 'package:meonghae_front/api/dio.dart';
 import 'package:meonghae_front/themes/customColor.dart';
-import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 import 'package:meonghae_front/widgets/post_detail_screen/cocoment_widget.dart';
 import 'package:meonghae_front/widgets/svg/tiny_more.dart';
 
@@ -28,22 +25,12 @@ class _CommentWidgetState extends State<CommentWidget> {
   }
 
   Future<void> fetchData() async {
-    try {
-      final dio = Dio();
-      var token = await readAccessToken();
-      dio.options.headers['Authorization'] = token;
-      final response = await dio.get(
-        '${baseUrl}community-service/boardComments/${widget.comment['id']}/reply',
-      );
-      if (response.statusCode == 200) {
-        final data = response.data['content'];
-        setState(() => cocomment = data);
-      } else {
-        SnackBarWidget.show(context, SnackBarType.error, "대댓글 정보 호출에 실패하였습니다");
-      }
-    } catch (error) {
-      SnackBarWidget.show(context, SnackBarType.error, error.toString());
-    }
+    SendAPI.get(
+      context: context,
+      url: "/community-service/boardComments/${widget.comment['id']}/reply",
+      successFunc: (data) => setState(() => cocomment = data['content']),
+      errorMsg: "대댓글 정보 호출에 실패하였습니다",
+    );
   }
 
   @override
