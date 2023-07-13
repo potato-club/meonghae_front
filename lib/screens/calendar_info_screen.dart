@@ -64,58 +64,56 @@ class _CalendarInfoScreenState extends State<CalendarInfoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColor.ivory2,
-      body: SafeArea(
-        child: Column(
-          children: [
-            const SizedBox(height: 32),
-            TopMenuBarWidget(handleSave: handleSave),
-            const SizedBox(height: 4),
-            Expanded(
-              child: Stack(children: [
-                SingleChildScrollView(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: MediaQuery.of(context).size.width * 0.06),
-                    child: Column(
-                      children: [
-                        const SizedBox(
-                          height: 44,
-                        ),
-                        FilterWidget(setContent: setContent),
-                        const SizedBox(
-                          height: 24,
-                        ),
-                        AdditionalInfoWidget(
-                            isAllday: isAllday,
-                            setIsAllday: setIsAllday,
-                            time: time,
-                            setTime: setTime),
-                        const SizedBox(
-                          height: 60,
-                        )
-                      ],
-                    ),
+      body: Column(
+        children: [
+          const SizedBox(height: 32),
+          TopMenuBarWidget(handleSave: handleSave),
+          const SizedBox(height: 4),
+          Expanded(
+            child: Stack(children: [
+              SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 0.06),
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 44,
+                      ),
+                      FilterWidget(setContent: setContent),
+                      const SizedBox(
+                        height: 24,
+                      ),
+                      AdditionalInfoWidget(
+                          isAllday: isAllday,
+                          setIsAllday: setIsAllday,
+                          time: time,
+                          setTime: setTime),
+                      const SizedBox(
+                        height: 60,
+                      )
+                    ],
                   ),
                 ),
-                Positioned(
-                  top: 0,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                          CustomColor.ivory2,
-                          CustomColor.ivory2.withOpacity(0),
-                        ])),
-                    height: 36,
-                    width: MediaQuery.of(context).size.width,
-                  ),
+              ),
+              Positioned(
+                top: 0,
+                child: Container(
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                        CustomColor.ivory2,
+                        CustomColor.ivory2.withOpacity(0),
+                      ])),
+                  height: 36,
+                  width: MediaQuery.of(context).size.width,
                 ),
-              ]),
-            )
-          ],
-        ),
+              ),
+            ]),
+          )
+        ],
       ),
     );
   }

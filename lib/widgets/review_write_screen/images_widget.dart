@@ -63,15 +63,15 @@ class _ImagesWidgetState extends State<ImagesWidget> {
                       fit: BoxFit.cover),
                 ),
               ),
-              SizedBox(width: 14)
+              const SizedBox(width: 14)
             ],
           ),
         if (widget.writeData["images"].length < 3)
           InkWell(
             onTap: pickImage,
             child: SizedBox(
-              width: 78,
-              height: 78,
+              width: 80,
+              height: 80,
               child: DottedBorder(
                   color: CustomColor.gray,
                   strokeWidth: 1,
