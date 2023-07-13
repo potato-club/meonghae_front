@@ -38,7 +38,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
         url: "/profile-service/profile/calendar",
         request: {'year': year, 'month': month},
         successFunc: (data) {
-          events = data;
+          events = data.data;
           if (selectedDay.year == focusedDay.year &&
               selectedDay.month == focusedDay.month) {
             setState(() => event = events

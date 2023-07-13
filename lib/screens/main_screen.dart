@@ -25,7 +25,7 @@ class _MainScreenState extends State<MainScreen> {
     SendAPI.get(
         context: context,
         url: "/profile-service/profile",
-        successFunc: (data) => setState(() => dogsInfo = data),
+        successFunc: (data) => setState(() => dogsInfo = data.data),
         errorMsg: "애완동물정보 호출에 실패하였습니다");
   }
 

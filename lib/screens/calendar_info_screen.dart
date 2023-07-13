@@ -45,7 +45,7 @@ class _CalendarInfoScreenState extends State<CalendarInfoScreen> {
     SendAPI.get(
       context: context,
       url: '/profile-service/profile',
-      successFunc: (data) => setState(() => dogsInfo = data),
+      successFunc: (data) => setState(() => dogsInfo = data.data),
       errorMsg: "애완동물정보 호출에 실패하였습니다",
     );
   }
@@ -53,26 +53,21 @@ class _CalendarInfoScreenState extends State<CalendarInfoScreen> {
   Future<void> handleSave() async {
     // if (content != null &&
     //     (isAllday || (time['date'] != null && time['time'] != null))) {
-    //   try {
-    //     Dio dio = Dio();
-    //     var token = await readAccessToken();
-    //     dio.options.headers['Authorization'] = token;
-    //     final response =
-    //         await dio.post('${baseUrl}profile-service/profile/calendar', data: {
-    //       "petId": petId,
-    //       "scheduleTime":
-    //           isAllday ? "2023-06-14T00:00" : "${time['date']}T${time['time']}",
-    //       "text": content
-    //     });
-    //     if (response.statusCode == 200) {
-    //       Navigator.pop(context);
-    //       SnackBarWidget.show(context, SnackBarType.check, "성공적으로 일정을 등록했습니다");
-    //     } else {
-    //       SnackBarWidget.show(context, SnackBarType.error, "일정 등록에 실패하였습니다");
-    //     }
-    //   } catch (error) {
-    //     SnackBarWidget.show(context, SnackBarType.error, error.toString());
-    //   }
+    // SendAPI.post(
+    //   context: context,
+    //   url: "/profile-service/profile/calendar",
+    //   request: {
+    //     "petId": petId,
+    //     "scheduleTime":
+    //         isAllday ? "2023-06-14T00:00" : "${time['date']}T${time['time']}",
+    //     "text": content
+    //   },
+    //   successFunc: (data) {
+    //     Navigator.pop(context);
+    //     SnackBarWidget.show(context, SnackBarType.check, "성공적으로 일정을 등록했습니다");
+    //   },
+    //   errorMsg: "일정 등록에 실패하였습니다",
+    // );
     // } else {
     //   SnackBarWidget.show(context, SnackBarType.error, "모든 정보를 입력해주세요");
     // }

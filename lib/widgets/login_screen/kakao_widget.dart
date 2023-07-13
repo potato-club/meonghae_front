@@ -26,7 +26,7 @@ class _KakaoButtonState extends State<KakaoButton> {
       SendAPI.get(
         context: context,
         url: '/user-service/mypage',
-        successFunc: (data) => saveUserInfo(data),
+        successFunc: (data) => saveUserInfo(data.data),
         errorMsg: "유저정보 호출에 실패하였습니다",
       );
     }

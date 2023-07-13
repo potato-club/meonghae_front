@@ -49,13 +49,13 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
     SendAPI.get(
       context: context,
       url: "/community-service/boards/${widget.id}",
-      successFunc: (data) => setState(() => post = data),
+      successFunc: (data) => setState(() => post = data.data),
       errorMsg: "게시글정보 호출에 실패하였습니다",
     );
     SendAPI.get(
       context: context,
       url: "/community-service/boardComments/${widget.id}",
-      successFunc: (data) => setState(() => comments = data['content']),
+      successFunc: (data) => setState(() => comments = data.data['content']),
       errorMsg: "댓글정보 호출에 실패하였습니다",
     );
   }

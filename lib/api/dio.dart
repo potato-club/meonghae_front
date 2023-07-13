@@ -20,12 +20,14 @@ class SendAPI {
     try {
       final response = await dio.get(url, queryParameters: request);
       if (response.statusCode == successCode) {
-        successFunc(response.data);
+        successFunc(response);
       } else {
         SnackBarWidget.show(context, SnackBarType.error, errorMsg);
       }
     } catch (error) {
       SnackBarWidget.show(context, SnackBarType.error, error.toString());
+      print("111111########### $error");
+      print("111111########### $errorMsg");
     }
   }
 
@@ -43,14 +45,18 @@ class SendAPI {
       headers: {'Authorization': token},
     ));
     try {
-      final response = await dio.post(url, data: request);
+      final response = request == null
+          ? await dio.post(url)
+          : await dio.post(url, data: request);
       if (response.statusCode == successCode) {
-        successFunc();
+        successFunc(response);
       } else {
         SnackBarWidget.show(context, SnackBarType.error, errorMsg);
       }
     } catch (error) {
       SnackBarWidget.show(context, SnackBarType.error, error.toString());
+      print("222222########### $error");
+      print("222222########### $errorMsg");
     }
   }
 

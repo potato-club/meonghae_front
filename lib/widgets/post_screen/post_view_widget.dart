@@ -46,7 +46,7 @@ class _PostViewWidgetState extends State<PostViewWidget> {
       context: context,
       url: "/community-service/boards",
       request: {'type': type},
-      successFunc: (data) => setState(() => posts = data['content']),
+      successFunc: (data) => setState(() => posts = data.data['content']),
       errorMsg: "게시글 리스트 호출에 실패하였습니다",
     );
   }

@@ -1,9 +1,7 @@
-import 'dart:io';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/config/base_url.dart';
-import 'package:meonghae_front/login/token.dart';
+import 'package:meonghae_front/api/dio.dart';
 import 'package:meonghae_front/models/infoModel.dart';
 import 'package:meonghae_front/screens/video_player_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
@@ -92,35 +90,27 @@ class _RegisterDogScreenState extends State<RegisterDogScreen> {
     List<dynamic> validatorList = result.map((i) => i['validator']).toList();
     bool isValidator = !validatorList.contains(false);
     if (isValidator) {
-      try {
-        Dio dio = Dio();
-        var token = await readAccessToken();
-        dio.options.headers['Authorization'] = token;
-        for (int i = 0; i < formsData.length; i++) {
-          FormData formData = FormData.fromMap({
-            "meetRoute": formsData[i].toJson()['meetRoute'],
-            "petBirth": formsData[i].toJson()['petBirth'],
-            "petGender":
-                formsData[i].toJson()['petGender'] == '남' ? 'BOY' : 'GIRL',
-            "petName": formsData[i].toJson()['petName'],
-            "petSpecies": formsData[i].toJson()['petSpecies'],
-            if (formsData[i].file != null)
-              "image": await MultipartFile.fromFile(formsData[i].file!.path)
-          });
-          final response = await dio.post('${baseUrl}profile-service/profile',
-              data: formData);
-          if (response.statusCode == 200) {
-            Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const VideoPlayerScreen()));
-          } else {
-            SnackBarWidget.show(
-                context, SnackBarType.error, "애완동물정보 등록에 실패하였습니다");
-          }
-        }
-      } catch (error) {
-        SnackBarWidget.show(context, SnackBarType.error, error.toString());
+      for (int i = 0; i < formsData.length; i++) {
+        FormData formData = FormData.fromMap({
+          "meetRoute": formsData[i].toJson()['meetRoute'],
+          "petBirth": formsData[i].toJson()['petBirth'],
+          "petGender":
+              formsData[i].toJson()['petGender'] == '남' ? 'BOY' : 'GIRL',
+          "petName": formsData[i].toJson()['petName'],
+          "petSpecies": formsData[i].toJson()['petSpecies'],
+          if (formsData[i].file != null)
+            "image": await MultipartFile.fromFile(formsData[i].file!.path)
+        });
+        SendAPI.post(
+          context: context,
+          url: "/profile-service/profile",
+          request: formData,
+          successFunc: (data) => Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const VideoPlayerScreen())),
+          errorMsg: "애완동물정보 등록에 실패하였습니다",
+        );
       }
     } else {
       int index = validatorList.indexOf(false);

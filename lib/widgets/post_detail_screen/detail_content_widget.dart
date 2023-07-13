@@ -1,9 +1,6 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/config/base_url.dart';
-import 'package:meonghae_front/login/token.dart';
+import 'package:meonghae_front/api/dio.dart';
 import 'package:meonghae_front/themes/customColor.dart';
-import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 import 'package:meonghae_front/widgets/post_detail_screen/images_swiper_widget.dart';
 import 'package:meonghae_front/widgets/svg/comment.dart';
 import 'package:meonghae_front/widgets/svg/heart.dart';
@@ -26,21 +23,12 @@ class DetailContentWidget extends StatefulWidget {
 
 class _DetailContentWidgetState extends State<DetailContentWidget> {
   Future<void> onClickHeart() async {
-    try {
-      final dio = Dio();
-      var token = await readAccessToken();
-      dio.options.headers['Authorization'] = token;
-      final response = await dio.post(
-        '${baseUrl}community-service/boards/${widget.id}/like',
-      );
-      if (response.statusCode == 200) {
-        widget.fetchData();
-      } else {
-        SnackBarWidget.show(context, SnackBarType.error, "좋아요 변경에 실패하였습니다");
-      }
-    } catch (error) {
-      SnackBarWidget.show(context, SnackBarType.error, error.toString());
-    }
+    SendAPI.post(
+      context: context,
+      url: "/community-service/boards/${widget.id}/like",
+      successFunc: (data) => widget.fetchData(),
+      errorMsg: "좋아요 변경에 실패하였습니다",
+    );
   }
 
   @override

@@ -28,13 +28,13 @@ class _PostContentWidgetState extends State<PostContentWidget> {
       context: context,
       url: "/community-service/boards/main",
       successFunc: (data) {
-        for (int i = 0; i < data.length; i++) {
-          if (data[i]['type'] == 'SHOW') {
-            showData = data[i];
-          } else if (data[i]['type'] == 'FUN') {
-            funData = data[i];
+        for (int i = 0; i < data.data.length; i++) {
+          if (data.data[i]['type'] == 'SHOW') {
+            showData = data.data[i];
+          } else if (data.data[i]['type'] == 'FUN') {
+            funData = data.data[i];
           } else {
-            missingData = data[i];
+            missingData = data.data[i];
           }
         }
       },

@@ -28,7 +28,7 @@ class _CommentWidgetState extends State<CommentWidget> {
     SendAPI.get(
       context: context,
       url: "/community-service/boardComments/${widget.comment['id']}/reply",
-      successFunc: (data) => setState(() => cocomment = data['content']),
+      successFunc: (data) => setState(() => cocomment = data.data['content']),
       errorMsg: "대댓글 정보 호출에 실패하였습니다",
     );
   }

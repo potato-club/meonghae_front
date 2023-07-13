@@ -31,8 +31,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
 
   @override
   void initState() {
-    super.initState();
     fetchData();
+    super.initState();
   }
 
   Map<String, int> ReviewMenuMap = {
@@ -61,7 +61,9 @@ class _ReviewScreenState extends State<ReviewScreen> {
           "keyword": searchingForm['keyword'],
         "photo": searchingForm['isCheckedPhotoReviews']
       },
-      successFunc: (data) => setState(() => reviews = data['content']),
+      successFunc: (data) {
+        setState(() => reviews = data.data['content']);
+      },
       errorMsg: "리뷰정보 호출에 실패하였습니다",
     );
   }
