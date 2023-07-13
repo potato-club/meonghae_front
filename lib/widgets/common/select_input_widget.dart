@@ -15,6 +15,7 @@ class SelectInputWidget extends StatefulWidget {
   final String? hintText;
   final TextAlign textAlign;
   final bool isBigIcon;
+  final bool isBold;
   final Function setValue;
   final List<dynamic> list;
   const SelectInputWidget({
@@ -31,6 +32,7 @@ class SelectInputWidget extends StatefulWidget {
     this.borderRadius = 5,
     this.fontSize = 12,
     this.textAlign = TextAlign.center,
+    this.isBold = false,
   });
 
   @override
@@ -76,6 +78,8 @@ class _SelectInputWidgetState extends State<SelectInputWidget> {
               fontSize: widget.fontSize,
               borderRadius: widget.borderRadius,
               list: widget.list,
+              textAlign: widget.textAlign,
+              isBold: widget.isBold,
               selectLink: _selectLink,
               setValue: (String data) {
                 widget.setValue(data);
@@ -115,7 +119,9 @@ class _SelectInputWidgetState extends State<SelectInputWidget> {
             children: [
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 14),
+                  padding: EdgeInsets.only(
+                      left: widget.isBigIcon ? 22 : 14,
+                      right: widget.isBigIcon ? 12 : 8),
                   child: Text(
                     value ?? (widget.hintText ?? ""),
                     textAlign: widget.textAlign,
@@ -124,6 +130,7 @@ class _SelectInputWidgetState extends State<SelectInputWidget> {
                       color:
                           value == null ? CustomColor.gray : CustomColor.black2,
                       letterSpacing: value == null ? -1 : null,
+                      fontWeight: widget.isBold ? FontWeight.w700 : null,
                     ),
                   ),
                 ),

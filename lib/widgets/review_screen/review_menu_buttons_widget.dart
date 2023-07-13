@@ -31,9 +31,12 @@ class ReviewMenuButtonsWidget extends StatelessWidget {
               label1: '넥카라',
               label2: '목줄',
               label3: '장난감',
-              widget1: NeckCollarSVG(),
-              widget2: SnoodSVG(),
-              widget3: ToySVG(),
+              widget1: NeckCollarSVG(
+                  color1: CustomColor.black4, color2: CustomColor.lightGray3),
+              widget2: SnoodSVG(
+                  color1: CustomColor.black4, color2: CustomColor.lightGray3),
+              widget3: ToySVG(
+                  color1: CustomColor.black4, color2: CustomColor.lightGray3),
             )),
         Container(
             decoration: const BoxDecoration(
@@ -44,9 +47,12 @@ class ReviewMenuButtonsWidget extends StatelessWidget {
               label1: '방석',
               label2: '목욕용품',
               label3: '사료',
-              widget1: CushionSVG(),
-              widget2: WasherSVG(),
-              widget3: FeedSVG(),
+              widget1: CushionSVG(
+                  color1: CustomColor.black4, color2: CustomColor.lightGray3),
+              widget2: WasherSVG(
+                  color1: CustomColor.black4, color2: CustomColor.lightGray3),
+              widget3: FeedSVG(
+                  color1: CustomColor.black4, color2: CustomColor.lightGray3),
             )),
         Container(
             decoration: const BoxDecoration(
@@ -57,18 +63,24 @@ class ReviewMenuButtonsWidget extends StatelessWidget {
               label1: '강아지껌',
               label2: '입마개',
               label3: '유모차',
-              widget1: DogChewSVG(),
-              widget2: MuzzleSVG(),
-              widget3: StrollerSVG(),
+              widget1: DogChewSVG(
+                  color1: CustomColor.black4, color2: CustomColor.lightGray3),
+              widget2: MuzzleSVG(
+                  color1: CustomColor.black4, color2: CustomColor.lightGray3),
+              widget3: StrollerSVG(
+                  color1: CustomColor.black4, color2: CustomColor.lightGray3),
             )),
         Container(
             child: const MenuButtonsWidget(
           label1: '배변패드',
           label2: '간식',
           label3: '바디용품',
-          widget1: PadSVG(),
-          widget2: SnackSVG(),
-          widget3: BodySVG(),
+          widget1: PadSVG(
+              color1: CustomColor.black4, color2: CustomColor.lightGray3),
+          widget2: SnackSVG(
+              color1: CustomColor.black4, color2: CustomColor.lightGray3),
+          widget3: BodySVG(
+              color1: CustomColor.black4, color2: CustomColor.lightGray3),
         ))
       ],
     );

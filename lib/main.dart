@@ -23,10 +23,9 @@ class MyApp extends StatelessWidget {
     ));
 
     return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      locale: Locale('ko', 'KR'),
-      title: 'Meonghae?',
-      home: LoginScreen(),
-    );
+        debugShowCheckedModeBanner: false,
+        locale: Locale('ko', 'KR'),
+        title: 'Meonghae?',
+        home: LoginScreen());
   }
 }

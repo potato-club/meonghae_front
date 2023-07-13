@@ -7,14 +7,22 @@ import 'package:meonghae_front/widgets/common/select_input_widget.dart';
 import 'package:spinner_date_time_picker/spinner_date_time_picker.dart';
 
 class AdditionalInfoWidget extends StatefulWidget {
-  const AdditionalInfoWidget({super.key});
+  final bool isAllday;
+  final Function setIsAllday;
+  final Map<String, String?> time;
+  final Function setTime;
+  const AdditionalInfoWidget(
+      {super.key,
+      required this.isAllday,
+      required this.setIsAllday,
+      required this.time,
+      required this.setTime});
 
   @override
   State<AdditionalInfoWidget> createState() => _AdditionalInfoWidgetState();
 }
 
 class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
-  bool isAllday = false;
   List<String> repeatList = ['안 함', '함'];
   String selectedRepeatList = '안 함';
 
@@ -42,13 +50,15 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
             children: [
               Container(
                 height: 45,
-                decoration: const BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: CustomColor.lightGray1,
-                      width: 1.0,
-                    ),
-                  ),
+                decoration: BoxDecoration(
+                  border: widget.isAllday
+                      ? null
+                      : const Border(
+                          bottom: BorderSide(
+                            color: CustomColor.lightGray1,
+                            width: 1.0,
+                          ),
+                        ),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
@@ -67,27 +77,115 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                         ),
                       ),
                       SwitchWidget(
-                        clickSwitch: () {
-                          setState(() {
-                            isAllday = !isAllday;
-                          });
-                        },
-                        isChecked: isAllday,
+                        clickSwitch: widget.setIsAllday,
+                        isChecked: widget.isAllday,
                       ),
                     ],
                   ),
                 ),
               ),
-              Container(
-                decoration: const BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: CustomColor.lightGray1,
-                      width: 1.0,
+              if (!widget.isAllday)
+                Container(
+                  decoration: const BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: CustomColor.lightGray1,
+                        width: 1.0,
+                      ),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      left: 20,
+                      right: 9,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          '시작',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700,
+                            color: CustomColor.black1,
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return Dialog(
+                                  child: SpinnerDateTimePicker(
+                                    initialDateTime: selectedStartDate,
+                                    maximumDate: selectedStartDate
+                                        .add(const Duration(days: 7500)),
+                                    minimumDate: selectedStartDate
+                                        .subtract(const Duration(days: 7500)),
+                                    mode: CupertinoDatePickerMode.date,
+                                    use24hFormat: true,
+                                    didSetTime: (value) {
+                                      setState(() {
+                                        selectedStartDate = value;
+                                        widget.setTime('date',
+                                            "${selectedStartDate.year}-${selectedStartDate.month.toString().padLeft(2, '0')}-${selectedStartDate.day.toString().padLeft(2, '0')}");
+                                      });
+                                    },
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                          child: Text(
+                            DateFormat('yyyy-MM-dd').format(selectedStartDate),
+                            style: const TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w400,
+                              color: CustomColor.gray,
+                            ),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return Dialog(
+                                  child: SpinnerDateTimePicker(
+                                    initialDateTime: selectedStartTime,
+                                    maximumDate: selectedStartTime
+                                        .add(const Duration(days: 7)),
+                                    minimumDate: selectedStartTime
+                                        .subtract(const Duration(days: 1)),
+                                    mode: CupertinoDatePickerMode.time,
+                                    use24hFormat: true,
+                                    didSetTime: (value) {
+                                      setState(() {
+                                        selectedStartTime = value;
+                                        widget.setTime('time',
+                                            "${selectedStartTime.hour.toString().padLeft(2, '0')}:${selectedStartTime.hour.toString().padLeft(2, '0')}");
+                                      });
+                                    },
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                          child: Text(
+                            DateFormat('HH:mm').format(selectedStartTime),
+                            style: const TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w400,
+                              color: CustomColor.gray,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
-                child: Padding(
+              if (!widget.isAllday)
+                Padding(
                   padding: const EdgeInsets.only(
                     left: 20,
                     right: 9,
@@ -96,7 +194,7 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text(
-                        '시작',
+                        '종료',
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w700,
@@ -108,19 +206,18 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                           showDialog(
                             context: context,
                             builder: (context) {
-                              var today = DateTime.now();
                               return Dialog(
                                 child: SpinnerDateTimePicker(
-                                  initialDateTime: today,
-                                  maximumDate:
-                                      today.add(const Duration(days: 7500)),
-                                  minimumDate: today
+                                  initialDateTime: selectedFinishDate,
+                                  maximumDate: selectedFinishDate
+                                      .add(const Duration(days: 7500)),
+                                  minimumDate: selectedFinishDate
                                       .subtract(const Duration(days: 7500)),
                                   mode: CupertinoDatePickerMode.date,
                                   use24hFormat: true,
                                   didSetTime: (value) {
                                     setState(() {
-                                      selectedStartDate = value;
+                                      selectedFinishDate = value;
                                     });
                                   },
                                 ),
@@ -129,7 +226,7 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                           );
                         },
                         child: Text(
-                          DateFormat('yyyy-MM-dd').format(selectedStartDate),
+                          DateFormat('yyyy-MM-dd').format(selectedFinishDate),
                           style: const TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w400,
@@ -142,19 +239,18 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                           showDialog(
                             context: context,
                             builder: (context) {
-                              var today = DateTime.now();
                               return Dialog(
                                 child: SpinnerDateTimePicker(
-                                  initialDateTime: today,
-                                  maximumDate:
-                                      today.add(const Duration(days: 7)),
-                                  minimumDate:
-                                      today.subtract(const Duration(days: 1)),
+                                  initialDateTime: selectedFinishTime,
+                                  maximumDate: selectedFinishTime
+                                      .add(const Duration(days: 7)),
+                                  minimumDate: selectedFinishTime
+                                      .subtract(const Duration(days: 1)),
                                   mode: CupertinoDatePickerMode.time,
                                   use24hFormat: true,
                                   didSetTime: (value) {
                                     setState(() {
-                                      selectedStartTime = value;
+                                      selectedFinishTime = value;
                                     });
                                   },
                                 ),
@@ -163,7 +259,7 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                           );
                         },
                         child: Text(
-                          DateFormat('HH:mm').format(selectedStartTime),
+                          DateFormat('HH:mm').format(selectedFinishTime),
                           style: const TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w400,
@@ -174,93 +270,6 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                     ],
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 20,
-                  right: 9,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      '종료',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                        color: CustomColor.black1,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            var today = DateTime.now();
-                            return Dialog(
-                              child: SpinnerDateTimePicker(
-                                initialDateTime: today,
-                                maximumDate:
-                                    today.add(const Duration(days: 7500)),
-                                minimumDate:
-                                    today.subtract(const Duration(days: 7500)),
-                                mode: CupertinoDatePickerMode.date,
-                                use24hFormat: true,
-                                didSetTime: (value) {
-                                  setState(() {
-                                    selectedFinishDate = value;
-                                  });
-                                },
-                              ),
-                            );
-                          },
-                        );
-                      },
-                      child: Text(
-                        DateFormat('yyyy-MM-dd').format(selectedFinishDate),
-                        style: const TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w400,
-                          color: CustomColor.gray,
-                        ),
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            var today = DateTime.now();
-                            return Dialog(
-                              child: SpinnerDateTimePicker(
-                                initialDateTime: today,
-                                maximumDate: today.add(const Duration(days: 7)),
-                                minimumDate:
-                                    today.subtract(const Duration(days: 1)),
-                                mode: CupertinoDatePickerMode.time,
-                                use24hFormat: true,
-                                didSetTime: (value) {
-                                  setState(() {
-                                    selectedFinishTime = value;
-                                  });
-                                },
-                              ),
-                            );
-                          },
-                        );
-                      },
-                      child: Text(
-                        DateFormat('HH:mm').format(selectedFinishTime),
-                        style: const TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w400,
-                          color: CustomColor.gray,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
             ],
           ),
         ),

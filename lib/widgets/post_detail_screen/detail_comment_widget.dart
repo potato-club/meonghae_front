@@ -1,11 +1,23 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:meonghae_front/config/base_url.dart';
+import 'package:meonghae_front/login/token.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 import 'package:meonghae_front/widgets/post_detail_screen/comment_widget.dart';
 
-class DetailCommentWidget extends StatelessWidget {
+class DetailCommentWidget extends StatefulWidget {
   final Function setIsCommentMoreModal;
-  const DetailCommentWidget({super.key, required this.setIsCommentMoreModal});
+  final List comments;
+  const DetailCommentWidget(
+      {super.key, required this.setIsCommentMoreModal, required this.comments});
 
+  @override
+  State<DetailCommentWidget> createState() => _DetailCommentWidgetState();
+}
+
+class _DetailCommentWidgetState extends State<DetailCommentWidget> {
+  @override
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,11 +31,11 @@ class DetailCommentWidget extends StatelessWidget {
       ),
       child: Column(
         children: [
-          CommentWidget(setIsCommentMoreModal: setIsCommentMoreModal),
-          CommentWidget(setIsCommentMoreModal: setIsCommentMoreModal),
-          CommentWidget(setIsCommentMoreModal: setIsCommentMoreModal),
-          CommentWidget(setIsCommentMoreModal: setIsCommentMoreModal),
-          CommentWidget(setIsCommentMoreModal: setIsCommentMoreModal),
+          ...widget.comments.map((comment) {
+            return CommentWidget(
+                comment: comment,
+                setIsCommentMoreModal: widget.setIsCommentMoreModal);
+          }).toList(),
           const SizedBox(height: 74)
         ],
       ),

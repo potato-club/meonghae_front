@@ -1,29 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/svg/arrow.dart';
-import 'package:meonghae_front/widgets/svg/more.dart';
+import 'package:meonghae_front/widgets/svg/check.dart';
+import 'package:meonghae_front/widgets/svg/saveCheck.dart';
 
-class BannerWidget extends StatefulWidget {
-  final Function setIsPostMoreModal;
-  final String currentSection;
-  final Function handlePop;
-  const BannerWidget({
-    super.key,
-    required this.setIsPostMoreModal,
-    required this.currentSection,
-    required this.handlePop,
-  });
+class BannerWidget extends StatelessWidget {
+  final Function handleSubmit;
+  const BannerWidget({super.key, required this.handleSubmit});
 
-  @override
-  State<BannerWidget> createState() => _BannerWidgetState();
-}
-
-class _BannerWidgetState extends State<BannerWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 100,
-      width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         color: CustomColor.brown1,
       ),
@@ -35,36 +23,31 @@ class _BannerWidgetState extends State<BannerWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               InkWell(
-                  onTap: () => widget.handlePop(),
+                  onTap: () => Navigator.pop(context),
                   child: Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: MediaQuery.of(context).size.width * 0.06,
                       vertical: 20,
                     ),
-                    child: const SizedBox(
+                    child: SizedBox(
                         width: 24,
                         child: Align(
                             alignment: Alignment.centerLeft,
                             child: ArrowSVG(strokeColor: CustomColor.black2))),
                   )),
-              Text(widget.currentSection,
+              const Text('게시물 작성',
                   style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
                       color: CustomColor.black2)),
               InkWell(
-                  onTap: () => widget.setIsPostMoreModal(true),
+                  onTap: () => handleSubmit(),
                   child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * 0.06,
-                      vertical: 20,
-                    ),
-                    child: const SizedBox(
-                        width: 24,
-                        child: Align(
-                            alignment: Alignment.centerRight,
-                            child: MoreSVG())),
-                  ))
+                      padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width * 0.06,
+                        vertical: 20,
+                      ),
+                      child: SaveCheckSVG()))
             ],
           ),
         ],
