@@ -52,6 +52,7 @@ class _MainScreenState extends State<MainScreen> {
                               image: AssetImage(
                                   'assets/images/logo/meonghae_logo.png'),
                               width: 68,
+                              height: 46,
                             ),
                           ),
                           const Padding(
