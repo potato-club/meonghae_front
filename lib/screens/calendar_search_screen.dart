@@ -1,7 +1,11 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:meonghae_front/config/base_url.dart';
+import 'package:meonghae_front/login/token.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/calendar_search_screen/search_item_widget.dart';
 import 'package:meonghae_front/widgets/calendar_search_screen/top_menu_bar_widget.dart';
+import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 
 class CalendarSearchScreen extends StatefulWidget {
   const CalendarSearchScreen({super.key});
@@ -11,6 +15,11 @@ class CalendarSearchScreen extends StatefulWidget {
 }
 
 class _CalendarSearchScreenState extends State<CalendarSearchScreen> {
+  List searchResult = [];
+  void setSearchResult(List data) async {
+    setState(() => searchResult = data);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +28,7 @@ class _CalendarSearchScreenState extends State<CalendarSearchScreen> {
           child: Column(
             children: [
               const SizedBox(height: 32),
-              const TopMenuBarWidget(),
+              TopMenuBarWidget(setSearchResult: setSearchResult),
               const SizedBox(height: 10),
               Expanded(
                 child: Stack(
