@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/svg/arrow.dart';
+import 'package:meonghae_front/widgets/svg/saveCheck.dart';
 
 class TopMenuBarWidget extends StatelessWidget {
   final Function handleSave;
@@ -52,15 +53,8 @@ class TopMenuBarWidget extends StatelessWidget {
                   child: const SizedBox(
                     width: 24,
                     child: Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        '저장',
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w700,
-                            color: CustomColor.gray),
-                      ),
-                    ),
+                        alignment: Alignment.centerRight,
+                        child: SaveCheckSVG()),
                   ),
                 ),
               ),
