@@ -92,7 +92,7 @@ class _CalendarInfoScreenState extends State<CalendarInfoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColor.brown3,
+      backgroundColor: CustomColor.brown1,
       body: Column(
         children: [
           const SizedBox(height: 32),

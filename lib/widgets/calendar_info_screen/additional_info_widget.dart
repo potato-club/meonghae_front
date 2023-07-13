@@ -65,7 +65,8 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                                 use24hFormat: true,
                                 didSetTime: (value) => widget.setCalendarData(
                                     'scheduleTime',
-                                    '${DateFormat('yyyyMMdd').format(selectedDate)}')));
+                                    DateFormat('yyyyMMdd')
+                                        .format(selectedDate))));
                       },
                     );
                   },
@@ -123,7 +124,7 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                 if (widget.calendarData['isAlarm'])
                   Column(
                     children: [
-                      Container(height: 1, color: CustomColor.brown3),
+                      Container(height: 1, color: CustomColor.brown1),
                       SizedBox(
                         height: 45,
                         child: Padding(
@@ -158,7 +159,9 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                                               didSetTime: (value) =>
                                                   widget.setCalendarData(
                                                       'scheduleTime',
-                                                      '${DateFormat('yyyyMMdd').format(selectedDate)}')));
+                                                      DateFormat('yyyyMMdd')
+                                                          .format(
+                                                              selectedDate))));
                                     },
                                   );
                                 },
