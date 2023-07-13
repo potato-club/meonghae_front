@@ -6,11 +6,13 @@ import 'package:meonghae_front/config/base_url.dart';
 import 'package:meonghae_front/login/token.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
+import 'package:meonghae_front/widgets/review_write_screen/review_category_widget.dart';
 import 'package:meonghae_front/widgets/review_write_screen/star_rating_widget.dart';
 import 'package:meonghae_front/widgets/review_write_screen/write_form_widget.dart';
 
 class ReviewWriteScreen extends StatefulWidget {
-  const ReviewWriteScreen({super.key});
+  final Function fetchData;
+  const ReviewWriteScreen({super.key, required this.fetchData});
 
   @override
   State<ReviewWriteScreen> createState() => _ReviewWriteScreenState();
@@ -21,7 +23,7 @@ class _ReviewWriteScreenState extends State<ReviewWriteScreen> {
     "title": "",
     "content": "",
     "rating": 0.0,
-    "type": 3,
+    "type": null,
     "images": []
   };
 
@@ -52,6 +54,7 @@ class _ReviewWriteScreenState extends State<ReviewWriteScreen> {
         final response = await dio.post('${baseUrl}community-service/reviews',
             data: formData);
         if (response.statusCode == 201) {
+          widget.fetchData();
           Navigator.pop(context);
           SnackBarWidget.show(context, SnackBarType.check, '성공적으로 리뷰를 작성하였습니다');
         } else {
@@ -75,7 +78,10 @@ class _ReviewWriteScreenState extends State<ReviewWriteScreen> {
           children: [
             const SizedBox(height: 36),
             StarRatingWidget(setWriteData: setWriteData, writeData: writeData),
-            const SizedBox(height: 28),
+            const SizedBox(height: 36),
+            ReviewCategoryWidget(
+                setWriteData: setWriteData, writeData: writeData),
+            const SizedBox(height: 14),
             WriteFormWidget(setWriteData: setWriteData, writeData: writeData),
             const SizedBox(height: 38),
             Padding(

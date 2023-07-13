@@ -31,7 +31,7 @@ class _CalendarInfoScreenState extends State<CalendarInfoScreen> {
     'isAlarm': true,
     'alarm': {'day': 0, 'time': ''},
     'memo': null,
-    'scheduleTime': '${DateFormat('yyyyMMdd').format(DateTime.now())}'
+    'scheduleTime': DateFormat('yyyyMMdd').format(DateTime.now())
   };
 
   void setCalendarData(String key, dynamic data) {

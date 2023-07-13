@@ -17,11 +17,11 @@ class _ImagesSwiperWidgetState extends State<ImagesSwiperWidget> {
     return Stack(children: [
       Container(
         clipBehavior: Clip.hardEdge,
-        height: MediaQuery.of(context).size.width * 0.88,
+        height: MediaQuery.of(context).size.width * 0.88 - 12,
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
         child: CarouselSlider(
           options: CarouselOptions(
-            height: MediaQuery.of(context).size.width * 0.88,
+            height: MediaQuery.of(context).size.width * 0.88 - 12,
             initialPage: 0,
             enableInfiniteScroll: false,
             autoPlay: false,
@@ -32,12 +32,11 @@ class _ImagesSwiperWidgetState extends State<ImagesSwiperWidget> {
           items: widget.images?.map((item) {
             return Builder(
               builder: (BuildContext context) {
-                return Container(
-                    color: CustomColor.ivory2,
+                return SizedBox(
                     width: MediaQuery.of(context).size.width * 0.88,
                     child: Image.network(
                       item["fileUrl"],
-                      // fit: BoxFit.cover,
+                      fit: BoxFit.cover,
                     ));
               },
             );

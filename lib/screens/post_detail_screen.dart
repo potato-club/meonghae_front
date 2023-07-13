@@ -11,8 +11,14 @@ import 'package:meonghae_front/widgets/post_detail_screen/detail_content_widget.
 import 'package:meonghae_front/widgets/post_detail_screen/write_comment_bar_widget.dart';
 
 class PostDetailScreen extends StatefulWidget {
-  const PostDetailScreen({super.key, required this.id});
+  final String currentSection;
   final int id;
+  final Function fetchData;
+  const PostDetailScreen(
+      {super.key,
+      required this.id,
+      required this.currentSection,
+      required this.fetchData});
   @override
   State<PostDetailScreen> createState() => _PostDetailScreenState();
 }
@@ -35,6 +41,12 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
   }
 
   Map<String, dynamic>? post;
+  List comments = [];
+
+  void handlePop() {
+    widget.fetchData();
+    Navigator.pop(context);
+  }
 
   Future<void> fetchData() async {
     try {
@@ -45,10 +57,24 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
         '${baseUrl}community-service/boards/${widget.id}',
       );
       if (response.statusCode == 200) {
-        final data = response.data as Map<String, dynamic>;
-        setState(() => post = data);
+        setState(() => post = response.data);
       } else {
         SnackBarWidget.show(context, SnackBarType.error, "게시글 정보 호출에 실패하였습니다");
+      }
+    } catch (error) {
+      SnackBarWidget.show(context, SnackBarType.error, error.toString());
+    }
+    try {
+      final dio = Dio();
+      var token = await readAccessToken();
+      dio.options.headers['Authorization'] = token;
+      final response = await dio.get(
+        '${baseUrl}community-service/boardComments/${widget.id}',
+      );
+      if (response.statusCode == 200) {
+        setState(() => comments = response.data['content']);
+      } else {
+        SnackBarWidget.show(context, SnackBarType.error, "댓글 정보 호출에 실패하였습니다");
       }
     } catch (error) {
       SnackBarWidget.show(context, SnackBarType.error, error.toString());
@@ -57,30 +83,34 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    const List<String> dummyImage = ['dummy1', 'dummy2', 'dummy3'];
     return Scaffold(
       backgroundColor: CustomColor.white,
       body: Stack(children: [
-        Column(
-          children: [
-            BannerWidget(
-              setIsPostMoreModal: setIsPostMoreModal,
-            ),
-            Expanded(
-                child: SingleChildScrollView(
-                    child: Column(
-              children: [
-                if (post != null) // Conditional check
-                  DetailContentWidget(post: post, images: dummyImage),
-                DetailCommentWidget(
-                  id: widget.id,
-                  setIsCommentMoreModal: setIsCommentMoreModal,
-                ),
-              ],
-            )))
-          ],
+        SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: SingleChildScrollView(
+              child: Column(
+            children: [
+              SizedBox(height: 100),
+              DetailContentWidget(
+                  post: post, fetchData: fetchData, id: widget.id),
+              DetailCommentWidget(
+                setIsCommentMoreModal: setIsCommentMoreModal,
+                comments: comments,
+              ),
+            ],
+          )),
         ),
-        const Positioned(bottom: 0, child: WriteCommentBarWidget()),
+        Positioned(
+            top: 0,
+            child: BannerWidget(
+              setIsPostMoreModal: setIsPostMoreModal,
+              currentSection: widget.currentSection,
+              handlePop: handlePop,
+            )),
+        Positioned(
+            bottom: 0,
+            child: WriteCommentBarWidget(id: widget.id, fetchData: fetchData)),
         if (isPostMoreModalOpen)
           Positioned(
               bottom: 0,
