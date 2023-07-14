@@ -26,7 +26,6 @@ class SendAPI {
       }
     } catch (error) {
       SnackBarWidget.show(context, SnackBarType.error, error.toString());
-      print("$url");
     }
   }
 
