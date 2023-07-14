@@ -53,21 +53,19 @@ class _FilterWidgetState extends State<FilterWidget> {
                   defaultValue: category,
                 ),
                 if (category == '직접입력')
-                  SizedBox(
+                  const SizedBox(
                     height: 45,
                     child: TextField(
                       decoration: InputDecoration(
                         hintText: "제목을 입력해주세요",
-                        hintStyle: const TextStyle(
-                            fontSize: 13, color: CustomColor.gray),
+                        hintStyle:
+                            TextStyle(fontSize: 13, color: CustomColor.gray),
                         border: InputBorder.none,
                         focusedBorder: InputBorder.none,
                         errorBorder: InputBorder.none,
-                        contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 20),
+                        contentPadding: EdgeInsets.symmetric(horizontal: 20),
                       ),
-                      style: const TextStyle(
-                          fontSize: 13, color: CustomColor.black2),
+                      style: TextStyle(fontSize: 13, color: CustomColor.black2),
                       maxLines: 1,
                     ),
                   )
@@ -122,11 +120,11 @@ class _FilterWidgetState extends State<FilterWidget> {
                     if (widget.calendarData['isRepeat'])
                       Column(
                         children: [
-                          Container(height: 1, color: CustomColor.brown3),
-                          SizedBox(
+                          Container(height: 1, color: CustomColor.brown1),
+                          const SizedBox(
                             height: 45,
                             child: Padding(
-                              padding: const EdgeInsets.only(
+                              padding: EdgeInsets.only(
                                 left: 20,
                                 right: 9,
                               ),
@@ -134,7 +132,7 @@ class _FilterWidgetState extends State<FilterWidget> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    const Text(
+                                    Text(
                                       '반복 설정',
                                       style: TextStyle(
                                         fontSize: 14,

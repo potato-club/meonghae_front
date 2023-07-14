@@ -1,9 +1,6 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/config/base_url.dart';
-import 'package:meonghae_front/login/token.dart';
+import 'package:meonghae_front/api/dio.dart';
 import 'package:meonghae_front/themes/customColor.dart';
-import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 import 'package:meonghae_front/widgets/svg/tiny_right_arrow.dart';
 
 class WriteCommentBarWidget extends StatefulWidget {
@@ -31,27 +28,18 @@ class _WriteCommentBarWidgetState extends State<WriteCommentBarWidget> {
 
   Future<void> handlePostComment() async {
     if (textController.text != '') {
-      try {
-        final dio = Dio();
-        var token = await readAccessToken();
-        dio.options.headers['Authorization'] = token;
-        print('${baseUrl}community-service/boardComments/${widget.id}');
-        final response = await dio.post(
-            '${baseUrl}community-service/boardComments/${widget.id}',
-            data: {"comment": "${textController.text}"});
-        print(response.headers);
-        print(response.data);
-        print(response.statusCode);
-        if (response.statusCode == 201) {
+      SendAPI.post(
+        context: context,
+        url: "/community-service/boardComments/${widget.id}",
+        request: {"comment": textController.text},
+        successCode: 201,
+        successFunc: (data) {
           FocusScope.of(context).unfocus();
           handleClearText();
           widget.fetchData();
-        } else {
-          SnackBarWidget.show(context, SnackBarType.error, "댓글 작성에 실패하였습니다");
-        }
-      } catch (error) {
-        SnackBarWidget.show(context, SnackBarType.error, error.toString());
-      }
+        },
+        errorMsg: "댓글 작성에 실패하였습니다",
+      );
     }
   }
 
@@ -99,6 +87,8 @@ class _WriteCommentBarWidgetState extends State<WriteCommentBarWidget> {
             right: 0,
             child: InkWell(
               onTap: () => handlePostComment(),
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
               child: const SizedBox(
                   width: 34,
                   height: 44,

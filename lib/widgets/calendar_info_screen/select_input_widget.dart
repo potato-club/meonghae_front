@@ -83,6 +83,8 @@ class _SelectInputWidgetState extends State<SelectInputWidget> {
             _overlayEntry!.remove();
           }
         },
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
         child: Container(
           width: MediaQuery.of(context).size.width * 0.88,
           height: 45,
@@ -94,7 +96,7 @@ class _SelectInputWidgetState extends State<SelectInputWidget> {
             children: [
               Expanded(
                 child: Padding(
-                  padding: EdgeInsets.only(left: 22, right: 12),
+                  padding: const EdgeInsets.only(left: 22, right: 12),
                   child: Text(
                     value ?? '',
                     textAlign: TextAlign.left,
@@ -108,10 +110,9 @@ class _SelectInputWidgetState extends State<SelectInputWidget> {
                   ),
                 ),
               ),
-              Padding(
+              const Padding(
                   padding: EdgeInsets.only(right: 16),
-                  child:
-                      const BottomArrowSVG(size: 12, color: CustomColor.gray)),
+                  child: BottomArrowSVG(size: 12, color: CustomColor.gray)),
             ],
           ),
         ),

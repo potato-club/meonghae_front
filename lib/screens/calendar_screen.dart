@@ -1,13 +1,10 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/config/base_url.dart';
-import 'package:meonghae_front/login/token.dart';
+import 'package:meonghae_front/api/dio.dart';
 import 'package:meonghae_front/screens/calendar_info_screen.dart';
 import 'package:meonghae_front/screens/calendar_search_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/calendar_screen/calendar_widget.dart';
 import 'package:meonghae_front/widgets/calendar_screen/info_content_widget.dart';
-import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 import 'package:meonghae_front/widgets/svg/plus.dart';
 import 'package:meonghae_front/widgets/svg/search.dart';
 import 'package:meonghae_front/widgets/under_bar/under_bar_widget.dart';
@@ -36,29 +33,22 @@ class _CalendarScreenState extends State<CalendarScreen> {
   }
 
   Future<void> getCalendarData(int year, int month) async {
-    try {
-      Dio dio = Dio();
-      var token = await readAccessToken();
-      dio.options.headers['Authorization'] = token;
-      final response = await dio.get(
-          '${baseUrl}profile-service/profile/calendar',
-          queryParameters: {'year': year, 'month': month});
-      if (response.statusCode == 200) {
-        events = response.data;
-        if (selectedDay.year == focusedDay.year &&
-            selectedDay.month == focusedDay.month)
-          event = events
-              .where((e) =>
-                  e['scheduleTime'].toString().split('T')[0] ==
-                  "${selectedDay.year}-${formatDate(selectedDay.month)}-${formatDate(selectedDay.day)}")
-              .toList();
-        setState(() {});
-      } else {
-        SnackBarWidget.show(context, SnackBarType.error, "애완동물정보 호출에 실패하였습니다");
-      }
-    } catch (error) {
-      SnackBarWidget.show(context, SnackBarType.error, error.toString());
-    }
+    SendAPI.get(
+        context: context,
+        url: "/profile-service/profile/calendar",
+        request: {'year': year, 'month': month},
+        successFunc: (data) {
+          events = data.data;
+          if (selectedDay.year == focusedDay.year &&
+              selectedDay.month == focusedDay.month) {
+            setState(() => event = events
+                .where((e) =>
+                    e['scheduleTime'].toString().split('T')[0] ==
+                    "${selectedDay.year}-${formatDate(selectedDay.month)}-${formatDate(selectedDay.day)}")
+                .toList());
+          }
+        },
+        errorMsg: "캘린더정보 호출에 실패하였습니다");
   }
 
   void onFocusedDay(DateTime day) {

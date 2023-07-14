@@ -15,36 +15,63 @@ class CustomModalWidget {
           elevation: 0,
           backgroundColor: CustomColor.black1.withOpacity(0),
           insetPadding: EdgeInsets.symmetric(
-            horizontal: MediaQuery.of(context).size.width * 0.16,
+            horizontal: MediaQuery.of(context).size.width * 0.06,
           ),
           child: Container(
-            width: 60,
-            height: 140,
+            width: 288,
+            height: 166,
             decoration: BoxDecoration(
                 color: CustomColor.white,
                 borderRadius: BorderRadius.circular(10)),
             child: Padding(
               padding: EdgeInsets.only(
-                top: 40,
-                bottom: 20,
-                left: MediaQuery.of(context).size.width * 0.04,
-                right: MediaQuery.of(context).size.width * 0.04,
+                top: 42,
+                bottom: 18,
+                left: 19,
+                right: 19,
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     label,
-                    style: TextStyle(fontSize: 15),
+                    maxLines: 2,
+                    style: TextStyle(fontSize: 14, color: CustomColor.black2),
                     textAlign: TextAlign.center,
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           elevation: 0,
-                          fixedSize: const Size(76, 30),
+                          fixedSize: const Size(116, 45),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          backgroundColor:
+                              CustomColor.lightGray3.withOpacity(0.9),
+                          textStyle: TextStyle(
+                            fontSize: 14,
+                            color: CustomColor.black2,
+                          ),
+                        ),
+                        onPressed: () => Navigator.pop(context),
+                        child: Center(
+                          child: Text(
+                            '아니요',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: CustomColor.black2,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          elevation: 0,
+                          fixedSize: const Size(116, 45),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -58,31 +85,6 @@ class CustomModalWidget {
                         child: Center(
                           child: Text(
                             '네',
-                            style: TextStyle(
-                              fontSize: 13,
-                              color: CustomColor.black2,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          elevation: 0,
-                          fixedSize: const Size(80, 30),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          backgroundColor: CustomColor.brown1,
-                          textStyle: TextStyle(
-                            fontSize: 13,
-                            color: CustomColor.black2,
-                          ),
-                        ),
-                        onPressed: () => Navigator.pop(context),
-                        child: Center(
-                          child: Text(
-                            '아니요',
                             style: TextStyle(
                               fontSize: 13,
                               color: CustomColor.black2,

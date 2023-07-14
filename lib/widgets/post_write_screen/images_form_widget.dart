@@ -2,7 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meonghae_front/themes/customColor.dart';
-import 'package:meonghae_front/widgets/common/custom_modal.widget.dart';
+import 'package:meonghae_front/widgets/common/custom_modal_widget.dart';
+import 'package:meonghae_front/widgets/common/custom_warning_modal_widget.dart';
 import 'package:meonghae_front/widgets/svg/camera.dart';
 
 class ImagesFormWidget extends StatefulWidget {
@@ -55,6 +56,8 @@ class _ImagesFormWidgetState extends State<ImagesFormWidget> {
                 padding: const EdgeInsets.only(right: 14),
                 child: InkWell(
                   onTap: pickImage,
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
                   child: Container(
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
@@ -77,6 +80,8 @@ class _ImagesFormWidgetState extends State<ImagesFormWidget> {
                         "사진을 삭제하시겠어요?",
                         () => handleDeleteImage(i),
                       ),
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
                       child: Container(
                         width: 80,
                         height: 80,

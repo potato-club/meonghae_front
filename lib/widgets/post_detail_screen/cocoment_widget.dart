@@ -65,6 +65,8 @@ class _CocomentWidgetState extends State<CocomentWidget> {
             right: 0,
             child: InkWell(
                 onTap: () => widget.setIsCommentMoreModal(true),
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
                 child: const SizedBox(
                     width: 12,
                     child: TinyMoreSVG(color: CustomColor.lightGray2))))

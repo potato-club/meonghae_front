@@ -32,8 +32,8 @@ class _DogSelectWidgetState extends State<DogSelectWidget> {
                 clipBehavior: Clip.hardEdge,
                 width: 70,
                 height: 70,
-                decoration: BoxDecoration(
-                  color: CustomColor.brown3,
+                decoration: const BoxDecoration(
+                  color: CustomColor.brown1,
                   shape: BoxShape.circle,
                 ),
                 child: dogInfo['s3ResponseDto'] != null
@@ -98,8 +98,8 @@ class _DogSelectWidgetState extends State<DogSelectWidget> {
                       begin: Alignment.centerLeft,
                       end: Alignment.centerRight,
                       colors: [
-                    CustomColor.brown3,
-                    CustomColor.brown3.withOpacity(0),
+                    CustomColor.brown1,
+                    CustomColor.brown1.withOpacity(0),
                   ])),
               height: 91,
               width: MediaQuery.of(context).size.width * 0.06,
@@ -114,8 +114,8 @@ class _DogSelectWidgetState extends State<DogSelectWidget> {
                       begin: Alignment.centerRight,
                       end: Alignment.centerLeft,
                       colors: [
-                    CustomColor.brown3,
-                    CustomColor.brown3.withOpacity(0),
+                    CustomColor.brown1,
+                    CustomColor.brown1.withOpacity(0),
                   ])),
               height: 91,
               width: MediaQuery.of(context).size.width * 0.06,

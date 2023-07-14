@@ -363,7 +363,9 @@ class _InquiryScreenState extends State<InquiryScreen> {
                           onTap: () => Navigator.of(context).push(
                               MaterialPageRoute(
                                   builder: (BuildContext context) =>
-                                      InQuiry1To1Screen())),
+                                      const InQuiry1To1Screen())),
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
                           child: Container(
                             decoration: BoxDecoration(
                               color: Colors.white,

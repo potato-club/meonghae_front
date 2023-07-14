@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 class CustomColor {
   static const Color brown1 = Color(0xFFF2CB80);
   static const Color brown2 = Color(0xFFDEB567);
-  static const Color brown3 = Color(0xFFF2D7A7);
   static const Color white = Color(0xFFFFFFFF);
   static const Color ivory1 = Color(0xFFFFFCF4);
   static const Color ivory2 = Color(0xFFEAEAEA);

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:meonghae_front/screens/Inquiry_1to1_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/svg/arrow.dart';
-import 'package:meonghae_front/widgets/under_bar/under_bar_widget.dart';
 
 class InQuiryHistoryScreen extends StatefulWidget {
   const InQuiryHistoryScreen({super.key});
@@ -43,6 +42,8 @@ class _InQuiryHistoryScreenState extends State<InQuiryHistoryScreen> {
                 children: [
                   InkWell(
                     onTap: () => Navigator.pop(context),
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
                     child: const SizedBox(
                       width: 30,
                       child: Align(

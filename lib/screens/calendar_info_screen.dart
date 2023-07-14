@@ -1,14 +1,11 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:meonghae_front/config/base_url.dart';
-import 'package:meonghae_front/login/token.dart';
+import 'package:meonghae_front/api/dio.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/calendar_info_screen/additional_info_widget.dart';
 import 'package:meonghae_front/widgets/calendar_info_screen/dog_select_widget.dart';
 import 'package:meonghae_front/widgets/calendar_info_screen/filter_widget.dart';
 import 'package:meonghae_front/widgets/calendar_info_screen/top_menu_bar_widget.dart';
-import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 
 class CalendarInfoScreen extends StatefulWidget {
   const CalendarInfoScreen({super.key});
@@ -45,45 +42,32 @@ class _CalendarInfoScreenState extends State<CalendarInfoScreen> {
   }
 
   Future<void> _getDogsInfo() async {
-    try {
-      Dio dio = Dio();
-      var token = await readAccessToken();
-      dio.options.headers['Authorization'] = token;
-      final response = await dio.get('${baseUrl}profile-service/profile');
-      if (response.statusCode == 200) {
-        dogsInfo = await response.data;
-        setState(() {});
-      } else {
-        SnackBarWidget.show(context, SnackBarType.error, "애완동물정보 호출에 실패하였습니다");
-      }
-    } catch (error) {
-      SnackBarWidget.show(context, SnackBarType.error, error.toString());
-    }
+    SendAPI.get(
+      context: context,
+      url: '/profile-service/profile',
+      successFunc: (data) => setState(() => dogsInfo = data.data),
+      errorMsg: "애완동물정보 호출에 실패하였습니다",
+    );
   }
 
   Future<void> handleSave() async {
     // if (content != null &&
     //     (isAllday || (time['date'] != null && time['time'] != null))) {
-    //   try {
-    //     Dio dio = Dio();
-    //     var token = await readAccessToken();
-    //     dio.options.headers['Authorization'] = token;
-    //     final response =
-    //         await dio.post('${baseUrl}profile-service/profile/calendar', data: {
-    //       "petId": petId,
-    //       "scheduleTime":
-    //           isAllday ? "2023-06-14T00:00" : "${time['date']}T${time['time']}",
-    //       "text": content
-    //     });
-    //     if (response.statusCode == 200) {
-    //       Navigator.pop(context);
-    //       SnackBarWidget.show(context, SnackBarType.check, "성공적으로 일정을 등록했습니다");
-    //     } else {
-    //       SnackBarWidget.show(context, SnackBarType.error, "일정 등록에 실패하였습니다");
-    //     }
-    //   } catch (error) {
-    //     SnackBarWidget.show(context, SnackBarType.error, error.toString());
-    //   }
+    // SendAPI.post(
+    //   context: context,
+    //   url: "/profile-service/profile/calendar",
+    //   request: {
+    //     "petId": petId,
+    //     "scheduleTime":
+    //         isAllday ? "2023-06-14T00:00" : "${time['date']}T${time['time']}",
+    //     "text": content
+    //   },
+    //   successFunc: (data) {
+    //     Navigator.pop(context);
+    //     SnackBarWidget.show(context, SnackBarType.check, "성공적으로 일정을 등록했습니다");
+    //   },
+    //   errorMsg: "일정 등록에 실패하였습니다",
+    // );
     // } else {
     //   SnackBarWidget.show(context, SnackBarType.error, "모든 정보를 입력해주세요");
     // }
@@ -92,7 +76,7 @@ class _CalendarInfoScreenState extends State<CalendarInfoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColor.brown3,
+      backgroundColor: CustomColor.brown1,
       body: Column(
         children: [
           const SizedBox(height: 32),

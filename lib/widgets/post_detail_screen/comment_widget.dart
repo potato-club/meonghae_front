@@ -1,9 +1,6 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/config/base_url.dart';
-import 'package:meonghae_front/login/token.dart';
+import 'package:meonghae_front/api/dio.dart';
 import 'package:meonghae_front/themes/customColor.dart';
-import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 import 'package:meonghae_front/widgets/post_detail_screen/cocoment_widget.dart';
 import 'package:meonghae_front/widgets/svg/tiny_more.dart';
 
@@ -28,22 +25,12 @@ class _CommentWidgetState extends State<CommentWidget> {
   }
 
   Future<void> fetchData() async {
-    try {
-      final dio = Dio();
-      var token = await readAccessToken();
-      dio.options.headers['Authorization'] = token;
-      final response = await dio.get(
-        '${baseUrl}community-service/boardComments/${widget.comment['id']}/reply',
-      );
-      if (response.statusCode == 200) {
-        final data = response.data['content'];
-        setState(() => cocomment = data);
-      } else {
-        SnackBarWidget.show(context, SnackBarType.error, "대댓글 정보 호출에 실패하였습니다");
-      }
-    } catch (error) {
-      SnackBarWidget.show(context, SnackBarType.error, error.toString());
-    }
+    SendAPI.get(
+      context: context,
+      url: "/community-service/boardComments/${widget.comment['id']}/reply",
+      successFunc: (data) => setState(() => cocomment = data.data['content']),
+      errorMsg: "대댓글 정보 호출에 실패하였습니다",
+    );
   }
 
   @override
@@ -86,9 +73,10 @@ class _CommentWidgetState extends State<CommentWidget> {
                     width: MediaQuery.of(context).size.width * 0.88 - 38,
                     child: Text(
                       widget.comment['isWriter'] == true ? '글쓴이' : '익명',
-                      style: TextStyle(fontSize: 11, color: CustomColor.red),
+                      style:
+                          const TextStyle(fontSize: 11, color: CustomColor.red),
                     )),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.88 - 56,
                   child: Text("${widget.comment['comment']}",
@@ -120,7 +108,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                             onTap: () => setState(() => isOpen = !isOpen),
                             child: Text(
                               '댓글 ${widget.comment['replies']}개',
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 10, color: CustomColor.gray),
                             ),
                           )
@@ -134,6 +122,8 @@ class _CommentWidgetState extends State<CommentWidget> {
             right: 0,
             child: InkWell(
                 onTap: () => widget.setIsCommentMoreModal(true),
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
                 child: const SizedBox(
                     width: 12,
                     child: TinyMoreSVG(color: CustomColor.lightGray2))))
