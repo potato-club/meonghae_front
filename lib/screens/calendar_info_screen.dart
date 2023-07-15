@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:meonghae_front/api/dio.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/calendar_info_screen/additional_info_widget.dart';
@@ -26,9 +25,10 @@ class _CalendarInfoScreenState extends State<CalendarInfoScreen> {
       'times': 3
     },
     'isAlarm': true,
-    'alarm': {'day': 0, 'time': ''},
+    'alarmTime': DateTime(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day, 21, 0),
     'memo': null,
-    'scheduleTime': DateFormat('yyyyMMdd').format(DateTime.now())
+    'scheduleTime': DateTime.now(),
   };
 
   void setCalendarData(String key, dynamic data) {
@@ -76,50 +76,48 @@ class _CalendarInfoScreenState extends State<CalendarInfoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColor.brown1,
-      body: Column(
-        children: [
-          const SizedBox(height: 32),
-          TopMenuBarWidget(handleSave: handleSave),
-          const SizedBox(height: 4),
-          Expanded(
-            child: Stack(children: [
-              SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    const SizedBox(height: 26),
-                    DogSelectWidget(
-                      dogsInfo: dogsInfo,
-                      calendarData: calendarData,
-                      setCalendarData: setCalendarData,
-                    ),
-                    const SizedBox(height: 24),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: MediaQuery.of(context).size.width * 0.06),
-                      child: FilterWidget(
-                        calendarData: calendarData,
-                        setCalendarData: setCalendarData,
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: MediaQuery.of(context).size.width * 0.06),
-                      child: AdditionalInfoWidget(
-                        calendarData: calendarData,
-                        setCalendarData: setCalendarData,
-                      ),
-                    ),
-                    const SizedBox(height: 60)
-                  ],
+      backgroundColor: CustomColor.ivory2,
+      body: Stack(children: [
+        SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const SizedBox(height: 126),
+              DogSelectWidget(
+                dogsInfo: dogsInfo,
+                calendarData: calendarData,
+                setCalendarData: setCalendarData,
+              ),
+              const SizedBox(height: 24),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * 0.06),
+                child: FilterWidget(
+                  calendarData: calendarData,
+                  setCalendarData: setCalendarData,
                 ),
               ),
-            ]),
-          )
-        ],
-      ),
+              const SizedBox(height: 24),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * 0.06),
+                child: AdditionalInfoWidget(
+                  calendarData: calendarData,
+                  setCalendarData: setCalendarData,
+                ),
+              ),
+              const SizedBox(height: 60)
+            ],
+          ),
+        ),
+        Positioned(
+            top: 0,
+            child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: 100,
+                color: CustomColor.ivory2,
+                child: TopMenuBarWidget(handleSave: handleSave)))
+      ]),
     );
   }
 }

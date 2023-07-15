@@ -25,7 +25,7 @@ class CustomWarningModalWidget {
                 color: CustomColor.white,
                 borderRadius: BorderRadius.circular(10)),
             child: Padding(
-              padding: EdgeInsets.only(
+              padding: const EdgeInsets.only(
                 top: 56,
                 bottom: 18,
                 left: 19,
@@ -39,18 +39,18 @@ class CustomWarningModalWidget {
                       Text(
                         title,
                         maxLines: 1,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w700,
                           color: CustomColor.black2,
                         ),
                         textAlign: TextAlign.center,
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       Text(
                         content,
                         maxLines: 2,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 14,
                           color: CustomColor.gray,
                         ),
@@ -70,13 +70,13 @@ class CustomWarningModalWidget {
                           ),
                           backgroundColor:
                               CustomColor.lightGray3.withOpacity(0.9),
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                             fontSize: 14,
                             color: CustomColor.black2,
                           ),
                         ),
                         onPressed: () => Navigator.pop(context),
-                        child: Center(
+                        child: const Center(
                           child: Text(
                             '아니요',
                             style: TextStyle(
@@ -95,17 +95,17 @@ class CustomWarningModalWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           backgroundColor: CustomColor.brown1,
-                          textStyle: TextStyle(
-                            fontSize: 13,
+                          textStyle: const TextStyle(
+                            fontSize: 14,
                             color: CustomColor.black2,
                           ),
                         ),
                         onPressed: () => onClick(),
-                        child: Center(
+                        child: const Center(
                           child: Text(
                             '네',
                             style: TextStyle(
-                              fontSize: 13,
+                              fontSize: 14,
                               color: CustomColor.black2,
                             ),
                             textAlign: TextAlign.center,

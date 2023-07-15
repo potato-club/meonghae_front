@@ -105,7 +105,7 @@ class _FilterWidgetState extends State<FilterWidget> {
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w700,
-                                color: CustomColor.black1,
+                                color: CustomColor.black2,
                               ),
                             ),
                             SwitchWidget(
@@ -120,7 +120,7 @@ class _FilterWidgetState extends State<FilterWidget> {
                     if (widget.calendarData['isRepeat'])
                       Column(
                         children: [
-                          Container(height: 1, color: CustomColor.brown1),
+                          Container(height: 1, color: CustomColor.ivory2),
                           const SizedBox(
                             height: 45,
                             child: Padding(
@@ -137,7 +137,7 @@ class _FilterWidgetState extends State<FilterWidget> {
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w700,
-                                        color: CustomColor.black1,
+                                        color: CustomColor.black2,
                                       ),
                                     ),
                                   ]),
@@ -203,7 +203,7 @@ class _FilterWidgetState extends State<FilterWidget> {
                                     style: const TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w700,
-                                      color: CustomColor.black1,
+                                      color: CustomColor.black2,
                                     ),
                                   ),
                                 ),

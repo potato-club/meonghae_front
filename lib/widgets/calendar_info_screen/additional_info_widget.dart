@@ -1,10 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/widgets/calendar_info_screen/dial_box_widget.dart';
 import 'package:meonghae_front/widgets/calendar_info_screen/swich_widget.dart';
-import 'package:meonghae_front/widgets/common/select_input_widget.dart';
-import 'package:spinner_date_time_picker/spinner_date_time_picker.dart';
 
 class AdditionalInfoWidget extends StatefulWidget {
   final Map<String, dynamic> calendarData;
@@ -41,43 +39,34 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  '일정일',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                    color: CustomColor.black1,
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return Dialog(
-                            child: SpinnerDateTimePicker(
-                                initialDateTime: DateTime.now(),
-                                maximumDate: DateTime.now()
-                                    .add(const Duration(days: 7500)),
-                                minimumDate: DateTime.now()
-                                    .subtract(const Duration(days: 7500)),
-                                mode: CupertinoDatePickerMode.date,
-                                use24hFormat: true,
-                                didSetTime: (value) => widget.setCalendarData(
-                                    'scheduleTime',
-                                    DateFormat('yyyyMMdd')
-                                        .format(selectedDate))));
-                      },
-                    );
-                  },
+                const SizedBox(
+                  width: 75,
                   child: Text(
-                    DateFormat('yyyy-MM-dd').format(selectedDate),
-                    style: const TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w400,
-                      color: CustomColor.gray,
+                    '일정일',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      color: CustomColor.black2,
                     ),
                   ),
+                ),
+                DialBoxWidget(
+                  label: DateFormat('yyyy. MM. dd')
+                      .format(widget.calendarData['scheduleTime']),
+                  onSave: (DateTime dateTime) =>
+                      widget.setCalendarData('scheduleTime', dateTime),
+                  dialType: DialType.DATE,
+                  scheduleTime: widget.calendarData['scheduleTime'],
+                  textAlign: TextAlign.center,
+                ),
+                DialBoxWidget(
+                  label: DateFormat('a hh:mm', 'ko')
+                      .format(widget.calendarData['scheduleTime']),
+                  onSave: (DateTime dateTime) =>
+                      widget.setCalendarData('scheduleTime', dateTime),
+                  dialType: DialType.TIME,
+                  scheduleTime: widget.calendarData['scheduleTime'],
+                  textAlign: TextAlign.end,
                 ),
               ],
             ),
@@ -109,7 +98,7 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w700,
-                            color: CustomColor.black1,
+                            color: CustomColor.black2,
                           ),
                         ),
                         SwitchWidget(
@@ -124,7 +113,7 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                 if (widget.calendarData['isAlarm'])
                   Column(
                     children: [
-                      Container(height: 1, color: CustomColor.brown1),
+                      Container(height: 1, color: CustomColor.ivory2),
                       SizedBox(
                         height: 45,
                         child: Padding(
@@ -132,47 +121,34 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const Text(
-                                '알림 설정',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
-                                  color: CustomColor.black1,
-                                ),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return Dialog(
-                                          child: SpinnerDateTimePicker(
-                                              initialDateTime: DateTime.now(),
-                                              maximumDate: DateTime.now().add(
-                                                  const Duration(days: 7500)),
-                                              minimumDate: DateTime.now()
-                                                  .subtract(const Duration(
-                                                      days: 7500)),
-                                              mode:
-                                                  CupertinoDatePickerMode.date,
-                                              use24hFormat: true,
-                                              didSetTime: (value) =>
-                                                  widget.setCalendarData(
-                                                      'scheduleTime',
-                                                      DateFormat('yyyyMMdd')
-                                                          .format(
-                                                              selectedDate))));
-                                    },
-                                  );
-                                },
+                              const SizedBox(
+                                width: 75,
                                 child: Text(
-                                  DateFormat('yyyy-MM-dd').format(selectedDate),
-                                  style: const TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w400,
-                                    color: CustomColor.gray,
+                                  '알림 설정',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w700,
+                                    color: CustomColor.black2,
                                   ),
                                 ),
+                              ),
+                              DialBoxWidget(
+                                label: DateFormat('yyyy. MM. dd')
+                                    .format(widget.calendarData['alarmTime']),
+                                onSave: (DateTime dateTime) => widget
+                                    .setCalendarData('alarmTime', dateTime),
+                                dialType: DialType.DATE,
+                                scheduleTime: widget.calendarData['alarmTime'],
+                                textAlign: TextAlign.center,
+                              ),
+                              DialBoxWidget(
+                                label: DateFormat('a hh:mm', 'ko')
+                                    .format(widget.calendarData['alarmTime']),
+                                onSave: (DateTime dateTime) => widget
+                                    .setCalendarData('alarmTime', dateTime),
+                                dialType: DialType.TIME,
+                                scheduleTime: widget.calendarData['alarmTime'],
+                                textAlign: TextAlign.end,
                               ),
                             ],
                           ),
@@ -186,29 +162,39 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
         ),
         const SizedBox(height: 24),
         Container(
-          height: 376,
+          height: 301,
           decoration: BoxDecoration(
               color: CustomColor.white,
               borderRadius: BorderRadius.circular(10)),
           child: Padding(
-            padding: const EdgeInsets.only(left: 22, right: 22),
-            child: TextField(
-              controller: _textEditingController,
-              style: const TextStyle(
-                color: CustomColor.black1,
-                fontWeight: FontWeight.w700,
-                fontSize: 14,
-              ),
-              maxLines: null,
-              decoration: const InputDecoration(
-                labelText: '메모',
-                labelStyle: TextStyle(
-                  color: Colors.black,
-                  fontSize: 14,
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '메모',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    color: CustomColor.black2,
+                  ),
                 ),
-                border: InputBorder.none,
-                focusedBorder: InputBorder.none,
-              ),
+                TextField(
+                  controller: _textEditingController,
+                  style: const TextStyle(
+                    color: CustomColor.black2,
+                    fontSize: 13,
+                  ),
+                  maxLines: 20,
+                  decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.only(top: 12),
+                    hintText: "내용을 입력해주세요",
+                    hintStyle: TextStyle(fontSize: 12, color: CustomColor.gray),
+                    border: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                  ),
+                ),
+              ],
             ),
           ),
         ),
