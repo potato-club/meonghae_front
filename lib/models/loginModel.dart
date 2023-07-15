@@ -16,7 +16,10 @@ class LoginModel {
     isLogined = await socialLogin.login();
     if (isLogined) {
       user = await UserApi.instance.me();
-      Dio dio = Dio(BaseOptions(baseUrl: 'https://api.meonghae.site/'));
+      Dio dio = Dio(BaseOptions(
+        baseUrl: 'https://api.meonghae.site/',
+        // headers: {'AndroidId': getDeviceUniqueId()},
+      ));
       final response = await dio.get(
         '/user-service/login',
         queryParameters: {'email': user!.kakaoAccount!.email},
