@@ -171,7 +171,7 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   '메모',
                   style: TextStyle(
                     fontSize: 14,
