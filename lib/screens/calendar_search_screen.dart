@@ -1,11 +1,7 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/config/base_url.dart';
-import 'package:meonghae_front/login/token.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/calendar_search_screen/search_item_widget.dart';
 import 'package:meonghae_front/widgets/calendar_search_screen/top_menu_bar_widget.dart';
-import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 
 class CalendarSearchScreen extends StatefulWidget {
   const CalendarSearchScreen({super.key});

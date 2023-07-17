@@ -12,13 +12,18 @@ class SendAPI {
     Map<String, dynamic>? request,
     int successCode = 200,
   }) async {
-    var token = await readAccessToken();
+    var accessToken = await readAccessToken();
+    var refreshToken = await readRefreshToken();
+
     final dio = Dio(BaseOptions(
       baseUrl: 'https://api.meonghae.site/',
-      headers: {'Authorization': token},
+      headers: {'Authorization': accessToken, 'refreshToken': refreshToken},
     ));
     try {
       final response = await dio.get(url, queryParameters: request);
+      print('###header:${response.headers}');
+      print('###status: ${response.statusCode}');
+      print('###data: ${response.data}');
       if (response.statusCode == successCode) {
         successFunc(response);
       } else {
