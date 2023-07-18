@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:meonghae_front/screens/my_page_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/user/user_info.dart';
-import 'package:meonghae_front/widgets/svg/tiny_gear.dart';
+import 'package:meonghae_front/widgets/svg/gear.dart';
+import 'package:meonghae_front/widgets/svg/tiny_bottom_arrow.dart';
 
 class BannerWidget extends StatefulWidget {
   const BannerWidget({super.key});
@@ -70,13 +72,13 @@ class _BannerWidgetState extends State<BannerWidget> {
                           fontSize: 16, fontWeight: FontWeight.w700),
                     ),
                     const Padding(
-                      padding: EdgeInsets.only(top: 4),
+                      padding: EdgeInsets.only(top: 5),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          TinyGearSVG(),
+                          GearSVG(strokeColor: CustomColor.white),
                           Padding(
-                            padding: EdgeInsets.only(left: 4, bottom: 2),
+                            padding: EdgeInsets.only(left: 4),
                             child: Text(
                               "업데이트 공지 2.0.10.2",
                               style: TextStyle(
@@ -101,6 +103,30 @@ class _BannerWidgetState extends State<BannerWidget> {
         child: Image(
             image: AssetImage('assets/images/dog_pictures/bone_dog.png'),
             width: 116),
+      ),
+      Positioned(
+        right: 0,
+        bottom: 0,
+        child: InkWell(
+          onTap: () => Navigator.of(context).push(MaterialPageRoute(
+              builder: (BuildContext context) => const MyPageScreen())),
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+            child:
+                Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+              Text(
+                '마이페이지',
+                style: TextStyle(fontSize: 12, color: CustomColor.black2),
+              ),
+              SizedBox(width: 2),
+              Transform.rotate(
+                  angle: -1.58,
+                  child: TinyBottomArrowSVG(strokeColor: CustomColor.black2))
+            ]),
+          ),
+        ),
       )
     ]);
   }
