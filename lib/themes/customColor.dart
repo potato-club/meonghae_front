@@ -6,6 +6,7 @@ class CustomColor {
   static const Color white = Color(0xFFFFFFFF);
   static const Color ivory1 = Color(0xFFFFFCF4);
   static const Color ivory2 = Color(0xFFEAEAEA);
+  static const Color ivory3 = Color(0xFFF3F3F3);
   static const Color black1 = Color(0xFF000000);
   static const Color black2 = Color(0xFF191919);
   static const Color black3 = Color(0xFF505050);

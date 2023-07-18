@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/screens/main_screen.dart';
+import 'package:meonghae_front/screens/my_page_user_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/svg/tiny_right_arrow.dart';
 
@@ -40,7 +41,7 @@ class MenuButtonsWidget extends StatelessWidget {
 
     return Column(
       children: [
-        makeButton('내 정보 수정', CustomColor.black2, MainScreen()),
+        makeButton('내 정보 수정', CustomColor.black2, MyPageUserScreen()),
         makeButton('애완동물 정보 수정', CustomColor.black2, MainScreen()),
         makeButton('회원탈퇴', CustomColor.red, MainScreen()),
       ],
