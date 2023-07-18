@@ -16,7 +16,7 @@ class _MyPageUserScreenState extends State<MyPageUserScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColor.white,
+      backgroundColor: CustomColor.brown1,
       body: SafeArea(
           child: SingleChildScrollView(
         child: Column(
@@ -61,7 +61,7 @@ class _MyPageUserScreenState extends State<MyPageUserScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5),
                   ),
-                  backgroundColor: CustomColor.brown1,
+                  backgroundColor: CustomColor.black2,
                   elevation: 0),
               onPressed: () {
                 setState(() => isEdit = !isEdit);

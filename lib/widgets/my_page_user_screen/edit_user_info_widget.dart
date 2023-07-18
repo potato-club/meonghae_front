@@ -63,7 +63,7 @@ class _EditUserInfoWidgetState extends State<EditUserInfoWidget> {
                   height: 44,
                   width: MediaQuery.of(context).size.width * 0.88,
                   decoration: BoxDecoration(
-                      color: CustomColor.ivory3,
+                      color: CustomColor.white,
                       borderRadius: BorderRadius.circular(10)),
                   child: TextField(
                     controller: _nameController,
@@ -86,7 +86,7 @@ class _EditUserInfoWidgetState extends State<EditUserInfoWidget> {
                   height: 44,
                   width: MediaQuery.of(context).size.width * 0.88,
                   decoration: BoxDecoration(
-                      color: CustomColor.ivory3,
+                      color: CustomColor.white,
                       borderRadius: BorderRadius.circular(10)),
                   child: TextField(
                     inputFormatters: [
@@ -112,7 +112,7 @@ class _EditUserInfoWidgetState extends State<EditUserInfoWidget> {
                   height: 44,
                   width: MediaQuery.of(context).size.width * 0.88,
                   decoration: BoxDecoration(
-                      color: CustomColor.ivory3,
+                      color: CustomColor.white,
                       borderRadius: BorderRadius.circular(10)),
                   child: TextField(
                     controller: _ageController,

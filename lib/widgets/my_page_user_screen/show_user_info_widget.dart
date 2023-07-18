@@ -44,8 +44,8 @@ class _ShowUserInfoWidgetState extends State<ShowUserInfoWidget> {
           Container(
             width: 98,
             height: 98,
-            decoration: BoxDecoration(
-                shape: BoxShape.circle, color: CustomColor.ivory2),
+            decoration:
+                BoxDecoration(shape: BoxShape.circle, color: CustomColor.white),
             clipBehavior: Clip.hardEdge,
             child: image != null
                 ? Image.network(image!, fit: BoxFit.cover)
@@ -71,7 +71,7 @@ class _ShowUserInfoWidgetState extends State<ShowUserInfoWidget> {
                 height: 44,
                 width: MediaQuery.of(context).size.width * 0.88,
                 decoration: BoxDecoration(
-                    color: CustomColor.ivory3,
+                    color: CustomColor.white,
                     borderRadius: BorderRadius.circular(10)),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -97,7 +97,7 @@ class _ShowUserInfoWidgetState extends State<ShowUserInfoWidget> {
                 height: 44,
                 width: MediaQuery.of(context).size.width * 0.88,
                 decoration: BoxDecoration(
-                    color: CustomColor.ivory3,
+                    color: CustomColor.white,
                     borderRadius: BorderRadius.circular(10)),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -123,7 +123,7 @@ class _ShowUserInfoWidgetState extends State<ShowUserInfoWidget> {
                 height: 44,
                 width: MediaQuery.of(context).size.width * 0.88,
                 decoration: BoxDecoration(
-                    color: CustomColor.ivory3,
+                    color: CustomColor.white,
                     borderRadius: BorderRadius.circular(10)),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
