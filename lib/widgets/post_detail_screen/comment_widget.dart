@@ -35,15 +35,15 @@ class _CommentWidgetState extends State<CommentWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-          vertical: 10, horizontal: MediaQuery.of(context).size.width * 0.06),
-      child: Stack(children: [
-        Row(
+    return Stack(children: [
+      Padding(
+        padding: EdgeInsets.symmetric(
+            vertical: 12, horizontal: MediaQuery.of(context).size.width * 0.06),
+        child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Transform.translate(
-              offset: const Offset(0, 2),
+              offset: const Offset(0, 6),
               child: Container(
                 clipBehavior: Clip.hardEdge,
                 width: 24,
@@ -82,6 +82,26 @@ class _CommentWidgetState extends State<CommentWidget> {
                   child: Text("${widget.comment['comment']}",
                       style: const TextStyle(fontSize: 12, height: 1.2)),
                 ),
+                const SizedBox(height: 4),
+                Row(
+                  children: [
+                    Text(
+                      widget.comment?['date']
+                              .split('T')[0]
+                              .replaceAll('-', '/') ??
+                          '',
+                      style: TextStyle(
+                          fontSize: 11, color: CustomColor.lightGray2),
+                    ),
+                    SizedBox(width: 6),
+                    Text(
+                      widget.comment?['date'].split('T')[1].substring(0, 5) ??
+                          '',
+                      style: TextStyle(
+                          fontSize: 11, color: CustomColor.lightGray2),
+                    ),
+                  ],
+                ),
                 const SizedBox(height: 10),
                 widget.comment['replies'] != 0
                     ? isOpen
@@ -117,17 +137,19 @@ class _CommentWidgetState extends State<CommentWidget> {
             ),
           ],
         ),
-        Positioned(
-            top: 4,
-            right: 0,
-            child: InkWell(
-                onTap: () => widget.setIsCommentMoreModal(true),
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                child: const SizedBox(
-                    width: 12,
-                    child: TinyMoreSVG(color: CustomColor.lightGray2))))
-      ]),
-    );
+      ),
+      Positioned(
+          top: 10,
+          right: 0,
+          child: InkWell(
+              onTap: () => widget.setIsCommentMoreModal(true),
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      vertical: 2,
+                      horizontal: MediaQuery.of(context).size.width * 0.06),
+                  child: TinyMoreSVG(color: CustomColor.lightGray2))))
+    ]);
   }
 }

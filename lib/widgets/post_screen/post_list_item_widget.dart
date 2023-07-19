@@ -89,27 +89,51 @@ class _PostListItemWidgetState extends State<PostListItemWidget> {
                         color: CustomColor.black2,
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 4),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        const TinyHeartSVG(),
-                        const SizedBox(width: 2),
-                        Text(
-                          '${widget.postData['likes']}',
-                          style: const TextStyle(
-                              fontSize: 11, color: CustomColor.gray),
+                        Row(
+                          children: [
+                            Text(
+                              widget.postData['date']
+                                  .split('T')[0]
+                                  .replaceAll('-', '/'),
+                              style: TextStyle(
+                                  fontSize: 11, color: CustomColor.lightGray2),
+                            ),
+                            SizedBox(width: 6),
+                            Text(
+                              widget.postData['date']
+                                  .split('T')[1]
+                                  .substring(0, 5),
+                              style: TextStyle(
+                                  fontSize: 11, color: CustomColor.lightGray2),
+                            ),
+                          ],
                         ),
-                        const SizedBox(width: 6),
-                        const TinyCommentSVG(),
-                        const SizedBox(width: 2),
-                        Text(
-                          '${widget.postData['commentSize']}',
-                          style: const TextStyle(
-                              fontSize: 11, color: CustomColor.gray),
+                        Row(
+                          children: [
+                            const TinyHeartSVG(),
+                            const SizedBox(width: 4),
+                            Text(
+                              '${widget.postData['likes']}',
+                              style: const TextStyle(
+                                  fontSize: 11, color: CustomColor.gray),
+                            ),
+                            const SizedBox(width: 8),
+                            const TinyCommentSVG(),
+                            const SizedBox(width: 4),
+                            Text(
+                              '${widget.postData['commentSize']}',
+                              style: const TextStyle(
+                                  fontSize: 11, color: CustomColor.gray),
+                            ),
+                            const SizedBox(width: 6),
+                            if (hasToken) const TinyPictureSVG()
+                          ],
                         ),
-                        const SizedBox(width: 6),
-                        if (hasToken) const TinyPictureSVG()
                       ],
                     )
                   ],

@@ -34,11 +34,10 @@ class _DetailContentWidgetState extends State<DetailContentWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(
-          top: 20,
-          left: MediaQuery.of(context).size.width * 0.06,
-          right: MediaQuery.of(context).size.width * 0.06,
-          bottom: 12),
+      padding: EdgeInsets.symmetric(
+        vertical: 20,
+        horizontal: MediaQuery.of(context).size.width * 0.06,
+      ),
       child: Column(
         children: [
           Row(
@@ -94,10 +93,24 @@ class _DetailContentWidgetState extends State<DetailContentWidget> {
             width: MediaQuery.of(context).size.width * 0.88,
             child: Text(
               widget.post?['content'] ?? '',
-              style: const TextStyle(fontSize: 12, height: 1.4),
+              style: const TextStyle(fontSize: 12, height: 1.3),
             ),
           ),
-          const SizedBox(height: 6),
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              Text(
+                widget.post?['date'].split('T')[0].replaceAll('-', '/') ?? '',
+                style: TextStyle(fontSize: 11, color: CustomColor.lightGray2),
+              ),
+              SizedBox(width: 6),
+              Text(
+                widget.post?['date'].split('T')[1].substring(0, 5) ?? '',
+                style: TextStyle(fontSize: 11, color: CustomColor.lightGray2),
+              ),
+            ],
+          ),
+          const SizedBox(height: 4),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -111,19 +124,19 @@ class _DetailContentWidgetState extends State<DetailContentWidget> {
                         ? const SizedBox(
                             width: 15, height: 15, child: TinyHeartSVG())
                         : const HeartSVG(isFilled: false),
-                    const SizedBox(width: 4),
+                    const SizedBox(width: 6),
                     Text("${widget.post?['likes'] ?? ''}",
                         style: const TextStyle(
-                            fontSize: 13, color: CustomColor.gray)),
+                            fontSize: 14, color: CustomColor.gray)),
                   ],
                 ),
               ),
               const SizedBox(width: 12),
               const CommentSVG(),
-              const SizedBox(width: 4),
+              const SizedBox(width: 6),
               Text("${widget.post?['commentSize'] ?? ''}",
                   style:
-                      const TextStyle(fontSize: 13, color: CustomColor.gray)),
+                      const TextStyle(fontSize: 14, color: CustomColor.gray)),
             ],
           )
         ],
