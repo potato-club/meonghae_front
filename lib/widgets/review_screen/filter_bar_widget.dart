@@ -43,6 +43,8 @@ class _FilterBarWidgetState extends State<FilterBarWidget> {
           children: [
             InkWell(
               onTap: () => widget.setIsCheckedPhotoReview(),
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
               child: Container(
                   width: 20,
                   height: 20,
@@ -81,6 +83,8 @@ class _FilterBarWidgetState extends State<FilterBarWidget> {
                   });
                 }
               },
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
               child: SizedBox(
                 height: 20,
                 child: Row(
@@ -112,6 +116,8 @@ class _FilterBarWidgetState extends State<FilterBarWidget> {
                   });
                 }
               },
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
               child: SizedBox(
                 height: 20,
                 child: Row(
@@ -143,6 +149,8 @@ class _FilterBarWidgetState extends State<FilterBarWidget> {
                   });
                 }
               },
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
               child: SizedBox(
                 height: 20,
                 child: Row(

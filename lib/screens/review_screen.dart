@@ -1,10 +1,7 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/config/base_url.dart';
-import 'package:meonghae_front/login/token.dart';
+import 'package:meonghae_front/api/dio.dart';
 import 'package:meonghae_front/screens/review_write_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
-import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 import 'package:meonghae_front/widgets/review_screen/filter_bar_widget.dart';
 import 'package:meonghae_front/widgets/review_screen/review_list_item_widget.dart';
 import 'package:meonghae_front/widgets/review_screen/search_bar_widget.dart';
@@ -34,8 +31,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
 
   @override
   void initState() {
-    super.initState();
     fetchData();
+    super.initState();
   }
 
   Map<String, int> ReviewMenuMap = {
@@ -55,28 +52,20 @@ class _ReviewScreenState extends State<ReviewScreen> {
 
   List<dynamic> reviews = [];
   Future<void> fetchData() async {
-    try {
-      final dio = Dio();
-      var token = await readAccessToken();
-      dio.options.headers['Authorization'] = token;
-      final response = await dio.get(
-        '${baseUrl}community-service/reviews/${ReviewMenuMap[widget.menuValue]}',
-        queryParameters: {
-          "sort": searchingForm['sort'],
-          if (searchingForm['keyword'] != null)
-            "keyword": searchingForm['keyword'],
-          "photo": searchingForm['isCheckedPhotoReviews']
-        },
-      );
-      if (response.statusCode == 200) {
-        final data = response.data as Map<String, dynamic>;
-        setState(() => reviews = data['content']);
-      } else {
-        SnackBarWidget.show(context, SnackBarType.error, "리뷰 정보 호출에 실패하였습니다");
-      }
-    } catch (error) {
-      SnackBarWidget.show(context, SnackBarType.error, error.toString());
-    }
+    SendAPI.get(
+      context: context,
+      url: "/community-service/reviews/${ReviewMenuMap[widget.menuValue]}",
+      request: {
+        "sort": searchingForm['sort'],
+        if (searchingForm['keyword'] != null)
+          "keyword": searchingForm['keyword'],
+        "photo": searchingForm['isCheckedPhotoReviews']
+      },
+      successFunc: (data) {
+        setState(() => reviews = data.data['content']);
+      },
+      errorMsg: "리뷰정보 호출에 실패하였습니다",
+    );
   }
 
   @override
@@ -158,7 +147,9 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   child: InkWell(
                     onTap: () => Navigator.of(context).push(MaterialPageRoute(
                         builder: (BuildContext context) =>
-                            const ReviewWriteScreen())),
+                            ReviewWriteScreen(fetchData: fetchData))),
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
                     child: Container(
                       decoration: const BoxDecoration(
                         shape: BoxShape.circle,

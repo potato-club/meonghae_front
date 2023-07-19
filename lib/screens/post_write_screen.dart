@@ -1,9 +1,7 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/config/base_url.dart';
-import 'package:meonghae_front/login/token.dart';
+import 'package:meonghae_front/api/dio.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 import 'package:meonghae_front/widgets/post_write_screen/banner_widget.dart';
@@ -31,32 +29,27 @@ class _PostWriteScreenState extends State<PostWriteScreen> {
     if (writeData["title"] != "" &&
         writeData["content"] != "" &&
         writeData["type"] != null) {
-      try {
-        Dio dio = Dio();
-        var token = await readAccessToken();
-        dio.options.headers['Authorization'] = token;
-        FormData formData = FormData.fromMap({
-          "title": writeData["title"],
-          "content": writeData["content"],
-          if (writeData["images"].length != 0)
-            "images": [
-              for (File image in writeData["images"])
-                await MultipartFile.fromFile(image.path)
-            ]
-        });
-        final response = await dio.post(
-            '${baseUrl}community-service/boards/${writeData['type']}',
-            data: formData);
-        if (response.statusCode == 201) {
+      FormData formData = FormData.fromMap({
+        "title": writeData["title"],
+        "content": writeData["content"],
+        if (writeData["images"].length != 0)
+          "images": [
+            for (File image in writeData["images"])
+              await MultipartFile.fromFile(image.path)
+          ]
+      });
+      SendAPI.post(
+        context: context,
+        url: "/community-service/boards/${writeData['type']}",
+        request: formData,
+        successCode: 201,
+        successFunc: (data) {
           Navigator.pop(context);
           SnackBarWidget.show(
               context, SnackBarType.check, '성공적으로 게시글을 작성하였습니다');
-        } else {
-          SnackBarWidget.show(context, SnackBarType.error, '게시글 작성에 실패하였습니다');
-        }
-      } catch (error) {
-        SnackBarWidget.show(context, SnackBarType.error, error.toString());
-      }
+        },
+        errorMsg: "게시글 작성에 실패하였습니다",
+      );
     } else {
       SnackBarWidget.show(context, SnackBarType.error, "모든 정보를 입력해주세요");
     }

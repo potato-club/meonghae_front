@@ -3,7 +3,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meonghae_front/themes/customColor.dart';
-import 'package:meonghae_front/widgets/common/custom_modal.widget.dart';
+import 'package:meonghae_front/widgets/common/custom_modal_widget.dart';
 import 'package:meonghae_front/widgets/svg/plus.dart';
 
 class ImagesWidget extends StatefulWidget {
@@ -53,6 +53,8 @@ class _ImagesWidgetState extends State<ImagesWidget> {
                   "사진을 삭제하시겠어요?",
                   () => handleDeleteImage(i),
                 ),
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
                 child: Container(
                   width: 78,
                   height: 78,
@@ -69,6 +71,8 @@ class _ImagesWidgetState extends State<ImagesWidget> {
         if (widget.writeData["images"].length < 3)
           InkWell(
             onTap: pickImage,
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
             child: SizedBox(
               width: 80,
               height: 80,

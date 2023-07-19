@@ -1,9 +1,6 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/config/base_url.dart';
-import 'package:meonghae_front/login/token.dart';
+import 'package:meonghae_front/api/dio.dart';
 import 'package:meonghae_front/themes/customColor.dart';
-import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 import 'package:meonghae_front/widgets/post_detail_screen/custom_under_modal_widget.dart';
 import 'package:meonghae_front/widgets/post_detail_screen/banner_widget.dart';
 import 'package:meonghae_front/widgets/post_detail_screen/detail_comment_widget.dart';
@@ -49,36 +46,18 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
   }
 
   Future<void> fetchData() async {
-    try {
-      final dio = Dio();
-      var token = await readAccessToken();
-      dio.options.headers['Authorization'] = token;
-      final response = await dio.get(
-        '${baseUrl}community-service/boards/${widget.id}',
-      );
-      if (response.statusCode == 200) {
-        setState(() => post = response.data);
-      } else {
-        SnackBarWidget.show(context, SnackBarType.error, "게시글 정보 호출에 실패하였습니다");
-      }
-    } catch (error) {
-      SnackBarWidget.show(context, SnackBarType.error, error.toString());
-    }
-    try {
-      final dio = Dio();
-      var token = await readAccessToken();
-      dio.options.headers['Authorization'] = token;
-      final response = await dio.get(
-        '${baseUrl}community-service/boardComments/${widget.id}',
-      );
-      if (response.statusCode == 200) {
-        setState(() => comments = response.data['content']);
-      } else {
-        SnackBarWidget.show(context, SnackBarType.error, "댓글 정보 호출에 실패하였습니다");
-      }
-    } catch (error) {
-      SnackBarWidget.show(context, SnackBarType.error, error.toString());
-    }
+    SendAPI.get(
+      context: context,
+      url: "/community-service/boards/${widget.id}",
+      successFunc: (data) => setState(() => post = data.data),
+      errorMsg: "게시글정보 호출에 실패하였습니다",
+    );
+    SendAPI.get(
+      context: context,
+      url: "/community-service/boardComments/${widget.id}",
+      successFunc: (data) => setState(() => comments = data.data['content']),
+      errorMsg: "댓글정보 호출에 실패하였습니다",
+    );
   }
 
   @override
@@ -91,7 +70,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
           child: SingleChildScrollView(
               child: Column(
             children: [
-              SizedBox(height: 100),
+              const SizedBox(height: 100),
               DetailContentWidget(
                   post: post, fetchData: fetchData, id: widget.id),
               DetailCommentWidget(
