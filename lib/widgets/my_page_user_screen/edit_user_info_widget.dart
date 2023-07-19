@@ -72,7 +72,7 @@ class _EditUserInfoWidgetState extends State<EditUserInfoWidget> {
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       contentPadding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+                          EdgeInsets.symmetric(horizontal: 14, vertical: 12),
                     ),
                     style: const TextStyle(
                         fontSize: 14, color: CustomColor.black2),
@@ -98,7 +98,7 @@ class _EditUserInfoWidgetState extends State<EditUserInfoWidget> {
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       contentPadding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+                          EdgeInsets.symmetric(horizontal: 14, vertical: 12),
                     ),
                     style: const TextStyle(
                         fontSize: 14, color: CustomColor.black2),
@@ -121,7 +121,7 @@ class _EditUserInfoWidgetState extends State<EditUserInfoWidget> {
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       contentPadding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+                          EdgeInsets.symmetric(horizontal: 14, vertical: 12),
                     ),
                     style: const TextStyle(
                         fontSize: 14, color: CustomColor.black2),

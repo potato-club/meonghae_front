@@ -3,6 +3,7 @@ import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/my_page_user_screen/edit_user_info_widget.dart';
 import 'package:meonghae_front/widgets/my_page_user_screen/show_user_info_widget.dart';
 import 'package:meonghae_front/widgets/svg/arrow.dart';
+import 'package:meonghae_front/widgets/svg/saveCheck.dart';
 
 class MyPageUserScreen extends StatefulWidget {
   const MyPageUserScreen({super.key});
@@ -17,38 +18,43 @@ class _MyPageUserScreenState extends State<MyPageUserScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColor.brown1,
-      body: SafeArea(
-          child: SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(height: 36),
+            const SizedBox(height: 60),
             Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 InkWell(
+                  onTap: () => Navigator.pop(context),
                   splashColor: Colors.transparent,
                   highlightColor: Colors.transparent,
-                  onTap: () => Navigator.pop(context),
-                  child: SizedBox(
-                      child: Padding(
+                  child: Padding(
                     padding: EdgeInsets.symmetric(
-                        horizontal: MediaQuery.of(context).size.width * 0.06),
-                    child: ArrowSVG(strokeColor: CustomColor.black2),
-                  )),
+                      horizontal: MediaQuery.of(context).size.width * 0.06,
+                      vertical: 20,
+                    ),
+                    child: const SizedBox(
+                        width: 24,
+                        child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: ArrowSVG(strokeColor: CustomColor.black2))),
+                  ),
                 ),
-                Text(
+                const Text(
                   '내 정보 수정',
                   style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                    color: CustomColor.black2,
-                  ),
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      color: CustomColor.black2),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * 0.06),
-                  child: const SizedBox(width: 10),
+                    horizontal: MediaQuery.of(context).size.width * 0.06,
+                    vertical: 20,
+                  ),
+                  child: const SizedBox(width: 24),
                 ),
               ],
             ),
@@ -76,7 +82,7 @@ class _MyPageUserScreenState extends State<MyPageUserScreen> {
             ),
           ],
         ),
-      )),
+      ),
     );
   }
 }

@@ -222,7 +222,7 @@ class _RegisterDogScreenState extends State<RegisterDogScreen> {
                   ),
                   backgroundColor: CustomColor.black2,
                 ),
-                onPressed: _submitForm, //수정필요
+                onPressed: _submitForm,
                 child: const Text(
                   '시작하기!',
                   style: TextStyle(

@@ -34,8 +34,7 @@ class _MyPageWithdrawalScreenState extends State<MyPageWithdrawalScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColor.brown1,
-      body: SafeArea(
-          child: Stack(children: [
+      body: Stack(children: [
         Center(
           child: Padding(
             padding: EdgeInsets.symmetric(
@@ -129,18 +128,19 @@ class _MyPageWithdrawalScreenState extends State<MyPageWithdrawalScreen> {
           ),
         ),
         Positioned(
-            top: 40,
+            top: 60,
             child: InkWell(
               onTap: () => Navigator.pop(context),
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
               child: Padding(
                 padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width * 0.06),
+                    horizontal: MediaQuery.of(context).size.width * 0.06,
+                    vertical: 20),
                 child: const ArrowSVG(strokeColor: CustomColor.black2),
               ),
             ))
-      ])),
+      ]),
     );
   }
 }

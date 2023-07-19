@@ -74,7 +74,7 @@ class _ShowUserInfoWidgetState extends State<ShowUserInfoWidget> {
                     color: CustomColor.white,
                     borderRadius: BorderRadius.circular(10)),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 14),
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
@@ -100,7 +100,7 @@ class _ShowUserInfoWidgetState extends State<ShowUserInfoWidget> {
                     color: CustomColor.white,
                     borderRadius: BorderRadius.circular(10)),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 14),
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
@@ -126,7 +126,7 @@ class _ShowUserInfoWidgetState extends State<ShowUserInfoWidget> {
                     color: CustomColor.white,
                     borderRadius: BorderRadius.circular(10)),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 14),
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
