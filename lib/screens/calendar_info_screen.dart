@@ -14,20 +14,20 @@ class CalendarInfoScreen extends StatefulWidget {
 }
 
 class _CalendarInfoScreenState extends State<CalendarInfoScreen> {
+  final TextEditingController _memoController = TextEditingController();
+  final TextEditingController _titleController = TextEditingController();
   List<dynamic>? dogsInfo;
   Map<String, dynamic> calendarData = {
     'petId': null,
-    'title': null,
     'vaccinationType': null,
     'isRepeat': false,
     'repeat': {
-      'term': {'month': 0, 'day': 7},
-      'times': 3
+      'term': {'month': null, 'day': null},
+      'times': '2회 반복'
     },
     'isAlarm': true,
     'alarmTime': DateTime(
         DateTime.now().year, DateTime.now().month, DateTime.now().day, 21, 0),
-    'memo': null,
     'scheduleTime': DateTime.now(),
   };
 
@@ -39,6 +39,13 @@ class _CalendarInfoScreenState extends State<CalendarInfoScreen> {
   void initState() {
     _getDogsInfo();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _memoController.dispose();
+    super.dispose();
   }
 
   Future<void> _getDogsInfo() async {
@@ -75,6 +82,7 @@ class _CalendarInfoScreenState extends State<CalendarInfoScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(calendarData);
     return Scaffold(
       backgroundColor: CustomColor.ivory2,
       body: Stack(children: [
@@ -93,6 +101,7 @@ class _CalendarInfoScreenState extends State<CalendarInfoScreen> {
                 padding: EdgeInsets.symmetric(
                     horizontal: MediaQuery.of(context).size.width * 0.06),
                 child: FilterWidget(
+                  titleController: _titleController,
                   calendarData: calendarData,
                   setCalendarData: setCalendarData,
                 ),
@@ -102,6 +111,7 @@ class _CalendarInfoScreenState extends State<CalendarInfoScreen> {
                 padding: EdgeInsets.symmetric(
                     horizontal: MediaQuery.of(context).size.width * 0.06),
                 child: AdditionalInfoWidget(
+                  memoController: _memoController,
                   calendarData: calendarData,
                   setCalendarData: setCalendarData,
                 ),

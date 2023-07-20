@@ -45,22 +45,29 @@ class _DialBoxWidgetState extends State<DialBoxWidget> {
     setState(() => isOpen = false);
   }
 
+  Widget buildDialWidget() {
+    switch (widget.dialType) {
+      case DialType.DATE:
+        return DateSelectModalWidget(
+          scheduleTime: widget.scheduleTime,
+          onSave: widget.onSave,
+          handleClose: handleClose,
+        );
+      case DialType.TIME:
+        return TimeSelectModalWidget(
+          onSave: widget.onSave,
+          scheduleTime: widget.scheduleTime,
+          handleClose: handleClose,
+        );
+      default:
+        return Container();
+    }
+  }
+
   OverlayEntry _createOverlayEntry() {
     return OverlayEntry(
       builder: (context) {
-        return Positioned.fill(
-          child: widget.dialType == DialType.DATE
-              ? DateSelectModalWidget(
-                  scheduleTime: widget.scheduleTime,
-                  onSave: widget.onSave,
-                  handleClose: handleClose,
-                )
-              : TimeSelectModalWidget(
-                  onSave: widget.onSave,
-                  scheduleTime: widget.scheduleTime,
-                  handleClose: handleClose,
-                ),
-        );
+        return Positioned.fill(child: buildDialWidget());
       },
     );
   }

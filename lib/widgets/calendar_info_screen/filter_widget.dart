@@ -1,29 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/calendar_info_screen/category_dummy.dart';
 import 'package:meonghae_front/widgets/calendar_info_screen/select_input_widget.dart';
 import 'package:meonghae_front/widgets/calendar_info_screen/swich_widget.dart';
+import 'package:meonghae_front/widgets/common/dial_Input_widget.dart';
 
 class FilterWidget extends StatefulWidget {
   final Function setCalendarData;
   final Map<String, dynamic> calendarData;
-  const FilterWidget(
-      {super.key, required this.setCalendarData, required this.calendarData});
+  final TextEditingController titleController;
+  const FilterWidget({
+    super.key,
+    required this.setCalendarData,
+    required this.calendarData,
+    required this.titleController,
+  });
 
   @override
   State<FilterWidget> createState() => _FilterWidgetState();
 }
 
 class _FilterWidgetState extends State<FilterWidget> {
-  TextEditingController textController = TextEditingController();
   int detailIndex = -1;
   String category = categoryKey[1];
 
-  @override
-  void dispose() {
-    textController.dispose();
-    super.dispose();
-  }
+  List<String> repeatTimes = [
+    '2회 반복',
+    '3회 반복',
+    '4회 반복',
+    '5회 반복',
+    '10회 반복',
+    '15회 반복',
+    '20회 반복',
+    '25회 반복',
+    '30회 반복',
+    '계속 반복'
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -48,15 +61,16 @@ class _FilterWidgetState extends State<FilterWidget> {
                       category = value;
                       detailIndex = -1;
                     });
-                    textController.clear();
+                    widget.setCalendarData('vaccinationType', null);
                   },
                   defaultValue: category,
                 ),
                 if (category == '직접입력')
-                  const SizedBox(
+                  SizedBox(
                     height: 45,
                     child: TextField(
-                      decoration: InputDecoration(
+                      controller: widget.titleController,
+                      decoration: const InputDecoration(
                         hintText: "제목을 입력해주세요",
                         hintStyle:
                             TextStyle(fontSize: 13, color: CustomColor.gray),
@@ -65,7 +79,8 @@ class _FilterWidgetState extends State<FilterWidget> {
                         errorBorder: InputBorder.none,
                         contentPadding: EdgeInsets.symmetric(horizontal: 20),
                       ),
-                      style: TextStyle(fontSize: 13, color: CustomColor.black2),
+                      style: const TextStyle(
+                          fontSize: 13, color: CustomColor.black2),
                       maxLines: 1,
                     ),
                   )
@@ -121,10 +136,10 @@ class _FilterWidgetState extends State<FilterWidget> {
                       Column(
                         children: [
                           Container(height: 1, color: CustomColor.ivory2),
-                          const SizedBox(
+                          SizedBox(
                             height: 45,
                             child: Padding(
-                              padding: EdgeInsets.only(
+                              padding: const EdgeInsets.only(
                                 left: 20,
                                 right: 9,
                               ),
@@ -132,13 +147,143 @@ class _FilterWidgetState extends State<FilterWidget> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
+                                    const Text(
                                       '반복 설정',
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w700,
                                         color: CustomColor.black2,
                                       ),
+                                    ),
+                                    Row(
+                                      children: [
+                                        Container(
+                                          width: 36,
+                                          height: 30,
+                                          decoration: BoxDecoration(
+                                            color: CustomColor.white,
+                                            border: Border.all(
+                                                color: CustomColor.ivory2,
+                                                width: 1),
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                          ),
+                                          child: TextField(
+                                            onChanged: (value) => widget
+                                                .setCalendarData('repeat', {
+                                              'term': {
+                                                'month': value,
+                                                'day': widget
+                                                        .calendarData['repeat']
+                                                    ['term']['day']
+                                              },
+                                              'times':
+                                                  widget.calendarData['repeat']
+                                                      ['times'],
+                                            }),
+                                            textAlign: TextAlign.center,
+                                            keyboardType: TextInputType.number,
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter
+                                                  .digitsOnly,
+                                              LengthLimitingTextInputFormatter(
+                                                  3),
+                                            ],
+                                            decoration: const InputDecoration(
+                                                border: InputBorder.none,
+                                                focusedBorder: InputBorder.none,
+                                                errorBorder: InputBorder.none,
+                                                contentPadding:
+                                                    EdgeInsets.symmetric(
+                                                        horizontal: 0,
+                                                        vertical: 15)),
+                                            style: const TextStyle(
+                                                fontSize: 13,
+                                                color: CustomColor.black2),
+                                            maxLines: 1,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 2),
+                                        const Text(
+                                          '달',
+                                          style: TextStyle(
+                                              fontSize: 13,
+                                              color: CustomColor.gray),
+                                        ),
+                                        const SizedBox(width: 4),
+                                        Container(
+                                          width: 36,
+                                          height: 30,
+                                          decoration: BoxDecoration(
+                                            color: CustomColor.white,
+                                            border: Border.all(
+                                                color: CustomColor.ivory2,
+                                                width: 1),
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                          ),
+                                          child: TextField(
+                                            onChanged: (value) => widget
+                                                .setCalendarData('repeat', {
+                                              'term': {
+                                                'month': widget
+                                                        .calendarData['repeat']
+                                                    ['term']['month'],
+                                                'day': value
+                                              },
+                                              'times':
+                                                  widget.calendarData['repeat']
+                                                      ['times'],
+                                            }),
+                                            textAlign: TextAlign.center,
+                                            keyboardType: TextInputType.number,
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter
+                                                  .digitsOnly,
+                                              LengthLimitingTextInputFormatter(
+                                                  3),
+                                            ],
+                                            decoration: const InputDecoration(
+                                                border: InputBorder.none,
+                                                focusedBorder: InputBorder.none,
+                                                errorBorder: InputBorder.none,
+                                                contentPadding:
+                                                    EdgeInsets.symmetric(
+                                                        horizontal: 0,
+                                                        vertical: 15)),
+                                            style: const TextStyle(
+                                                fontSize: 13,
+                                                color: CustomColor.black2),
+                                            maxLines: 1,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 2),
+                                        const Text(
+                                          '일 마다',
+                                          style: TextStyle(
+                                              fontSize: 13,
+                                              color: CustomColor.gray),
+                                        ),
+                                      ],
+                                    ),
+                                    DialInputWidget(
+                                      width: 75,
+                                      height: 30,
+                                      itemHeight: 30,
+                                      list: repeatTimes,
+                                      listHeight: 90,
+                                      fontSize: 13,
+                                      color: CustomColor.gray,
+                                      bgColor: CustomColor.white,
+                                      strColor: CustomColor.ivory2,
+                                      defaultValue: widget
+                                          .calendarData['repeat']['times'],
+                                      setValue: (int index) => widget
+                                          .setCalendarData('repeat', {
+                                        'term': widget.calendarData['repeat']
+                                            ['term'],
+                                        'times': repeatTimes[index]
+                                      }),
                                     ),
                                   ]),
                             ),
@@ -168,8 +313,8 @@ class _FilterWidgetState extends State<FilterWidget> {
                                       detailIndex = index;
                                       widget.setCalendarData(
                                           'vaccinationType',
-                                          categoryDetail[category]
-                                              [detailIndex]);
+                                          categoryDetail[category][detailIndex]
+                                              [0]); // Name지정 후 1번 index로 변경
                                     }
                                   });
                                 },

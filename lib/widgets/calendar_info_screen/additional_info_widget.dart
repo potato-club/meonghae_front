@@ -3,14 +3,17 @@ import 'package:intl/intl.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/calendar_info_screen/dial_box_widget.dart';
 import 'package:meonghae_front/widgets/calendar_info_screen/swich_widget.dart';
+import 'package:meonghae_front/widgets/common/dial_Input_widget.dart';
 
 class AdditionalInfoWidget extends StatefulWidget {
   final Map<String, dynamic> calendarData;
   final Function setCalendarData;
+  final TextEditingController memoController;
   const AdditionalInfoWidget({
     super.key,
     required this.calendarData,
     required this.setCalendarData,
+    required this.memoController,
   });
 
   @override
@@ -20,10 +23,24 @@ class AdditionalInfoWidget extends StatefulWidget {
 class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
   DateTime selectedDate = DateTime.now();
 
-  final TextEditingController _textEditingController = TextEditingController();
+  List<String> alarmDay = [];
+
+  @override
+  void initState() {
+    for (int i = 0; i < 30; i++) {
+      alarmDay.add('${30 - i}일 전');
+    }
+    alarmDay.add('당일');
+    for (int i = 0; i < 30; i++) {
+      alarmDay.add('${i + 1}일 후');
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    print(
+        '###${alarmDay[(30 - (DateTime.now().day - widget.calendarData['alarmTime'].day)).toInt()]}');
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -132,14 +149,30 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                                   ),
                                 ),
                               ),
-                              DialBoxWidget(
-                                label: DateFormat('yyyy. MM. dd')
-                                    .format(widget.calendarData['alarmTime']),
-                                onSave: (DateTime dateTime) => widget
-                                    .setCalendarData('alarmTime', dateTime),
-                                dialType: DialType.DATE,
-                                scheduleTime: widget.calendarData['alarmTime'],
-                                textAlign: TextAlign.center,
+                              DialInputWidget(
+                                width: 75,
+                                height: 30,
+                                itemHeight: 30,
+                                list: alarmDay,
+                                listHeight: 150,
+                                fontSize: 13,
+                                color: CustomColor.gray,
+                                bgColor: CustomColor.white,
+                                strColor: CustomColor.ivory2,
+                                defaultValue: alarmDay[(30 -
+                                        (DateTime.now().day -
+                                            widget
+                                                .calendarData['alarmTime'].day))
+                                    .toInt()],
+                                setValue: (int index) => widget.setCalendarData(
+                                    'alarmTime',
+                                    DateTime(
+                                      DateTime.now().year,
+                                      DateTime.now().month,
+                                      (DateTime.now().day - (30 - index)),
+                                      widget.calendarData['alarmTime'].hour,
+                                      widget.calendarData['alarmTime'].minute,
+                                    )),
                               ),
                               DialBoxWidget(
                                 label: DateFormat('a hh:mm', 'ko')
@@ -180,7 +213,7 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                   ),
                 ),
                 TextField(
-                  controller: _textEditingController,
+                  controller: widget.memoController,
                   style: const TextStyle(
                     color: CustomColor.black2,
                     fontSize: 13,

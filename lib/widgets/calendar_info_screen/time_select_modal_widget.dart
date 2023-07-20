@@ -27,8 +27,8 @@ class _TimeSelectModalWidgetState extends State<TimeSelectModalWidget> {
   @override
   void initState() {
     currentHour = widget.scheduleTime.hour >= 12
-        ? widget.scheduleTime.hour - 13
-        : widget.scheduleTime.hour - 1;
+        ? widget.scheduleTime.hour - 12
+        : widget.scheduleTime.hour;
     currentMinute = widget.scheduleTime.minute;
     currentAa = (widget.scheduleTime.hour >= 12) ? 1 : 0;
     super.initState();
@@ -36,6 +36,7 @@ class _TimeSelectModalWidgetState extends State<TimeSelectModalWidget> {
 
   @override
   Widget build(BuildContext context) {
+    print(currentMinute);
     const aa = ['오전', '오후'];
     return Stack(children: [
       Positioned(
@@ -121,7 +122,7 @@ class _TimeSelectModalWidgetState extends State<TimeSelectModalWidget> {
                               child: CarouselSlider(
                                   options: CarouselOptions(
                                     height: 148,
-                                    initialPage: widget.scheduleTime.hour - 1,
+                                    initialPage: widget.scheduleTime.hour,
                                     scrollDirection: Axis.vertical,
                                     viewportFraction: 0.2,
                                     enableInfiniteScroll: true,
@@ -133,7 +134,9 @@ class _TimeSelectModalWidgetState extends State<TimeSelectModalWidget> {
                                       Align(
                                           alignment: Alignment.centerRight,
                                           child: Text(
-                                            (i + 1).toString().padLeft(2, '0'),
+                                            (i == 0 ? 12 : i)
+                                                .toString()
+                                                .padLeft(2, '0'),
                                             style: i == currentHour
                                                 ? const TextStyle(
                                                     decoration:
@@ -142,7 +145,11 @@ class _TimeSelectModalWidgetState extends State<TimeSelectModalWidget> {
                                                     fontSize: 16,
                                                     fontWeight: FontWeight.w700,
                                                   )
-                                                : (i - currentHour).abs() == 1
+                                                : ((i - currentHour).abs() ==
+                                                            1 ||
+                                                        (i - currentHour)
+                                                                .abs() ==
+                                                            11)
                                                     ? const TextStyle(
                                                         decoration:
                                                             TextDecoration.none,
@@ -204,7 +211,11 @@ class _TimeSelectModalWidgetState extends State<TimeSelectModalWidget> {
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w700,
                                                 )
-                                              : (i - currentMinute).abs() == 1
+                                              : ((i - currentMinute).abs() ==
+                                                          1 ||
+                                                      (i - currentMinute)
+                                                              .abs() ==
+                                                          59)
                                                   ? const TextStyle(
                                                       decoration:
                                                           TextDecoration.none,
@@ -249,7 +260,7 @@ class _TimeSelectModalWidgetState extends State<TimeSelectModalWidget> {
                         widget.scheduleTime.year,
                         widget.scheduleTime.month,
                         widget.scheduleTime.day,
-                        currentHour + (currentAa * 12) + 1,
+                        currentHour + (currentAa * 12),
                         currentMinute,
                       ));
                       widget.handleClose();
