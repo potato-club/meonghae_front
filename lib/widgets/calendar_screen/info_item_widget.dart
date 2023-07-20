@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/widgets/svg/alarm.dart';
+import 'package:meonghae_front/widgets/svg/bell.dart';
 
 class InfoItemWidget extends StatelessWidget {
-  final String startTime;
-  final String endTime;
+  final String scheduleTime;
+  final String alarmTime;
   final String title;
+  final String memo;
   final bool isEndItem;
   const InfoItemWidget({
     super.key,
     required this.isEndItem,
-    required this.startTime,
-    required this.endTime,
     required this.title,
+    required this.scheduleTime,
+    required this.alarmTime,
+    required this.memo,
   });
 
   @override
@@ -28,43 +32,81 @@ class InfoItemWidget extends StatelessWidget {
               ),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 14),
-        child: Row(
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              width: 90,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    startTime,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700,
-                      color: CustomColor.black2,
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: 90,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 2),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const AlarmSVG(),
+                            const SizedBox(width: 3),
+                            Text(
+                              scheduleTime,
+                              style: const TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w700,
+                                color: CustomColor.black2,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 4),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const BellSVG(),
+                            const SizedBox(width: 3),
+                            Text(
+                              '1일 전, $alarmTime',
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700,
+                                color: CustomColor.lightGray2,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 2),
-                  Text(
-                    endTime,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700,
-                      color: CustomColor.lightGray2,
-                    ),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.88 - 102,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                          color: CustomColor.black2,
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        memo,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: CustomColor.gray,
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                )
+              ],
             ),
-            Text(
-              title,
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w700,
-                color: CustomColor.black2,
-              ),
-            )
           ],
         ),
       ),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/themes/customColor.dart';
-import 'package:meonghae_front/widgets/calendar_screen/calendar_widget.dart';
 import 'package:meonghae_front/widgets/calendar_screen/info_item_widget.dart';
 import 'package:meonghae_front/widgets/calendar_screen/no_info_widget.dart';
 
@@ -35,8 +34,7 @@ class _InfoContentWidgetState extends State<InfoContentWidget> {
 
     String formatTime(String time) {
       var timeArr = time.toString().split('T')[1].split(':');
-      var time_ = int.parse(timeArr[0]) >= 12 ? "오후" : "오전";
-      return "${time_} ${timeArr[0]}:${timeArr[1]}";
+      return "${timeArr[0]}:${timeArr[1]}";
     }
 
     return GestureDetector(
@@ -105,6 +103,8 @@ class _InfoContentWidgetState extends State<InfoContentWidget> {
                                           MediaQuery.of(context).size.width *
                                               0.06),
                                   child: Card(
+                                    margin: const EdgeInsets.symmetric(
+                                        horizontal: 6),
                                     elevation: 0,
                                     shape: const RoundedRectangleBorder(
                                       borderRadius: BorderRadius.zero,
@@ -116,11 +116,12 @@ class _InfoContentWidgetState extends State<InfoContentWidget> {
                                             i < widget.events.length;
                                             i++)
                                           InfoItemWidget(
-                                            startTime: formatTime(widget
+                                            scheduleTime: formatTime(widget
                                                 .events[i]['scheduleTime']),
-                                            endTime: formatTime(widget.events[i]
-                                                ['scheduleTime']),
+                                            alarmTime: formatTime(
+                                                widget.events[i]['alarmTime']),
                                             title: widget.events[i]['text'],
+                                            memo: widget.events[i]['memo'],
                                             isEndItem:
                                                 i + 1 == widget.events.length,
                                           ),
@@ -139,6 +140,8 @@ class _InfoContentWidgetState extends State<InfoContentWidget> {
                                               0.06),
                                       child: Card(
                                         elevation: 0,
+                                        margin: const EdgeInsets.symmetric(
+                                            horizontal: 6),
                                         shape: const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.zero,
                                         ),
@@ -149,11 +152,12 @@ class _InfoContentWidgetState extends State<InfoContentWidget> {
                                                 i < widget.events.length;
                                                 i++)
                                               InfoItemWidget(
-                                                startTime: formatTime(widget
+                                                scheduleTime: formatTime(widget
                                                     .events[i]['scheduleTime']),
-                                                endTime: formatTime(widget
-                                                    .events[i]['scheduleTime']),
+                                                alarmTime: formatTime(widget
+                                                    .events[i]['alarmTime']),
                                                 title: widget.events[i]['text'],
+                                                memo: widget.events[i]['memo'],
                                                 isEndItem: i + 1 ==
                                                     widget.events.length,
                                               )
