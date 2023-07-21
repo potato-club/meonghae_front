@@ -5,21 +5,25 @@ import 'package:meonghae_front/widgets/format/date_input_formatter.dart';
 import 'package:meonghae_front/widgets/my_page_user_screen/user_photo_widget.dart';
 
 class EditUserInfoWidget extends StatefulWidget {
-  const EditUserInfoWidget({super.key});
+  final TextEditingController nameController;
+  final TextEditingController birthController;
+  final TextEditingController ageController;
+  final Map<String, dynamic> userInfo;
+  final Function setUserInfo;
+  const EditUserInfoWidget({
+    super.key,
+    required this.nameController,
+    required this.birthController,
+    required this.ageController,
+    required this.userInfo,
+    required this.setUserInfo,
+  });
 
   @override
   State<EditUserInfoWidget> createState() => _EditUserInfoWidgetState();
 }
 
 class _EditUserInfoWidgetState extends State<EditUserInfoWidget> {
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _birthController = TextEditingController();
-  TextEditingController _ageController = TextEditingController();
-  String? name;
-  String? birth;
-  String? image;
-  String? age;
-
   @override
   void initState() {
     readUserInfo();
@@ -27,19 +31,17 @@ class _EditUserInfoWidgetState extends State<EditUserInfoWidget> {
   }
 
   Future<void> readUserInfo() async {
-    var userName = await readUserNickname();
     var userFileUrl = await readUserFileUrl();
+    var userName = await readUserNickname();
     var userBirth = await readUserBirth();
     var userAge = await readUserAge();
-    setState(() {
-      name = userName;
-      image = userFileUrl.toString();
-      birth = userBirth;
-      age = userAge;
-    });
-    _nameController.text = name!;
-    _birthController.text = birth!.replaceAll('-', '.');
-    _ageController.text = age!;
+    widget.setUserInfo('image', userFileUrl);
+    widget.setUserInfo('name', userName);
+    widget.setUserInfo('birth', userBirth.replaceAll('-', '.'));
+    widget.setUserInfo('age', userAge);
+    widget.nameController.text = widget.userInfo['name'];
+    widget.birthController.text = widget.userInfo['birth'].replaceAll('-', '.');
+    widget.ageController.text = widget.userInfo['age'];
   }
 
   @override
@@ -49,13 +51,16 @@ class _EditUserInfoWidgetState extends State<EditUserInfoWidget> {
           horizontal: MediaQuery.of(context).size.width * 0.06),
       child: Column(
         children: [
-          UserPhotoWidget(setImageFile: () {}, initImage: image),
-          SizedBox(height: 60),
+          UserPhotoWidget(
+            setImageFile: (value) => widget.setUserInfo('file', value),
+            userInfo: widget.userInfo,
+          ),
+          const SizedBox(height: 60),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 10, bottom: 8),
+              const Padding(
+                padding: EdgeInsets.only(left: 10, bottom: 8),
                 child: Text('이름',
                     style: TextStyle(fontSize: 14, color: CustomColor.black2)),
               ),
@@ -66,9 +71,9 @@ class _EditUserInfoWidgetState extends State<EditUserInfoWidget> {
                       color: CustomColor.white,
                       borderRadius: BorderRadius.circular(10)),
                   child: TextField(
-                    controller: _nameController,
+                    controller: widget.nameController,
                     onChanged: (value) {},
-                    keyboardType: TextInputType.number,
+                    keyboardType: TextInputType.text,
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       contentPadding:
@@ -92,7 +97,7 @@ class _EditUserInfoWidgetState extends State<EditUserInfoWidget> {
                     inputFormatters: [
                       DateInputFormatter(),
                     ],
-                    controller: _birthController,
+                    controller: widget.birthController,
                     onChanged: (value) {},
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
@@ -115,7 +120,7 @@ class _EditUserInfoWidgetState extends State<EditUserInfoWidget> {
                       color: CustomColor.white,
                       borderRadius: BorderRadius.circular(10)),
                   child: TextField(
-                    controller: _ageController,
+                    controller: widget.ageController,
                     onChanged: (value) {},
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(

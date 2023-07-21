@@ -5,24 +5,25 @@ import 'package:image_picker/image_picker.dart';
 import 'package:meonghae_front/widgets/svg/pencil.dart';
 
 class UserPhotoWidget extends StatefulWidget {
-  final String? initImage;
+  final Map<String, dynamic> userInfo;
   final Function setImageFile;
-  const UserPhotoWidget(
-      {super.key, required this.setImageFile, required this.initImage});
+  const UserPhotoWidget({
+    super.key,
+    required this.setImageFile,
+    required this.userInfo,
+  });
 
   @override
   State<UserPhotoWidget> createState() => _UserPhotoWidgetState();
 }
 
 class _UserPhotoWidgetState extends State<UserPhotoWidget> {
-  File? imageFile;
   void _pickImage() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     setState(() {
       if (pickedFile != null) {
-        imageFile = File(pickedFile.path);
-        widget.setImageFile(imageFile);
+        widget.setImageFile(File(pickedFile.path));
       }
     });
   }
@@ -37,13 +38,13 @@ class _UserPhotoWidgetState extends State<UserPhotoWidget> {
           clipBehavior: Clip.hardEdge,
           decoration: const BoxDecoration(
               color: CustomColor.ivory2, shape: BoxShape.circle),
-          child: imageFile != null
+          child: widget.userInfo['file'] != null
               ? CircleAvatar(
-                  backgroundImage: FileImage(imageFile!),
+                  backgroundImage: FileImage(widget.userInfo['file']),
                   radius: 75,
                 )
-              : widget.initImage != null
-                  ? Image.network(widget.initImage!, fit: BoxFit.cover)
+              : widget.userInfo['image'] != null
+                  ? Image.network(widget.userInfo['image'], fit: BoxFit.cover)
                   : Transform.scale(
                       scale: 1.8,
                       child: const Image(
