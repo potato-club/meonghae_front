@@ -73,9 +73,11 @@ class SendAPI {
       headers: {'Authorization': accessToken, 'refreshToken': refreshToken},
     ));
     try {
-      final response = await dio.put(url, data: request);
+      final response = request == null
+          ? await dio.put(url)
+          : await dio.put(url, data: request);
       if (response.statusCode == successCode) {
-        successFunc();
+        successFunc(response);
       } else {
         SnackBarWidget.show(context, SnackBarType.error, errorMsg);
       }

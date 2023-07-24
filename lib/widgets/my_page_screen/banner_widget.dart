@@ -4,31 +4,15 @@ import 'package:meonghae_front/user/user_info.dart';
 import 'package:meonghae_front/widgets/svg/gear.dart';
 
 class BannerWidget extends StatefulWidget {
-  const BannerWidget({super.key});
+  final String? image;
+  final String name;
+  const BannerWidget({super.key, this.image, required this.name});
 
   @override
   State<BannerWidget> createState() => _BannerWidgetState();
 }
 
 class _BannerWidgetState extends State<BannerWidget> {
-  String? name = '멍해';
-  String? image;
-
-  @override
-  void initState() {
-    readUserInfo();
-    super.initState();
-  }
-
-  Future<void> readUserInfo() async {
-    var userName = await readUserNickname();
-    var userFileUrl = await readUserFileUrl();
-    setState(() {
-      name = userName;
-      image = userFileUrl.toString();
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -47,8 +31,8 @@ class _BannerWidgetState extends State<BannerWidget> {
               decoration: BoxDecoration(
                   shape: BoxShape.circle, color: CustomColor.ivory2),
               clipBehavior: Clip.hardEdge,
-              child: image != null
-                  ? Image.network(image!, fit: BoxFit.cover)
+              child: widget.image != null
+                  ? Image.network(widget.image!, fit: BoxFit.cover)
                   : Transform.scale(
                       scale: 1.8,
                       child: const Image(
@@ -61,7 +45,7 @@ class _BannerWidgetState extends State<BannerWidget> {
             SizedBox(width: 13),
             Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text(
-                "$name님 안녕하세요!",
+                "${widget.name}님 안녕하세요!",
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w700,

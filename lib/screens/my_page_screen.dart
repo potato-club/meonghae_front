@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:meonghae_front/screens/main_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/user/user_info.dart';
 import 'package:meonghae_front/widgets/my_page_screen/banner_widget.dart';
 import 'package:meonghae_front/widgets/my_page_screen/menu_buttons_widget.dart';
 import 'package:meonghae_front/widgets/svg/arrow.dart';
@@ -13,6 +15,24 @@ class MyPageScreen extends StatefulWidget {
 }
 
 class _MyPageScreenState extends State<MyPageScreen> {
+  String name = '멍해';
+  String? image;
+
+  @override
+  void initState() {
+    readUserInfo();
+    super.initState();
+  }
+
+  Future<void> readUserInfo() async {
+    var userName = await readUserNickname();
+    var userFileUrl = await readUserFileUrl();
+    setState(() {
+      name = userName;
+      image = userFileUrl.toString();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,13 +42,18 @@ class _MyPageScreenState extends State<MyPageScreen> {
           children: [
             Column(
               children: [
-                SizedBox(height: 60),
+                const SizedBox(height: 60),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     InkWell(
-                      onTap: () => Navigator.pop(context),
+                      onTap: () => Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MainScreen(),
+                        ),
+                      ),
                       splashColor: Colors.transparent,
                       highlightColor: Colors.transparent,
                       child: Padding(
@@ -61,9 +86,9 @@ class _MyPageScreenState extends State<MyPageScreen> {
                   ],
                 ),
                 SizedBox(height: 40),
-                BannerWidget(),
+                BannerWidget(image: image, name: name),
                 SizedBox(height: 8),
-                MenuButtonsWidget(),
+                MenuButtonsWidget(readUserInfo: readUserInfo),
               ],
             ),
             UnderBarWidget(currentScreen: '홈마이'),

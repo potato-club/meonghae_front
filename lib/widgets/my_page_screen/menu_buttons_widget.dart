@@ -6,7 +6,8 @@ import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/svg/tiny_right_arrow.dart';
 
 class MenuButtonsWidget extends StatelessWidget {
-  const MenuButtonsWidget({super.key});
+  final Function readUserInfo;
+  const MenuButtonsWidget({super.key, required this.readUserInfo});
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +43,12 @@ class MenuButtonsWidget extends StatelessWidget {
 
     return Column(
       children: [
-        makeButton('내 정보 수정', CustomColor.black2, MyPageUserScreen()),
+        makeButton(
+            '내 정보 수정',
+            CustomColor.black2,
+            MyPageUserScreen(
+              fetchData: readUserInfo,
+            )),
         makeButton('애완동물 정보 수정', CustomColor.black2, MyPageDogScreen()),
         makeButton('회원탈퇴', CustomColor.red, MyPageWithdrawalScreen()),
       ],

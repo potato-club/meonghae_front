@@ -3,37 +3,14 @@ import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/user/user_info.dart';
 
 class ShowUserInfoWidget extends StatefulWidget {
-  const ShowUserInfoWidget({super.key});
+  final Map<String, dynamic> userInfo;
+  const ShowUserInfoWidget({super.key, required this.userInfo});
 
   @override
   State<ShowUserInfoWidget> createState() => _ShowUserInfoWidgetState();
 }
 
 class _ShowUserInfoWidgetState extends State<ShowUserInfoWidget> {
-  String? name;
-  String? birth;
-  String? image;
-  String? age;
-
-  @override
-  void initState() {
-    readUserInfo();
-    super.initState();
-  }
-
-  Future<void> readUserInfo() async {
-    var userName = await readUserNickname();
-    var userFileUrl = await readUserFileUrl();
-    var userBirth = await readUserBirth();
-    var userAge = await readUserAge();
-    setState(() {
-      name = userName;
-      image = userFileUrl.toString();
-      birth = userBirth;
-      age = userAge;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -47,8 +24,8 @@ class _ShowUserInfoWidgetState extends State<ShowUserInfoWidget> {
             decoration:
                 BoxDecoration(shape: BoxShape.circle, color: CustomColor.white),
             clipBehavior: Clip.hardEdge,
-            child: image != null
-                ? Image.network(image!, fit: BoxFit.cover)
+            child: widget.userInfo['image'] != null
+                ? Image.network(widget.userInfo['image'], fit: BoxFit.cover)
                 : Transform.scale(
                     scale: 1.8,
                     child: const Image(
@@ -78,7 +55,7 @@ class _ShowUserInfoWidgetState extends State<ShowUserInfoWidget> {
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      name ?? '',
+                      widget.userInfo['name'] ?? '',
                       style: TextStyle(
                         fontSize: 14,
                         color: CustomColor.black2,
@@ -104,7 +81,7 @@ class _ShowUserInfoWidgetState extends State<ShowUserInfoWidget> {
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      birth?.replaceAll('-', '.') ?? '',
+                      widget.userInfo['birth']?.replaceAll('-', '.') ?? '',
                       style: TextStyle(
                         fontSize: 14,
                         color: CustomColor.black2,
@@ -130,7 +107,7 @@ class _ShowUserInfoWidgetState extends State<ShowUserInfoWidget> {
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      age ?? '',
+                      widget.userInfo['age'] ?? '',
                       style: TextStyle(
                         fontSize: 14,
                         color: CustomColor.black2,
