@@ -53,6 +53,7 @@ class CustomWarningModalWidget {
                         style: TextStyle(
                           fontSize: 14,
                           color: CustomColor.gray,
+                          height: 1.3,
                         ),
                         textAlign: TextAlign.center,
                       ),

@@ -14,16 +14,12 @@ class SendAPI {
   }) async {
     var accessToken = await readAccessToken();
     var refreshToken = await readRefreshToken();
-
     final dio = Dio(BaseOptions(
       baseUrl: 'https://api.meonghae.site/',
       headers: {'Authorization': accessToken, 'refreshToken': refreshToken},
     ));
     try {
       final response = await dio.get(url, queryParameters: request);
-      print('###header:${response.headers}');
-      print('###status: ${response.statusCode}');
-      print('###data: ${response.data}');
       if (response.statusCode == successCode) {
         successFunc(response);
       } else {
@@ -42,10 +38,11 @@ class SendAPI {
     dynamic request,
     int successCode = 200,
   }) async {
-    var token = await readAccessToken();
+    var accessToken = await readAccessToken();
+    var refreshToken = await readRefreshToken();
     final dio = Dio(BaseOptions(
       baseUrl: 'https://api.meonghae.site/',
-      headers: {'Authorization': token},
+      headers: {'Authorization': accessToken, 'refreshToken': refreshToken},
     ));
     try {
       final response = request == null
@@ -61,30 +58,33 @@ class SendAPI {
     }
   }
 
-  // static Future<void> put({
-  //   required BuildContext context,
-  //   required String url,
-  //   required Function successFunc,
-  //   required String errorMsg,
-  //   Map<String, dynamic>? request,
-  //   int successCode = 200,
-  // }) async {
-  //   var token = await readAccessToken();
-  //   final dio = Dio(BaseOptions(
-  //     baseUrl: 'https://api.meonghae.site/',
-  //     headers: {'Authorization': token},
-  //   ));
-  //   try {
-  //     final response = await dio.put(url, queryParameters: request);
-  //     if (response.statusCode == successCode) {
-  //       successFunc();
-  //     } else {
-  //       SnackBarWidget.show(context, SnackBarType.error, errorMsg);
-  //     }
-  //   } catch (error) {
-  //     SnackBarWidget.show(context, SnackBarType.error, error.toString());
-  //   }
-  // }
+  static Future<void> put({
+    required BuildContext context,
+    required String url,
+    required Function successFunc,
+    required String errorMsg,
+    dynamic request,
+    int successCode = 200,
+  }) async {
+    var accessToken = await readAccessToken();
+    var refreshToken = await readRefreshToken();
+    final dio = Dio(BaseOptions(
+      baseUrl: 'https://api.meonghae.site/',
+      headers: {'Authorization': accessToken, 'refreshToken': refreshToken},
+    ));
+    try {
+      final response = request == null
+          ? await dio.put(url)
+          : await dio.put(url, data: request);
+      if (response.statusCode == successCode) {
+        successFunc(response);
+      } else {
+        SnackBarWidget.show(context, SnackBarType.error, errorMsg);
+      }
+    } catch (error) {
+      SnackBarWidget.show(context, SnackBarType.error, error.toString());
+    }
+  }
 
   // static Future<void> delete({
   //   required BuildContext context,

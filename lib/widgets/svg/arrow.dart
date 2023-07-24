@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ArrowSVG extends StatelessWidget {
-  final Color strokeColor; // 사용자가 지정한 stroke 색상
+  final Color strokeColor;
 
   const ArrowSVG({super.key, required this.strokeColor});
 
