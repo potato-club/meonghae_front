@@ -42,7 +42,6 @@ class _PostWriteScreenState extends State<PostWriteScreen> {
         context: context,
         url: "/community-service/boards/${writeData['type']}",
         request: formData,
-        successCode: 201,
         successFunc: (data) {
           Navigator.pop(context);
           SnackBarWidget.show(

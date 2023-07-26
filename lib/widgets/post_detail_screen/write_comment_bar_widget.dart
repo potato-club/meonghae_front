@@ -32,7 +32,6 @@ class _WriteCommentBarWidgetState extends State<WriteCommentBarWidget> {
         context: context,
         url: "/community-service/boardComments/${widget.id}",
         request: {"comment": textController.text},
-        successCode: 201,
         successFunc: (data) {
           FocusScope.of(context).unfocus();
           handleClearText();

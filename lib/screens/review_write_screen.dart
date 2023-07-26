@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/api/dio.dart';
@@ -50,7 +49,6 @@ class _ReviewWriteScreenState extends State<ReviewWriteScreen> {
         context: context,
         url: "/community-service/reviews",
         request: formData,
-        successCode: 201,
         successFunc: (data) {
           widget.fetchData();
           Navigator.pop(context);
