@@ -37,7 +37,6 @@ class _MyPageDogScreenState extends State<MyPageDogScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(dogsInfo);
     return Scaffold(
         backgroundColor: CustomColor.white,
         body: SingleChildScrollView(
@@ -150,7 +149,7 @@ class _MyPageDogScreenState extends State<MyPageDogScreen> {
                           },
                           child: Text(
                             isEdit ? '저장하기' : '수정하기',
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
