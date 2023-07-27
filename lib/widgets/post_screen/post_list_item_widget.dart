@@ -7,7 +7,7 @@ import 'package:meonghae_front/widgets/svg/tiny_picture.dart';
 
 class PostListItemWidget extends StatefulWidget {
   final Map<String, dynamic> postData;
-  final String currentSection;
+  final int currentSection;
   final Function fetchData;
   const PostListItemWidget({
     super.key,

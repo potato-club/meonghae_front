@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/login/token.dart';
-import 'package:meonghae_front/models/loginModel.dart';
+import 'package:meonghae_front/models/login_Model.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 
 class SendAPI {
@@ -155,7 +155,7 @@ class SendAPI {
     ));
     try {
       final response = await dio.delete(url, queryParameters: request);
-      successFunc();
+      successFunc(response);
     } on DioException catch (error) {
       tokenRefresh(
         error: error,

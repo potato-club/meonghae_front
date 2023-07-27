@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:meonghae_front/api/dio.dart';
 import 'package:meonghae_front/screens/post_write_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/widgets/post_screen/post_list_item_widget.dart';
 import 'package:meonghae_front/widgets/post_screen/post_menu_bar_widget.dart';
-import 'package:meonghae_front/widgets/post_screen/post_view_widget.dart';
 import 'package:meonghae_front/widgets/svg/pencil.dart';
 import 'package:meonghae_front/widgets/under_bar/under_bar_widget.dart';
 
@@ -15,13 +17,37 @@ class PostScreen extends StatefulWidget {
 
 class _PostScreenState extends State<PostScreen> {
   String sectionName = 'boast';
-  void setSectionName(String value) {
-    setState(() => sectionName = value);
+  Future<void> setSectionName(String value) async {
+    if (value != sectionName) {
+      setState(() => sectionName = value);
+      await fetchData();
+    }
   }
 
-// sectionName : boast / fun / missing
+  List<dynamic> posts = [];
+
+  Map<String, int> currentSection = {'boast': 1, 'fun': 2, 'missing': 3};
+
+  Future<void> fetchData() async {
+    SendAPI.get(
+      context: context,
+      url: "/community-service/boards",
+      request: {'type': currentSection[currentSection]},
+      successFunc: (data) => setState(() => posts = data.data['content']),
+      errorMsg: "게시글 리스트 호출에 실패하였습니다",
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(currentSection[sectionName]);
+    print(posts[1]);
     return Scaffold(
       backgroundColor: CustomColor.white,
       body: SafeArea(
@@ -40,7 +66,41 @@ class _PostScreenState extends State<PostScreen> {
             const SizedBox(height: 4),
             Expanded(
               child: Stack(children: [
-                PostViewWidget(currentSection: sectionName),
+                // BlocProvider(
+                //   create: (context) => PostBloc(posts),
+                //   child: BlocBuilder<PostBloc, PostState>(
+                //     builder: (context, state) {
+                //       if (state is PostLoading) {
+                //         return Center(
+                //           child: CircularProgressIndicator(),
+                //         );
+                //       } else if (state is PostLoaded) {
+                //         return RefreshIndicator(
+                //           onRefresh: () async {
+                //             BlocProvider.of<PostBloc>(context)
+                //                 .add(RefreshPosts());
+                //           },
+                //           child: ListView.builder(
+                //             itemCount: posts.length,
+                //             itemBuilder: (context, index) {
+                //               return PostListItemWidget(
+                //                 postData: posts[index],
+                //                 currentSection:
+                //                     currentSection[sectionName] ?? 1,
+                //                 fetchData: fetchData,
+                //               );
+                //             },
+                //           ),
+                //         );
+                //       } else if (state is PostError) {
+                //         return Center(
+                //           child: Text('Error occurred while loading posts.'),
+                //         );
+                //       }
+                //       return Container();
+                //     },
+                //   ),
+                // ),
                 Positioned(
                   top: 0,
                   child: Container(

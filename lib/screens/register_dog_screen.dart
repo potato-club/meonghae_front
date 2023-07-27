@@ -2,7 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/api/dio.dart';
-import 'package:meonghae_front/models/infoModel.dart';
+import 'package:meonghae_front/models/info_model.dart';
 import 'package:meonghae_front/screens/video_player_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';

@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/api/dio.dart';
-import 'package:meonghae_front/models/loginModel.dart';
+import 'package:meonghae_front/models/login_Model.dart';
 import 'package:meonghae_front/screens/select_screen.dart';
 import 'package:meonghae_front/screens/video_player_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';

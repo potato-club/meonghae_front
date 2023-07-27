@@ -5,7 +5,7 @@ import 'package:meonghae_front/widgets/svg/more.dart';
 
 class BannerWidget extends StatefulWidget {
   final Function setIsPostMoreModal;
-  final String currentSection;
+  final int currentSection;
   final Function handlePop;
   const BannerWidget({
     super.key,
@@ -19,6 +19,7 @@ class BannerWidget extends StatefulWidget {
 }
 
 class _BannerWidgetState extends State<BannerWidget> {
+  Map<int, String> currentSection = {1: '멍자랑', 2: '웃긴멍', 3: '실종신고'};
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -49,7 +50,7 @@ class _BannerWidgetState extends State<BannerWidget> {
                             alignment: Alignment.centerLeft,
                             child: ArrowSVG(strokeColor: CustomColor.black2))),
                   )),
-              Text(widget.currentSection,
+              Text(currentSection[widget.currentSection] ?? '',
                   style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w700,

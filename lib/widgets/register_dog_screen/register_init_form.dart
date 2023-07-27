@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/models/infoModel.dart';
+import 'package:meonghae_front/models/info_model.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'registerForm_widget.dart';
 import 'registerImage_widget.dart';

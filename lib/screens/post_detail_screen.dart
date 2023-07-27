@@ -8,7 +8,7 @@ import 'package:meonghae_front/widgets/post_detail_screen/detail_content_widget.
 import 'package:meonghae_front/widgets/post_detail_screen/write_comment_bar_widget.dart';
 
 class PostDetailScreen extends StatefulWidget {
-  final String currentSection;
+  final int currentSection;
   final int id;
   final Function fetchData;
   const PostDetailScreen(
