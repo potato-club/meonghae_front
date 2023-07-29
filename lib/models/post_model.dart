@@ -1,4 +1,6 @@
-class PostModel {
+import 'package:flutter/material.dart';
+
+class PostModel with ChangeNotifier {
   final int id;
   final String profileUrl;
   final String title;

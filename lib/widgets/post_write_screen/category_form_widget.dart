@@ -21,7 +21,7 @@ class _CategoryFormWidgetState extends State<CategoryFormWidget> {
       if (widget.writeData['images'].length > 3) {
         widget.setWriteData('images', widget.writeData['images'].sublist(0, 3));
         SnackBarWidget.show(
-            context, SnackBarType.error, '실종신고외의 게시글에서는 최대 3장의 사진만 등록 가능합니다');
+            SnackBarType.error, '실종신고외의 게시글에서는 최대 3장의 사진만 등록 가능합니다');
       }
     }
   }

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meonghae_front/api/dio.dart';
 import 'package:meonghae_front/screens/post_write_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
-import 'package:meonghae_front/widgets/post_screen/post_list_item_widget.dart';
 import 'package:meonghae_front/widgets/post_screen/post_menu_bar_widget.dart';
 import 'package:meonghae_front/widgets/svg/pencil.dart';
 import 'package:meonghae_front/widgets/under_bar/under_bar_widget.dart';
@@ -30,7 +28,6 @@ class _PostScreenState extends State<PostScreen> {
 
   Future<void> fetchData() async {
     SendAPI.get(
-      context: context,
       url: "/community-service/boards",
       request: {'type': currentSection[currentSection]},
       successFunc: (data) => setState(() => posts = data.data['content']),

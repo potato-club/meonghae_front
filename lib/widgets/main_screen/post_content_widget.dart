@@ -25,7 +25,6 @@ class _PostContentWidgetState extends State<PostContentWidget> {
 
   Future<void> getPreview() async {
     SendAPI.get(
-      context: context,
       url: "/community-service/boards/main",
       successFunc: (data) {
         for (int i = 0; i < data.data.length; i++) {

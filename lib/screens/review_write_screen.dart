@@ -46,18 +46,17 @@ class _ReviewWriteScreenState extends State<ReviewWriteScreen> {
           ]
       });
       SendAPI.post(
-        context: context,
         url: "/community-service/reviews",
         request: formData,
         successFunc: (data) {
           widget.fetchData();
           Navigator.pop(context);
-          SnackBarWidget.show(context, SnackBarType.check, '성공적으로 리뷰를 작성하였습니다');
+          SnackBarWidget.show(SnackBarType.check, '성공적으로 리뷰를 작성하였습니다');
         },
         errorMsg: '리뷰 작성에 실패하였습니다',
       );
     } else {
-      SnackBarWidget.show(context, SnackBarType.error, "모든 정보를 입력해주세요");
+      SnackBarWidget.show(SnackBarType.error, "모든 정보를 입력해주세요");
     }
   }
 

@@ -5,7 +5,7 @@ import 'package:meonghae_front/models/login_Model.dart';
 import 'package:meonghae_front/screens/select_screen.dart';
 import 'package:meonghae_front/screens/video_player_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
-import 'package:meonghae_front/user/user_info.dart';
+import 'package:meonghae_front/storages//user/user_info.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 
 class KakaoButton extends StatefulWidget {
@@ -24,7 +24,6 @@ class _KakaoButtonState extends State<KakaoButton> {
     var userEmail = await readUserEmail();
     if (userEmail == null) {
       SendAPI.get(
-        context: context,
         url: '/user-service/mypage',
         successFunc: (data) => saveUserInfo(data.data),
         errorMsg: "유저정보 호출에 실패하였습니다",
@@ -50,7 +49,7 @@ class _KakaoButtonState extends State<KakaoButton> {
             ));
       }
     } else {
-      SnackBarWidget.show(context, SnackBarType.error, result['error']);
+      SnackBarWidget.show(SnackBarType.error, result['error']);
     }
     setState(() {});
   }

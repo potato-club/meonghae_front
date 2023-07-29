@@ -102,7 +102,6 @@ class _RegisterDogScreenState extends State<RegisterDogScreen> {
             "image": await MultipartFile.fromFile(formsData[i].file!.path)
         });
         SendAPI.post(
-          context: context,
           url: "/profile-service/profile",
           request: formData,
           successFunc: (data) => Navigator.pushReplacement(
@@ -114,7 +113,7 @@ class _RegisterDogScreenState extends State<RegisterDogScreen> {
       }
     } else {
       int index = validatorList.indexOf(false);
-      SnackBarWidget.show(context, SnackBarType.error, result[index]['error']);
+      SnackBarWidget.show(SnackBarType.error, result[index]['error']);
     }
   }
 

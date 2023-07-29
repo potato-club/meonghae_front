@@ -35,7 +35,6 @@ class _RegisteredUserScreenState extends State<RegisteredUserScreen> {
         "file": await MultipartFile.fromFile(widget.imageFile!.path)
     });
     SendAPI.post(
-      context: context,
       url: "/user-service/signup",
       request: formData,
       successFunc: (data) {

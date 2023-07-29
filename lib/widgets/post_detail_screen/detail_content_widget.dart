@@ -24,7 +24,6 @@ class DetailContentWidget extends StatefulWidget {
 class _DetailContentWidgetState extends State<DetailContentWidget> {
   Future<void> onClickHeart() async {
     SendAPI.post(
-      context: context,
       url: "/community-service/boards/${widget.id}/like",
       successFunc: (data) => widget.fetchData(),
       errorMsg: "좋아요 변경에 실패하였습니다",

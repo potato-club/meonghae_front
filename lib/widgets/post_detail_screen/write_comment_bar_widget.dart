@@ -29,7 +29,6 @@ class _WriteCommentBarWidgetState extends State<WriteCommentBarWidget> {
   Future<void> handlePostComment() async {
     if (textController.text != '') {
       SendAPI.post(
-        context: context,
         url: "/community-service/boardComments/${widget.id}",
         request: {"comment": textController.text},
         successFunc: (data) {

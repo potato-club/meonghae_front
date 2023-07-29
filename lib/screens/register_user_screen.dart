@@ -55,7 +55,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                 imageFile: imageFile,
               )));
     } else {
-      SnackBarWidget.show(context, SnackBarType.alarm, '모두 입력해주세요');
+      SnackBarWidget.show(SnackBarType.alarm, '모두 입력해주세요');
     }
   }
 

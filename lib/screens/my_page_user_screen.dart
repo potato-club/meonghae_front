@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/api/dio.dart';
 import 'package:meonghae_front/themes/customColor.dart';
-import 'package:meonghae_front/user/user_info.dart';
+import 'package:meonghae_front/storages//user/user_info.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 import 'package:meonghae_front/widgets/my_page_user_screen/edit_user_info_widget.dart';
 import 'package:meonghae_front/widgets/my_page_user_screen/show_user_info_widget.dart';
@@ -69,12 +69,10 @@ class _MyPageUserScreenState extends State<MyPageUserScreen> {
             "file": await MultipartFile.fromFile(userInfo['file'].path)
         });
         SendAPI.put(
-            context: context,
             url: "/user-service/mypage",
             request: formData,
             successFunc: (data) {
               SendAPI.get(
-                context: context,
                 url: '/user-service/mypage',
                 successFunc: (_data) {
                   saveUserInfo(_data.data);
@@ -86,7 +84,7 @@ class _MyPageUserScreenState extends State<MyPageUserScreen> {
             },
             errorMsg: "유저 정보 변경에 실패하였습니다");
       } else {
-        SnackBarWidget.show(context, SnackBarType.error, '모든 정보를 입력해주세요');
+        SnackBarWidget.show(SnackBarType.error, '모든 정보를 입력해주세요');
       }
     } else
       setState(() => isEdit = false);

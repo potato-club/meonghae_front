@@ -53,7 +53,6 @@ class _ReviewScreenState extends State<ReviewScreen> {
   List<dynamic> reviews = [];
   Future<void> fetchData() async {
     SendAPI.get(
-      context: context,
       url: "/community-service/reviews/${ReviewMenuMap[widget.menuValue]}",
       request: {
         "sort": searchingForm['sort'],

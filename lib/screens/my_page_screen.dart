@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/screens/main_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
-import 'package:meonghae_front/user/user_info.dart';
+import 'package:meonghae_front/storages//user/user_info.dart';
 import 'package:meonghae_front/widgets/my_page_screen/banner_widget.dart';
 import 'package:meonghae_front/widgets/my_page_screen/menu_buttons_widget.dart';
 import 'package:meonghae_front/widgets/svg/arrow.dart';

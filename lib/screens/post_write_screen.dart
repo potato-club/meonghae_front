@@ -39,18 +39,16 @@ class _PostWriteScreenState extends State<PostWriteScreen> {
           ]
       });
       SendAPI.post(
-        context: context,
         url: "/community-service/boards/${writeData['type']}",
         request: formData,
         successFunc: (data) {
           Navigator.pop(context);
-          SnackBarWidget.show(
-              context, SnackBarType.check, '성공적으로 게시글을 작성하였습니다');
+          SnackBarWidget.show(SnackBarType.check, '성공적으로 게시글을 작성하였습니다');
         },
         errorMsg: "게시글 작성에 실패하였습니다",
       );
     } else {
-      SnackBarWidget.show(context, SnackBarType.error, "모든 정보를 입력해주세요");
+      SnackBarWidget.show(SnackBarType.error, "모든 정보를 입력해주세요");
     }
   }
 

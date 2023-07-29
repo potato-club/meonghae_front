@@ -29,7 +29,6 @@ class _MyPageDogScreenState extends State<MyPageDogScreen> {
 
   Future<void> _getDogsInfo() async {
     SendAPI.get(
-        context: context,
         url: "/profile-service/profile/all",
         successFunc: (data) => setState(() => dogsInfo = data.data),
         errorMsg: "애완동물정보 호출에 실패하였습니다");

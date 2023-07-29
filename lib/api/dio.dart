@@ -8,7 +8,6 @@ import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 class SendAPI {
   static Future<void> tokenRefresh({
     required DioException error,
-    required BuildContext context,
     required Function(Options?) requestMethod,
     required Function successFunc,
     required String errorMsg,
@@ -33,20 +32,19 @@ class SendAPI {
           }));
           successFunc(_response);
         } catch (error) {
-          SnackBarWidget.show(context, SnackBarType.error, errorMsg);
+          SnackBarWidget.show(SnackBarType.error, errorMsg);
         }
       } on DioException catch (error) {
-        SnackBarWidget.show(context, SnackBarType.error, error.toString());
+        SnackBarWidget.show(SnackBarType.error, error.toString());
       } finally {
         dio.close();
       }
     } else {
-      SnackBarWidget.show(context, SnackBarType.error, errorMsg);
+      SnackBarWidget.show(SnackBarType.error, errorMsg);
     }
   }
 
   static Future<void> get({
-    required BuildContext context,
     required String url,
     required Function successFunc,
     required String errorMsg,
@@ -66,7 +64,6 @@ class SendAPI {
     } on DioException catch (error) {
       tokenRefresh(
         error: error,
-        context: context,
         successFunc: successFunc,
         errorMsg: errorMsg,
         requestMethod: (options) =>
@@ -78,7 +75,6 @@ class SendAPI {
   }
 
   static Future<void> post({
-    required BuildContext context,
     required String url,
     required Function successFunc,
     required String errorMsg,
@@ -98,7 +94,6 @@ class SendAPI {
     } on DioException catch (error) {
       tokenRefresh(
         error: error,
-        context: context,
         successFunc: successFunc,
         errorMsg: errorMsg,
         requestMethod: (options) =>
@@ -110,7 +105,6 @@ class SendAPI {
   }
 
   static Future<void> put({
-    required BuildContext context,
     required String url,
     required Function successFunc,
     required String errorMsg,
@@ -130,7 +124,6 @@ class SendAPI {
     } on DioException catch (error) {
       tokenRefresh(
         error: error,
-        context: context,
         successFunc: successFunc,
         errorMsg: errorMsg,
         requestMethod: (options) =>
@@ -142,7 +135,6 @@ class SendAPI {
   }
 
   static Future<void> delete({
-    required BuildContext context,
     required String url,
     required Function successFunc,
     required String errorMsg,
@@ -159,7 +151,6 @@ class SendAPI {
     } on DioException catch (error) {
       tokenRefresh(
         error: error,
-        context: context,
         successFunc: successFunc,
         errorMsg: errorMsg,
         requestMethod: (options) =>
