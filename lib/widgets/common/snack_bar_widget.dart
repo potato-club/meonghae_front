@@ -30,7 +30,7 @@ class SnackBarWidget {
         snackPosition: SnackPosition.BOTTOM,
         forwardAnimationCurve: Curves.ease,
         reverseAnimationCurve: Curves.ease,
-        animationDuration: const Duration(milliseconds: 1000),
+        animationDuration: const Duration(milliseconds: 750),
         titleText: Container(),
         messageText: Container(
           padding:
@@ -77,7 +77,7 @@ class SnackBarWidget {
         snackPosition: SnackPosition.BOTTOM,
         forwardAnimationCurve: Curves.ease,
         reverseAnimationCurve: Curves.ease,
-        animationDuration: const Duration(milliseconds: 1000),
+        animationDuration: const Duration(milliseconds: 750),
         titleText: Container(),
         messageText: Container(
           padding:
@@ -124,7 +124,7 @@ class SnackBarWidget {
         snackPosition: SnackPosition.BOTTOM,
         forwardAnimationCurve: Curves.ease,
         reverseAnimationCurve: Curves.ease,
-        animationDuration: const Duration(milliseconds: 1000),
+        animationDuration: const Duration(milliseconds: 750),
         titleText: Container(),
         messageText: Container(
           padding:
