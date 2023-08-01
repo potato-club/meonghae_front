@@ -48,6 +48,7 @@ class _ReviewWriteScreenState extends State<ReviewWriteScreen> {
       SendAPI.post(
         url: "/community-service/reviews",
         request: formData,
+        successCode: 201,
         successFunc: (data) {
           widget.fetchData();
           Navigator.pop(context);

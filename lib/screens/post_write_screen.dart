@@ -41,6 +41,7 @@ class _PostWriteScreenState extends State<PostWriteScreen> {
       SendAPI.post(
         url: "/community-service/boards/${writeData['type']}",
         request: formData,
+        successCode: 201,
         successFunc: (data) {
           Navigator.pop(context);
           SnackBarWidget.show(SnackBarType.check, '성공적으로 게시글을 작성하였습니다');

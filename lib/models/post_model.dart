@@ -1,18 +1,16 @@
-import 'package:flutter/material.dart';
-
-class PostModel with ChangeNotifier {
+class PostModel {
   final int id;
-  final String profileUrl;
+  final String? profileUrl;
   final String title;
   final String content;
   final int likes;
   final int commentSize;
   final bool hasImage;
-  final DateTime date;
+  final String date;
 
   PostModel({
     required this.id,
-    required this.profileUrl,
+    this.profileUrl,
     required this.title,
     required this.content,
     required this.likes,
@@ -20,4 +18,17 @@ class PostModel with ChangeNotifier {
     required this.hasImage,
     required this.date,
   });
+
+  factory PostModel.fromJson(Map<String, dynamic> json) {
+    return PostModel(
+      id: json['id'],
+      title: json['title'],
+      content: json['content'],
+      likes: json['likes'],
+      commentSize: json['commentSize'],
+      hasImage: json['hasImage'],
+      date: json['date'],
+      profileUrl: json['profileUrl'],
+    );
+  }
 }

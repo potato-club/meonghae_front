@@ -43,7 +43,7 @@ class SendAPI {
         SnackBarWidget.show(SnackBarType.error, errorMsg);
       }
     } else {
-      SnackBarWidget.show(SnackBarType.error, errorMsg);
+      SnackBarWidget.show(SnackBarType.error, error.toString());
     }
   }
 

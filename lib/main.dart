@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:flutter/services.dart';
+import 'package:meonghae_front/config/app_binding.dart';
+import 'package:meonghae_front/config/pages.dart';
 import 'package:meonghae_front/screens/login_screen.dart';
 import 'package:get/get.dart';
-import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 
 void main() async {
   KakaoSdk.init(nativeAppKey: 'b9af1657c2b23b75e1461b4369ab3dee');
   await initializeDateFormatting();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
@@ -24,10 +24,17 @@ class MyApp extends StatelessWidget {
       statusBarIconBrightness: Brightness.dark,
     ));
 
-    return const GetMaterialApp(
+    return GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        locale: Locale('ko', 'KR'),
-        title: 'Meonghae?',
-        home: LoginScreen());
+        locale: const Locale('ko', 'KR'),
+        title: 'Meonghae',
+        initialBinding: AppBinding(),
+        getPages: pages,
+        // initialRoute: '/',
+        // routes: {
+        //   '/': (context) => MainScreen(),
+        //   '/post': (context) => PostScreen(),
+        // },
+        home: const LoginScreen());
   }
 }

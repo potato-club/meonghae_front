@@ -8,14 +8,8 @@ import 'package:meonghae_front/widgets/post_detail_screen/detail_content_widget.
 import 'package:meonghae_front/widgets/post_detail_screen/write_comment_bar_widget.dart';
 
 class PostDetailScreen extends StatefulWidget {
-  final int currentSection;
   final int id;
-  final Function fetchData;
-  const PostDetailScreen(
-      {super.key,
-      required this.id,
-      required this.currentSection,
-      required this.fetchData});
+  const PostDetailScreen({super.key, required this.id});
   @override
   State<PostDetailScreen> createState() => _PostDetailScreenState();
 }
@@ -41,7 +35,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
   List comments = [];
 
   void handlePop() {
-    widget.fetchData();
+    // widget.fetchData();
     Navigator.pop(context);
   }
 
@@ -82,7 +76,6 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
             top: 0,
             child: BannerWidget(
               setIsPostMoreModal: setIsPostMoreModal,
-              currentSection: widget.currentSection,
               handlePop: handlePop,
             )),
         Positioned(
