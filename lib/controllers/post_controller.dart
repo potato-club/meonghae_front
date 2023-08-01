@@ -11,16 +11,6 @@ class PostController extends GetxController {
   var hasMore = false.obs;
   var page = 1.obs;
 
-  void setType(int value) {
-    if (type.value != value) {
-      posts.clear();
-      isLoading.value = true;
-      type.value = value;
-      page.value = 1;
-      fetchData(type.value);
-    }
-  }
-
   @override
   void onInit() {
     fetchData(type.value);
@@ -32,6 +22,23 @@ class PostController extends GetxController {
       }
     });
     super.onInit();
+  }
+
+  void setType(int value) {
+    if (type.value != value) {
+      posts.clear();
+      isLoading.value = true;
+      type.value = value;
+      page.value = 1;
+      fetchData(type.value);
+    }
+  }
+
+  void reload() {
+    posts.clear();
+    isLoading.value = true;
+    page.value = 1;
+    fetchData(type.value);
   }
 
   void fetchData(int type) async {

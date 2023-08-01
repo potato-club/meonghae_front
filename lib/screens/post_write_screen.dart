@@ -1,7 +1,9 @@
 import 'dart:io';
-import 'package:dio/dio.dart';
+import 'package:dio/dio.dart' as dio;
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:meonghae_front/api/dio.dart';
+import 'package:meonghae_front/controllers/post_controller.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 import 'package:meonghae_front/widgets/post_write_screen/banner_widget.dart';
@@ -29,13 +31,13 @@ class _PostWriteScreenState extends State<PostWriteScreen> {
     if (writeData["title"] != "" &&
         writeData["content"] != "" &&
         writeData["type"] != null) {
-      FormData formData = FormData.fromMap({
+      dio.FormData formData = dio.FormData.fromMap({
         "title": writeData["title"],
         "content": writeData["content"],
         if (writeData["images"].length != 0)
           "images": [
             for (File image in writeData["images"])
-              await MultipartFile.fromFile(image.path)
+              await dio.MultipartFile.fromFile(image.path)
           ]
       });
       SendAPI.post(
@@ -44,6 +46,7 @@ class _PostWriteScreenState extends State<PostWriteScreen> {
         successCode: 201,
         successFunc: (data) {
           Navigator.pop(context);
+          Get.find<PostController>().reload();
           SnackBarWidget.show(SnackBarType.check, '성공적으로 게시글을 작성하였습니다');
         },
         errorMsg: "게시글 작성에 실패하였습니다",

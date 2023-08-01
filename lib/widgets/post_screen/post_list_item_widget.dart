@@ -118,23 +118,25 @@ class _PostListItemWidgetState extends State<PostListItemWidget> {
                           Row(
                             children: [
                               const TinyHeartSVG(),
-                              const SizedBox(width: 4),
+                              const SizedBox(width: 3),
                               Text(
                                 '${widget.postData.likes}',
                                 style: const TextStyle(
                                     fontSize: 11, color: CustomColor.gray),
                               ),
-                              const SizedBox(width: 8),
+                              const SizedBox(width: 6),
                               const TinyCommentSVG(),
-                              const SizedBox(width: 4),
+                              const SizedBox(width: 3),
                               Text(
                                 '${widget.postData.commentSize}',
                                 style: const TextStyle(
                                     fontSize: 11, color: CustomColor.gray),
                               ),
-                              const SizedBox(width: 6),
                               if (widget.postData.hasImage)
-                                const TinyPictureSVG()
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8),
+                                  child: const TinyPictureSVG(),
+                                )
                             ],
                           ),
                         ],

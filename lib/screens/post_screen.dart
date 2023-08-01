@@ -51,24 +51,16 @@ class _PostScreenState extends State<PostScreen> {
                                 postData: controller.posts[index]),
                             if (controller.hasMore.value &&
                                 controller.posts.length == index + 1)
-                              const Padding(
-                                padding: EdgeInsets.symmetric(vertical: 40),
-                                child: CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                      CustomColor.brown1),
-                                  strokeWidth: 5,
-                                ),
-                              )
+                              Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 20),
+                                  child: Container())
                             else if (!controller.hasMore.value &&
                                 controller.posts.length == index + 1)
-                              const Padding(
-                                padding: EdgeInsets.symmetric(vertical: 40),
-                                child: CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                      CustomColor.brown1),
-                                  strokeWidth: 5,
-                                ),
-                              ),
+                              Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 20),
+                                  child: Container()),
                           ]);
                         });
                   }
