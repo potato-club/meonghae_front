@@ -34,7 +34,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   Future<void> getCalendarData(int year, int month) async {
     SendAPI.get(
-        context: context,
         url: "/profile-service/profile/calendar",
         request: {'year': year, 'month': month},
         successFunc: (data) {

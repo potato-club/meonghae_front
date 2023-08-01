@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:meonghae_front/controllers/post_controller.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/svg/arrow.dart';
 import 'package:meonghae_front/widgets/svg/more.dart';
 
 class BannerWidget extends StatefulWidget {
   final Function setIsPostMoreModal;
-  final String currentSection;
   final Function handlePop;
   const BannerWidget({
     super.key,
     required this.setIsPostMoreModal,
-    required this.currentSection,
     required this.handlePop,
   });
 
@@ -49,11 +49,13 @@ class _BannerWidgetState extends State<BannerWidget> {
                             alignment: Alignment.centerLeft,
                             child: ArrowSVG(strokeColor: CustomColor.black2))),
                   )),
-              Text(widget.currentSection,
-                  style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                      color: CustomColor.black2)),
+              GetX<PostController>(builder: (controller) {
+                return Text(controller.typeToString(),
+                    style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        color: CustomColor.black2));
+              }),
               InkWell(
                   onTap: () => widget.setIsPostMoreModal(true),
                   splashColor: Colors.transparent,

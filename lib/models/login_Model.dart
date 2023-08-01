@@ -35,12 +35,12 @@ class LoginModel {
 
   Future<Map<String, dynamic>> login() async {
     isLogined = await socialLogin.login();
-    final String mobileId = await getMobileId();
+    // final String mobileId = await getMobileId();
     if (isLogined) {
       user = await UserApi.instance.me();
       Dio dio = Dio(BaseOptions(
         baseUrl: 'https://api.meonghae.site/',
-        headers: {'androidId': mobileId},
+        // headers: {'androidId': mobileId},
       ));
       final response = await dio.get(
         '/user-service/login',

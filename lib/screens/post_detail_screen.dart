@@ -8,14 +8,8 @@ import 'package:meonghae_front/widgets/post_detail_screen/detail_content_widget.
 import 'package:meonghae_front/widgets/post_detail_screen/write_comment_bar_widget.dart';
 
 class PostDetailScreen extends StatefulWidget {
-  final String currentSection;
   final int id;
-  final Function fetchData;
-  const PostDetailScreen(
-      {super.key,
-      required this.id,
-      required this.currentSection,
-      required this.fetchData});
+  const PostDetailScreen({super.key, required this.id});
   @override
   State<PostDetailScreen> createState() => _PostDetailScreenState();
 }
@@ -41,19 +35,17 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
   List comments = [];
 
   void handlePop() {
-    widget.fetchData();
+    // widget.fetchData();
     Navigator.pop(context);
   }
 
   Future<void> fetchData() async {
     SendAPI.get(
-      context: context,
       url: "/community-service/boards/${widget.id}",
       successFunc: (data) => setState(() => post = data.data),
       errorMsg: "게시글정보 호출에 실패하였습니다",
     );
     SendAPI.get(
-      context: context,
       url: "/community-service/boardComments/${widget.id}",
       successFunc: (data) => setState(() => comments = data.data['content']),
       errorMsg: "댓글정보 호출에 실패하였습니다",
@@ -84,7 +76,6 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
             top: 0,
             child: BannerWidget(
               setIsPostMoreModal: setIsPostMoreModal,
-              currentSection: widget.currentSection,
               handlePop: handlePop,
             )),
         Positioned(

@@ -20,13 +20,12 @@ class _TopMenuBarWidgetState extends State<TopMenuBarWidget> {
     String searchValue = _searchController.text;
     if (searchValue.length >= 2) {
       SendAPI.get(
-          context: context,
           url: "/profile-service/profile/calendar/find",
           request: {'key': searchValue},
           successFunc: (data) => widget.setSearchResult(data.data),
           errorMsg: "일정 검색에 실패하였습니다");
     } else {
-      SnackBarWidget.show(context, SnackBarType.error, '2글자 이상의 단어를 검색해주세요');
+      SnackBarWidget.show(SnackBarType.error, '2글자 이상의 단어를 검색해주세요');
     }
   }
 

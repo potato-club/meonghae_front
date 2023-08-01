@@ -18,7 +18,6 @@ class ReviewListItemWidget extends StatefulWidget {
 class _ReviewListItemWidgetState extends State<ReviewListItemWidget> {
   Future<void> onClickLike(bool isLike) async {
     SendAPI.post(
-      context: context,
       url: "/community-service/reviews/${widget.review['id']}/recommend",
       request: {"isLike": isLike},
       successFunc: (data) => widget.fetchReviewData(),

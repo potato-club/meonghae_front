@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/themes/customColor.dart';
-import 'package:meonghae_front/user/user_info.dart';
+import 'package:meonghae_front/storages//user/user_info.dart';
 import 'package:meonghae_front/widgets/format/date_input_formatter.dart';
 import 'package:meonghae_front/widgets/my_page_user_screen/user_photo_widget.dart';
 

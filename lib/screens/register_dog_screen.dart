@@ -2,7 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/api/dio.dart';
-import 'package:meonghae_front/models/infoModel.dart';
+import 'package:meonghae_front/models/info_model.dart';
 import 'package:meonghae_front/screens/video_player_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
@@ -102,7 +102,6 @@ class _RegisterDogScreenState extends State<RegisterDogScreen> {
             "image": await MultipartFile.fromFile(formsData[i].file!.path)
         });
         SendAPI.post(
-          context: context,
           url: "/profile-service/profile",
           request: formData,
           successFunc: (data) => Navigator.pushReplacement(
@@ -114,7 +113,7 @@ class _RegisterDogScreenState extends State<RegisterDogScreen> {
       }
     } else {
       int index = validatorList.indexOf(false);
-      SnackBarWidget.show(context, SnackBarType.error, result[index]['error']);
+      SnackBarWidget.show(SnackBarType.error, result[index]['error']);
     }
   }
 
