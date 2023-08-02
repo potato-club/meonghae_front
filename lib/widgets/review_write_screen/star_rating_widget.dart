@@ -53,6 +53,8 @@ class _StarRatingWidgetState extends State<StarRatingWidget> {
           left: 0,
           child: InkWell(
             onTap: () => Navigator.pop(context),
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
             child: const SizedBox(
                 width: 34,
                 child: Align(

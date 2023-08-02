@@ -55,7 +55,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                 imageFile: imageFile,
               )));
     } else {
-      SnackBarWidget.show(context, SnackBarType.alarm, '모두 입력해주세요');
+      SnackBarWidget.show(SnackBarType.alarm, '모두 입력해주세요');
     }
   }
 
@@ -82,6 +82,8 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
               left: MediaQuery.of(context).size.width * 0.21,
               child: InkWell(
                   onTap: () => Navigator.pop(context),
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
                   child: const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 4),
                     child: ArrowSVG(strokeColor: CustomColor.black2),

@@ -1,104 +1,152 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:meonghae_front/controllers/post_controller.dart';
+import 'package:meonghae_front/models/post_model.dart';
 import 'package:meonghae_front/screens/post_detail_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/svg/tiny_comment.dart';
 import 'package:meonghae_front/widgets/svg/tiny_heart.dart';
 import 'package:meonghae_front/widgets/svg/tiny_picture.dart';
 
-class PostListItemWidget extends StatelessWidget {
-  const PostListItemWidget({super.key});
+class PostListItemWidget extends StatefulWidget {
+  final PostModel postData;
+  const PostListItemWidget({
+    super.key,
+    required this.postData,
+  });
 
   @override
+  State<PostListItemWidget> createState() => _PostListItemWidgetState();
+}
+
+class _PostListItemWidgetState extends State<PostListItemWidget> {
+  @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => Navigator.of(context).push(MaterialPageRoute(
-          builder: (BuildContext context) => const PostDetailScreen(
-                id: 1,
-              ))),
-      child: Container(
-        height: 122,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(
-            color: CustomColor.lightGray1, // 테두리 색상 설정
-            width: 1, // 테두리 두께 설정
+    return Padding(
+      padding: EdgeInsets.symmetric(
+          vertical: 8, horizontal: MediaQuery.of(context).size.width * 0.06),
+      child: GestureDetector(
+        onTap: () => Navigator.of(context).push(MaterialPageRoute(
+            builder: (BuildContext context) =>
+                PostDetailScreen(id: widget.postData.id))),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: CustomColor.lightGray1, // 테두리 색상 설정
+              width: 1, // 테두리 두께 설정
+            ),
           ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Stack(children: [
-            Row(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
+                  clipBehavior: Clip.hardEdge,
                   width: 37,
                   height: 37,
                   decoration: const BoxDecoration(
                       color: CustomColor.lightGray3, shape: BoxShape.circle),
                   child: Transform.scale(
                     scale: 1.8,
-                    child: const Image(
-                      image: AssetImage(
-                        'assets/images/dog_pictures/face.png',
-                      ),
-                    ),
+                    child: widget.postData.profileUrl != null
+                        ? Image.network(
+                            widget.postData.profileUrl!,
+                            fit: BoxFit.cover,
+                          )
+                        : const Image(
+                            image: AssetImage(
+                              'assets/images/dog_pictures/face.png',
+                            ),
+                          ),
                   ),
                 ),
                 const SizedBox(width: 16),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 6),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.88 - 87,
-                      child: const Text(
-                        '우리 강아지 천재 아닐까..?',
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.88 - 87,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 6),
+                      Text(
+                        widget.postData.title,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w700),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.88 - 87,
-                      child: const Text(
-                        '진짜 어그로 아니고 우리 강아지는 천재 아닐까 생각 중이야.. 내가 한말 다 알아듣고 이름 부르면 나한테 달려옴 ㅇㅇ',
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
-                        style: TextStyle(
-                          fontSize: 11,
-                          color: CustomColor.black2,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
-                    )
-                  ],
-                )
+                      const SizedBox(height: 8),
+                      GetX<PostController>(builder: (controller) {
+                        return Text(
+                          widget.postData.content,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: controller.type.value == 3 ? 4 : 2,
+                          style: const TextStyle(
+                            fontSize: 11,
+                            color: CustomColor.black2,
+                          ),
+                        );
+                      }),
+                      const SizedBox(height: 4),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                widget.postData.date
+                                    .split('T')[0]
+                                    .replaceAll('-', '/'),
+                                style: const TextStyle(
+                                    fontSize: 11,
+                                    color: CustomColor.lightGray2),
+                              ),
+                              const SizedBox(width: 6),
+                              Text(
+                                widget.postData.date
+                                    .split('T')[1]
+                                    .substring(0, 5),
+                                style: const TextStyle(
+                                    fontSize: 11,
+                                    color: CustomColor.lightGray2),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              const TinyHeartSVG(),
+                              const SizedBox(width: 3),
+                              Text(
+                                '${widget.postData.likes}',
+                                style: const TextStyle(
+                                    fontSize: 11, color: CustomColor.gray),
+                              ),
+                              const SizedBox(width: 6),
+                              const TinyCommentSVG(),
+                              const SizedBox(width: 3),
+                              Text(
+                                '${widget.postData.commentSize}',
+                                style: const TextStyle(
+                                    fontSize: 11, color: CustomColor.gray),
+                              ),
+                              if (widget.postData.hasImage)
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8),
+                                  child: const TinyPictureSVG(),
+                                )
+                            ],
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
               ],
             ),
-            const Positioned(
-                bottom: 0,
-                right: 0,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TinyHeartSVG(),
-                    SizedBox(width: 2),
-                    Text(
-                      '12',
-                      style: TextStyle(fontSize: 11, color: CustomColor.gray),
-                    ),
-                    SizedBox(width: 6),
-                    TinyCommentSVG(),
-                    SizedBox(width: 2),
-                    Text(
-                      '12',
-                      style: TextStyle(fontSize: 11, color: CustomColor.gray),
-                    ),
-                    SizedBox(width: 6),
-                    TinyPictureSVG()
-                  ],
-                ))
-          ]),
+          ),
         ),
       ),
     );

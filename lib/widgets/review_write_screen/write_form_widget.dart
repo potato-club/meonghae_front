@@ -15,6 +15,10 @@ class WriteFormWidget extends StatefulWidget {
 }
 
 class _WriteFormWidgetState extends State<WriteFormWidget> {
+  void removeFocus() {
+    FocusScope.of(context).unfocus();
+  }
+
   @override
   Widget build(BuildContext context) {
     late String title;
@@ -96,8 +100,10 @@ class _WriteFormWidgetState extends State<WriteFormWidget> {
                     ),
                     const SizedBox(height: 12),
                     ImagesWidget(
-                        writeData: widget.writeData,
-                        setWriteData: widget.setWriteData),
+                      writeData: widget.writeData,
+                      setWriteData: widget.setWriteData,
+                      removeFocus: removeFocus,
+                    ),
                   ],
                 ),
               ),

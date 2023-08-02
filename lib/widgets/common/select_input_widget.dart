@@ -108,6 +108,8 @@ class _SelectInputWidgetState extends State<SelectInputWidget> {
             _overlayEntry!.remove();
           }
         },
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
         child: Container(
           width: widget.width,
           height: widget.height,
@@ -139,7 +141,7 @@ class _SelectInputWidgetState extends State<SelectInputWidget> {
                 padding: EdgeInsets.only(right: widget.isBigIcon ? 16 : 8),
                 child: widget.isBigIcon
                     ? const BottomArrowSVG(size: 12, color: CustomColor.gray)
-                    : const TinyBottomArrowSVG(),
+                    : const TinyBottomArrowSVG(strokeColor: CustomColor.black2),
               ),
             ],
           ),

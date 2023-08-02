@@ -1,9 +1,6 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/config/base_url.dart';
-import 'package:meonghae_front/login/token.dart';
+import 'package:meonghae_front/api/dio.dart';
 import 'package:meonghae_front/themes/customColor.dart';
-import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 import 'package:meonghae_front/widgets/post_detail_screen/custom_under_modal_widget.dart';
 import 'package:meonghae_front/widgets/post_detail_screen/banner_widget.dart';
 import 'package:meonghae_front/widgets/post_detail_screen/detail_comment_widget.dart';
@@ -11,8 +8,8 @@ import 'package:meonghae_front/widgets/post_detail_screen/detail_content_widget.
 import 'package:meonghae_front/widgets/post_detail_screen/write_comment_bar_widget.dart';
 
 class PostDetailScreen extends StatefulWidget {
-  const PostDetailScreen({super.key, required this.id});
   final int id;
+  const PostDetailScreen({super.key, required this.id});
   @override
   State<PostDetailScreen> createState() => _PostDetailScreenState();
 }
@@ -35,52 +32,55 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
   }
 
   Map<String, dynamic>? post;
+  List comments = [];
+
+  void handlePop() {
+    // widget.fetchData();
+    Navigator.pop(context);
+  }
 
   Future<void> fetchData() async {
-    try {
-      final dio = Dio();
-      var token = await readAccessToken();
-      dio.options.headers['Authorization'] = token;
-      final response = await dio.get(
-        '${baseUrl}community-service/boards/${widget.id}',
-      );
-      if (response.statusCode == 200) {
-        final data = response.data as Map<String, dynamic>;
-        setState(() => post = data);
-      } else {
-        SnackBarWidget.show(context, SnackBarType.error, "게시글 정보 호출에 실패하였습니다");
-      }
-    } catch (error) {
-      SnackBarWidget.show(context, SnackBarType.error, error.toString());
-    }
+    SendAPI.get(
+      url: "/community-service/boards/${widget.id}",
+      successFunc: (data) => setState(() => post = data.data),
+      errorMsg: "게시글정보 호출에 실패하였습니다",
+    );
+    SendAPI.get(
+      url: "/community-service/boardComments/${widget.id}",
+      successFunc: (data) => setState(() => comments = data.data['content']),
+      errorMsg: "댓글정보 호출에 실패하였습니다",
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    const List<String> dummyImage = ['dummy1', 'dummy2', 'dummy3'];
     return Scaffold(
       backgroundColor: CustomColor.white,
       body: Stack(children: [
-        Column(
-          children: [
-            BannerWidget(
-              setIsPostMoreModal: setIsPostMoreModal,
-            ),
-            Expanded(
-                child: SingleChildScrollView(
-                    child: Column(
-              children: [
-                if (post != null) // Conditional check
-                  DetailContentWidget(post: post, images: dummyImage),
-                DetailCommentWidget(
-                  id: widget.id,
-                  setIsCommentMoreModal: setIsCommentMoreModal,
-                ),
-              ],
-            )))
-          ],
+        SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: SingleChildScrollView(
+              child: Column(
+            children: [
+              const SizedBox(height: 100),
+              DetailContentWidget(
+                  post: post, fetchData: fetchData, id: widget.id),
+              DetailCommentWidget(
+                setIsCommentMoreModal: setIsCommentMoreModal,
+                comments: comments,
+              ),
+            ],
+          )),
         ),
-        const Positioned(bottom: 0, child: WriteCommentBarWidget()),
+        Positioned(
+            top: 0,
+            child: BannerWidget(
+              setIsPostMoreModal: setIsPostMoreModal,
+              handlePop: handlePop,
+            )),
+        Positioned(
+            bottom: 0,
+            child: WriteCommentBarWidget(id: widget.id, fetchData: fetchData)),
         if (isPostMoreModalOpen)
           Positioned(
               bottom: 0,

@@ -1,9 +1,6 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/config/base_url.dart';
-import 'package:meonghae_front/login/token.dart';
+import 'package:meonghae_front/api/dio.dart';
 import 'package:meonghae_front/themes/customColor.dart';
-import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 import 'package:meonghae_front/widgets/review_screen/images_swiper_widget.dart';
 import 'package:meonghae_front/widgets/review_screen/star_rating_widget.dart';
 import 'package:meonghae_front/widgets/svg/like.dart';
@@ -20,27 +17,16 @@ class ReviewListItemWidget extends StatefulWidget {
 
 class _ReviewListItemWidgetState extends State<ReviewListItemWidget> {
   Future<void> onClickLike(bool isLike) async {
-    try {
-      final dio = Dio();
-      var token = await readAccessToken();
-      dio.options.headers['Authorization'] = token;
-      final response = await dio.post(
-          '${baseUrl}community-service/reviews/${widget.review['id']}/recommend',
-          data: {"isLike": isLike});
-      if (response.statusCode == 200) {
-        widget.fetchReviewData();
-      } else {
-        SnackBarWidget.show(context, SnackBarType.error,
-            "${isLike ? "좋아요" : "싫어요"} 등록에 실패하였습니다");
-      }
-    } catch (error) {
-      SnackBarWidget.show(context, SnackBarType.error, error.toString());
-    }
+    SendAPI.post(
+      url: "/community-service/reviews/${widget.review['id']}/recommend",
+      request: {"isLike": isLike},
+      successFunc: (data) => widget.fetchReviewData(),
+      errorMsg: "${isLike ? "좋아요" : "싫어요"} 등록에 실패하였습니다",
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    print(widget.review);
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: MediaQuery.of(context).size.width * 0.06,
@@ -105,7 +91,7 @@ class _ReviewListItemWidgetState extends State<ReviewListItemWidget> {
                                         .substring(0, 10)
                                         .replaceAll('-', '.') ??
                                     '',
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 10, color: CustomColor.gray))
                           ],
                         ),
@@ -156,6 +142,8 @@ class _ReviewListItemWidgetState extends State<ReviewListItemWidget> {
                   children: [
                     InkWell(
                         onTap: () => onClickLike(true),
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
                         child: LikeSVG(
                             color: widget.review['recommendStatus'] == 'TRUE'
                                 ? CustomColor.brown1
@@ -167,6 +155,8 @@ class _ReviewListItemWidgetState extends State<ReviewListItemWidget> {
                     const SizedBox(width: 10),
                     InkWell(
                         onTap: () => onClickLike(false),
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
                         child: Transform.rotate(
                             angle: -3.14,
                             child: LikeSVG(

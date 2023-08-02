@@ -1,28 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:meonghae_front/api/dio.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/post_detail_screen/images_swiper_widget.dart';
 import 'package:meonghae_front/widgets/svg/comment.dart';
 import 'package:meonghae_front/widgets/svg/heart.dart';
+import 'package:meonghae_front/widgets/svg/tiny_heart.dart';
 
 class DetailContentWidget extends StatefulWidget {
-  final List<String> images;
   final Map<String, dynamic>? post;
-  const DetailContentWidget(
-      {super.key, required this.images, required this.post});
+  final Function fetchData;
+  final int id;
+  const DetailContentWidget({
+    super.key,
+    required this.post,
+    required this.fetchData,
+    required this.id,
+  });
 
   @override
   State<DetailContentWidget> createState() => _DetailContentWidgetState();
 }
 
 class _DetailContentWidgetState extends State<DetailContentWidget> {
+  Future<void> onClickHeart() async {
+    SendAPI.post(
+      url: "/community-service/boards/${widget.id}/like",
+      successFunc: (data) => widget.fetchData(),
+      errorMsg: "좋아요 변경에 실패하였습니다",
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(
-          top: 20,
-          left: MediaQuery.of(context).size.width * 0.06,
-          right: MediaQuery.of(context).size.width * 0.06,
-          bottom: 12),
+      padding: EdgeInsets.symmetric(
+        vertical: 20,
+        horizontal: MediaQuery.of(context).size.width * 0.06,
+      ),
       child: Column(
         children: [
           Row(
@@ -54,7 +68,7 @@ class _DetailContentWidgetState extends State<DetailContentWidget> {
                 child: Transform.translate(
                   offset: const Offset(0, 8),
                   child: Text(
-                    widget.post?['title'] ?? 'No Title',
+                    widget.post?['title'] ?? '',
                     style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
@@ -65,30 +79,63 @@ class _DetailContentWidgetState extends State<DetailContentWidget> {
               ),
             ],
           ),
-          const SizedBox(height: 20),
-          ImagesSwiperWidget(
-            images: (widget.post?['images']),
+          widget.post?['images'] != null
+              ? Column(children: [
+                  const SizedBox(height: 20),
+                  ImagesSwiperWidget(
+                    images: (widget.post?['images']),
+                  ),
+                  const SizedBox(height: 30)
+                ])
+              : const SizedBox(height: 18),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.88,
+            child: Text(
+              widget.post?['content'] ?? '',
+              style: const TextStyle(fontSize: 12, height: 1.3),
+            ),
           ),
-          const SizedBox(height: 40),
-          Text(
-            widget.post?['content'] ?? 'No Content',
-            style: const TextStyle(fontSize: 12, height: 1.4),
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              Text(
+                widget.post?['date'].split('T')[0].replaceAll('-', '/') ?? '',
+                style: TextStyle(fontSize: 11, color: CustomColor.lightGray2),
+              ),
+              SizedBox(width: 6),
+              Text(
+                widget.post?['date'].split('T')[1].substring(0, 5) ?? '',
+                style: TextStyle(fontSize: 11, color: CustomColor.lightGray2),
+              ),
+            ],
           ),
-          const SizedBox(height: 6),
+          const SizedBox(height: 4),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              const HeartSVG(isFilled: false),
-              const SizedBox(width: 4),
-              Text("${widget.post?['likes']}",
-                  style:
-                      const TextStyle(fontSize: 13, color: CustomColor.gray)),
+              InkWell(
+                onTap: () => onClickHeart(),
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                child: Row(
+                  children: [
+                    widget.post?['likeStatus'] ?? false
+                        ? const SizedBox(
+                            width: 15, height: 15, child: TinyHeartSVG())
+                        : const HeartSVG(isFilled: false),
+                    const SizedBox(width: 6),
+                    Text("${widget.post?['likes'] ?? ''}",
+                        style: const TextStyle(
+                            fontSize: 14, color: CustomColor.gray)),
+                  ],
+                ),
+              ),
               const SizedBox(width: 12),
               const CommentSVG(),
-              const SizedBox(width: 4),
-              Text("${widget.post?['commentSize']}",
+              const SizedBox(width: 6),
+              Text("${widget.post?['commentSize'] ?? ''}",
                   style:
-                      const TextStyle(fontSize: 13, color: CustomColor.gray)),
+                      const TextStyle(fontSize: 14, color: CustomColor.gray)),
             ],
           )
         ],

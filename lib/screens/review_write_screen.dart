@@ -1,9 +1,7 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/config/base_url.dart';
-import 'package:meonghae_front/login/token.dart';
+import 'package:meonghae_front/api/dio.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 import 'package:meonghae_front/widgets/review_write_screen/review_category_widget.dart';
@@ -36,35 +34,30 @@ class _ReviewWriteScreenState extends State<ReviewWriteScreen> {
         writeData["content"] != "" &&
         writeData["rating"] != 0 &&
         writeData["type"] != null) {
-      try {
-        Dio dio = Dio();
-        var token = await readAccessToken();
-        dio.options.headers['Authorization'] = token;
-        FormData formData = FormData.fromMap({
-          "title": writeData["title"],
-          "content": writeData["content"],
-          "rating": writeData["rating"].toInt(),
-          "type": writeData["type"],
-          if (writeData["images"].length != 0)
-            "images": [
-              for (File image in writeData["images"])
-                await MultipartFile.fromFile(image.path)
-            ]
-        });
-        final response = await dio.post('${baseUrl}community-service/reviews',
-            data: formData);
-        if (response.statusCode == 201) {
+      FormData formData = FormData.fromMap({
+        "title": writeData["title"],
+        "content": writeData["content"],
+        "rating": writeData["rating"].toInt(),
+        "type": writeData["type"],
+        if (writeData["images"].length != 0)
+          "images": [
+            for (File image in writeData["images"])
+              await MultipartFile.fromFile(image.path)
+          ]
+      });
+      SendAPI.post(
+        url: "/community-service/reviews",
+        request: formData,
+        successCode: 201,
+        successFunc: (data) {
           widget.fetchData();
           Navigator.pop(context);
-          SnackBarWidget.show(context, SnackBarType.check, '성공적으로 리뷰를 작성하였습니다');
-        } else {
-          SnackBarWidget.show(context, SnackBarType.error, '리뷰 작성에 실패하였습니다');
-        }
-      } catch (error) {
-        SnackBarWidget.show(context, SnackBarType.error, error.toString());
-      }
+          SnackBarWidget.show(SnackBarType.check, '성공적으로 리뷰를 작성하였습니다');
+        },
+        errorMsg: '리뷰 작성에 실패하였습니다',
+      );
     } else {
-      SnackBarWidget.show(context, SnackBarType.error, "모든 정보를 입력해주세요");
+      SnackBarWidget.show(SnackBarType.error, "모든 정보를 입력해주세요");
     }
   }
 
@@ -89,6 +82,8 @@ class _ReviewWriteScreenState extends State<ReviewWriteScreen> {
                   horizontal: MediaQuery.of(context).size.width * 0.06),
               child: InkWell(
                 onTap: handleSubmit,
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
                 child: Container(
                   height: 45,
                   decoration: BoxDecoration(

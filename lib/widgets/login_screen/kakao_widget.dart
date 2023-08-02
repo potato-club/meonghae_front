@@ -1,12 +1,11 @@
 // ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/models/loginModel.dart';
-import 'package:meonghae_front/screens/main_screen.dart';
-import 'package:meonghae_front/screens/register_dog_screen.dart';
+import 'package:meonghae_front/api/dio.dart';
+import 'package:meonghae_front/models/login_Model.dart';
 import 'package:meonghae_front/screens/select_screen.dart';
 import 'package:meonghae_front/screens/video_player_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/storages//user/user_info.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 
 class KakaoButton extends StatefulWidget {
@@ -21,19 +20,36 @@ class KakaoButton extends StatefulWidget {
 }
 
 class _KakaoButtonState extends State<KakaoButton> {
+  Future<void> _saveUserInfo() async {
+    var userEmail = await readUserEmail();
+    if (userEmail == null) {
+      SendAPI.get(
+        url: '/user-service/mypage',
+        successFunc: (data) => saveUserInfo(data.data),
+        errorMsg: "유저정보 호출에 실패하였습니다",
+      );
+    }
+  }
+
   void handleLogin() async {
     Map<String, dynamic> result = await widget.loginModel.login();
     if (result['success']) {
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) =>
-                result['response']['responseCode'] == "201_CREATED"
-                    ? SelectScreen(email: result['response']['email'])
-                    : const VideoPlayerScreen(),
-          ));
+      if (result['response']['responseCode'] == "201_CREATED") {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    SelectScreen(email: result['response']['email'])));
+      } else {
+        _saveUserInfo();
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const VideoPlayerScreen(),
+            ));
+      }
     } else {
-      SnackBarWidget.show(context, SnackBarType.error, result['error']);
+      SnackBarWidget.show(SnackBarType.error, result['error']);
     }
     setState(() {});
   }
