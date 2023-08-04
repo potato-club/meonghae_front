@@ -37,7 +37,7 @@ class _DetailContentWidgetState extends State<DetailContentWidget> {
           return Column(
             children: [
               Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
                     clipBehavior: Clip.hardEdge,
@@ -45,49 +45,45 @@ class _DetailContentWidgetState extends State<DetailContentWidget> {
                     height: 37,
                     decoration: const BoxDecoration(
                         color: CustomColor.lightGray3, shape: BoxShape.circle),
-                    child: Transform.scale(
-                      scale: 1.8,
-                      child: controller.post.value.profileUrl != null
-                          ? Image.network(
-                              controller.post.value.profileUrl!,
-                              fit: BoxFit.cover,
-                            )
-                          : const Image(
+                    child: controller.post.value.profileUrl != null
+                        ? Image.network(
+                            controller.post.value.profileUrl!,
+                            fit: BoxFit.cover,
+                          )
+                        : Transform.scale(
+                            scale: 1.8,
+                            child: const Image(
                               image: AssetImage(
                                 'assets/images/dog_pictures/face.png',
                               ),
                             ),
-                    ),
+                          ),
                   ),
                   const SizedBox(width: 12),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.88 - 49,
-                    child: Transform.translate(
-                      offset: const Offset(0, 8),
-                      child: Text(
-                        controller.post.value.title,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700,
-                          color: CustomColor.black2,
-                        ),
+                    child: Text(
+                      controller.post.value.title,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: CustomColor.black2,
                       ),
                     ),
                   ),
                 ],
               ),
-              controller.post.value.images != null
-                  ? Column(children: [
-                      const SizedBox(height: 20),
-                      ImagesSwiperWidget(images: controller.post.value.images),
-                      const SizedBox(height: 30)
-                    ])
-                  : const SizedBox(height: 18),
+              if (controller.post.value.images != null)
+                Column(children: [
+                  const SizedBox(height: 20),
+                  ImagesSwiperWidget(images: controller.post.value.images),
+                ]),
+              const SizedBox(height: 18),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.88,
                 child: Text(
                   controller.post.value.content,
-                  style: const TextStyle(fontSize: 12, height: 1.3),
+                  style: const TextStyle(fontSize: 14, height: 1.3),
                 ),
               ),
               const SizedBox(height: 8),

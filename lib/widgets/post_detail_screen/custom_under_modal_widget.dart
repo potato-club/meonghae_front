@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:meonghae_front/models/custom_under_modal_model.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 
 class CustomUnderModalWidget extends StatefulWidget {
+  final List<CustomUnderModalModel> modalList;
   final bool isOpen;
   final Function onClose;
-  final String label1;
-  final String label2;
-  final Function func1;
-  final Function func2;
   const CustomUnderModalWidget(
       {super.key,
+      required this.modalList,
       required this.isOpen,
-      required this.onClose,
-      required this.label1,
-      required this.label2,
-      required this.func1,
-      required this.func2});
+      required this.onClose});
 
   @override
   State<CustomUnderModalWidget> createState() => _CustomUnderModalWidgetState();
@@ -76,7 +71,7 @@ class _CustomUnderModalWidgetState extends State<CustomUnderModalWidget>
                   child: Align(
                       alignment: Alignment.bottomCenter,
                       child: Container(
-                        height: 175,
+                        height: 32 + widget.modalList.length * 65,
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -95,60 +90,57 @@ class _CustomUnderModalWidgetState extends State<CustomUnderModalWidget>
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            const SizedBox(height: 12),
-                            Center(
-                              child: Container(
-                                  width: 40,
-                                  height: 4,
+                            Padding(
+                              padding: const EdgeInsets.only(top: 16),
+                              child: Center(
+                                child: Container(
+                                    width: 40,
+                                    height: 4,
+                                    decoration: BoxDecoration(
+                                      color: CustomColor.lightGray1,
+                                      borderRadius: BorderRadius.circular(2),
+                                    )),
+                              ),
+                            ),
+                            for (int i = 0; i < widget.modalList.length; i++)
+                              GestureDetector(
+                                onTap: () => widget.modalList[i].onClick,
+                                child: Container(
+                                  height: i == widget.modalList.length - 1
+                                      ? 77
+                                      : 65,
                                   decoration: BoxDecoration(
-                                    color: CustomColor.lightGray1,
-                                    borderRadius: BorderRadius.circular(2),
-                                  )),
-                            ),
-                            InkWell(
-                              onTap: () => widget.func1(),
-                              splashColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    top: 30,
-                                    bottom: 23,
-                                    left: MediaQuery.of(context).size.width *
-                                        0.07),
-                                child: Text(
-                                  widget.label1,
-                                  style: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w700,
-                                      color: CustomColor.black2),
+                                      border: i == widget.modalList.length - 1
+                                          ? null
+                                          : const Border(
+                                              bottom: BorderSide(
+                                              width: 1,
+                                              color: CustomColor.lightGray1,
+                                            ))),
+                                  child: Padding(
+                                    padding: EdgeInsets.fromLTRB(
+                                        MediaQuery.of(context).size.width *
+                                            0.07,
+                                        0,
+                                        MediaQuery.of(context).size.width *
+                                            0.07,
+                                        i == widget.modalList.length - 1
+                                            ? 12
+                                            : 0),
+                                    child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        widget.modalList[i].label,
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                          color: CustomColor.black2,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                            Container(
-                              height: 1,
-                              width: MediaQuery.of(context).size.width,
-                              decoration: const BoxDecoration(
-                                  color: CustomColor.lightGray1),
-                            ),
-                            InkWell(
-                              onTap: () => widget.func2(),
-                              splashColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    top: 25,
-                                    bottom: 30,
-                                    left: MediaQuery.of(context).size.width *
-                                        0.07),
-                                child: Text(
-                                  widget.label2,
-                                  style: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w700,
-                                      color: CustomColor.black2),
-                                ),
-                              ),
-                            ),
                           ],
                         ),
                       )),

@@ -51,19 +51,19 @@ class _PostListItemWidgetState extends State<PostListItemWidget> {
                   height: 37,
                   decoration: const BoxDecoration(
                       color: CustomColor.lightGray3, shape: BoxShape.circle),
-                  child: Transform.scale(
-                    scale: 1.8,
-                    child: widget.postData.profileUrl != null
-                        ? Image.network(
-                            widget.postData.profileUrl!,
-                            fit: BoxFit.cover,
-                          )
-                        : const Image(
+                  child: widget.postData.profileUrl != null
+                      ? Image.network(
+                          widget.postData.profileUrl!,
+                          fit: BoxFit.cover,
+                        )
+                      : Transform.scale(
+                          scale: 1.8,
+                          child: const Image(
                             image: AssetImage(
                               'assets/images/dog_pictures/face.png',
                             ),
                           ),
-                  ),
+                        ),
                 ),
                 const SizedBox(width: 16),
                 SizedBox(
@@ -76,7 +76,7 @@ class _PostListItemWidgetState extends State<PostListItemWidget> {
                         widget.postData.title,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                          fontSize: 14,
+                          fontSize: 15,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -87,7 +87,7 @@ class _PostListItemWidgetState extends State<PostListItemWidget> {
                           overflow: TextOverflow.ellipsis,
                           maxLines: controller.type.value == 3 ? 4 : 2,
                           style: const TextStyle(
-                            fontSize: 11,
+                            fontSize: 12,
                             color: CustomColor.black2,
                           ),
                         );

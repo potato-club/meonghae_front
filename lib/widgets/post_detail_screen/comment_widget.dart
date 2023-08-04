@@ -46,23 +46,23 @@ class _CommentWidgetState extends State<CommentWidget> {
               offset: const Offset(0, 6),
               child: Container(
                 clipBehavior: Clip.hardEdge,
-                width: 24,
-                height: 24,
+                width: 28,
+                height: 28,
                 decoration: const BoxDecoration(
                     color: CustomColor.lightGray3, shape: BoxShape.circle),
-                child: Transform.scale(
-                  scale: 1.8,
-                  child: widget.comment.profileUrl != null
-                      ? Image.network(
-                          widget.comment.profileUrl!,
-                          fit: BoxFit.cover,
-                        )
-                      : const Image(
+                child: widget.comment.profileUrl != null
+                    ? Image.network(
+                        widget.comment.profileUrl!,
+                        fit: BoxFit.cover,
+                      )
+                    : Transform.scale(
+                        scale: 1.8,
+                        child: const Image(
                           image: AssetImage(
                             'assets/images/dog_pictures/face.png',
                           ),
                         ),
-                ),
+                      ),
               ),
             ),
             const SizedBox(width: 14),
@@ -70,7 +70,7 @@ class _CommentWidgetState extends State<CommentWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.88 - 38,
+                    width: MediaQuery.of(context).size.width * 0.88 - 42,
                     child: Text(
                       widget.comment.isWriter == true ? '글쓴이' : '익명',
                       style:
@@ -80,7 +80,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.88 - 56,
                   child: Text(widget.comment.comment,
-                      style: const TextStyle(fontSize: 12, height: 1.2)),
+                      style: const TextStyle(fontSize: 13, height: 1.2)),
                 ),
                 const SizedBox(height: 4),
                 Row(
@@ -135,7 +135,7 @@ class _CommentWidgetState extends State<CommentWidget> {
         ),
       ),
       Positioned(
-          top: 10,
+          top: 14,
           right: 0,
           child: InkWell(
               onTap: () => widget.setIsCommentMoreModal(true),
