@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/api/dio.dart';
+import 'package:get/get.dart';
+import 'package:meonghae_front/controllers/post_detail_controller.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/svg/tiny_right_arrow.dart';
 
 class WriteCommentBarWidget extends StatefulWidget {
-  final int id;
-  final Function fetchData;
-  const WriteCommentBarWidget(
-      {super.key, required this.id, required this.fetchData});
+  const WriteCommentBarWidget({super.key});
 
   @override
   State<WriteCommentBarWidget> createState() => _WriteCommentBarWidgetState();
@@ -24,21 +22,6 @@ class _WriteCommentBarWidgetState extends State<WriteCommentBarWidget> {
 
   void handleClearText() {
     textController.clear();
-  }
-
-  Future<void> handlePostComment() async {
-    if (textController.text != '') {
-      SendAPI.post(
-        url: "/community-service/boardComments/${widget.id}",
-        request: {"comment": textController.text},
-        successFunc: (data) {
-          FocusScope.of(context).unfocus();
-          handleClearText();
-          widget.fetchData();
-        },
-        errorMsg: "댓글 작성에 실패하였습니다",
-      );
-    }
   }
 
   @override
@@ -84,7 +67,12 @@ class _WriteCommentBarWidgetState extends State<WriteCommentBarWidget> {
           Positioned(
             right: 0,
             child: InkWell(
-              onTap: () => handlePostComment(),
+              onTap: () {
+                Get.find<PostDetailController>()
+                    .postComment(textController.text);
+                FocusScope.of(context).unfocus();
+                handleClearText();
+              },
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
               child: const SizedBox(

@@ -7,11 +7,9 @@ import 'package:meonghae_front/widgets/svg/more.dart';
 
 class BannerWidget extends StatefulWidget {
   final Function setIsPostMoreModal;
-  final Function handlePop;
   const BannerWidget({
     super.key,
     required this.setIsPostMoreModal,
-    required this.handlePop,
   });
 
   @override
@@ -35,7 +33,7 @@ class _BannerWidgetState extends State<BannerWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               InkWell(
-                  onTap: () => widget.handlePop(),
+                  onTap: () => Navigator.pop(context),
                   splashColor: Colors.transparent,
                   highlightColor: Colors.transparent,
                   child: Padding(

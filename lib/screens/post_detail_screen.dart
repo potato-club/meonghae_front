@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/api/dio.dart';
+import 'package:get/get.dart';
+import 'package:meonghae_front/controllers/post_detail_controller.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/post_detail_screen/custom_under_modal_widget.dart';
 import 'package:meonghae_front/widgets/post_detail_screen/banner_widget.dart';
@@ -8,8 +9,7 @@ import 'package:meonghae_front/widgets/post_detail_screen/detail_content_widget.
 import 'package:meonghae_front/widgets/post_detail_screen/write_comment_bar_widget.dart';
 
 class PostDetailScreen extends StatefulWidget {
-  final int id;
-  const PostDetailScreen({super.key, required this.id});
+  const PostDetailScreen({super.key});
   @override
   State<PostDetailScreen> createState() => _PostDetailScreenState();
 }
@@ -26,33 +26,6 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    fetchData();
-  }
-
-  Map<String, dynamic>? post;
-  List comments = [];
-
-  void handlePop() {
-    // widget.fetchData();
-    Navigator.pop(context);
-  }
-
-  Future<void> fetchData() async {
-    SendAPI.get(
-      url: "/community-service/boards/${widget.id}",
-      successFunc: (data) => setState(() => post = data.data),
-      errorMsg: "게시글정보 호출에 실패하였습니다",
-    );
-    SendAPI.get(
-      url: "/community-service/boardComments/${widget.id}",
-      successFunc: (data) => setState(() => comments = data.data['content']),
-      errorMsg: "댓글정보 호출에 실패하였습니다",
-    );
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColor.white,
@@ -60,27 +33,21 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
         SizedBox(
           height: MediaQuery.of(context).size.height,
           child: SingleChildScrollView(
+              controller:
+                  Get.find<PostDetailController>().scrollController.value,
               child: Column(
-            children: [
-              const SizedBox(height: 100),
-              DetailContentWidget(
-                  post: post, fetchData: fetchData, id: widget.id),
-              DetailCommentWidget(
-                setIsCommentMoreModal: setIsCommentMoreModal,
-                comments: comments,
-              ),
-            ],
-          )),
+                children: [
+                  const SizedBox(height: 100),
+                  const DetailContentWidget(),
+                  DetailCommentWidget(
+                      setIsCommentMoreModal: setIsCommentMoreModal),
+                ],
+              )),
         ),
         Positioned(
             top: 0,
-            child: BannerWidget(
-              setIsPostMoreModal: setIsPostMoreModal,
-              handlePop: handlePop,
-            )),
-        Positioned(
-            bottom: 0,
-            child: WriteCommentBarWidget(id: widget.id, fetchData: fetchData)),
+            child: BannerWidget(setIsPostMoreModal: setIsPostMoreModal)),
+        const Positioned(bottom: 0, child: WriteCommentBarWidget()),
         if (isPostMoreModalOpen)
           Positioned(
               bottom: 0,
