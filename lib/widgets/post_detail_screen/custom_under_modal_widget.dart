@@ -104,7 +104,10 @@ class _CustomUnderModalWidgetState extends State<CustomUnderModalWidget>
                             ),
                             for (int i = 0; i < widget.modalList.length; i++)
                               GestureDetector(
-                                onTap: () => widget.modalList[i].onClick,
+                                onTap: () {
+                                  widget.modalList[i].onClick();
+                                  widget.onClose();
+                                },
                                 child: Container(
                                   height: i == widget.modalList.length - 1
                                       ? 77

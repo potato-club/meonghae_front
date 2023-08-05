@@ -17,24 +17,16 @@ class DetailContentWidget extends StatefulWidget {
 class _DetailContentWidgetState extends State<DetailContentWidget> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        vertical: 20,
-        horizontal: MediaQuery.of(context).size.width * 0.06,
-      ),
-      child: GetX<PostDetailController>(builder: (controller) {
-        if (controller.isLoading.value) {
-          return SizedBox(
-            height: MediaQuery.of(context).size.height - 220,
-            child: const Center(
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(CustomColor.brown1),
-                strokeWidth: 5,
-              ),
-            ),
-          );
-        } else {
-          return Column(
+    return GetX<PostDetailController>(builder: (controller) {
+      if (controller.isLoading.value) {
+        return SizedBox(height: 0);
+      } else {
+        return Padding(
+          padding: EdgeInsets.symmetric(
+            vertical: 20,
+            horizontal: MediaQuery.of(context).size.width * 0.06,
+          ),
+          child: Column(
             children: [
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -134,9 +126,9 @@ class _DetailContentWidgetState extends State<DetailContentWidget> {
                 ],
               )
             ],
-          );
-        }
-      }),
-    );
+          ),
+        );
+      }
+    });
   }
 }

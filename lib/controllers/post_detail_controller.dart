@@ -6,6 +6,10 @@ import 'package:meonghae_front/models/post_detail_model.dart';
 
 class PostDetailController extends GetxController {
   var scrollController = ScrollController().obs;
+  var textController = TextEditingController();
+  var focusNode = FocusNode();
+  var id = 0.obs;
+  var isLoading = true.obs;
   var post = PostDetailModel(
     id: 0,
     title: '',
@@ -17,11 +21,12 @@ class PostDetailController extends GetxController {
     likeStatus: false,
     likes: 0,
   ).obs;
-  var id = 0.obs;
-  var isLoading = true.obs;
+  var comments = <PostCommentModel>[].obs;
   var hasMore = false.obs;
   var page = 1.obs;
-  var comments = <PostCommentModel>[].obs;
+  var commentId = 0.obs;
+  var replyComment = ''.obs;
+  var replyMode = false.obs;
 
   @override
   void onInit() {
@@ -39,8 +44,22 @@ class PostDetailController extends GetxController {
     comments.clear();
     isLoading.value = true;
     id.value = value;
+    commentId.value = 0;
     page.value = 1;
+    replyComment.value = '';
+    replyMode.value = false;
     fetchData();
+  }
+
+  void setCommentId(int value, String? comment) {
+    if (commentId.value != value) {
+      if (comment != null) replyComment.value = comment;
+      commentId.value = value;
+    }
+  }
+
+  void setReplyMode(bool mode) {
+    replyMode.value = mode;
   }
 
   void initPost() {
@@ -78,9 +97,11 @@ class PostDetailController extends GetxController {
   }
 
   void reload() {
+    initPost();
     comments.clear();
     isLoading.value = true;
     page.value = 1;
+    commentId.value = 0;
     fetchData();
   }
 
@@ -117,6 +138,18 @@ class PostDetailController extends GetxController {
         successCode: 201,
         successFunc: (data) => reload(),
         errorMsg: "댓글 작성에 실패하였습니다",
+      );
+    }
+  }
+
+  Future<void> postReply(String comment) async {
+    if (comment != '') {
+      SendAPI.post(
+        url: "/community-service/boardComments/${commentId.value}/reply",
+        request: {"comment": comment},
+        successCode: 201,
+        successFunc: (data) => reload(),
+        errorMsg: "대댓글 작성에 실패하였습니다",
       );
     }
   }

@@ -15,22 +15,28 @@ class DetailCommentWidget extends StatefulWidget {
 class _DetailCommentWidgetState extends State<DetailCommentWidget> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        border: Border(
-          top: BorderSide(
-            color: CustomColor.lightGray2,
-            width: 0.4,
+    return GetX<PostDetailController>(builder: (controller) {
+      if (controller.isLoading.value) {
+        return SizedBox(
+            height: MediaQuery.of(context).size.height - 178,
+            child: Center(
+                child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(CustomColor.brown1),
+              strokeWidth: 5,
+            )));
+      } else {
+        return Container(
+          decoration: const BoxDecoration(
+            border: Border(
+              top: BorderSide(
+                color: CustomColor.lightGray1,
+                width: 1,
+              ),
+            ),
           ),
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 74),
-        child: GetX<PostDetailController>(builder: (controller) {
-          if (controller.isLoading.value) {
-            return Container();
-          } else {
-            return Column(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 78),
+            child: Column(
               children: [
                 for (int i = 0; i < controller.comments.length; i++)
                   Column(
@@ -48,10 +54,10 @@ class _DetailCommentWidgetState extends State<DetailCommentWidget> {
                     ],
                   )
               ],
-            );
-          }
-        }),
-      ),
-    );
+            ),
+          ),
+        );
+      }
+    });
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:meonghae_front/api/dio.dart';
+import 'package:meonghae_front/controllers/post_detail_controller.dart';
 import 'package:meonghae_front/models/post_comment_model.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/post_detail_screen/cocoment_widget.dart';
@@ -17,6 +19,8 @@ class CommentWidget extends StatefulWidget {
 
 class _CommentWidgetState extends State<CommentWidget> {
   bool isOpen = false;
+  int p = 1;
+  bool hasMore = false;
   List<dynamic> cocomment = [];
 
   @override
@@ -28,7 +32,12 @@ class _CommentWidgetState extends State<CommentWidget> {
   Future<void> fetchData() async {
     SendAPI.get(
       url: "/community-service/boardComments/${widget.comment.id}/reply",
-      successFunc: (data) => setState(() => cocomment = data.data['content']),
+      params: {'p': p},
+      successFunc: (data) => setState(() {
+        cocomment.addAll(data.data['content']);
+        hasMore = data.data['content'].length == 20;
+        if (data.data['content'].length == 20) p++;
+      }),
       errorMsg: "대댓글 정보 호출에 실패하였습니다",
     );
   }
@@ -110,12 +119,40 @@ class _CommentWidgetState extends State<CommentWidget> {
                                     setIsCommentMoreModal:
                                         widget.setIsCommentMoreModal);
                               }),
-                              GestureDetector(
-                                onTap: () => setState(() => isOpen = !isOpen),
-                                child: const Text(
-                                  '간략히',
-                                  style: TextStyle(
-                                      fontSize: 10, color: CustomColor.gray),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 42),
+                                child: Row(
+                                  children: [
+                                    if (hasMore)
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 12),
+                                        child: GestureDetector(
+                                          onTap: () => fetchData(),
+                                          child: const Text(
+                                            '더보기',
+                                            style: TextStyle(
+                                              fontSize: 11,
+                                              color: CustomColor.gray,
+                                              decoration:
+                                                  TextDecoration.underline,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    GestureDetector(
+                                      onTap: () =>
+                                          setState(() => isOpen = !isOpen),
+                                      child: const Text(
+                                        '간략히',
+                                        style: TextStyle(
+                                          fontSize: 11,
+                                          color: CustomColor.gray,
+                                          decoration: TextDecoration.underline,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
@@ -125,7 +162,10 @@ class _CommentWidgetState extends State<CommentWidget> {
                             child: Text(
                               '댓글 ${widget.comment.replies}개',
                               style: const TextStyle(
-                                  fontSize: 10, color: CustomColor.gray),
+                                fontSize: 11,
+                                color: CustomColor.gray,
+                                decoration: TextDecoration.underline,
+                              ),
                             ),
                           )
                     : Container()
@@ -138,7 +178,11 @@ class _CommentWidgetState extends State<CommentWidget> {
           top: 14,
           right: 0,
           child: InkWell(
-              onTap: () => widget.setIsCommentMoreModal(true),
+              onTap: () {
+                Get.find<PostDetailController>()
+                    .setCommentId(widget.comment.id, widget.comment.comment);
+                widget.setIsCommentMoreModal(true);
+              },
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
               child: Padding(

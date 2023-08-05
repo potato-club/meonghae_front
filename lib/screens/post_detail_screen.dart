@@ -67,7 +67,14 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                 isOpen: isCommentMoreModalOpen,
                 onClose: () => setIsCommentMoreModal(false),
                 modalList: [
-                  CustomUnderModalModel(label: '대댓글 작성하기', onClick: () {}),
+                  CustomUnderModalModel(
+                      label: '대댓글 작성하기',
+                      onClick: () {
+                        Get.find<PostDetailController>().setReplyMode(true);
+                        Get.find<PostDetailController>()
+                            .focusNode
+                            .requestFocus();
+                      }),
                   CustomUnderModalModel(label: '댓글 수정하기', onClick: () {}),
                   CustomUnderModalModel(label: '댓글 삭제하기', onClick: () {}),
                 ],
