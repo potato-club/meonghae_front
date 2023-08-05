@@ -40,7 +40,7 @@ class CustomWarningModalWidget {
                         title,
                         maxLines: 1,
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: 15,
                           fontWeight: FontWeight.w700,
                           color: CustomColor.black2,
                         ),

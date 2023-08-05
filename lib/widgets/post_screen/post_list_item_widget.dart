@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/controllers/post_controller.dart';
+import 'package:meonghae_front/controllers/post_detail_controller.dart';
 import 'package:meonghae_front/models/post_model.dart';
 import 'package:meonghae_front/screens/post_detail_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
@@ -26,9 +27,11 @@ class _PostListItemWidgetState extends State<PostListItemWidget> {
       padding: EdgeInsets.symmetric(
           vertical: 8, horizontal: MediaQuery.of(context).size.width * 0.06),
       child: GestureDetector(
-        onTap: () => Navigator.of(context).push(MaterialPageRoute(
-            builder: (BuildContext context) =>
-                PostDetailScreen(id: widget.postData.id))),
+        onTap: () {
+          Get.find<PostDetailController>().setId(widget.postData.id);
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (BuildContext context) => const PostDetailScreen()));
+        },
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
@@ -48,19 +51,19 @@ class _PostListItemWidgetState extends State<PostListItemWidget> {
                   height: 37,
                   decoration: const BoxDecoration(
                       color: CustomColor.lightGray3, shape: BoxShape.circle),
-                  child: Transform.scale(
-                    scale: 1.8,
-                    child: widget.postData.profileUrl != null
-                        ? Image.network(
-                            widget.postData.profileUrl!,
-                            fit: BoxFit.cover,
-                          )
-                        : const Image(
+                  child: widget.postData.profileUrl != null
+                      ? Image.network(
+                          widget.postData.profileUrl!,
+                          fit: BoxFit.cover,
+                        )
+                      : Transform.scale(
+                          scale: 1.8,
+                          child: const Image(
                             image: AssetImage(
                               'assets/images/dog_pictures/face.png',
                             ),
                           ),
-                  ),
+                        ),
                 ),
                 const SizedBox(width: 16),
                 SizedBox(
@@ -73,7 +76,7 @@ class _PostListItemWidgetState extends State<PostListItemWidget> {
                         widget.postData.title,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                          fontSize: 14,
+                          fontSize: 15,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -84,7 +87,7 @@ class _PostListItemWidgetState extends State<PostListItemWidget> {
                           overflow: TextOverflow.ellipsis,
                           maxLines: controller.type.value == 3 ? 4 : 2,
                           style: const TextStyle(
-                            fontSize: 11,
+                            fontSize: 12,
                             color: CustomColor.black2,
                           ),
                         );
@@ -133,9 +136,9 @@ class _PostListItemWidgetState extends State<PostListItemWidget> {
                                     fontSize: 11, color: CustomColor.gray),
                               ),
                               if (widget.postData.hasImage)
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8),
-                                  child: const TinyPictureSVG(),
+                                const Padding(
+                                  padding: EdgeInsets.only(left: 8),
+                                  child: TinyPictureSVG(),
                                 )
                             ],
                           ),
