@@ -42,12 +42,12 @@ class _ReviewListItemWidgetState extends State<ReviewListItemWidget> {
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
           child: Stack(children: [
             Column(
               children: [
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
                       clipBehavior: Clip.hardEdge,
@@ -56,19 +56,19 @@ class _ReviewListItemWidgetState extends State<ReviewListItemWidget> {
                       decoration: const BoxDecoration(
                           color: CustomColor.lightGray3,
                           shape: BoxShape.circle),
-                      child: Transform.scale(
-                        scale: 1.8,
-                        child: widget.reviewData.profileUrl != null
-                            ? Image.network(
-                                widget.reviewData.profileUrl!,
-                                fit: BoxFit.cover,
-                              )
-                            : const Image(
+                      child: widget.reviewData.profileUrl != null
+                          ? Image.network(
+                              widget.reviewData.profileUrl!,
+                              fit: BoxFit.cover,
+                            )
+                          : Transform.scale(
+                              scale: 1.8,
+                              child: const Image(
                                 image: AssetImage(
                                   'assets/images/dog_pictures/face.png',
                                 ),
                               ),
-                      ),
+                            ),
                     ),
                     const SizedBox(width: 12),
                     Column(
@@ -108,14 +108,14 @@ class _ReviewListItemWidgetState extends State<ReviewListItemWidget> {
                       child: Text(
                         widget.reviewData.title,
                         style: const TextStyle(
-                            fontSize: 14,
+                            fontSize: 15,
                             fontWeight: FontWeight.w700,
                             color: CustomColor.black2),
                       ),
                     ),
                     if (widget.reviewData.images != null)
                       Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 6),
+                          padding: const EdgeInsets.symmetric(vertical: 12),
                           child: ImagesSwiperWidget(
                               images: widget.reviewData.images)),
                     const SizedBox(height: 8),
@@ -124,11 +124,12 @@ class _ReviewListItemWidgetState extends State<ReviewListItemWidget> {
                       child: Text(
                         widget.reviewData.content,
                         style: const TextStyle(
-                          fontSize: 11,
+                          fontSize: 12,
                           color: CustomColor.black2,
                         ),
                       ),
-                    )
+                    ),
+                    const SizedBox(height: 18)
                   ],
                 )
               ],

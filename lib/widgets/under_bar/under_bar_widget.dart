@@ -24,9 +24,9 @@ class UnderBarWidget extends StatelessWidget {
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-                color: CustomColor.black1.withOpacity(0.12),
-                offset: const Offset(0, -4),
-                blurRadius: 12,
+                color: CustomColor.black1.withOpacity(0.2),
+                offset: const Offset(0, 8),
+                blurRadius: 20,
                 spreadRadius: 0)
           ],
         ),
