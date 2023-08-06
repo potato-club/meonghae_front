@@ -107,11 +107,11 @@ class PostController extends GetxController {
     print('시작');
     if (titleTextController.text != '' && contentTextController.text != '') {
       dio.FormData formData = dio.FormData.fromMap({
-        "title": Get.find<PostController>().titleTextController.text,
-        "content": Get.find<PostController>().contentTextController.text,
-        if (Get.find<PostController>().images.value.isNotEmpty)
+        "title": titleTextController.text,
+        "content": contentTextController.text,
+        if (images.value.isNotEmpty)
           "images": [
-            for (File image in Get.find<PostController>().images.value)
+            for (File image in images.value)
               await dio.MultipartFile.fromFile(image.path)
           ]
       });

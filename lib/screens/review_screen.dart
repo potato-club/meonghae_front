@@ -70,36 +70,93 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     ),
                   );
                 } else {
-                  return ListView.builder(
-                      controller: controller.scrollController.value,
-                      itemCount: controller.reviews.length,
-                      itemBuilder: (context, index) {
-                        return Column(children: [
-                          ReviewListItemWidget(
-                              reviewData: controller.reviews[index]),
-                          if (controller.hasMore.value &&
-                              controller.reviews.length == index + 1)
-                            Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 20),
-                                child: Container())
-                          else if (!controller.hasMore.value &&
-                              controller.reviews.length == index + 1)
-                            Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 20),
-                                child: Container()),
-                        ]);
-                      });
+                  if (controller.reviews.value.isEmpty) {
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Transform.scale(
+                              scale: 2,
+                              child: const PencilSVG(color: CustomColor.gray)),
+                          const Padding(
+                            padding: EdgeInsets.fromLTRB(0, 30, 0, 16),
+                            child: Text(
+                              '아직 게시글이 없어요',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: CustomColor.gray,
+                              ),
+                            ),
+                          ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              elevation: 0,
+                              fixedSize: const Size(200, 49),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              backgroundColor: CustomColor.brown1,
+                            ),
+                            onPressed: () {
+                              controller.setWriteType(controller.type.value);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const ReviewWriteScreen()));
+                            },
+                            child: const Text(
+                              '새 게시글 작성하기',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: CustomColor.white,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 45),
+                        ],
+                      ),
+                    );
+                  } else {
+                    return ListView.builder(
+                        controller: controller.scrollController.value,
+                        itemCount: controller.reviews.length,
+                        itemBuilder: (context, index) {
+                          return Column(children: [
+                            ReviewListItemWidget(
+                              reviewData: controller.reviews[index],
+                              index: index,
+                            ),
+                            if (controller.hasMore.value &&
+                                controller.reviews.length == index + 1)
+                              Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 20),
+                                  child: Container())
+                            else if (!controller.hasMore.value &&
+                                controller.reviews.length == index + 1)
+                              Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 20),
+                                  child: Container()),
+                          ]);
+                        });
+                  }
                 }
               }),
               Positioned(
                   bottom: 16,
                   right: 16,
                   child: InkWell(
-                    onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                            const ReviewWriteScreen())),
+                    onTap: () {
+                      Get.find<ReviewController>().setWriteType(
+                          Get.find<ReviewController>().type.value);
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              const ReviewWriteScreen()));
+                    },
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,
                     child: Container(

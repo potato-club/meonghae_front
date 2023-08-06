@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:meonghae_front/api/dio.dart';
 import 'package:meonghae_front/controllers/review_controller.dart';
 import 'package:meonghae_front/models/review_model.dart';
 import 'package:meonghae_front/themes/customColor.dart';
@@ -10,22 +9,15 @@ import 'package:meonghae_front/widgets/svg/like.dart';
 
 class ReviewListItemWidget extends StatefulWidget {
   final ReviewModel reviewData;
-  const ReviewListItemWidget({super.key, required this.reviewData});
+  final int index;
+  const ReviewListItemWidget(
+      {super.key, required this.reviewData, required this.index});
 
   @override
   State<ReviewListItemWidget> createState() => _ReviewListItemWidgetState();
 }
 
 class _ReviewListItemWidgetState extends State<ReviewListItemWidget> {
-  Future<void> onClickLike(bool isLike) async {
-    SendAPI.post(
-      url: "/community-service/reviews/${widget.reviewData.id}/recommend",
-      request: {"isLike": isLike},
-      successFunc: (data) => Get.find<ReviewController>().fetchData(),
-      errorMsg: "${isLike ? "좋아요" : "싫어요"} 등록에 실패하였습니다",
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -142,7 +134,8 @@ class _ReviewListItemWidgetState extends State<ReviewListItemWidget> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     InkWell(
-                        onTap: () => onClickLike(true),
+                        onTap: () => Get.find<ReviewController>().onClickLike(
+                            widget.index, widget.reviewData.id, true),
                         splashColor: Colors.transparent,
                         highlightColor: Colors.transparent,
                         child: LikeSVG(
@@ -155,7 +148,8 @@ class _ReviewListItemWidgetState extends State<ReviewListItemWidget> {
                             fontSize: 11, color: CustomColor.gray)),
                     const SizedBox(width: 10),
                     InkWell(
-                        onTap: () => onClickLike(false),
+                        onTap: () => Get.find<ReviewController>().onClickLike(
+                            widget.index, widget.reviewData.id, false),
                         splashColor: Colors.transparent,
                         highlightColor: Colors.transparent,
                         child: Transform.rotate(
