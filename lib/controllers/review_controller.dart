@@ -163,6 +163,8 @@ class ReviewController extends GetxController {
   }
 
   void fetchData() async {
+    print(
+        'type: ${type.value}, page: ${page.value}, sort: ${sort.value}, keyword: ${keyword.value}, photo: ${isPhoto.value}');
     await SendAPI.get(
       url: "/community-service/reviews/${type.value}",
       params: {
@@ -207,6 +209,7 @@ class ReviewController extends GetxController {
         successFunc: (data) {
           Get.back();
           reload();
+          clear();
           SnackBarWidget.show(SnackBarType.check, '성공적으로 리뷰를 작성하였습니다');
         },
         errorMsg: '리뷰 작성에 실패하였습니다',
