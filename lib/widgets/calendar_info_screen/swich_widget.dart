@@ -15,7 +15,6 @@ class _SwitchWidgetState extends State<SwitchWidget> {
   @override
   Widget build(BuildContext context) {
     double thumbPosition = widget.isChecked ? 12.0 : -12.0;
-    print(widget.isChecked);
     return InkWell(
       onTap: () {
         setState(() {

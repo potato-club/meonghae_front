@@ -15,13 +15,10 @@ class LoginModel {
     required this.socialLogin,
   });
 
-  Future<String> getMobileId() async {
-    // DeviceInfoPlugin 클래스 생성
+  static Future<String> getMobileId() async {
     final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
-    // id 저장할 변수
     String id = '';
     try {
-      // 플랫폼 확인
       if (Platform.isAndroid) {
         final AndroidDeviceInfo androidData =
             await deviceInfoPlugin.androidInfo;
@@ -33,18 +30,17 @@ class LoginModel {
     } on PlatformException {
       id = '';
     }
-    print('##id: $id');
     return id;
   }
 
   Future<Map<String, dynamic>> login() async {
     isLogined = await socialLogin.login();
-    final String mobileId = await getMobileId();
+    // final String mobileId = await getMobileId();
     if (isLogined) {
       user = await UserApi.instance.me();
       Dio dio = Dio(BaseOptions(
         baseUrl: 'https://api.meonghae.site/',
-        headers: {'androidId': mobileId},
+        // headers: {'androidId': mobileId},
       ));
       final response = await dio.get(
         '/user-service/login',

@@ -22,7 +22,6 @@ class _ScheduleContentWidgetState extends State<ScheduleContentWidget> {
 
   Future<void> getPreview() async {
     SendAPI.get(
-      context: context,
       url: "/profile-service/profile/calendar/preview",
       successFunc: (data) => setState(() => preview = data.data),
       errorMsg: "일정 미리보기 정보 호출에 실패하였습니다",

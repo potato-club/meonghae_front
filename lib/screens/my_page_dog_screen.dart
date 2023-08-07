@@ -29,7 +29,6 @@ class _MyPageDogScreenState extends State<MyPageDogScreen> {
 
   Future<void> _getDogsInfo() async {
     SendAPI.get(
-        context: context,
         url: "/profile-service/profile/all",
         successFunc: (data) => setState(() => dogsInfo = data.data),
         errorMsg: "애완동물정보 호출에 실패하였습니다");
@@ -37,7 +36,6 @@ class _MyPageDogScreenState extends State<MyPageDogScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(dogsInfo);
     return Scaffold(
         backgroundColor: CustomColor.white,
         body: SingleChildScrollView(
@@ -150,7 +148,7 @@ class _MyPageDogScreenState extends State<MyPageDogScreen> {
                           },
                           child: Text(
                             isEdit ? '저장하기' : '수정하기',
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
