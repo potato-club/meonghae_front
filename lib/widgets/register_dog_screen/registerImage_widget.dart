@@ -43,8 +43,8 @@ class _RegisterImageState extends State<RegisterImage> {
       alignment: Alignment.center,
       children: [
         SizedBox(
-          width: 145,
-          height: 145,
+          width: 130,
+          height: 130,
           child: ClipOval(
             child: BackdropFilter(
               filter: ImageFilter.blur(
@@ -67,7 +67,6 @@ class _RegisterImageState extends State<RegisterImage> {
         Positioned(
           bottom: 0,
           right: 0,
-          left: 115,
           child: SizedBox(
             width: 34,
             height: 34,

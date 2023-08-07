@@ -81,7 +81,6 @@ class _ScheduleContentWidgetState extends State<ScheduleContentWidget> {
           child: const MainContentLabelWidget(
               label: "일정", routingScreen: CalendarScreen()),
         ),
-        const SizedBox(height: 4),
         SizedBox(
           height: MediaQuery.of(context).size.height - 624,
           child: Stack(children: [

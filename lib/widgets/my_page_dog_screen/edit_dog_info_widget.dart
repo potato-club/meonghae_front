@@ -19,27 +19,27 @@ class _EditDogInfoWidgetState extends State<EditDogInfoWidget> {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController _nameController =
+    TextEditingController nameController =
         TextEditingController(text: widget.dogInfo['petName']);
-    TextEditingController _birthController =
+    TextEditingController birthController =
         TextEditingController(text: '2023.07.19');
     return Column(
       children: [
         DogPhotoWidget(
             setImageFile: () {},
             initImage: widget.dogInfo['s3ResponseDto']['fileUrl']),
-        const SizedBox(height: 40),
+        SizedBox(height: MediaQuery.of(context).size.height * 0.06),
         Padding(
           padding: EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.width * 0.12),
+              horizontal: MediaQuery.of(context).size.width * 0.13),
           child: Column(
             children: [
               Padding(
                 padding: const EdgeInsets.only(bottom: 16),
                 child: Row(
                   children: [
-                    SizedBox(
-                      width: 78,
+                    const SizedBox(
+                      width: 66,
                       child: Text(
                         '이름',
                         style:
@@ -54,10 +54,10 @@ class _EditDogInfoWidgetState extends State<EditDogInfoWidget> {
                             borderRadius: BorderRadius.circular(5),
                           ),
                           child: TextField(
-                            controller: _nameController,
+                            controller: nameController,
                             onChanged: (value) {},
                             keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               border: InputBorder.none,
                               contentPadding: EdgeInsets.symmetric(
                                   horizontal: 14, vertical: 15),
@@ -74,8 +74,8 @@ class _EditDogInfoWidgetState extends State<EditDogInfoWidget> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
-                      width: 78,
+                    const SizedBox(
+                      width: 66,
                       child: Text(
                         '성별',
                         style:
@@ -83,7 +83,7 @@ class _EditDogInfoWidgetState extends State<EditDogInfoWidget> {
                       ),
                     ),
                     SelectInputWidget(
-                      width: MediaQuery.of(context).size.width * 0.76 - 78,
+                      width: MediaQuery.of(context).size.width * 0.74 - 66,
                       height: 30,
                       itemHeight: 30,
                       list: genderList,
@@ -101,8 +101,8 @@ class _EditDogInfoWidgetState extends State<EditDogInfoWidget> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
-                      width: 78,
+                    const SizedBox(
+                      width: 66,
                       child: Text(
                         '출생일',
                         style:
@@ -120,10 +120,10 @@ class _EditDogInfoWidgetState extends State<EditDogInfoWidget> {
                             inputFormatters: [
                               DateInputFormatter(),
                             ],
-                            controller: _birthController,
+                            controller: birthController,
                             onChanged: (value) {},
                             keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               border: InputBorder.none,
                               contentPadding: EdgeInsets.symmetric(
                                   horizontal: 14, vertical: 15),
@@ -140,8 +140,8 @@ class _EditDogInfoWidgetState extends State<EditDogInfoWidget> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
-                      width: 78,
+                    const SizedBox(
+                      width: 66,
                       child: Text(
                         '견종/묘종',
                         style:
@@ -149,7 +149,7 @@ class _EditDogInfoWidgetState extends State<EditDogInfoWidget> {
                       ),
                     ),
                     SelectInputWidget(
-                      width: MediaQuery.of(context).size.width * 0.76 - 78,
+                      width: MediaQuery.of(context).size.width * 0.74 - 66,
                       height: 30,
                       itemHeight: 30,
                       list: kindList,
@@ -166,8 +166,8 @@ class _EditDogInfoWidgetState extends State<EditDogInfoWidget> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
-                      width: 78,
+                    const SizedBox(
+                      width: 66,
                       child: Text(
                         '만남의 경로',
                         style:
@@ -175,7 +175,7 @@ class _EditDogInfoWidgetState extends State<EditDogInfoWidget> {
                       ),
                     ),
                     SelectInputWidget(
-                      width: MediaQuery.of(context).size.width * 0.76 - 78,
+                      width: MediaQuery.of(context).size.width * 0.74 - 66,
                       height: 30,
                       itemHeight: 30,
                       list: placeList,

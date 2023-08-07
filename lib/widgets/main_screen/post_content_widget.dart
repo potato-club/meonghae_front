@@ -82,7 +82,7 @@ class _PostContentWidgetState extends State<PostContentWidget> {
         const MainContentLabelWidget(
             label: "인기 게시글", routingScreen: PostScreen()),
         Padding(
-          padding: const EdgeInsets.only(top: 12),
+          padding: const EdgeInsets.only(top: 8),
           child: Column(
             children: [
               createPostItem('멍자랑', showData?['title'], false),

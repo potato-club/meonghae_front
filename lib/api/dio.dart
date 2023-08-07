@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:meonghae_front/login/token.dart';
-import 'package:meonghae_front/models/login_Model.dart';
+import 'package:meonghae_front/models/login_,model.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 
 class SendAPI {
@@ -23,14 +23,14 @@ class SendAPI {
           final response = await dio.get('/user-service/reissue');
           saveAccessToken(response.headers['authorization']![0]);
           saveRefreshToken(response.headers['refreshtoken']![0]);
-          var _accessToken = await readAccessToken();
-          var _refreshToken = await readRefreshToken();
+          var accessToken = await readAccessToken();
+          var refreshToken0 = await readRefreshToken();
           try {
-            final _response = await requestMethod(Options(headers: {
-              'Authorization': _accessToken,
-              'refreshToken': _refreshToken,
+            final response0 = await requestMethod(Options(headers: {
+              'Authorization': accessToken,
+              'refreshToken': refreshToken0,
             }));
-            successFunc(_response);
+            successFunc(response0);
           } catch (error) {
             SnackBarWidget.show(SnackBarType.error, error.toString());
           }
@@ -48,13 +48,14 @@ class SendAPI {
     }
   }
 
-  static Future<void> get(
-      {required String url,
-      int successCode = 200,
-      required Function successFunc,
-      required String errorMsg,
-      Map<String, dynamic>? request,
-      Map<String, dynamic>? params}) async {
+  static Future<void> get({
+    required String url,
+    int successCode = 200,
+    required Function successFunc,
+    required String errorMsg,
+    Map<String, dynamic>? request,
+    Map<String, dynamic>? params,
+  }) async {
     var accessToken = await readAccessToken();
     var refreshToken = await readRefreshToken();
     final dio = Dio(BaseOptions(
@@ -93,6 +94,7 @@ class SendAPI {
     required Function successFunc,
     required String errorMsg,
     dynamic request,
+    dynamic params,
   }) async {
     var accessToken = await readAccessToken();
     var refreshToken = await readRefreshToken();
@@ -102,8 +104,12 @@ class SendAPI {
     ));
     try {
       final response = request == null
-          ? await dio.post(url)
-          : await dio.post(url, data: request);
+          ? params == null
+              ? await dio.post(url)
+              : await dio.post(url, queryParameters: params)
+          : params == null
+              ? await dio.post(url, data: request)
+              : await dio.post(url, data: request, queryParameters: params);
       if (response.statusCode == successCode) {
         successFunc(response);
       } else {
@@ -128,6 +134,7 @@ class SendAPI {
     required Function successFunc,
     required String errorMsg,
     dynamic request,
+    dynamic params,
   }) async {
     var accessToken = await readAccessToken();
     var refreshToken = await readRefreshToken();
@@ -137,8 +144,12 @@ class SendAPI {
     ));
     try {
       final response = request == null
-          ? await dio.put(url)
-          : await dio.put(url, data: request);
+          ? params == null
+              ? await dio.put(url)
+              : await dio.put(url, queryParameters: params)
+          : params == null
+              ? await dio.put(url, data: request)
+              : await dio.put(url, data: request, queryParameters: params);
       if (response.statusCode == successCode) {
         successFunc(response);
       } else {

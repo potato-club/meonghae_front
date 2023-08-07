@@ -62,7 +62,7 @@ class _CalendarInfoScreenState extends State<CalendarInfoScreen> {
     //     "text": content
     //   },
     //   successFunc: (data) {
-    //     Navigator.pop(context);
+    //     Get.back();
     //     SnackBarWidget.show(context, SnackBarType.check, "성공적으로 일정을 등록했습니다");
     //   },
     //   errorMsg: "일정 등록에 실패하였습니다",

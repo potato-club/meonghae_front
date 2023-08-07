@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:meonghae_front/config/app_routes.dart';
 import 'package:meonghae_front/controllers/post_controller.dart';
-import 'package:meonghae_front/screens/post_write_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/post_screen/post_list_item_widget.dart';
 import 'package:meonghae_front/widgets/post_screen/post_menu_bar_widget.dart';
@@ -73,11 +73,7 @@ class _PostScreenState extends State<PostScreen> {
                               ),
                               onPressed: () {
                                 controller.setWriteType(controller.type.value);
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const PostWriteScreen()));
+                                Get.toNamed(AppRoutes.postWrite);
                               },
                               child: const Text(
                                 '새 게시글 작성하기',
@@ -123,9 +119,7 @@ class _PostScreenState extends State<PostScreen> {
                       onTap: () {
                         Get.find<PostController>().setWriteType(
                             Get.find<PostController>().type.value);
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                const PostWriteScreen()));
+                        Get.toNamed(AppRoutes.postWrite);
                       },
                       splashColor: Colors.transparent,
                       highlightColor: Colors.transparent,
