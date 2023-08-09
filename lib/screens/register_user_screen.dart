@@ -21,7 +21,6 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
     if (controller.nameTextController.text.isNotEmpty &&
         controller.birthTextController.text.length == 10 &&
         controller.registerAge.value != null) {
-      Get.find<UserController>().registerEmail.value = 'test1@naver.com';
       Get.find<UserController>().savePrevUserInfo();
       Get.toNamed(AppRoutes.registeredUser);
     } else {

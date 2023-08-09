@@ -169,4 +169,15 @@ class UserController extends GetxController {
         },
         errorMsg: "회원탈퇴에 실패하였어요");
   }
+
+  void cancelWidthdrawal(String email) async {
+    await SendAPI.put(
+        url: "/user-service/cancel",
+        request: {
+          'agreement': true,
+          'email': email,
+        },
+        successFunc: (data) {},
+        errorMsg: "회원탈퇴 취소에 실패하였어요");
+  }
 }

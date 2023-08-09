@@ -11,6 +11,7 @@ class SendAPI {
     required Function successFunc,
     required String errorMsg,
   }) async {
+    print('#####$error');
     if (error.response?.data['errorCode'] != null) {
       if (jsonDecode(error.response?.data)['errorCode'] == 4002) {
         var refreshToken = await readRefreshToken();
