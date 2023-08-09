@@ -45,7 +45,7 @@ class _CalendarInfoScreenState extends State<CalendarInfoScreen> {
     SendAPI.get(
       url: '/profile-service/profile',
       successFunc: (data) => setState(() => dogsInfo = data.data),
-      errorMsg: "애완동물정보 호출에 실패하였습니다",
+      errorMsg: "애완동물정보 호출에 실패하였어요",
     );
   }
 
@@ -63,9 +63,9 @@ class _CalendarInfoScreenState extends State<CalendarInfoScreen> {
     //   },
     //   successFunc: (data) {
     //     Get.back();
-    //     SnackBarWidget.show(context, SnackBarType.check, "성공적으로 일정을 등록했습니다");
+    //     SnackBarWidget.show(context, SnackBarType.check, "성공적으로 일정을 등록했어요");
     //   },
-    //   errorMsg: "일정 등록에 실패하였습니다",
+    //   errorMsg: "일정 등록에 실패하였어요",
     // );
     // } else {
     //   SnackBarWidget.show(context, SnackBarType.error, "모든 정보를 입력해주세요");

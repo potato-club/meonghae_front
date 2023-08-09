@@ -107,7 +107,7 @@ class _RegisterDogScreenState extends State<RegisterDogScreen> {
           url: "/profile-service/profile",
           request: formData,
           successFunc: (data) => Get.offNamed(AppRoutes.introVideo),
-          errorMsg: "애완동물정보 등록에 실패하였습니다",
+          errorMsg: "애완동물정보 등록에 실패하였어요",
         );
       }
     } else {

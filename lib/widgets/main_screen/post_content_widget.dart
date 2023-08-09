@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/api/dio.dart';
-import 'package:meonghae_front/screens/post_screen.dart';
+import 'package:meonghae_front/config/app_routes.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/main_screen/main_content_label_widget.dart';
 
@@ -37,7 +37,7 @@ class _PostContentWidgetState extends State<PostContentWidget> {
           }
         }
       },
-      errorMsg: "게시글 미리보기 정보 호출에 실패하였습니다",
+      errorMsg: "게시글 미리보기 정보 호출에 실패하였어요",
     );
   }
 
@@ -80,7 +80,7 @@ class _PostContentWidgetState extends State<PostContentWidget> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const MainContentLabelWidget(
-            label: "인기 게시글", routingScreen: PostScreen()),
+            label: "인기 게시글", routingPath: AppRoutes.post),
         Padding(
           padding: const EdgeInsets.only(top: 8),
           child: Column(

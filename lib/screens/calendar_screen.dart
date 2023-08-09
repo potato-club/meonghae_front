@@ -47,7 +47,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 .toList());
           }
         },
-        errorMsg: "캘린더정보 호출에 실패하였습니다");
+        errorMsg: "캘린더정보 호출에 실패하였어요");
   }
 
   void onFocusedDay(DateTime day) {

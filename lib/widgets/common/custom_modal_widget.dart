@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 
 class CustomModalWidget {
@@ -60,7 +61,7 @@ class CustomModalWidget {
                             color: CustomColor.black2,
                           ),
                         ),
-                        onPressed: () => Navigator.pop(context),
+                        onPressed: () => Get.back(),
                         child: const Center(
                           child: Text(
                             '아니요',

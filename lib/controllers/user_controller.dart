@@ -104,11 +104,11 @@ class UserController extends GetxController {
                   userInfo.value = UserInfoModel.fromJson(data.data);
                   SnackBarWidget.show(SnackBarType.check, '내 정보가 성공적으로 변경되었어요');
                 },
-                errorMsg: "유저정보 호출에 실패하였습니다",
+                errorMsg: "유저정보 호출에 실패하였어요",
               );
               isEdit.value = false;
             },
-            errorMsg: "유저 정보 변경에 실패하였습니다");
+            errorMsg: "유저 정보 변경에 실패하였어요");
       } else {
         SnackBarWidget.show(SnackBarType.error, '모든 정보를 입력해주세요');
       }
@@ -124,7 +124,7 @@ class UserController extends GetxController {
         userInfo.value = UserInfoModel.fromJson(data.data);
         prevUserInfo.value = UserInfoModel.fromJson(data.data);
       },
-      errorMsg: "유저정보 호출에 실패하였습니다",
+      errorMsg: "유저정보 호출에 실패하였어요",
     );
   }
 
@@ -150,13 +150,23 @@ class UserController extends GetxController {
           nickname: prevUserInfo.value.nickname,
           fileUrl: prevUserInfo.value.fileUrl,
         );
-        SnackBarWidget.show(SnackBarType.check, '회원가입에 성공했습니다');
+        SnackBarWidget.show(SnackBarType.check, '회원가입에 성공했어요');
         file.value = null;
         hasAnimal.value
             ? Get.offAllNamed(AppRoutes.registerDog)
             : Get.offAllNamed(AppRoutes.introVideo);
       },
-      errorMsg: '유저정보 등록에 실패하였습니다',
+      errorMsg: '유저정보 등록에 실패하였어요',
     );
+  }
+
+  void withdrawal() async {
+    await SendAPI.put(
+        url: "/user-service/withdrawal",
+        successFunc: (data) {
+          Get.offAllNamed(AppRoutes.login);
+          SnackBarWidget.show(SnackBarType.check, '회원탈퇴에 성공했어요');
+        },
+        errorMsg: "회원탈퇴에 실패하였어요");
   }
 }

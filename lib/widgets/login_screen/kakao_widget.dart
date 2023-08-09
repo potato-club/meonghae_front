@@ -1,6 +1,6 @@
-// ignore_for_file: use_build_context_synchronously
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:meonghae_front/config/app_routes.dart';
 import 'package:meonghae_front/controllers/user_controller.dart';
 import 'package:meonghae_front/models/login_,model.dart';
 import 'package:meonghae_front/screens/select_screen.dart';
@@ -26,15 +26,10 @@ class _KakaoButtonState extends State<KakaoButton> {
       if (result['response']['responseCode'] == "201_CREATED") {
         Get.find<UserController>()
             .setRegisterEmail(result['response']['email']);
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const SelectScreen()));
+        Get.offNamed(AppRoutes.select);
       } else {
         Get.find<UserController>().fetchData();
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const VideoPlayerScreen(),
-            ));
+        Get.offNamed(AppRoutes.introVideo);
       }
     } else {
       SnackBarWidget.show(SnackBarType.error, result['error']);

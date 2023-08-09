@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:meonghae_front/config/app_routes.dart';
 import 'package:meonghae_front/controllers/review_controller.dart';
 import 'package:meonghae_front/screens/review_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
@@ -33,8 +34,7 @@ class MenuButtonsWidget extends StatelessWidget {
           GestureDetector(
             onTap: () {
               Get.find<ReviewController>().setType(id1);
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => const ReviewScreen()));
+              Get.toNamed(AppRoutes.review);
             },
             child: Column(
               children: [
@@ -56,8 +56,7 @@ class MenuButtonsWidget extends StatelessWidget {
           GestureDetector(
             onTap: () {
               Get.find<ReviewController>().setType(id2);
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => const ReviewScreen()));
+              Get.toNamed(AppRoutes.review);
             },
             child: Column(
               children: [
@@ -79,8 +78,7 @@ class MenuButtonsWidget extends StatelessWidget {
           GestureDetector(
             onTap: () {
               Get.find<ReviewController>().setType(id3);
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => const ReviewScreen()));
+              Get.toNamed(AppRoutes.review);
             },
             child: Column(
               children: [

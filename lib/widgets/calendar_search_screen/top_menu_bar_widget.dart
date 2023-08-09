@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:meonghae_front/api/dio.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
@@ -23,7 +24,7 @@ class _TopMenuBarWidgetState extends State<TopMenuBarWidget> {
           url: "/profile-service/profile/calendar/find",
           request: {'key': searchValue},
           successFunc: (data) => widget.setSearchResult(data.data),
-          errorMsg: "일정 검색에 실패하였습니다");
+          errorMsg: "일정 검색에 실패하였어요");
     } else {
       SnackBarWidget.show(SnackBarType.error, '2글자 이상의 단어를 검색해주세요');
     }
@@ -38,7 +39,7 @@ class _TopMenuBarWidgetState extends State<TopMenuBarWidget> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           InkWell(
-            onTap: () => Navigator.pop(context),
+            onTap: () => Get.back(),
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
             child: const SizedBox(

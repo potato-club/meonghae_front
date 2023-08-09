@@ -32,7 +32,7 @@ class _MyPageDogScreenState extends State<MyPageDogScreen> {
     SendAPI.get(
         url: "/profile-service/profile/all",
         successFunc: (data) => setState(() => dogsInfo = data.data),
-        errorMsg: "애완동물정보 호출에 실패하였습니다");
+        errorMsg: "애완동물정보 호출에 실패하였어요");
   }
 
   @override

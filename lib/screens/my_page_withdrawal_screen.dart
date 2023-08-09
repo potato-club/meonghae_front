@@ -101,7 +101,9 @@ class _MyPageWithdrawalScreenState extends State<MyPageWithdrawalScreen> {
                           context,
                           '계정을 삭제하시겠습니까?',
                           '탈퇴 후 개인정보 등의 데이터가 삭제되며\n복구할 수 없습니다',
-                          () {},
+                          () {
+                            controller.withdrawal();
+                          },
                         ),
                         child: const Text(
                           '계정 삭제',

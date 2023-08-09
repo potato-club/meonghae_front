@@ -37,26 +37,31 @@ class LoginModel {
     isLogined = await socialLogin.login();
     // final String mobileId = await getMobileId();
     if (isLogined) {
-      user = await UserApi.instance.me();
-      Dio dio = Dio(BaseOptions(
-        baseUrl: 'https://api.meonghae.site/',
-        // headers: {'androidId': mobileId},
-      ));
-      final response = await dio.get(
-        '/user-service/login',
-        queryParameters: {'email': user!.kakaoAccount!.email},
-      );
-      if (response.statusCode == 200) {
-        if (response.data['responseCode'] == "200_OK") {
-          saveAccessToken(response.headers['authorization']![0]);
-          saveRefreshToken(response.headers['refreshtoken']![0]);
+      try {
+        user = await UserApi.instance.me();
+        Dio dio = Dio(BaseOptions(
+          baseUrl: 'https://api.meonghae.site/',
+          // headers: {'androidId': mobileId},
+        ));
+        final response = await dio.get(
+          '/user-service/login',
+          queryParameters: {'email': user!.kakaoAccount!.email},
+        );
+        if (response.statusCode == 200) {
+          if (response.data['responseCode'] == "200_OK") {
+            saveAccessToken(response.headers['authorization']![0]);
+            saveRefreshToken(response.headers['refreshtoken']![0]);
+          }
+          return {'success': true, 'response': response.data};
+        } else {
+          return {'success': false, 'error': '허가된 유저가 아니에요'};
         }
-        return {'success': true, 'response': response.data};
-      } else {
-        return {'success': false, 'error': '유저정보 확인에 실패하였습니다'};
+      } on DioException catch (error) {
+        print('##############${error.response}');
+        return {'success': false, 'error': '유저정보 확인에 실패하였어요'};
       }
     } else {
-      return {'success': false, 'error': '로그인에 실패하였습니다'};
+      return {'success': false, 'error': '로그인에 실패하였어요'};
     }
   }
 
