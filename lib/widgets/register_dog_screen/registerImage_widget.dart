@@ -1,42 +1,19 @@
-import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:get/get.dart';
+import 'package:meonghae_front/controllers/dog_controller.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/svg/big_plus.dart';
 import 'package:meonghae_front/widgets/svg/pencil.dart';
 
 class RegisterImage extends StatefulWidget {
-  final num index;
-  final File? imageFile;
-  final Function setData;
-  const RegisterImage(
-      {super.key, this.imageFile, required this.setData, required this.index});
+  const RegisterImage({super.key});
 
   @override
   _RegisterImageState createState() => _RegisterImageState();
 }
 
 class _RegisterImageState extends State<RegisterImage> {
-  File? imageFile;
-
-  void _pickImage() async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      if (pickedFile != null) {
-        imageFile = File(pickedFile.path);
-        widget.setData(widget.index, 'imageFile', imageFile);
-      }
-    });
-  }
-
-  @override
-  void initState() {
-    imageFile = widget.imageFile;
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -51,16 +28,21 @@ class _RegisterImageState extends State<RegisterImage> {
                 sigmaX: 5.0,
                 sigmaY: 5.0,
               ),
-              child: Container(
-                  color: CustomColor.white.withOpacity(0.5),
-                  child: imageFile != null
-                      ? CircleAvatar(
-                          backgroundImage: FileImage(imageFile!),
-                          radius: 75,
-                        )
-                      : const Center(
-                          child: SizedBox(
-                              width: 31, height: 31, child: BigPlusSVG()))),
+              child: GetX<DogController>(builder: (controller) {
+                return Container(
+                    color: CustomColor.white.withOpacity(0.5),
+                    child: controller
+                                .dogsInfo[controller.slideIndex.value].image !=
+                            null
+                        ? CircleAvatar(
+                            backgroundImage: FileImage(controller
+                                .dogsInfo[controller.slideIndex.value].image!),
+                            radius: 75,
+                          )
+                        : const Center(
+                            child: SizedBox(
+                                width: 31, height: 31, child: BigPlusSVG())));
+              }),
             ),
           ),
         ),
@@ -73,7 +55,7 @@ class _RegisterImageState extends State<RegisterImage> {
             child: FloatingActionButton(
                 elevation: 0,
                 backgroundColor: CustomColor.white.withOpacity(0.8),
-                onPressed: _pickImage,
+                onPressed: () => Get.find<DogController>().pickImage(),
                 child: const PencilSVG(color: CustomColor.gray)),
           ),
         ),

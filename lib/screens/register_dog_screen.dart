@@ -1,12 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:dio/dio.dart' as dio;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:meonghae_front/api/dio.dart';
-import 'package:meonghae_front/config/app_routes.dart';
-import 'package:meonghae_front/models/info_model.dart';
+import 'package:meonghae_front/controllers/dog_controller.dart';
 import 'package:meonghae_front/themes/customColor.dart';
-import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 import 'package:meonghae_front/widgets/register_dog_screen/register_init_form.dart';
 import 'package:meonghae_front/widgets/svg/arrow.dart';
 import 'package:meonghae_front/widgets/svg/tiny_right_arrow.dart';
@@ -20,115 +16,11 @@ class RegisterDogScreen extends StatefulWidget {
 
 class _RegisterDogScreenState extends State<RegisterDogScreen> {
   final CarouselController _carouselController = CarouselController();
-  List<InfoModel> formsData = [];
-  List<Widget> registerSliders = [];
-  int currentSlideIndex = 0;
-
-  void addFormsData() {
-    InfoModel newItem = InfoModel(
-      petGender: '',
-      petSpecies: '',
-      meetRoute: '',
-      petName: '',
-      petBirth: '',
-      file: null,
-    );
-    formsData.add(newItem);
-  }
-
-  void setData(int index, String key, dynamic value) {
-    switch (key) {
-      case 'gender':
-        formsData[index].petGender = value;
-        break;
-      case 'kind':
-        formsData[index].petSpecies = value;
-        break;
-      case 'place':
-        formsData[index].meetRoute = value;
-        break;
-      case 'name':
-        formsData[index].petName = value;
-        break;
-      case 'birth':
-        formsData[index].petBirth = value;
-        break;
-      case 'imageFile':
-        formsData[index].file = value;
-        break;
-      default:
-        break;
-    }
-  }
 
   @override
   void initState() {
     super.initState();
-    addFormsData();
-    registerSliders = [
-      RegisterInitForm(
-        formData: formsData[registerSliders.length],
-        index: registerSliders.length,
-        setData: setData,
-      ),
-    ];
-  }
-
-  void addSliderItem() {
-    _carouselController.animateToPage(registerSliders.length);
-    setState(() {
-      addFormsData();
-      registerSliders.add(RegisterInitForm(
-        formData: formsData[registerSliders.length],
-        index: registerSliders.length,
-        setData: setData,
-      ));
-    });
-  }
-
-  Future<void> _submitForm() async {
-    List<Map<String, dynamic>> result =
-        formsData.map((i) => validator(i)).toList();
-    List<dynamic> validatorList = result.map((i) => i['validator']).toList();
-    bool isValidator = !validatorList.contains(false);
-    if (isValidator) {
-      for (int i = 0; i < formsData.length; i++) {
-        dio.FormData formData = dio.FormData.fromMap({
-          "meetRoute": formsData[i].toJson()['meetRoute'],
-          "petBirth": formsData[i].toJson()['petBirth'],
-          "petGender":
-              formsData[i].toJson()['petGender'] == '남' ? 'BOY' : 'GIRL',
-          "petName": formsData[i].toJson()['petName'],
-          "petSpecies": formsData[i].toJson()['petSpecies'],
-          if (formsData[i].file != null)
-            "image": await dio.MultipartFile.fromFile(formsData[i].file!.path)
-        });
-        SendAPI.post(
-          url: "/profile-service/profile",
-          request: formData,
-          successFunc: (data) => Get.offNamed(AppRoutes.introVideo),
-          errorMsg: "애완동물정보 등록에 실패하였어요",
-        );
-      }
-    } else {
-      int index = validatorList.indexOf(false);
-      SnackBarWidget.show(SnackBarType.error, result[index]['error']);
-    }
-  }
-
-  Map<String, dynamic> validator(InfoModel data) {
-    if (data.petBirth != '' &&
-        data.petGender != '' &&
-        data.petSpecies != '' &&
-        data.petName != '') {
-      if (data.petBirth.length != 10) {
-        return {'validator': false, 'error': '출생일은 숫자 8자만 입력해주세요'};
-      } else {
-        return {'validator': true};
-      }
-    } else {
-      return {'validator': false, 'error': '모든 정보를 입력해주세요'};
-    }
+    Get.find<DogController>().addDogInfo();
   }
 
   @override
@@ -213,9 +105,19 @@ class _RegisterDogScreenState extends State<RegisterDogScreen> {
                                   viewportFraction: 1.0,
                                   enableInfiniteScroll: false,
                                   onPageChanged: (index, reason) =>
-                                      setState(() => currentSlideIndex = index),
+                                      Get.find<DogController>()
+                                          .slideIndex
+                                          .value = index,
                                 ),
-                                items: registerSliders,
+                                items: [
+                                  for (int i = 0;
+                                      i <
+                                          Get.find<DogController>()
+                                              .dogsInfo
+                                              .length;
+                                      i++)
+                                    const RegisterInitForm(),
+                                ],
                               ),
                             ),
                           ],
@@ -232,16 +134,20 @@ class _RegisterDogScreenState extends State<RegisterDogScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      for (var i = 0; i < registerSliders.length; i++)
+                      for (var i = 0;
+                          i < Get.find<DogController>().dogsInfo.length;
+                          i++)
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 3),
                           child: Container(
                             width: 6,
                             height: 6,
                             decoration: BoxDecoration(
-                              color: currentSlideIndex == i
-                                  ? CustomColor.black2
-                                  : CustomColor.gray,
+                              color:
+                                  Get.find<DogController>().slideIndex.value ==
+                                          i
+                                      ? CustomColor.black2
+                                      : CustomColor.gray,
                               borderRadius: BorderRadius.circular(4),
                             ),
                           ),
@@ -264,7 +170,7 @@ class _RegisterDogScreenState extends State<RegisterDogScreen> {
                         ),
                         backgroundColor: CustomColor.black2,
                       ),
-                      onPressed: _submitForm,
+                      onPressed: () => Get.find<DogController>().submitForm(),
                       child: const Text(
                         '시작하기!',
                         style: TextStyle(
@@ -279,7 +185,11 @@ class _RegisterDogScreenState extends State<RegisterDogScreen> {
                   top: MediaQuery.of(context).size.height * 0.39 + 6,
                   right: MediaQuery.of(context).size.width * 0.13 - 8,
                   child: InkWell(
-                    onTap: () => addSliderItem(),
+                    onTap: () {
+                      Get.find<DogController>().addDogInfo();
+                      _carouselController.animateToPage(
+                          Get.find<DogController>().dogsInfo.length);
+                    },
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,
                     child: const Padding(

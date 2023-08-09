@@ -1,67 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:meonghae_front/models/info_model.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/common/select_input_widget.dart';
 import 'package:meonghae_front/widgets/format/date_input_formatter.dart';
 
 class RegisterForm extends StatefulWidget {
-  final InfoModel formData;
-  final num index;
-  final Function setData;
-  const RegisterForm(
-      {super.key,
-      required this.setData,
-      required this.index,
-      required this.formData});
+  const RegisterForm({super.key});
 
   @override
   State<RegisterForm> createState() => _RegisterFormState();
 }
 
 class _RegisterFormState extends State<RegisterForm> {
-  final formKey = GlobalKey<FormState>();
-
   List<String> genderList = ['남', '여'];
   List<String> kindList = ['치와와', '불독'];
   List<String> placeList = ['길거리', '집', '병원'];
-
-  String? selectedGender;
-  String? selectedKind;
-  String? selectedPlace;
-  String? name;
-  String? birth;
-
-  void setGender(String value) {
-    widget.setData(widget.index, 'gender', value);
-    setState(() => selectedGender = value);
-  }
-
-  void setKind(String value) {
-    widget.setData(widget.index, 'kind', value);
-    setState(() => selectedKind = value);
-  }
-
-  void setPlace(String value) {
-    widget.setData(widget.index, 'place', value);
-    setState(() => selectedPlace = value);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    birth = widget.formData.petBirth;
-    name = widget.formData.petName;
-    selectedGender = widget.formData.petGender != ''
-        ? widget.formData.petGender
-        : selectedGender;
-    selectedKind = widget.formData.petSpecies != ''
-        ? widget.formData.petSpecies
-        : selectedKind;
-    selectedPlace = widget.formData.meetRoute != ''
-        ? widget.formData.meetRoute
-        : selectedPlace;
-  }
 
   @override
   Widget build(BuildContext context) {
