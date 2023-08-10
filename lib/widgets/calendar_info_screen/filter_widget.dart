@@ -25,18 +25,7 @@ class _FilterWidgetState extends State<FilterWidget> {
   int detailIndex = -1;
   String category = categoryKey[1];
 
-  List<String> repeatTimes = [
-    '2회 반복',
-    '3회 반복',
-    '4회 반복',
-    '5회 반복',
-    '10회 반복',
-    '15회 반복',
-    '20회 반복',
-    '25회 반복',
-    '30회 반복',
-    '계속 반복'
-  ];
+  List<String> repeatTimes = ['2회 반복', '3회 반복', '4회 반복', '5회 반복', '계속 반복'];
 
   @override
   Widget build(BuildContext context) {
