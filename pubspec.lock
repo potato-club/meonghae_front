@@ -21,10 +21,10 @@ packages:
     dependency: transitive
     description:
       name: async
-      sha256: "947bfcf187f74dbc5e146c9eb9c0f10c9f8b30743e341481c1e2ed3ecc18c20c"
+      sha256: bfe67ef28df125b7dddcea62755991f807aa39a2492a23e1550161692950bbe0
       url: "https://pub.dev"
     source: hosted
-    version: "2.11.0"
+    version: "2.10.0"
   auto_size_text:
     dependency: transitive
     description:
@@ -113,6 +113,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
+  device_info:
+    dependency: "direct main"
+    description:
+      name: device_info
+      sha256: f4a8156cb7b7480d969cb734907d18b333c8f0bc0b1ad0b342cdcecf30d62c48
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.3"
+  device_info_platform_interface:
+    dependency: transitive
+    description:
+      name: device_info_platform_interface
+      sha256: b148e0bf9640145d09a4f8dea96614076f889e7f7f8b5ecab1c7e5c2dbc73c1b
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   dio:
     dependency: "direct main"
     description:

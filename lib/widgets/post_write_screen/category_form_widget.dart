@@ -1,37 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:meonghae_front/controllers/post_controller.dart';
 import 'package:meonghae_front/themes/customColor.dart';
-import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 
 class CategoryFormWidget extends StatefulWidget {
-  final Map<String, dynamic> writeData;
-  final Function setWriteData;
-  const CategoryFormWidget({
-    super.key,
-    required this.writeData,
-    required this.setWriteData,
-  });
+  const CategoryFormWidget({super.key});
 
   @override
   State<CategoryFormWidget> createState() => _CategoryFormWidgetState();
 }
 
 class _CategoryFormWidgetState extends State<CategoryFormWidget> {
-  void handleEditImages() {
-    if (widget.writeData['type'] != 3) {
-      if (widget.writeData['images'].length > 3) {
-        widget.setWriteData('images', widget.writeData['images'].sublist(0, 3));
-        SnackBarWidget.show(
-            context, SnackBarType.error, '실종신고외의 게시글에서는 최대 3장의 사진만 등록 가능합니다');
-      }
-    }
-  }
-
   Widget categoryButton(bool selected, String label, Function onTap) {
     return InkWell(
-      onTap: () {
-        onTap();
-        handleEditImages();
-      },
+      onTap: () => onTap(),
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
       child: AnimatedContainer(
@@ -58,28 +40,40 @@ class _CategoryFormWidgetState extends State<CategoryFormWidget> {
           top: 20, left: MediaQuery.of(context).size.width * 0.06, bottom: 6),
       child: SizedBox(
         height: 30,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            categoryButton(
-              widget.writeData['type'] == 1,
-              '멍자랑',
-              () => widget.setWriteData('type', 1),
-            ),
-            const SizedBox(width: 16),
-            categoryButton(
-              widget.writeData['type'] == 2,
-              '웃긴멍',
-              () => widget.setWriteData('type', 2),
-            ),
-            const SizedBox(width: 16),
-            categoryButton(
-              widget.writeData['type'] == 3,
-              '실종신고',
-              () => widget.setWriteData('type', 3),
-            ),
-          ],
-        ),
+        child: GetX<PostController>(builder: (controllter) {
+          return Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              categoryButton(
+                controllter.writeType.value == 1,
+                '멍자랑',
+                () {
+                  if (controllter.writeType.value == 3)
+                    controllter.contentTextController.clear();
+                  controllter.setWriteType(1);
+                  controllter.editImages();
+                },
+              ),
+              const SizedBox(width: 16),
+              categoryButton(
+                controllter.writeType.value == 2,
+                '웃긴멍',
+                () {
+                  if (controllter.writeType.value == 3)
+                    controllter.contentTextController.clear();
+                  controllter.setWriteType(2);
+                  controllter.editImages();
+                },
+              ),
+              const SizedBox(width: 16),
+              categoryButton(
+                controllter.writeType.value == 3,
+                '실종신고',
+                () => controllter.setWriteType(3),
+              ),
+            ],
+          );
+        }),
       ),
     );
   }

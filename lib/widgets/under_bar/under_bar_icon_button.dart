@@ -39,7 +39,7 @@ class UnderBarIconButtonWidget extends StatelessWidget {
           Text(label,
               style: TextStyle(
                   fontSize: 10,
-                  color: currentScreen != label
+                  color: !currentScreen.contains(label)
                       ? CustomColor.lightGray2
                       : CustomColor.brown1))
         ],

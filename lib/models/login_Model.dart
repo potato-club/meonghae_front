@@ -1,4 +1,7 @@
+import 'dart:io';
+import 'package:device_info/device_info.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/services.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:meonghae_front/login/social_login.dart';
 import 'package:meonghae_front/login/token.dart';
@@ -12,11 +15,33 @@ class LoginModel {
     required this.socialLogin,
   });
 
+  static Future<String> getMobileId() async {
+    final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+    String id = '';
+    try {
+      if (Platform.isAndroid) {
+        final AndroidDeviceInfo androidData =
+            await deviceInfoPlugin.androidInfo;
+        id = androidData.androidId;
+      } else if (Platform.isIOS) {
+        final IosDeviceInfo iosData = await deviceInfoPlugin.iosInfo;
+        id = iosData.identifierForVendor;
+      }
+    } on PlatformException {
+      id = '';
+    }
+    return id;
+  }
+
   Future<Map<String, dynamic>> login() async {
     isLogined = await socialLogin.login();
+    // final String mobileId = await getMobileId();
     if (isLogined) {
       user = await UserApi.instance.me();
-      Dio dio = Dio(BaseOptions(baseUrl: 'https://api.meonghae.site/'));
+      Dio dio = Dio(BaseOptions(
+        baseUrl: 'https://api.meonghae.site/',
+        // headers: {'androidId': mobileId},
+      ));
       final response = await dio.get(
         '/user-service/login',
         queryParameters: {'email': user!.kakaoAccount!.email},

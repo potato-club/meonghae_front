@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/login/kakao_login.dart';
-import 'package:meonghae_front/models/loginModel.dart';
+import 'package:meonghae_front/models/login_Model.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/login_screen/dog_picture_swiper.dart';
 import 'package:meonghae_front/widgets/login_screen/kakao_widget.dart';

@@ -9,7 +9,7 @@ class MainContentWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height - 340,
+      height: MediaQuery.of(context).size.height - 320,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -19,9 +19,9 @@ class MainContentWidget extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-              color: CustomColor.black1.withOpacity(0.12),
-              offset: const Offset(0, -4),
-              blurRadius: 12,
+              color: CustomColor.black1.withOpacity(0.2),
+              offset: const Offset(0, 8),
+              blurRadius: 20,
               spreadRadius: 0)
         ],
       ),

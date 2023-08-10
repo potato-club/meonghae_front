@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:meonghae_front/controllers/post_controller.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/widgets/common/custom_warning_modal_widget.dart';
 import 'package:meonghae_front/widgets/svg/arrow.dart';
 import 'package:meonghae_front/widgets/svg/saveCheck.dart';
 
 class BannerWidget extends StatelessWidget {
-  final Function handleSubmit;
-  const BannerWidget({super.key, required this.handleSubmit});
+  const BannerWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,14 @@ class BannerWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               InkWell(
-                  onTap: () => Navigator.pop(context),
+                  onTap: () => CustomWarningModalWidget.show(
+                          context,
+                          '페이지를 나가시겠어요?',
+                          '지금까지 작성했던 내용들은\n지워지게 되므로 유의해주세요', () {
+                        Get.back();
+                        Get.back();
+                        Get.find<PostController>().clear();
+                      }),
                   splashColor: Colors.transparent,
                   highlightColor: Colors.transparent,
                   child: Padding(
@@ -42,7 +51,7 @@ class BannerWidget extends StatelessWidget {
                       fontWeight: FontWeight.w700,
                       color: CustomColor.black2)),
               InkWell(
-                  onTap: () => handleSubmit(),
+                  onTap: () => Get.find<PostController>().writePost(),
                   splashColor: Colors.transparent,
                   highlightColor: Colors.transparent,
                   child: Padding(

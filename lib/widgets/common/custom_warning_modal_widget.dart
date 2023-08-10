@@ -40,7 +40,7 @@ class CustomWarningModalWidget {
                         title,
                         maxLines: 1,
                         style: const TextStyle(
-                          fontSize: 14,
+                          fontSize: 15,
                           fontWeight: FontWeight.w700,
                           color: CustomColor.black2,
                         ),
@@ -53,6 +53,7 @@ class CustomWarningModalWidget {
                         style: const TextStyle(
                           fontSize: 14,
                           color: CustomColor.gray,
+                          height: 1.3,
                         ),
                         textAlign: TextAlign.center,
                       ),

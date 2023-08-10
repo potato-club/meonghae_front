@@ -24,9 +24,9 @@ class UnderBarWidget extends StatelessWidget {
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-                color: CustomColor.black1.withOpacity(0.12),
-                offset: const Offset(0, -4),
-                blurRadius: 12,
+                color: CustomColor.black1.withOpacity(0.2),
+                offset: const Offset(0, 8),
+                blurRadius: 20,
                 spreadRadius: 0)
           ],
         ),
@@ -42,27 +42,30 @@ class UnderBarWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   UnderBarIconButtonWidget(
-                      iconSVG: CalendarSVG(isCurrent: '캘린더' == currentScreen),
+                      iconSVG:
+                          CalendarSVG(isCurrent: currentScreen.contains('캘린더')),
                       routePath: const CalendarScreen(),
                       currentScreen: currentScreen,
                       label: '캘린더'),
                   UnderBarIconButtonWidget(
-                      iconSVG: PostSVG(isCurrent: '게시물' == currentScreen),
+                      iconSVG:
+                          PostSVG(isCurrent: currentScreen.contains('게시물')),
                       routePath: const PostScreen(),
                       currentScreen: currentScreen,
                       label: '게시물'),
                   UnderBarIconButtonWidget(
-                      iconSVG: HomeSVG(isCurrent: '홈' == currentScreen),
+                      iconSVG: HomeSVG(isCurrent: currentScreen.contains('홈')),
                       routePath: const MainScreen(),
                       currentScreen: currentScreen,
                       label: '홈'),
                   UnderBarIconButtonWidget(
-                      iconSVG: ReviewSVG(isCurrent: '리뷰' == currentScreen),
+                      iconSVG:
+                          ReviewSVG(isCurrent: currentScreen.contains('리뷰')),
                       routePath: const ReviewMenuScreen(),
                       currentScreen: currentScreen,
                       label: '리뷰'),
                   UnderBarIconButtonWidget(
-                      iconSVG: AskSVG(isCurrent: '문의' == currentScreen),
+                      iconSVG: AskSVG(isCurrent: currentScreen.contains('문의')),
                       routePath: const InquiryScreen(),
                       currentScreen: currentScreen,
                       label: '문의')

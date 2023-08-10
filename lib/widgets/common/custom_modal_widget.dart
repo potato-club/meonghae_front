@@ -37,7 +37,10 @@ class CustomModalWidget {
                     label,
                     maxLines: 2,
                     style: const TextStyle(
-                        fontSize: 14, color: CustomColor.black2),
+                      fontSize: 14,
+                      color: CustomColor.black2,
+                      height: 1.3,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                   Row(

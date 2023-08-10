@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:meonghae_front/controllers/review_controller.dart';
 import 'package:meonghae_front/screens/review_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 
@@ -6,17 +8,17 @@ class MenuButtonsWidget extends StatelessWidget {
   final Widget widget1;
   final Widget widget2;
   final Widget widget3;
-  final String label1;
-  final String label2;
-  final String label3;
+  final int id1;
+  final int id2;
+  final int id3;
   const MenuButtonsWidget({
     super.key,
     required this.widget1,
     required this.widget2,
     required this.widget3,
-    required this.label1,
-    required this.label2,
-    required this.label3,
+    required this.id1,
+    required this.id2,
+    required this.id3,
   });
 
   @override
@@ -29,15 +31,17 @@ class MenuButtonsWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           GestureDetector(
-            onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    ReviewScreen(menuValue: label1))),
+            onTap: () {
+              Get.find<ReviewController>().setType(id1);
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => const ReviewScreen()));
+            },
             child: Column(
               children: [
                 widget1,
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Text(
-                  label1,
+                  Get.find<ReviewController>().typeToString(id1),
                   style:
                       const TextStyle(color: CustomColor.black4, fontSize: 10),
                 ),
@@ -50,15 +54,17 @@ class MenuButtonsWidget extends StatelessWidget {
             decoration: const BoxDecoration(color: CustomColor.lightGray1),
           ),
           GestureDetector(
-            onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    ReviewScreen(menuValue: label2))),
+            onTap: () {
+              Get.find<ReviewController>().setType(id2);
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => const ReviewScreen()));
+            },
             child: Column(
               children: [
                 widget2,
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Text(
-                  label2,
+                  Get.find<ReviewController>().typeToString(id2),
                   style:
                       const TextStyle(color: CustomColor.black4, fontSize: 10),
                 ),
@@ -71,15 +77,17 @@ class MenuButtonsWidget extends StatelessWidget {
             decoration: const BoxDecoration(color: CustomColor.lightGray1),
           ),
           GestureDetector(
-            onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    ReviewScreen(menuValue: label3))),
+            onTap: () {
+              Get.find<ReviewController>().setType(id3);
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => const ReviewScreen()));
+            },
             child: Column(
               children: [
                 widget3,
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Text(
-                  label3,
+                  Get.find<ReviewController>().typeToString(id3),
                   style:
                       const TextStyle(color: CustomColor.black4, fontSize: 10),
                 ),
