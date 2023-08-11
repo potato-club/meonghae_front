@@ -98,15 +98,9 @@ class UserController extends GetxController {
             url: "/user-service/mypage",
             request: formData,
             successFunc: (data) {
-              SendAPI.get(
-                url: '/user-service/mypage',
-                successFunc: (subData) {
-                  userInfo.value = UserInfoModel.fromJson(data.data);
-                  SnackBarWidget.show(SnackBarType.check, '내 정보가 성공적으로 변경되었어요');
-                },
-                errorMsg: "유저정보 호출에 실패하였어요",
-              );
+              SnackBarWidget.show(SnackBarType.check, '내 정보가 성공적으로 변경되었어요');
               isEdit.value = false;
+              fetchData();
             },
             errorMsg: "유저 정보 변경에 실패하였어요");
       } else {
@@ -143,13 +137,6 @@ class UserController extends GetxController {
       successFunc: (data) {
         saveAccessToken(data.headers['authorization']![0]);
         saveRefreshToken(data.headers['refreshtoken']![0]);
-        userInfo.value = UserInfoModel(
-          age: prevUserInfo.value.age,
-          birth: prevUserInfo.value.birth,
-          email: prevUserInfo.value.email,
-          nickname: prevUserInfo.value.nickname,
-          fileUrl: prevUserInfo.value.fileUrl,
-        );
         SnackBarWidget.show(SnackBarType.check, '회원가입에 성공했어요');
         file.value = null;
         hasAnimal.value

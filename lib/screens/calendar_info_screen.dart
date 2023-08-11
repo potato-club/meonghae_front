@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:meonghae_front/api/dio.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/calendar_info_screen/additional_info_widget.dart';
 import 'package:meonghae_front/widgets/calendar_info_screen/dog_select_widget.dart';
@@ -15,7 +14,6 @@ class CalendarInfoScreen extends StatefulWidget {
 }
 
 class _CalendarInfoScreenState extends State<CalendarInfoScreen> {
-  List<dynamic>? dogsInfo;
   Map<String, dynamic> calendarData = {
     'petId': null,
     'title': null,
@@ -33,20 +31,6 @@ class _CalendarInfoScreenState extends State<CalendarInfoScreen> {
 
   void setCalendarData(String key, dynamic data) {
     setState(() => calendarData[key] = data);
-  }
-
-  @override
-  void initState() {
-    _getDogsInfo();
-    super.initState();
-  }
-
-  Future<void> _getDogsInfo() async {
-    SendAPI.get(
-      url: '/profile-service/profile',
-      successFunc: (data) => setState(() => dogsInfo = data.data),
-      errorMsg: "애완동물정보 호출에 실패하였어요",
-    );
   }
 
   Future<void> handleSave() async {
@@ -89,7 +73,6 @@ class _CalendarInfoScreenState extends State<CalendarInfoScreen> {
                   children: [
                     const SizedBox(height: 26),
                     DogSelectWidget(
-                      dogsInfo: dogsInfo,
                       calendarData: calendarData,
                       setCalendarData: setCalendarData,
                     ),

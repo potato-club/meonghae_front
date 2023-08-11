@@ -11,41 +11,35 @@ class SendAPI {
     required Function successFunc,
     required String errorMsg,
   }) async {
-    print('#####$error');
-    if (error.response?.data['errorCode'] != null) {
-      if (jsonDecode(error.response?.data)['errorCode'] == 4002) {
-        var refreshToken = await readRefreshToken();
-        var mobileId = await LoginModel.getMobileId();
-        final dio = Dio(BaseOptions(
-          baseUrl: 'https://api.meonghae.site/',
-          headers: {'refreshToken': refreshToken, 'androidId': mobileId},
-        ));
+    if (jsonDecode(error.response?.data)['errorCode'] == 4002) {
+      var refreshToken = await readRefreshToken();
+      var mobileId = await LoginModel.getMobileId();
+      final dio = Dio(BaseOptions(
+        baseUrl: 'https://api.meonghae.site/',
+        headers: {'refreshToken': refreshToken, 'androidId': mobileId},
+      ));
+      try {
+        final response = await dio.get('/user-service/reissue');
+        saveAccessToken(response.headers['authorization']![0]);
+        saveRefreshToken(response.headers['refreshtoken']![0]);
+        var accessToken = await readAccessToken();
+        var refreshToken0 = await readRefreshToken();
         try {
-          final response = await dio.get('/user-service/reissue');
-          saveAccessToken(response.headers['authorization']![0]);
-          saveRefreshToken(response.headers['refreshtoken']![0]);
-          var accessToken = await readAccessToken();
-          var refreshToken0 = await readRefreshToken();
-          try {
-            final response0 = await requestMethod(Options(headers: {
-              'Authorization': accessToken,
-              'refreshToken': refreshToken0,
-            }));
-            successFunc(response0);
-          } catch (error) {
-            SnackBarWidget.show(SnackBarType.error, error.toString());
-          }
-        } on DioException catch (error) {
+          final response0 = await requestMethod(Options(headers: {
+            'Authorization': accessToken,
+            'refreshToken': refreshToken0,
+          }));
+          successFunc(response0);
+        } catch (error) {
           SnackBarWidget.show(SnackBarType.error, error.toString());
-        } finally {
-          dio.close();
         }
-      } else {
-        SnackBarWidget.show(SnackBarType.error, errorMsg);
+      } on DioException catch (error) {
+        SnackBarWidget.show(SnackBarType.error, error.toString());
+      } finally {
+        dio.close();
       }
     } else {
-      print(error);
-      SnackBarWidget.show(SnackBarType.error, error.toString());
+      SnackBarWidget.show(SnackBarType.error, errorMsg);
     }
   }
 

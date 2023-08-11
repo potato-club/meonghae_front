@@ -7,7 +7,8 @@ import 'package:meonghae_front/widgets/svg/big_plus.dart';
 import 'package:meonghae_front/widgets/svg/pencil.dart';
 
 class RegisterImage extends StatefulWidget {
-  const RegisterImage({super.key});
+  final int index;
+  const RegisterImage({super.key, required this.index});
 
   @override
   _RegisterImageState createState() => _RegisterImageState();
@@ -31,12 +32,10 @@ class _RegisterImageState extends State<RegisterImage> {
               child: GetX<DogController>(builder: (controller) {
                 return Container(
                     color: CustomColor.white.withOpacity(0.5),
-                    child: controller
-                                .dogsInfo[controller.slideIndex.value].image !=
-                            null
+                    child: controller.dogsForm[widget.index].image != null
                         ? CircleAvatar(
-                            backgroundImage: FileImage(controller
-                                .dogsInfo[controller.slideIndex.value].image!),
+                            backgroundImage: FileImage(
+                                controller.dogsForm[widget.index].image!),
                             radius: 75,
                           )
                         : const Center(
@@ -55,7 +54,8 @@ class _RegisterImageState extends State<RegisterImage> {
             child: FloatingActionButton(
                 elevation: 0,
                 backgroundColor: CustomColor.white.withOpacity(0.8),
-                onPressed: () => Get.find<DogController>().pickImage(),
+                onPressed: () =>
+                    Get.find<DogController>().pickImage(widget.index),
                 child: const PencilSVG(color: CustomColor.gray)),
           ),
         ),

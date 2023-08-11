@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/config/app_routes.dart';
+import 'package:meonghae_front/controllers/dog_controller.dart';
+import 'package:meonghae_front/controllers/user_controller.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
@@ -15,6 +17,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
 
   @override
   void initState() {
+    Get.find<UserController>().fetchData();
+    Get.find<DogController>().fetchData();
     _controller = VideoPlayerController.asset('assets/videos/intro.mp4')
       ..initialize().then((_) {
         setState(() {});

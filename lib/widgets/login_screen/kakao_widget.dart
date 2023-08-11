@@ -28,7 +28,6 @@ class _KakaoButtonState extends State<KakaoButton> {
             .setRegisterEmail(result['response']['email']);
         Get.offNamed(AppRoutes.select);
       } else {
-        Get.find<UserController>().fetchData();
         Get.offNamed(AppRoutes.introVideo);
       }
     } else {
