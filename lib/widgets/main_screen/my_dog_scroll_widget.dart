@@ -26,7 +26,14 @@ class _MyDogScrollWidgetState extends State<MyDogScrollWidget> {
             child: dogInfo.s3ResponseDto != null
                 ? Image.network(dogInfo.s3ResponseDto!['fileUrl'],
                     fit: BoxFit.cover)
-                : null,
+                : Transform.scale(
+                    scale: 1.8,
+                    child: const Image(
+                      image: AssetImage(
+                        'assets/images/dog_pictures/face.png',
+                      ),
+                    ),
+                  ),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 4),

@@ -23,6 +23,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
         controller.registerAge.value != null) {
       Get.find<UserController>().savePrevUserInfo();
       Get.toNamed(AppRoutes.registeredUser);
+      Get.find<UserController>().registerAge.value = null;
     } else {
       SnackBarWidget.show(SnackBarType.error, '모두 입력해주세요');
     }

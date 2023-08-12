@@ -11,7 +11,7 @@ class SendAPI {
     required Function successFunc,
     required String errorMsg,
   }) async {
-    if (jsonDecode(error.response?.data)['errorCode'] == 4002) {
+    if (error.response?.data['errorCode'] == 4002) {
       var refreshToken = await readRefreshToken();
       var mobileId = await LoginModel.getMobileId();
       final dio = Dio(BaseOptions(

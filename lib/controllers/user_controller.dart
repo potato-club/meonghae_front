@@ -70,7 +70,7 @@ class UserController extends GetxController {
 
   void savePrevUserInfo() async {
     prevUserInfo.value = UserInfoModel(
-      age: int.parse(registerAge.value!),
+      age: int.parse(registerAge.value ?? ageTextController.text),
       birth: birthTextController.text,
       email: registerEmail.value,
       nickname: nameTextController.text,
@@ -99,7 +99,7 @@ class UserController extends GetxController {
             request: formData,
             successFunc: (data) {
               SnackBarWidget.show(SnackBarType.check, '내 정보가 성공적으로 변경되었어요');
-              isEdit.value = false;
+              setIsEdit(false);
               fetchData();
             },
             errorMsg: "유저 정보 변경에 실패하였어요");
