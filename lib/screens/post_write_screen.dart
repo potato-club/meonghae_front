@@ -19,8 +19,7 @@ class _PostWriteScreenState extends State<PostWriteScreen> {
     return WillPopScope(
       onWillPop: () async {
         CustomWarningModalWidget.show(
-            context, '페이지를 나가시겠어요?', '지금까지 작성했던 내용들은\n지워지게 되므로 유의해주세요', () {
-          Get.back();
+            '페이지를 나가시겠어요?', '지금까지 작성했던 내용들은\n지워지게 되므로 유의해주세요', () {
           Get.back();
           Get.find<PostController>().clear();
         });

@@ -19,7 +19,7 @@ class _DetailContentWidgetState extends State<DetailContentWidget> {
   Widget build(BuildContext context) {
     return GetX<PostDetailController>(builder: (controller) {
       if (controller.isLoading.value) {
-        return SizedBox(height: 0);
+        return const SizedBox(height: 0);
       } else {
         return Padding(
           padding: EdgeInsets.symmetric(

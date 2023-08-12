@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:meonghae_front/controllers/post_detail_controller.dart';
 import 'package:meonghae_front/models/custom_under_modal_model.dart';
 import 'package:meonghae_front/themes/customColor.dart';
-import 'package:meonghae_front/widgets/post_detail_screen/custom_under_modal_widget.dart';
+import 'package:meonghae_front/widgets/common/custom_under_modal_widget.dart';
 import 'package:meonghae_front/widgets/post_detail_screen/banner_widget.dart';
 import 'package:meonghae_front/widgets/post_detail_screen/detail_comment_widget.dart';
 import 'package:meonghae_front/widgets/post_detail_screen/detail_content_widget.dart';
@@ -71,9 +71,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                       label: '대댓글 작성하기',
                       onClick: () {
                         Get.find<PostDetailController>().setReplyMode(true);
-                        Get.find<PostDetailController>()
-                            .focusNode
-                            .requestFocus();
+                        FocusScope.of(context).unfocus();
                       }),
                   CustomUnderModalModel(label: '댓글 수정하기', onClick: () {}),
                   CustomUnderModalModel(label: '댓글 삭제하기', onClick: () {}),

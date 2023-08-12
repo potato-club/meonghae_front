@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/svg/arrow.dart';
 import 'package:meonghae_front/widgets/svg/saveCheck.dart';
@@ -17,7 +18,7 @@ class TopMenuBarWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             InkWell(
-              onTap: () => Navigator.pop(context),
+              onTap: () => Get.back(),
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
               child: Padding(

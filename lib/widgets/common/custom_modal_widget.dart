@@ -1,22 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 
 class CustomModalWidget {
-  static void show(
-    BuildContext context,
-    String label,
-    Function onClick,
-  ) {
-    showDialog(
-      context: context,
-      barrierColor: CustomColor.black1.withOpacity(0.2),
-      builder: (BuildContext context) {
-        return Dialog(
-          elevation: 0,
-          backgroundColor: CustomColor.black1.withOpacity(0),
-          insetPadding: EdgeInsets.symmetric(
-            horizontal: MediaQuery.of(context).size.width * 0.06,
-          ),
+  static void show(String label, Function onClick) {
+    Get.dialog(
+      Dialog(
+        elevation: 0, // Customize elevation
+        backgroundColor: Colors.transparent,
+      barrierColor: CustomColor.black1.withOpacity(0.25),
+        child: Center(
           child: Container(
             width: 288,
             height: 166,
@@ -24,6 +17,7 @@ class CustomModalWidget {
                 color: CustomColor.white,
                 borderRadius: BorderRadius.circular(10)),
             child: Padding(
+              padding: const EdgeInsets.only(
               padding: const EdgeInsets.only(
                 top: 42,
                 bottom: 18,
@@ -36,6 +30,7 @@ class CustomModalWidget {
                   Text(
                     label,
                     maxLines: 2,
+                    style: const TextStyle(
                     style: const TextStyle(
                       fontSize: 14,
                       color: CustomColor.black2,
@@ -56,12 +51,13 @@ class CustomModalWidget {
                           backgroundColor:
                               CustomColor.lightGray3.withOpacity(0.9),
                           textStyle: const TextStyle(
+                          textStyle: const TextStyle(
                             fontSize: 14,
                             color: CustomColor.black2,
                           ),
                         ),
-                        onPressed: () => Navigator.pop(context),
-                        child: const Center(
+                        onPressed: () => Get.back(),
+                        child: const const Center(
                           child: Text(
                             '아니요',
                             style: TextStyle(
@@ -80,12 +76,17 @@ class CustomModalWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           backgroundColor: CustomColor.brown1,
-                          textStyle: const TextStyle(
+                          textStyle: const const TextStyle(
                             fontSize: 14,
                             color: CustomColor.black2,
                           ),
                         ),
                         onPressed: () => onClick(),
+                        child: const Center(
+                        onPressed: () {
+                          onClick();
+                          Get.back();
+                        },
                         child: const Center(
                           child: Text(
                             '네',
@@ -103,8 +104,8 @@ class CustomModalWidget {
               ),
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }

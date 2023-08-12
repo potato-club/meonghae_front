@@ -38,7 +38,7 @@ class _CommentWidgetState extends State<CommentWidget> {
         hasMore = data.data['content'].length == 20;
         if (data.data['content'].length == 20) p++;
       }),
-      errorMsg: "대댓글 정보 호출에 실패하였습니다",
+      errorMsg: "대댓글 정보 호출에 실패하였어요",
     );
   }
 

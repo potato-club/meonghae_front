@@ -7,7 +7,6 @@ import 'package:meonghae_front/models/post_detail_model.dart';
 class PostDetailController extends GetxController {
   var scrollController = ScrollController().obs;
   var textController = TextEditingController();
-  var focusNode = FocusNode();
   var id = 0.obs;
   var isLoading = true.obs;
   var post = PostDetailModel(
@@ -92,7 +91,7 @@ class PostDetailController extends GetxController {
     await SendAPI.post(
       url: "/community-service/boards/${id.value}/like",
       successFunc: (data) {},
-      errorMsg: "좋아요 변경에 실패하였습니다",
+      errorMsg: "좋아요 변경에 실패하였어요",
     );
   }
 
@@ -111,7 +110,7 @@ class PostDetailController extends GetxController {
       successFunc: (data) {
         post.value = PostDetailModel.fromJson(data.data);
       },
-      errorMsg: "게시글정보 호출에 실패하였습니다",
+      errorMsg: "게시글정보 호출에 실패하였어요",
     );
     await SendAPI.get(
       url: "/community-service/boardComments/${id.value}",
@@ -124,7 +123,7 @@ class PostDetailController extends GetxController {
             contentList.map((json) => PostCommentModel.fromJson(json)).toList();
         comments.addAll(postList);
       },
-      errorMsg: "댓글정보 호출에 실패하였습니다",
+      errorMsg: "댓글정보 호출에 실패하였어요",
     );
     isLoading.value = false;
     if (hasMore.value) page++;
@@ -137,7 +136,7 @@ class PostDetailController extends GetxController {
         request: {"comment": comment},
         successCode: 201,
         successFunc: (data) => reload(),
-        errorMsg: "댓글 작성에 실패하였습니다",
+        errorMsg: "댓글 작성에 실패하였어요",
       );
     }
   }
@@ -149,7 +148,7 @@ class PostDetailController extends GetxController {
         request: {"comment": comment},
         successCode: 201,
         successFunc: (data) => reload(),
-        errorMsg: "대댓글 작성에 실패하였습니다",
+        errorMsg: "대댓글 작성에 실패하였어요",
       );
     }
   }

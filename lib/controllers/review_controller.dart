@@ -90,7 +90,6 @@ class ReviewController extends GetxController {
     List<File> editImages = images.value;
     editImages.removeAt(index);
     images.value = editImages;
-    Get.back();
   }
 
   Future<void> onClickLike(int index, int id, bool isLike) async {
@@ -143,7 +142,7 @@ class ReviewController extends GetxController {
       url: "/community-service/reviews/$id/recommend",
       request: {"isLike": isLike},
       successFunc: (data) {},
-      errorMsg: "${isLike ? "좋아요" : "싫어요"} 등록에 실패하였습니다",
+      errorMsg: "${isLike ? "좋아요" : "싫어요"} 등록에 실패하였어요",
     );
   }
 
@@ -163,8 +162,6 @@ class ReviewController extends GetxController {
   }
 
   void fetchData() async {
-    print(
-        'type: ${type.value}, page: ${page.value}, sort: ${sort.value}, keyword: ${keyword.value}, photo: ${isPhoto.value}');
     await SendAPI.get(
       url: "/community-service/reviews/${type.value}",
       params: {
@@ -181,7 +178,7 @@ class ReviewController extends GetxController {
             contentList.map((json) => ReviewModel.fromJson(json)).toList();
         reviews.addAll(postList);
       },
-      errorMsg: "리뷰정보 호출에 실패하였습니다",
+      errorMsg: "리뷰정보 호출에 실패하였어요",
     );
     isLoading.value = false;
     if (hasMore.value) page++;
@@ -210,7 +207,7 @@ class ReviewController extends GetxController {
           Get.back();
           reload();
           clear();
-          SnackBarWidget.show(SnackBarType.check, '성공적으로 리뷰를 작성하였습니다');
+          SnackBarWidget.show(SnackBarType.check, '성공적으로 리뷰를 작성하였어요');
         },
         errorMsg: '리뷰 작성에 실패하였습니다',
       );

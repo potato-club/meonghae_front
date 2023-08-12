@@ -19,7 +19,7 @@ class _DetailCommentWidgetState extends State<DetailCommentWidget> {
       if (controller.isLoading.value) {
         return SizedBox(
             height: MediaQuery.of(context).size.height - 178,
-            child: Center(
+            child: const Center(
                 child: CircularProgressIndicator(
               valueColor: AlwaysStoppedAnimation<Color>(CustomColor.brown1),
               strokeWidth: 5,

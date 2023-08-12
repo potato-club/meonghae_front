@@ -23,11 +23,10 @@ class _ImagesWidgetState extends State<ImagesWidget> {
             Row(
               children: [
                 InkWell(
-                  onTap: () => CustomModalWidget.show(
-                    context,
-                    "사진을 삭제하시겠어요?",
-                    () => controller.deleteImage(i),
-                  ),
+                  onTap: () => CustomModalWidget.show("사진을 삭제하시겠어요?", () {
+                    controller.deleteImage(i);
+                    FocusScope.of(context).unfocus();
+                  }),
                   splashColor: Colors.transparent,
                   highlightColor: Colors.transparent,
                   child: Container(

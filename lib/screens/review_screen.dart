@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:meonghae_front/config/app_routes.dart';
 import 'package:meonghae_front/controllers/review_controller.dart';
-import 'package:meonghae_front/screens/review_write_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/review_screen/filter_bar_widget.dart';
 import 'package:meonghae_front/widgets/review_screen/review_list_item_widget.dart';
@@ -32,7 +32,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
               child: Row(
                 children: [
                   GestureDetector(
-                      onTap: () => Navigator.pop(context),
+                      onTap: () => Get.back(),
                       child: const ArrowSVG(strokeColor: CustomColor.black2)),
                   const SizedBox(width: 20),
                   GetX<ReviewController>(builder: (controller) {
@@ -100,11 +100,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                             ),
                             onPressed: () {
                               controller.setWriteType(controller.type.value);
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const ReviewWriteScreen()));
+                              Get.toNamed(AppRoutes.reviewWrite);
                             },
                             child: const Text(
                               '새 게시글 작성하기',
@@ -153,9 +149,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     onTap: () {
                       Get.find<ReviewController>().setWriteType(
                           Get.find<ReviewController>().type.value);
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              const ReviewWriteScreen()));
+                      Get.toNamed(AppRoutes.reviewWrite);
                     },
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,

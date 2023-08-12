@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:meonghae_front/api/dio.dart';
-import 'package:meonghae_front/screens/calendar_info_screen.dart';
-import 'package:meonghae_front/screens/calendar_search_screen.dart';
+import 'package:meonghae_front/config/app_routes.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/calendar_screen/calendar_widget.dart';
 import 'package:meonghae_front/widgets/calendar_screen/info_content_widget.dart';
@@ -47,7 +47,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 .toList());
           }
         },
-        errorMsg: "캘린더정보 호출에 실패하였습니다");
+        errorMsg: "캘린더정보 호출에 실패하였어요");
   }
 
   void onFocusedDay(DateTime day) {
@@ -100,18 +100,14 @@ class _CalendarScreenState extends State<CalendarScreen> {
             top: 58,
             right: MediaQuery.of(context).size.width * 0.03 + 56,
             child: GestureDetector(
-                onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (BuildContext context) =>
-                        const CalendarSearchScreen())),
+                onTap: () => Get.toNamed(AppRoutes.calendarSearch),
                 child: const SearchSVG(strokeColor: CustomColor.black2)),
           ),
           Positioned(
             top: 58,
             right: MediaQuery.of(context).size.width * 0.03 + 16,
             child: GestureDetector(
-                onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (BuildContext context) =>
-                        const CalendarInfoScreen())),
+                onTap: () => Get.toNamed(AppRoutes.calendarInfo),
                 child: const PlusSVG(color: CustomColor.black2)),
           ),
           Positioned(
