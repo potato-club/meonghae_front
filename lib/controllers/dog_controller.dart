@@ -13,6 +13,7 @@ class DogController extends GetxController {
   Rx<bool> isError = false.obs;
   Rx<bool> isEdit = false.obs;
   Rx<bool> isChange = false.obs;
+  var deleteIdList = [].obs;
   var dogsForm = <DogFormModel>[
     DogFormModel(
       id: null,
@@ -84,11 +85,7 @@ class DogController extends GetxController {
               List<Map<String, dynamic>>.from(data.data);
           final List<DogInfoModel> dogsInfoList =
               contentList.map((json) => DogInfoModel.fromJson(json)).toList();
-          final List<DogFormModel> dogsFormList =
-              contentList.map((json) => DogFormModel.fromJson(json)).toList();
           dogsInfo.value = dogsInfoList;
-          dogsForm.value = dogsFormList;
-          slideIndex.value = 0;
         },
         errorMsg: "애완동물정보 호출에 실패하였어요");
   }
@@ -112,7 +109,10 @@ class DogController extends GetxController {
         await SendAPI.post(
           url: "/profile-service/profile",
           request: formData,
-          successFunc: (data) => Get.offNamed(AppRoutes.introVideo),
+          successFunc: (data) {
+            slideIndex.value = 0;
+            Get.offNamed(AppRoutes.introVideo);
+          },
           errorMsg: "애완동물정보 등록에 실패하였어요",
         );
       }
@@ -144,9 +144,16 @@ class DogController extends GetxController {
         dogsForm.map((i) => validator(i)).toList();
     List<dynamic> validatorList = result.map((i) => i['validator']).toList();
     bool isValidator = !validatorList.contains(false);
-    try {
-      if (isValidator) {
+    if (isValidator) {
+      if (deleteIdList.isNotEmpty) {
+        for (var deleteId in deleteIdList) {
+          deleteForm(deleteId);
+        }
+        deleteIdList.value = [];
+      }
+      if (dogsForm.isNotEmpty) {
         for (int i = 0; i < dogsForm.length; i++) {
+          print(dogsInfo.length);
           if (i + 1 <= dogsInfo.length) {
             if (!DogInfoModel.isSame(dogsInfo[i], dogsForm[i])) {
               dio.FormData formData = dio.FormData.fromMap({
@@ -159,6 +166,7 @@ class DogController extends GetxController {
                   "image":
                       await dio.MultipartFile.fromFile(dogsForm[i].image!.path)
               });
+              print('put');
               await SendAPI.put(
                 url: "/profile-service/profile/${dogsForm[i].id}",
                 request: formData,
@@ -177,6 +185,7 @@ class DogController extends GetxController {
                 "image":
                     await dio.MultipartFile.fromFile(dogsForm[i].image!.path)
             });
+            print('post');
             await SendAPI.post(
               url: "/profile-service/profile",
               request: formData,
@@ -185,18 +194,48 @@ class DogController extends GetxController {
             );
           }
         }
-        if (isChange.value) {
-          SnackBarWidget.show(SnackBarType.check, '애완동물 정보가 성공적으로 변경되었어요');
-          fetchData();
-          isChange.value = false;
-        }
-        setIsEdit(false);
-      } else {
-        int index = validatorList.indexOf(false);
-        isError.value = true;
-        slideIndex.value = index;
-        SnackBarWidget.show(SnackBarType.error, result[index]['error']);
       }
-    } catch (error) {}
+      if (isChange.value) {
+        SnackBarWidget.show(SnackBarType.check, '애완동물정보가 성공적으로 변경되었어요');
+        fetchData();
+        isChange.value = false;
+      }
+      setIsEdit(false);
+    } else {
+      int index = validatorList.indexOf(false);
+      isError.value = true;
+      slideIndex.value = index;
+      SnackBarWidget.show(SnackBarType.error, result[index]['error']);
+    }
+  }
+
+  void addDeleteIdList() async {
+    if (dogsForm[slideIndex.value].id == null) {
+      if (dogsForm[slideIndex.value].petName != '' &&
+          dogsForm[slideIndex.value].petGender != '' &&
+          dogsForm[slideIndex.value].petBirth != '' &&
+          dogsForm[slideIndex.value].petSpecies != '' &&
+          dogsForm[slideIndex.value].meetRoute != '') {
+        // modal띄우기
+        dogsForm.removeAt(slideIndex.value);
+        slideIndex.value == 0 ? slideIndex.value = 0 : slideIndex.value--;
+      } else {
+        dogsForm.removeAt(slideIndex.value);
+        slideIndex.value == 0 ? slideIndex.value = 0 : slideIndex.value--;
+      }
+    } else {
+      deleteIdList.add(dogsForm[slideIndex.value].id);
+      dogsForm.removeAt(slideIndex.value);
+      slideIndex.value == 0 ? slideIndex.value = 0 : slideIndex.value--;
+    }
+  }
+
+  void deleteForm(int id) async {
+    SendAPI.delete(
+        url: "/profile-service/profile/$id",
+        successFunc: (data) {
+          fetchData();
+        },
+        errorMsg: '애완동물정보 삭제에 실패하였어요');
   }
 }
