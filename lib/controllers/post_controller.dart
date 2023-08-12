@@ -51,7 +51,7 @@ class PostController extends GetxController {
       if (images.value.length > 3) {
         images.value = images.value.sublist(0, 3);
         SnackBarWidget.show(
-            SnackBarType.error, '실종신고 외의 게시글에서는 최대 3장의 사진만 등록 가능합니다');
+            SnackBarType.error, '실종신고 외의 게시글에서는 최대 3장의 사진만 등록 가능해요');
       }
     }
   }
@@ -97,7 +97,7 @@ class PostController extends GetxController {
             contentList.map((json) => PostModel.fromJson(json)).toList();
         posts.addAll(postList);
       },
-      errorMsg: "게시글 리스트 호출에 실패하였습니다",
+      errorMsg: "게시글 리스트 호출에 실패하였어요",
     );
     isLoading.value = false;
     if (hasMore.value) page++;
@@ -124,9 +124,9 @@ class PostController extends GetxController {
           Get.back();
           clear();
           reload();
-          SnackBarWidget.show(SnackBarType.check, '성공적으로 게시글을 작성하였습니다');
+          SnackBarWidget.show(SnackBarType.check, '성공적으로 게시글을 작성하였어요');
         },
-        errorMsg: "게시글 작성에 실패하였습니다",
+        errorMsg: "게시글 작성에 실패하였어요",
       );
     } else {
       SnackBarWidget.show(SnackBarType.error, "모든 정보를 입력해주세요");

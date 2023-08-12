@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/api/dio.dart';
-import 'package:meonghae_front/screens/calendar_screen.dart';
+import 'package:meonghae_front/config/app_routes.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/main_screen/main_content_label_widget.dart';
 
@@ -24,7 +24,7 @@ class _ScheduleContentWidgetState extends State<ScheduleContentWidget> {
     SendAPI.get(
       url: "/profile-service/profile/calendar/preview",
       successFunc: (data) => setState(() => preview = data.data),
-      errorMsg: "일정 미리보기 정보 호출에 실패하였습니다",
+      errorMsg: "일정 미리보기 정보 호출에 실패하였어요",
     );
   }
 
@@ -79,9 +79,8 @@ class _ScheduleContentWidgetState extends State<ScheduleContentWidget> {
           padding: EdgeInsets.symmetric(
               horizontal: MediaQuery.of(context).size.width * 0.06),
           child: const MainContentLabelWidget(
-              label: "일정", routingScreen: CalendarScreen()),
+              label: "일정", routingPath: AppRoutes.calendar),
         ),
-        const SizedBox(height: 4),
         SizedBox(
           height: MediaQuery.of(context).size.height - 624,
           child: Stack(children: [

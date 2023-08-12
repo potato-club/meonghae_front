@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:meonghae_front/config/app_routes.dart';
 import 'package:meonghae_front/controllers/post_controller.dart';
 import 'package:meonghae_front/controllers/post_detail_controller.dart';
 import 'package:meonghae_front/models/post_model.dart';
@@ -29,8 +30,7 @@ class _PostListItemWidgetState extends State<PostListItemWidget> {
       child: GestureDetector(
         onTap: () {
           Get.find<PostDetailController>().setId(widget.postData.id);
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (BuildContext context) => const PostDetailScreen()));
+          Get.toNamed(AppRoutes.postDetail);
         },
         child: Container(
           decoration: BoxDecoration(

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/calendar_info_screen/swich_widget.dart';
-import 'package:meonghae_front/widgets/common/select_input_widget.dart';
 import 'package:spinner_date_time_picker/spinner_date_time_picker.dart';
 
 class AdditionalInfoWidget extends StatefulWidget {

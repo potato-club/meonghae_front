@@ -43,7 +43,7 @@ class MainContentWidget extends StatelessWidget {
                 ),
                 const Padding(
                   padding: EdgeInsets.only(
-                    top: 20,
+                    top: 18,
                   ),
                   child: ScheduleContentWidget(),
                 ),
@@ -65,7 +65,7 @@ class MainContentWidget extends StatelessWidget {
               padding: EdgeInsets.only(
                 left: MediaQuery.of(context).size.width * 0.06,
                 right: MediaQuery.of(context).size.width * 0.06,
-                top: 22,
+                top: 18,
                 bottom: 104,
               ),
               child: const PostContentWidget(),

@@ -36,7 +36,7 @@ class _InfoContentWidgetState extends State<InfoContentWidget> {
     String formatTime(String time) {
       var timeArr = time.toString().split('T')[1].split(':');
       var time_ = int.parse(timeArr[0]) >= 12 ? "오후" : "오전";
-      return "${time_} ${timeArr[0]}:${timeArr[1]}";
+      return "$time_ ${timeArr[0]}:${timeArr[1]}";
     }
 
     return GestureDetector(

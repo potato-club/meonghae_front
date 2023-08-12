@@ -3,8 +3,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:flutter/services.dart';
 import 'package:meonghae_front/config/app_binding.dart';
-import 'package:meonghae_front/config/pages.dart';
-import 'package:meonghae_front/screens/login_screen.dart';
+import 'package:meonghae_front/config/app_routes.dart';
 import 'package:get/get.dart';
 
 void main() async {
@@ -23,18 +22,13 @@ class MyApp extends StatelessWidget {
       statusBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.dark,
     ));
-
     return GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        locale: const Locale('ko', 'KR'),
-        title: 'Meonghae',
-        initialBinding: AppBinding(),
-        getPages: pages,
-        // initialRoute: '/',
-        // routes: {
-        //   '/': (context) => MainScreen(),
-        //   '/post': (context) => PostScreen(),
-        // },
-        home: const LoginScreen());
+      debugShowCheckedModeBanner: false,
+      locale: const Locale('ko', 'KR'),
+      title: 'Meonghae',
+      initialBinding: AppBinding(),
+      getPages: AppRoutes.pages,
+      initialRoute: AppRoutes.login,
+    );
   }
 }
