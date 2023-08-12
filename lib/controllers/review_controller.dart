@@ -90,7 +90,6 @@ class ReviewController extends GetxController {
     List<File> editImages = images.value;
     editImages.removeAt(index);
     images.value = editImages;
-    Get.back();
   }
 
   Future<void> onClickLike(int index, int id, bool isLike) async {

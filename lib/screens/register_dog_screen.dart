@@ -196,7 +196,7 @@ class _RegisterDogScreenState extends State<RegisterDogScreen> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text(
-                          '추가하기',
+                          '폼 추가하기',
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.bold,

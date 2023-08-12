@@ -7,7 +7,6 @@ import 'package:meonghae_front/models/post_detail_model.dart';
 class PostDetailController extends GetxController {
   var scrollController = ScrollController().obs;
   var textController = TextEditingController();
-  var focusNode = FocusNode();
   var id = 0.obs;
   var isLoading = true.obs;
   var post = PostDetailModel(

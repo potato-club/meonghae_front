@@ -28,8 +28,7 @@ class _MyPageDogScreenState extends State<MyPageDogScreen> {
       onWillPop: () async {
         if (Get.find<DogController>().isEdit.value) {
           CustomWarningModalWidget.show(
-              context, '페이지를 나가시겠어요?', '지금까지 작성했던 내용들은\n지워지게 되므로 유의해주세요', () {
-            Get.back();
+              '페이지를 나가시겠어요?', '지금까지 작성했던 내용들은\n지워지게 되므로 유의해주세요', () {
             Get.back();
             Get.find<DogController>().slideIndex.value = 0;
             Get.find<DogController>().setIsEdit(false);
@@ -59,11 +58,8 @@ class _MyPageDogScreenState extends State<MyPageDogScreen> {
                             InkWell(
                               onTap: () {
                                 if (controller.isEdit.value) {
-                                  CustomWarningModalWidget.show(
-                                      context,
-                                      '페이지를 나가시겠어요?',
+                                  CustomWarningModalWidget.show('페이지를 나가시겠어요?',
                                       '지금까지 작성했던 내용들은\n지워지게 되므로 유의해주세요', () {
-                                    Get.back();
                                     Get.back();
                                     controller.slideIndex.value = 0;
                                     controller.setIsEdit(false);
