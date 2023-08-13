@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/themes/customColor.dart';
@@ -117,9 +115,8 @@ class _DialWidgetState extends State<DialModalWidget>
                               enableInfiniteScroll: false,
                               initialPage: currentIndex,
                               onPageChanged: (index, reason) {
-                                print(index);
                                 setState(() => currentIndex = index);
-                                widget.setValue(index);
+                                widget.setValue(widget.list[index]);
                               },
                             ),
                             items: widget.list
@@ -151,7 +148,7 @@ class _DialWidgetState extends State<DialModalWidget>
       Positioned(
         child: CompositedTransformFollower(
           link: widget.selectLink,
-          offset: Offset(0, 0),
+          offset: const Offset(0, 0),
           child: IgnorePointer(
             ignoring: true,
             child: Container(

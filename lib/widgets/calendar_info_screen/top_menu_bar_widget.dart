@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:meonghae_front/controllers/calendar_controller.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/svg/arrow.dart';
 import 'package:meonghae_front/widgets/svg/saveCheck.dart';
 
 class TopMenuBarWidget extends StatelessWidget {
-  final Function handleSave;
-  const TopMenuBarWidget({super.key, required this.handleSave});
+  const TopMenuBarWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class TopMenuBarWidget extends StatelessWidget {
                   color: CustomColor.black2),
             ),
             InkWell(
-              onTap: () => handleSave(),
+              onTap: () => Get.find<CalendarController>().handleSave(),
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
               child: Padding(

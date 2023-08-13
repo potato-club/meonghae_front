@@ -8,7 +8,6 @@ class CustomModalWidget {
       Dialog(
         elevation: 0, // Customize elevation
         backgroundColor: Colors.transparent,
-      barrierColor: CustomColor.black1.withOpacity(0.25),
         child: Center(
           child: Container(
             width: 288,
@@ -17,7 +16,6 @@ class CustomModalWidget {
                 color: CustomColor.white,
                 borderRadius: BorderRadius.circular(10)),
             child: Padding(
-              padding: const EdgeInsets.only(
               padding: const EdgeInsets.only(
                 top: 42,
                 bottom: 18,
@@ -30,7 +28,6 @@ class CustomModalWidget {
                   Text(
                     label,
                     maxLines: 2,
-                    style: const TextStyle(
                     style: const TextStyle(
                       fontSize: 14,
                       color: CustomColor.black2,
@@ -51,13 +48,12 @@ class CustomModalWidget {
                           backgroundColor:
                               CustomColor.lightGray3.withOpacity(0.9),
                           textStyle: const TextStyle(
-                          textStyle: const TextStyle(
                             fontSize: 14,
                             color: CustomColor.black2,
                           ),
                         ),
                         onPressed: () => Get.back(),
-                        child: const const Center(
+                        child: const Center(
                           child: Text(
                             '아니요',
                             style: TextStyle(
@@ -76,13 +72,11 @@ class CustomModalWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           backgroundColor: CustomColor.brown1,
-                          textStyle: const const TextStyle(
-                            fontSize: 14,
+                          textStyle: const TextStyle(
+                            fontSize: 13,
                             color: CustomColor.black2,
                           ),
                         ),
-                        onPressed: () => onClick(),
-                        child: const Center(
                         onPressed: () {
                           onClick();
                           Get.back();
@@ -91,7 +85,7 @@ class CustomModalWidget {
                           child: Text(
                             '네',
                             style: TextStyle(
-                              fontSize: 14,
+                              fontSize: 13,
                               color: CustomColor.black2,
                             ),
                             textAlign: TextAlign.center,
@@ -106,6 +100,7 @@ class CustomModalWidget {
           ),
         ),
       ),
+      barrierColor: CustomColor.black1.withOpacity(0.25),
     );
   }
 }

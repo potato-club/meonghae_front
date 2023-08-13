@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:meonghae_front/controllers/calendar_controller.dart';
 import 'package:meonghae_front/controllers/dog_controller.dart';
 import 'package:meonghae_front/models/dog_info_model.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 
 class DogSelectWidget extends StatefulWidget {
-  final Map<String, dynamic> calendarData;
-  final Function setCalendarData;
-  const DogSelectWidget(
-      {super.key, required this.calendarData, required this.setCalendarData});
+  const DogSelectWidget({super.key});
 
   @override
   State<DogSelectWidget> createState() => _DogSelectWidgetState();
@@ -21,53 +19,55 @@ class _DogSelectWidgetState extends State<DogSelectWidget> {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 250),
         curve: Curves.ease,
-        child: InkWell(
-          splashColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          onTap: () => widget.setCalendarData('petId', dogInfo.id),
-          child: Column(
-            children: [
-              Container(
-                clipBehavior: Clip.hardEdge,
-                width: 70,
-                height: 70,
-                decoration: const BoxDecoration(
-                  color: CustomColor.ivory2,
-                  shape: BoxShape.circle,
-                ),
-                child: dogInfo.s3ResponseDto != null
-                    ? Opacity(
-                        opacity: widget.calendarData['petId'] == dogInfo.id
-                            ? 1
-                            : 0.5,
-                        child: Image.network(dogInfo.s3ResponseDto!['fileUrl'],
-                            fit: BoxFit.cover),
-                      )
-                    : Transform.scale(
-                        scale: 1.8,
-                        child: const Image(
-                          image: AssetImage(
-                            'assets/images/dog_pictures/face.png',
+        child: GetX<CalendarController>(builder: (controller) {
+          return InkWell(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            onTap: () => controller.calendarForm.value.petId = dogInfo.id,
+            child: Column(
+              children: [
+                Opacity(
+                  opacity: controller.calendarForm.value.petId == dogInfo.id
+                      ? 1
+                      : 0.5,
+                  child: Container(
+                    clipBehavior: Clip.hardEdge,
+                    width: 70,
+                    height: 70,
+                    decoration: const BoxDecoration(
+                      color: CustomColor.white,
+                      shape: BoxShape.circle,
+                    ),
+                    child: dogInfo.s3ResponseDto != null
+                        ? Image.network(dogInfo.s3ResponseDto!['fileUrl'],
+                            fit: BoxFit.cover)
+                        : Transform.scale(
+                            scale: 1.8,
+                            child: const Image(
+                              image: AssetImage(
+                                'assets/images/dog_pictures/face.png',
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 4),
-                child: Text(
-                  dogInfo.petName,
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                    color: widget.calendarData['petId'] == dogInfo.id
-                        ? CustomColor.black2
-                        : CustomColor.gray,
                   ),
                 ),
-              )
-            ],
-          ),
-        ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: Text(
+                    dogInfo.petName,
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                      color: controller.calendarForm.value.petId == dogInfo.id
+                          ? CustomColor.black2
+                          : CustomColor.gray,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          );
+        }),
       ),
     );
   }
@@ -75,7 +75,7 @@ class _DogSelectWidgetState extends State<DogSelectWidget> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 84,
+      height: 85,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 4),
         child: Stack(children: [

@@ -36,7 +36,6 @@ class _TimeSelectModalWidgetState extends State<TimeSelectModalWidget> {
 
   @override
   Widget build(BuildContext context) {
-    print(currentMinute);
     const aa = ['오전', '오후'];
     return Stack(children: [
       Positioned(

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/api/dio.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/calendar_info_screen/additional_info_widget.dart';
 import 'package:meonghae_front/widgets/calendar_info_screen/dog_select_widget.dart';
@@ -14,74 +13,8 @@ class CalendarInfoScreen extends StatefulWidget {
 }
 
 class _CalendarInfoScreenState extends State<CalendarInfoScreen> {
-  final TextEditingController _memoController = TextEditingController();
-  final TextEditingController _titleController = TextEditingController();
-  List<dynamic>? dogsInfo;
-  Map<String, dynamic> calendarData = {
-    'petId': null,
-    'vaccinationType': null,
-    'isRepeat': false,
-    'repeat': {
-      'term': {'month': null, 'day': null},
-      'times': '2회 반복'
-    },
-    'isAlarm': true,
-    'alarmTime': DateTime(
-        DateTime.now().year, DateTime.now().month, DateTime.now().day, 21, 0),
-    'scheduleTime': DateTime.now(),
-  };
-
-  void setCalendarData(String key, dynamic data) {
-    setState(() => calendarData[key] = data);
-  }
-
-  @override
-  void initState() {
-    _getDogsInfo();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _titleController.dispose();
-    _memoController.dispose();
-    super.dispose();
-  }
-
-  Future<void> _getDogsInfo() async {
-    SendAPI.get(
-      url: '/profile-service/profile',
-      successFunc: (data) => setState(() => dogsInfo = data.data),
-      errorMsg: "애완동물정보 호출에 실패하였습니다",
-    );
-  }
-
-  Future<void> handleSave() async {
-    // if (content != null &&
-    //     (isAllday || (time['date'] != null && time['time'] != null))) {
-    // SendAPI.post(
-    //   context: context,
-    //   url: "/profile-service/profile/calendar",
-    //   request: {
-    //     "petId": petId,
-    //     "scheduleTime":
-    //         isAllday ? "2023-06-14T00:00" : "${time['date']}T${time['time']}",
-    //     "text": content
-    //   },
-    //   successFunc: (data) {
-    //     Get.back();
-    //     SnackBarWidget.show(context, SnackBarType.check, "성공적으로 일정을 등록했어요");
-    //   },
-    //   errorMsg: "일정 등록에 실패하였어요",
-    // );
-    // } else {
-    //   SnackBarWidget.show(context, SnackBarType.error, "모든 정보를 입력해주세요");
-    // }
-  }
-
   @override
   Widget build(BuildContext context) {
-    print(calendarData);
     return Scaffold(
       backgroundColor: CustomColor.ivory2,
       body: Stack(children: [
@@ -90,30 +23,18 @@ class _CalendarInfoScreenState extends State<CalendarInfoScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: 126),
-              DogSelectWidget(
-                dogsInfo: dogsInfo,
-                calendarData: calendarData,
-                setCalendarData: setCalendarData,
+              const DogSelectWidget(),
+              const SizedBox(height: 24),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * 0.06),
+                child: const FilterWidget(),
               ),
               const SizedBox(height: 24),
               Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: MediaQuery.of(context).size.width * 0.06),
-                child: FilterWidget(
-                  titleController: _titleController,
-                  calendarData: calendarData,
-                  setCalendarData: setCalendarData,
-                ),
-              ),
-              const SizedBox(height: 24),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width * 0.06),
-                child: AdditionalInfoWidget(
-                  memoController: _memoController,
-                  calendarData: calendarData,
-                  setCalendarData: setCalendarData,
-                ),
+                child: const AdditionalInfoWidget(),
               ),
               const SizedBox(height: 60)
             ],
@@ -125,7 +46,7 @@ class _CalendarInfoScreenState extends State<CalendarInfoScreen> {
                 width: MediaQuery.of(context).size.width,
                 height: 100,
                 color: CustomColor.ivory2,
-                child: TopMenuBarWidget(handleSave: handleSave)))
+                child: const TopMenuBarWidget()))
       ]),
     );
   }
