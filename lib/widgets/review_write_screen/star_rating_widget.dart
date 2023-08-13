@@ -3,7 +3,6 @@ import 'package:flutter_rating_stars/flutter_rating_stars.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/controllers/review_controller.dart';
 import 'package:meonghae_front/themes/customColor.dart';
-import 'package:meonghae_front/widgets/common/custom_warning_modal_widget.dart';
 import 'package:meonghae_front/widgets/svg/arrow.dart';
 import 'package:meonghae_front/widgets/svg/star.dart';
 
@@ -57,11 +56,7 @@ class _StarRatingWidgetState extends State<StarRatingWidget> {
             top: 0,
             left: 0,
             child: InkWell(
-              onTap: () => CustomWarningModalWidget.show(
-                  '페이지를 나가시겠어요?', '지금까지 작성했던 내용들은\n지워지게 되므로 유의해주세요', () {
-                Get.back();
-                Get.find<ReviewController>().clear();
-              }),
+              onTap: () => Get.find<ReviewController>().willPop(),
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
               child: const SizedBox(

@@ -5,6 +5,7 @@ import 'package:meonghae_front/api/dio.dart';
 import 'package:meonghae_front/config/app_routes.dart';
 import 'package:meonghae_front/models/dog_info_model.dart';
 import 'package:dio/dio.dart' as dio;
+import 'package:meonghae_front/widgets/common/custom_warning_modal_widget.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 
 class DogController extends GetxController {
@@ -216,7 +217,6 @@ class DogController extends GetxController {
           dogsForm[slideIndex.value].petBirth != '' &&
           dogsForm[slideIndex.value].petSpecies != '' &&
           dogsForm[slideIndex.value].meetRoute != '') {
-        // modal띄우기
         dogsForm.removeAt(slideIndex.value);
         slideIndex.value == 0 ? slideIndex.value = 0 : slideIndex.value--;
       } else {
@@ -237,5 +237,22 @@ class DogController extends GetxController {
           fetchData();
         },
         errorMsg: '애완동물정보 삭제에 실패하였어요');
+  }
+
+  Future<bool> willPop() async {
+    if (isEdit.value) {
+      CustomWarningModalWidget.show(
+          '페이지를 나가시겠어요?', '지금까지 작성했던 내용들은\n지워지게 되므로 유의해주세요', () {
+        Get.back();
+        slideIndex.value = 0;
+        setIsEdit(false);
+      });
+      return true;
+    } else {
+      Get.back();
+      slideIndex.value = 0;
+      setIsEdit(false);
+      return true;
+    }
   }
 }

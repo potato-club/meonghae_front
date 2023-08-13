@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:meonghae_front/api/dio.dart';
 import 'package:meonghae_front/models/post_model.dart';
 import 'package:dio/dio.dart' as dio;
+import 'package:meonghae_front/widgets/common/custom_warning_modal_widget.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 
 class PostController extends GetxController {
@@ -48,8 +49,8 @@ class PostController extends GetxController {
 
   void editImages() {
     if (writeType.value != 3) {
-      if (images.value.length > 3) {
-        images.value = images.value.sublist(0, 3);
+      if (images.length > 3) {
+        images.value = images.sublist(0, 3);
         SnackBarWidget.show(
             SnackBarType.error, '실종신고 외의 게시글에서는 최대 3장의 사진만 등록 가능해요');
       }
@@ -65,7 +66,7 @@ class PostController extends GetxController {
   }
 
   void deleteImage(int index) {
-    List<File> editImages = images.value;
+    List<File> editImages = images;
     editImages.removeAt(index);
     images.value = editImages;
   }
@@ -108,9 +109,9 @@ class PostController extends GetxController {
       dio.FormData formData = dio.FormData.fromMap({
         "title": titleTextController.text,
         "content": contentTextController.text,
-        if (images.value.isNotEmpty)
+        if (images.isNotEmpty)
           "images": [
-            for (File image in images.value)
+            for (File image in images)
               await dio.MultipartFile.fromFile(image.path)
           ]
       });
@@ -131,6 +132,15 @@ class PostController extends GetxController {
       SnackBarWidget.show(SnackBarType.error, "모든 정보를 입력해주세요");
     }
     print('끝');
+  }
+
+  Future<bool> willPop() async {
+    CustomWarningModalWidget.show(
+        '페이지를 나가시겠어요?', '지금까지 작성했던 내용들은\n지워지게 되므로 유의해주세요', () {
+      Get.back();
+      clear();
+    });
+    return true;
   }
 
   String typeToString() {

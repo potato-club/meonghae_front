@@ -3,8 +3,6 @@ import 'package:get/get.dart';
 import 'package:meonghae_front/config/app_routes.dart';
 import 'package:meonghae_front/controllers/user_controller.dart';
 import 'package:meonghae_front/models/login_,model.dart';
-import 'package:meonghae_front/screens/select_screen.dart';
-import 'package:meonghae_front/screens/video_player_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 
@@ -30,7 +28,7 @@ class _KakaoButtonState extends State<KakaoButton> {
       } else {
         Get.offNamed(AppRoutes.introVideo);
       }
-    } else {
+    } else if (!result['success']) {
       SnackBarWidget.show(SnackBarType.error, result['error']);
     }
     setState(() {});
