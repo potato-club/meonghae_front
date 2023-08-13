@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:device_info/device_info.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
@@ -38,12 +39,16 @@ class LoginModel {
   Future<Map<String, dynamic>> login() async {
     isLogined = await socialLogin.login();
     final String mobileId = await getMobileId();
+    var fcmToken = await FirebaseMessaging.instance.getToken(
+        vapidKey:
+            "BJw5iH7_tounnU7fXc_QPkzm1Rh_yIa6xxOkNDw5sWAwlGKPRcd2ojVHsJwhLvQDH9hS3nQ3f-XQDTpdP0dp8gs");
+    print(fcmToken);
     if (isLogined) {
       try {
         user = await UserApi.instance.me();
         Dio dio = Dio(BaseOptions(
           baseUrl: 'https://api.meonghae.site/',
-          headers: {'androidId': mobileId},
+          headers: {'androidId': mobileId, 'FCMToken': fcmToken},
         ));
         final response = await dio.get(
           '/user-service/login',
