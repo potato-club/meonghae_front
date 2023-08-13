@@ -39,6 +39,7 @@ class SendAPI {
         dio.close();
       }
     } else {
+      print(error.response);
       SnackBarWidget.show(SnackBarType.error, errorMsg);
     }
   }
