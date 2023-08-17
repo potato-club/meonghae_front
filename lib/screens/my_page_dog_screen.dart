@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/controllers/dog_controller.dart';
 import 'package:meonghae_front/themes/customColor.dart';
-import 'package:meonghae_front/widgets/common/custom_warning_modal_widget.dart';
+import 'package:meonghae_front/widgets/common/loading_dot_widget.dart';
 import 'package:meonghae_front/widgets/my_page_dog_screen/add_button_widget.dart';
 import 'package:meonghae_front/widgets/my_page_dog_screen/edit_button_widget.dart';
 import 'package:meonghae_front/widgets/my_page_dog_screen/edit_dog_info_widget.dart';
@@ -25,19 +25,7 @@ class _MyPageDogScreenState extends State<MyPageDogScreen> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async {
-        if (Get.find<DogController>().isEdit.value) {
-          CustomWarningModalWidget.show(
-              '페이지를 나가시겠어요?', '지금까지 작성했던 내용들은\n지워지게 되므로 유의해주세요', () {
-            Get.back();
-            Get.find<DogController>().slideIndex.value = 0;
-            Get.find<DogController>().setIsEdit(false);
-          });
-          return true;
-        } else {
-          return true;
-        }
-      },
+      onWillPop: () async => Get.find<DogController>().willPop(),
       child: Scaffold(
           backgroundColor: CustomColor.white,
           body: SingleChildScrollView(
@@ -56,20 +44,7 @@ class _MyPageDogScreenState extends State<MyPageDogScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             InkWell(
-                              onTap: () {
-                                if (controller.isEdit.value) {
-                                  CustomWarningModalWidget.show('페이지를 나가시겠어요?',
-                                      '지금까지 작성했던 내용들은\n지워지게 되므로 유의해주세요', () {
-                                    Get.back();
-                                    controller.slideIndex.value = 0;
-                                    controller.setIsEdit(false);
-                                  });
-                                } else {
-                                  controller.slideIndex.value = 0;
-                                  controller.setIsEdit(false);
-                                  Get.back();
-                                }
-                              },
+                              onTap: () => controller.willPop(),
                               splashColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                               child: Padding(
@@ -212,6 +187,11 @@ class _MyPageDogScreenState extends State<MyPageDogScreen> {
                                 highlightColor: Colors.transparent,
                                 child: const AddButtonWidget()),
                           ),
+                        if (controller.isLoading.value)
+                          const Positioned(
+                              child: Center(
+                                  child: LoadingDotWidget(
+                                      color: CustomColor.black2)))
                       ]),
                     )
                   ],
