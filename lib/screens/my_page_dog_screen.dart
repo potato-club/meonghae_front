@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/controllers/dog_controller.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/widgets/common/loading_dot_widget.dart';
 import 'package:meonghae_front/widgets/my_page_dog_screen/add_button_widget.dart';
 import 'package:meonghae_front/widgets/my_page_dog_screen/edit_button_widget.dart';
 import 'package:meonghae_front/widgets/my_page_dog_screen/edit_dog_info_widget.dart';
@@ -186,6 +187,11 @@ class _MyPageDogScreenState extends State<MyPageDogScreen> {
                                 highlightColor: Colors.transparent,
                                 child: const AddButtonWidget()),
                           ),
+                        if (controller.isLoading.value)
+                          const Positioned(
+                              child: Center(
+                                  child: LoadingDotWidget(
+                                      color: CustomColor.black2)))
                       ]),
                     )
                   ],

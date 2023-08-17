@@ -7,9 +7,12 @@ import 'package:meonghae_front/models/post_model.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:meonghae_front/widgets/common/custom_warning_modal_widget.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class PostController extends GetxController {
   var scrollController = ScrollController().obs;
+  RefreshController refreshController =
+      RefreshController(initialRefresh: false);
   var titleTextController = TextEditingController();
   var contentTextController = TextEditingController();
   var images = <File>[].obs;
@@ -19,6 +22,7 @@ class PostController extends GetxController {
   var hasMore = false.obs;
   var page = 1.obs;
   var writeType = 0.obs;
+  var isWriting = false.obs;
 
   @override
   void onInit() {
@@ -72,10 +76,11 @@ class PostController extends GetxController {
   }
 
   void reload() {
-    posts.clear();
     isLoading.value = true;
+    posts.value = [];
     page.value = 1;
     fetchData(type.value);
+    refreshController.refreshCompleted();
   }
 
   void clear() {
@@ -104,34 +109,40 @@ class PostController extends GetxController {
   }
 
   void writePost() async {
-    print('시작');
-    if (titleTextController.text != '' && contentTextController.text != '') {
-      dio.FormData formData = dio.FormData.fromMap({
-        "title": titleTextController.text,
-        "content": contentTextController.text,
-        if (images.isNotEmpty)
-          "images": [
-            for (File image in images)
-              await dio.MultipartFile.fromFile(image.path)
-          ]
-      });
-      print('폼데이터 만들기');
-      await SendAPI.post(
-        url: "/community-service/boards/${writeType.value}",
-        request: formData,
-        successCode: 201,
-        successFunc: (data) {
-          Get.back();
-          clear();
-          reload();
-          SnackBarWidget.show(SnackBarType.check, '성공적으로 게시글을 작성하였어요');
-        },
-        errorMsg: "게시글 작성에 실패하였어요",
-      );
-    } else {
-      SnackBarWidget.show(SnackBarType.error, "모든 정보를 입력해주세요");
+    if (!isWriting.value) {
+      print(
+          '${images.isNotEmpty} / ${titleTextController.text} / ${contentTextController.text}');
+      print('시작');
+      if (titleTextController.text != '' && contentTextController.text != '') {
+        isWriting.value = true;
+        dio.FormData formData = dio.FormData.fromMap({
+          "title": titleTextController.text,
+          "content": contentTextController.text,
+          if (images.isNotEmpty)
+            "images": [
+              for (File image in images)
+                await dio.MultipartFile.fromFile(image.path)
+            ]
+        });
+        print('폼데이터 만들기');
+        await SendAPI.post(
+          url: "/community-service/boards/${writeType.value}",
+          request: formData,
+          successCode: 201,
+          successFunc: (data) {
+            Get.back();
+            clear();
+            reload();
+            SnackBarWidget.show(SnackBarType.check, '성공적으로 게시글을 작성하였어요');
+          },
+          errorMsg: "게시글 작성에 실패하였어요",
+        );
+        isWriting.value = false;
+      } else {
+        SnackBarWidget.show(SnackBarType.error, "모든 정보를 입력해주세요");
+      }
+      print('끝');
     }
-    print('끝');
   }
 
   Future<bool> willPop() async {

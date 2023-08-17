@@ -15,6 +15,7 @@ class DogController extends GetxController {
   Rx<bool> isEdit = false.obs;
   Rx<bool> isChange = false.obs;
   var deleteIdList = [].obs;
+  var isLoading = false.obs;
   var dogsForm = <DogFormModel>[
     DogFormModel(
       id: null,
@@ -141,22 +142,42 @@ class DogController extends GetxController {
   }
 
   void editForm() async {
-    List<Map<String, dynamic>> result =
-        dogsForm.map((i) => validator(i)).toList();
-    List<dynamic> validatorList = result.map((i) => i['validator']).toList();
-    bool isValidator = !validatorList.contains(false);
-    if (isValidator) {
-      if (deleteIdList.isNotEmpty) {
-        for (var deleteId in deleteIdList) {
-          deleteForm(deleteId);
+    if (!isLoading.value) {
+      List<Map<String, dynamic>> result =
+          dogsForm.map((i) => validator(i)).toList();
+      List<dynamic> validatorList = result.map((i) => i['validator']).toList();
+      bool isValidator = !validatorList.contains(false);
+      if (isValidator) {
+        isLoading.value = true;
+        if (deleteIdList.isNotEmpty) {
+          for (var deleteId in deleteIdList) {
+            deleteForm(deleteId);
+          }
+          deleteIdList.value = [];
         }
-        deleteIdList.value = [];
-      }
-      if (dogsForm.isNotEmpty) {
-        for (int i = 0; i < dogsForm.length; i++) {
-          print(dogsInfo.length);
-          if (i + 1 <= dogsInfo.length) {
-            if (!DogInfoModel.isSame(dogsInfo[i], dogsForm[i])) {
+        if (dogsForm.isNotEmpty) {
+          for (int i = 0; i < dogsForm.length; i++) {
+            if (i + 1 <= dogsInfo.length) {
+              if (!DogInfoModel.isSame(dogsInfo[i], dogsForm[i])) {
+                dio.FormData formData = dio.FormData.fromMap({
+                  "meetRoute": dogsForm[i].meetRoute,
+                  "petBirth": dogsForm[i].petBirth.replaceAll('.', '-'),
+                  "petGender": dogsForm[i].petGender == '남' ? 'BOY' : 'GIRL',
+                  "petName": dogsForm[i].petName,
+                  "petSpecies": dogsForm[i].petSpecies,
+                  if (dogsForm[i].image != null)
+                    "image": await dio.MultipartFile.fromFile(
+                        dogsForm[i].image!.path)
+                });
+                print('put');
+                await SendAPI.put(
+                  url: "/profile-service/profile/${dogsForm[i].id}",
+                  request: formData,
+                  successFunc: (data) => isChange.value = true,
+                  errorMsg: "애완동물정보 수정에 실패하였어요",
+                );
+              }
+            } else {
               dio.FormData formData = dio.FormData.fromMap({
                 "meetRoute": dogsForm[i].meetRoute,
                 "petBirth": dogsForm[i].petBirth.replaceAll('.', '-'),
@@ -167,46 +188,29 @@ class DogController extends GetxController {
                   "image":
                       await dio.MultipartFile.fromFile(dogsForm[i].image!.path)
               });
-              print('put');
-              await SendAPI.put(
-                url: "/profile-service/profile/${dogsForm[i].id}",
+              print('post');
+              await SendAPI.post(
+                url: "/profile-service/profile",
                 request: formData,
                 successFunc: (data) => isChange.value = true,
                 errorMsg: "애완동물정보 수정에 실패하였어요",
               );
             }
-          } else {
-            dio.FormData formData = dio.FormData.fromMap({
-              "meetRoute": dogsForm[i].meetRoute,
-              "petBirth": dogsForm[i].petBirth.replaceAll('.', '-'),
-              "petGender": dogsForm[i].petGender == '남' ? 'BOY' : 'GIRL',
-              "petName": dogsForm[i].petName,
-              "petSpecies": dogsForm[i].petSpecies,
-              if (dogsForm[i].image != null)
-                "image":
-                    await dio.MultipartFile.fromFile(dogsForm[i].image!.path)
-            });
-            print('post');
-            await SendAPI.post(
-              url: "/profile-service/profile",
-              request: formData,
-              successFunc: (data) => isChange.value = true,
-              errorMsg: "애완동물정보 수정에 실패하였어요",
-            );
           }
         }
+        if (isChange.value) {
+          SnackBarWidget.show(SnackBarType.check, '애완동물정보가 성공적으로 변경되었어요');
+          fetchData();
+          isChange.value = false;
+        }
+        isLoading.value = false;
+        setIsEdit(false);
+      } else {
+        int index = validatorList.indexOf(false);
+        isError.value = true;
+        slideIndex.value = index;
+        SnackBarWidget.show(SnackBarType.error, result[index]['error']);
       }
-      if (isChange.value) {
-        SnackBarWidget.show(SnackBarType.check, '애완동물정보가 성공적으로 변경되었어요');
-        fetchData();
-        isChange.value = false;
-      }
-      setIsEdit(false);
-    } else {
-      int index = validatorList.indexOf(false);
-      isError.value = true;
-      slideIndex.value = index;
-      SnackBarWidget.show(SnackBarType.error, result[index]['error']);
     }
   }
 

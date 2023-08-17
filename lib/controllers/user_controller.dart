@@ -35,6 +35,7 @@ class UserController extends GetxController {
   var registerEmail = ''.obs;
   Rx<String?> registerAge = Rx<String?>(null);
   var hasAnimal = false.obs;
+  var isLoading = false.obs;
 
   void setRegisterEmail(String email) {
     registerEmail.value = email;
@@ -80,35 +81,39 @@ class UserController extends GetxController {
   }
 
   Future<void> editUserInfo() async {
-    if (nameTextController.text != userInfo.value.nickname ||
-        birthTextController.text != userInfo.value.birth ||
-        int.parse(ageTextController.text) != userInfo.value.age ||
-        file.value != null) {
-      if (nameTextController.text != '' &&
-          birthTextController.text.length == 10 &&
-          ageTextController.text != '') {
-        savePrevUserInfo();
-        dio.FormData formData = dio.FormData.fromMap({
-          "nickname": nameTextController.text,
-          "birth": birthTextController.text.replaceAll('.', ''),
-          "age": int.parse(ageTextController.text),
-          if (file.value != null)
-            "file": await dio.MultipartFile.fromFile(file.value!.path)
-        });
-        SendAPI.put(
-            url: "/user-service/mypage",
-            request: formData,
-            successFunc: (data) {
-              SnackBarWidget.show(SnackBarType.check, '내 정보가 성공적으로 변경되었어요');
-              setIsEdit(false);
-              fetchData();
-            },
-            errorMsg: "유저 정보 변경에 실패하였어요");
+    if (!isLoading.value) {
+      if (nameTextController.text != userInfo.value.nickname ||
+          birthTextController.text != userInfo.value.birth ||
+          int.parse(ageTextController.text) != userInfo.value.age ||
+          file.value != null) {
+        if (nameTextController.text != '' &&
+            birthTextController.text.length == 10 &&
+            ageTextController.text != '') {
+          isLoading.value = true;
+          savePrevUserInfo();
+          dio.FormData formData = dio.FormData.fromMap({
+            "nickname": nameTextController.text,
+            "birth": birthTextController.text.replaceAll('.', ''),
+            "age": int.parse(ageTextController.text),
+            if (file.value != null)
+              "file": await dio.MultipartFile.fromFile(file.value!.path)
+          });
+          await SendAPI.put(
+              url: "/user-service/mypage",
+              request: formData,
+              successFunc: (data) {
+                SnackBarWidget.show(SnackBarType.check, '내 정보가 성공적으로 변경되었어요');
+                fetchData();
+              },
+              errorMsg: "유저 정보 변경에 실패하였어요");
+          setIsEdit(false);
+          isLoading.value = false;
+        } else {
+          SnackBarWidget.show(SnackBarType.error, '모든 정보를 입력해주세요');
+        }
       } else {
-        SnackBarWidget.show(SnackBarType.error, '모든 정보를 입력해주세요');
+        isEdit.value = false;
       }
-    } else {
-      isEdit.value = false;
     }
   }
 

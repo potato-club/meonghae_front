@@ -7,11 +7,14 @@ import 'package:meonghae_front/models/review_model.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:meonghae_front/widgets/common/custom_warning_modal_widget.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class ReviewController extends GetxController {
   var scrollController = ScrollController().obs;
   var titleTextController = TextEditingController();
   var contentTextController = TextEditingController();
+  RefreshController refreshController =
+      RefreshController(initialRefresh: false);
   var reviews = <ReviewModel>[].obs;
   var isLoading = true.obs;
   var hasMore = false.obs;
@@ -23,6 +26,7 @@ class ReviewController extends GetxController {
   var writeType = 0.obs;
   var images = <File>[].obs;
   var rate = 0.0.obs;
+  var isWriting = false.obs;
 
   @override
   void onInit() {
@@ -156,10 +160,11 @@ class ReviewController extends GetxController {
   }
 
   void reload() {
-    reviews.clear();
     isLoading.value = true;
+    reviews.value = [];
     page.value = 1;
     fetchData();
+    refreshController.refreshCompleted();
   }
 
   void fetchData() async {
@@ -186,34 +191,38 @@ class ReviewController extends GetxController {
   }
 
   void writeReview() async {
-    if (titleTextController.text != '' &&
-        contentTextController.text != '' &&
-        rate.value != 0) {
-      dio.FormData formData = dio.FormData.fromMap({
-        "title": titleTextController.text,
-        "content": contentTextController.text,
-        "rating": rate.toInt(),
-        "type": writeType.value,
-        if (images.isNotEmpty)
-          "images": [
-            for (File image in images)
-              await dio.MultipartFile.fromFile(image.path)
-          ]
-      });
-      SendAPI.post(
-        url: "/community-service/reviews",
-        request: formData,
-        successCode: 201,
-        successFunc: (data) {
-          Get.back();
-          reload();
-          clear();
-          SnackBarWidget.show(SnackBarType.check, '성공적으로 리뷰를 작성하였어요');
-        },
-        errorMsg: '리뷰 작성에 실패하였어요',
-      );
-    } else {
-      SnackBarWidget.show(SnackBarType.error, "모든 정보를 입력해주세요");
+    if (!isWriting.value) {
+      if (titleTextController.text != '' &&
+          contentTextController.text != '' &&
+          rate.value != 0) {
+        isWriting.value = true;
+        dio.FormData formData = dio.FormData.fromMap({
+          "title": titleTextController.text,
+          "content": contentTextController.text,
+          "rating": rate.toInt(),
+          "type": writeType.value,
+          if (images.isNotEmpty)
+            "images": [
+              for (File image in images)
+                await dio.MultipartFile.fromFile(image.path)
+            ]
+        });
+        await SendAPI.post(
+          url: "/community-service/reviews",
+          request: formData,
+          successCode: 201,
+          successFunc: (data) {
+            Get.back();
+            reload();
+            clear();
+            SnackBarWidget.show(SnackBarType.check, '성공적으로 리뷰를 작성하였어요');
+          },
+          errorMsg: '리뷰 작성에 실패하였어요',
+        );
+        isWriting.value = false;
+      } else {
+        SnackBarWidget.show(SnackBarType.error, "모든 정보를 입력해주세요");
+      }
     }
   }
 
