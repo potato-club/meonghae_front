@@ -26,7 +26,8 @@ class PostController extends GetxController {
 
   @override
   void onInit() {
-    super.onInit();
+    print('onInit실행');
+    fetchData(type.value);
     scrollController.value.addListener(() {
       if (scrollController.value.position.pixels ==
               scrollController.value.position.maxScrollExtent &&
@@ -34,7 +35,7 @@ class PostController extends GetxController {
         fetchData(type.value);
       }
     });
-    fetchData(type.value);
+    super.onInit();
   }
 
   void setType(int value) {
@@ -110,9 +111,6 @@ class PostController extends GetxController {
 
   void writePost() async {
     if (!isWriting.value) {
-      print(
-          '${images.isNotEmpty} / ${titleTextController.text} / ${contentTextController.text}');
-      print('시작');
       if (titleTextController.text != '' && contentTextController.text != '') {
         isWriting.value = true;
         dio.FormData formData = dio.FormData.fromMap({
@@ -124,7 +122,6 @@ class PostController extends GetxController {
                 await dio.MultipartFile.fromFile(image.path)
             ]
         });
-        print('폼데이터 만들기');
         await SendAPI.post(
           url: "/community-service/boards/${writeType.value}",
           request: formData,
@@ -141,7 +138,6 @@ class PostController extends GetxController {
       } else {
         SnackBarWidget.show(SnackBarType.error, "모든 정보를 입력해주세요");
       }
-      print('끝');
     }
   }
 

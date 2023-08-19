@@ -23,7 +23,10 @@ class _DogSelectWidgetState extends State<DogSelectWidget> {
           return InkWell(
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
-            onTap: () => controller.calendarForm.value.petId = dogInfo.id,
+            onTap: () {
+              controller.calendarForm.value.petId = dogInfo.id;
+              controller.calendarForm.update((val) {});
+            },
             child: Column(
               children: [
                 Opacity(

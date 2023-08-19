@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:meonghae_front/controllers/calendar_controller.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/calendar_info_screen/additional_info_widget.dart';
 import 'package:meonghae_front/widgets/calendar_info_screen/dog_select_widget.dart';
@@ -15,39 +17,44 @@ class CalendarInfoScreen extends StatefulWidget {
 class _CalendarInfoScreenState extends State<CalendarInfoScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: CustomColor.ivory2,
-      body: Stack(children: [
-        SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const SizedBox(height: 126),
-              const DogSelectWidget(),
-              const SizedBox(height: 24),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width * 0.06),
-                child: const FilterWidget(),
-              ),
-              const SizedBox(height: 24),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width * 0.06),
-                child: const AdditionalInfoWidget(),
-              ),
-              const SizedBox(height: 60)
-            ],
+    return WillPopScope(
+      onWillPop: () async {
+        Get.find<CalendarController>().willPop();
+        return true;
+      },
+      child: Scaffold(
+        backgroundColor: CustomColor.ivory2,
+        body: Stack(children: [
+          SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: 126),
+                const DogSelectWidget(),
+                const SizedBox(height: 24),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 0.06),
+                  child: const FilterWidget(),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 0.06),
+                  child: const AdditionalInfoWidget(),
+                ),
+                const SizedBox(height: 60)
+              ],
+            ),
           ),
-        ),
-        Positioned(
-            top: 0,
-            child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: 100,
-                color: CustomColor.ivory2,
-                child: const TopMenuBarWidget()))
-      ]),
+          Positioned(
+              top: 0,
+              child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 100,
+                  color: CustomColor.ivory2,
+                  child: const TopMenuBarWidget()))
+        ]),
+      ),
     );
   }
 }

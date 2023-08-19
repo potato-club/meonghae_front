@@ -18,7 +18,7 @@ class TopMenuBarWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             InkWell(
-              onTap: () => Get.back(),
+              onTap: () => Get.find<CalendarController>().willPop(),
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
               child: Padding(
@@ -41,7 +41,7 @@ class TopMenuBarWidget extends StatelessWidget {
                   color: CustomColor.black2),
             ),
             InkWell(
-              onTap: () => Get.find<CalendarController>().handleSave(),
+              onTap: () => Get.find<CalendarController>().addCalendar(),
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
               child: Padding(

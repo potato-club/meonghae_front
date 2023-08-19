@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:meonghae_front/controllers/calendar_controller.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/widgets/calendar_info_screen/cycle_count_widget.dart';
 import 'package:meonghae_front/widgets/calendar_info_screen/dial_box_widget.dart';
 import 'package:meonghae_front/widgets/calendar_info_screen/swich_widget.dart';
 import 'package:meonghae_front/widgets/common/dial_Input_widget.dart';
@@ -15,22 +17,6 @@ class AdditionalInfoWidget extends StatefulWidget {
 }
 
 class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
-  DateTime selectedDate = DateTime.now();
-
-  List<String> alarmDay = [];
-
-  @override
-  void initState() {
-    for (int i = 0; i < 30; i++) {
-      alarmDay.add('${30 - i}일 전');
-    }
-    alarmDay.add('당일');
-    for (int i = 0; i < 30; i++) {
-      alarmDay.add('${i + 1}일 후');
-    }
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return GetX<CalendarController>(builder: (controller) {
@@ -63,8 +49,10 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                   DialBoxWidget(
                     label: DateFormat('yyyy. MM. dd')
                         .format(controller.calendarForm.value.scheduleTime),
-                    onSave: (DateTime dateTime) =>
-                        controller.calendarForm.value.scheduleTime = dateTime,
+                    onSave: (DateTime dateTime) {
+                      controller.calendarForm.value.scheduleTime = dateTime;
+                      controller.calendarForm.update((val) {});
+                    },
                     dialType: DialType.DATE,
                     scheduleTime: controller.calendarForm.value.scheduleTime,
                     textAlign: TextAlign.center,
@@ -72,8 +60,10 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                   DialBoxWidget(
                     label: DateFormat('a hh:mm', 'ko')
                         .format(controller.calendarForm.value.scheduleTime),
-                    onSave: (DateTime dateTime) =>
-                        controller.calendarForm.value.scheduleTime = dateTime,
+                    onSave: (DateTime dateTime) {
+                      controller.calendarForm.value.scheduleTime = dateTime;
+                      controller.calendarForm.update((val) {});
+                    },
                     dialType: DialType.TIME,
                     scheduleTime: controller.calendarForm.value.scheduleTime,
                     textAlign: TextAlign.end,
@@ -87,7 +77,95 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
             clipBehavior: Clip.hardEdge,
             duration: const Duration(milliseconds: 500),
             curve: Curves.ease,
-            height: controller.isAlarm.value ? 91 : 45,
+            height: controller.calendarForm.value.hasRepeat ? 90 : 45,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: CustomColor.white,
+            ),
+            child: SingleChildScrollView(
+              child: Column(children: [
+                SizedBox(
+                  height: 45,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          '반복',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700,
+                            color: CustomColor.black2,
+                          ),
+                        ),
+                        SwitchWidget(
+                          clickSwitch: () {
+                            controller.calendarForm.value.hasRepeat =
+                                !controller.calendarForm.value.hasRepeat;
+                            controller.calendarForm.update((val) {});
+                          },
+                          isChecked: controller.calendarForm.value.hasRepeat,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                if (controller.calendarForm.value.hasRepeat)
+                  Container(
+                    decoration: const BoxDecoration(
+                        border: Border(
+                            top: BorderSide(
+                                width: 1, color: CustomColor.ivory2))),
+                    height: 45,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        left: 20,
+                        right: 9,
+                      ),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text('반복 설정',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                  color: CustomColor.black2,
+                                )),
+                            const CycleCountWidget(),
+                            DialInputWidget(
+                              width: 75,
+                              height: 30,
+                              itemHeight: 30,
+                              list: controller.cycleList.keys.toList(),
+                              listHeight: 90,
+                              fontSize: 13,
+                              color: CustomColor.gray,
+                              bgColor: CustomColor.white,
+                              strColor: CustomColor.ivory2,
+                              defaultValue: controller.cycleList.keys
+                                  .firstWhere((key) =>
+                                      controller.cycleList[key] ==
+                                      controller.calendarForm.value.cycleCount),
+                              setValue: (String value) {
+                                controller.calendarForm.value.cycleCount =
+                                    controller.cycleList[value]!;
+                                controller.calendarForm.update((val) {});
+                              },
+                            ),
+                          ]),
+                    ),
+                  ),
+              ]),
+            ),
+          ),
+          const SizedBox(height: 24),
+          AnimatedContainer(
+            clipBehavior: Clip.hardEdge,
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.ease,
+            height: controller.calendarForm.value.hasAlarm ? 90 : 45,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: CustomColor.white,
@@ -112,77 +190,76 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                             ),
                           ),
                           SwitchWidget(
-                            clickSwitch: () => controller.isAlarm.value =
-                                !controller.isAlarm.value,
-                            isChecked: controller.isAlarm.value,
+                            clickSwitch: () {
+                              controller.calendarForm.value.hasAlarm =
+                                  !controller.calendarForm.value.hasAlarm;
+                              controller.calendarForm.update((val) {});
+                            },
+                            isChecked: controller.calendarForm.value.hasAlarm,
                           ),
                         ],
                       ),
                     ),
                   ),
-                  if (controller.isAlarm.value)
-                    Column(
-                      children: [
-                        Container(height: 1, color: CustomColor.ivory2),
-                        SizedBox(
-                          height: 45,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const SizedBox(
-                                  width: 75,
-                                  child: Text(
-                                    '알림 설정',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w700,
-                                      color: CustomColor.black2,
-                                    ),
-                                  ),
+                  if (controller.calendarForm.value.hasAlarm)
+                    Container(
+                      decoration: const BoxDecoration(
+                          border: Border(
+                              top: BorderSide(
+                                  width: 1, color: CustomColor.ivory2))),
+                      height: 45,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const SizedBox(
+                              width: 75,
+                              child: Text(
+                                '알림 설정',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                  color: CustomColor.black2,
                                 ),
-                                DialInputWidget(
-                                  width: 75,
-                                  height: 30,
-                                  itemHeight: 30,
-                                  list: alarmDay,
-                                  listHeight: 150,
-                                  fontSize: 13,
-                                  color: CustomColor.gray,
-                                  bgColor: CustomColor.white,
-                                  strColor: CustomColor.ivory2,
-                                  defaultValue: alarmDay[(30 -
-                                          (DateTime.now().day -
-                                              controller.calendarForm.value
-                                                  .alarmTime.day))
-                                      .toInt()],
-                                  setValue: (int index) => controller
-                                      .calendarForm.value.alarmTime = DateTime(
-                                    DateTime.now().year,
-                                    DateTime.now().month,
-                                    (DateTime.now().day - (30 - index)),
-                                    controller
-                                        .calendarForm.value.alarmTime.hour,
-                                    controller
-                                        .calendarForm.value.alarmTime.minute,
-                                  ),
-                                ),
-                                DialBoxWidget(
-                                  label: DateFormat('a hh:mm', 'ko').format(
-                                      controller.calendarForm.value.alarmTime),
-                                  onSave: (DateTime dateTime) => controller
-                                      .calendarForm.value.alarmTime = dateTime,
-                                  dialType: DialType.TIME,
-                                  scheduleTime:
-                                      controller.calendarForm.value.alarmTime,
-                                  textAlign: TextAlign.end,
-                                ),
-                              ],
+                              ),
                             ),
-                          ),
-                        )
-                      ],
+                            DialInputWidget(
+                              width: 75,
+                              height: 30,
+                              itemHeight: 30,
+                              list: controller.alarmList.keys.toList(),
+                              listHeight: 150,
+                              fontSize: 13,
+                              color: CustomColor.gray,
+                              bgColor: CustomColor.white,
+                              strColor: CustomColor.ivory2,
+                              defaultValue: controller.alarmList.keys
+                                  .firstWhere((key) =>
+                                      controller.alarmList[key] ==
+                                      controller.calendarForm.value.alarmDate),
+                              setValue: (String index) {
+                                controller.calendarForm.value.alarmDate =
+                                    controller.alarmList[index]!;
+                                controller.calendarForm.update((val) {});
+                              },
+                            ),
+                            DialBoxWidget(
+                              label: DateFormat('a hh:mm', 'ko').format(
+                                  controller.calendarForm.value.alarmTime),
+                              onSave: (DateTime dateTime) {
+                                controller.calendarForm.value.alarmTime =
+                                    dateTime;
+                                controller.calendarForm.update((val) {});
+                              },
+                              dialType: DialType.TIME,
+                              scheduleTime:
+                                  controller.calendarForm.value.alarmTime,
+                              textAlign: TextAlign.end,
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                 ],
               ),

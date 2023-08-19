@@ -19,12 +19,6 @@ class PostScreen extends StatefulWidget {
 
 class _PostScreenState extends State<PostScreen> {
   @override
-  void initState() {
-    Get.find<PostController>().fetchData(Get.find<PostController>().type.value);
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColor.white,
