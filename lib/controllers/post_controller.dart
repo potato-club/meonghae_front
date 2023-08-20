@@ -26,7 +26,6 @@ class PostController extends GetxController {
 
   @override
   void onInit() {
-    print('onInit실행');
     fetchData(type.value);
     scrollController.value.addListener(() {
       if (scrollController.value.position.pixels ==

@@ -19,7 +19,6 @@ class _FilterWidgetState extends State<FilterWidget> {
   @override
   Widget build(BuildContext context) {
     return GetX<CalendarController>(builder: (controller) {
-      print(controller.calendarForm.value.scheduleType);
       return Column(
         children: [
           AnimatedContainer(
