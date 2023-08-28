@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:meonghae_front/api/dio.dart';
-import 'package:meonghae_front/models/calendar_form_model.dart';
+import 'package:meonghae_front/models/calendar_model.dart';
 import 'package:meonghae_front/widgets/common/custom_warning_modal_widget.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 
@@ -22,6 +22,105 @@ class CalendarController extends GetxController {
   var customMode = false.obs;
   final TextEditingController memoController = TextEditingController();
   var isSending = false.obs;
+  var selectedDay = DateTime.now().obs;
+  var focusedDay = DateTime.now().obs;
+  var monthEvents = <CalendarModel>[].obs;
+  var dayEvents = <CalendarDetailModel>[].obs;
+  var searchEvents = <CalendarDetailModel>[].obs;
+
+  // String formatDate(int date) {
+  //   return date.toString().padLeft(2, '0');
+  // }
+
+  String parseTimeString(String time) {
+    DateTime dateTime = DateTime.parse(time);
+    String formattedTime = DateFormat('a hh:mm').format(dateTime);
+    return formattedTime;
+  }
+
+  @override
+  void onInit() {
+    fetchData();
+    clickDay();
+    super.onInit();
+  }
+
+  void setSelectedDay(DateTime date) {
+    selectedDay.value = date;
+  }
+
+  void setFocusedDay(DateTime date) {
+    focusedDay.value = date;
+  }
+
+  Future<void> search(String key) async {
+    if (key.length > 1) {
+      await SendAPI.get(
+          url: "/profile-service/profile/calendar/find",
+          params: {'key': key},
+          successFunc: (data) {
+            List<Map<String, dynamic>> contentList =
+                List<Map<String, dynamic>>.from(data.data);
+            final List<CalendarDetailModel> eventsList = contentList
+                .map((json) => CalendarDetailModel.fromJson(json))
+                .toList();
+            print(data.data);
+            searchEvents.value = eventsList;
+          },
+          errorMsg: "일정 검색에 실패하였어요");
+    } else {
+      SnackBarWidget.show(SnackBarType.error, '2글자 이상의 단어를 검색해주세요');
+    }
+  }
+
+  Future<void> clickDay() async {
+    for (var monthEvent in monthEvents) {
+      if (monthEvent.day == selectedDay.value.day) {
+        await SendAPI.get(
+            url: "/profile-service/profile/calendar/day",
+            request: {
+              'year': focusedDay.value.year,
+              'month': focusedDay.value.month,
+              'day': focusedDay.value.day,
+              'scheduleId': monthEvent.scheduleIds,
+            },
+            successFunc: (data) {
+              List<Map<String, dynamic>> contentList =
+                  List<Map<String, dynamic>>.from(data.data);
+              final List<CalendarDetailModel> eventsList = contentList
+                  .map((json) => CalendarDetailModel.fromJson(json))
+                  .toList();
+              print(data.data);
+              dayEvents.value = eventsList;
+            },
+            errorMsg: "일정 호출에 실패하였어요");
+      }
+    }
+  }
+
+  Future<void> fetchData() async {
+    await SendAPI.get(
+        url: "/profile-service/profile/calendar/month",
+        params: {
+          'year': focusedDay.value.year,
+          'month': focusedDay.value.month,
+        },
+        successFunc: (data) {
+          List<Map<String, dynamic>> contentList =
+              List<Map<String, dynamic>>.from(data.data);
+          final List<CalendarModel> eventsList =
+              contentList.map((json) => CalendarModel.fromJson(json)).toList();
+          monthEvents.value = eventsList;
+        },
+        errorMsg: "캘린더 정보 호출에 실패하였어요");
+  }
+
+  void clear() {
+    selectedDay.value = DateTime.now();
+    focusedDay.value = DateTime.now();
+    fetchData();
+    selectedDay();
+  }
 
   Future<void> addCalendar() async {
     if (!isSending.value) {
@@ -50,8 +149,8 @@ class CalendarController extends GetxController {
           },
           successFunc: (data) {
             Get.back();
-            clear();
-            //fetch추가
+            clearForm();
+            fetchData();
             SnackBarWidget.show(SnackBarType.check, "성공적으로 일정을 등록했어요");
           },
           errorMsg: "일정 등록에 실패하였어요",
@@ -62,7 +161,7 @@ class CalendarController extends GetxController {
     }
   }
 
-  void clear() {
+  void clearForm() {
     calendarForm.value = CalendarFormModel(
       petId: null,
       alarmTime: DateTime.now(),
@@ -83,7 +182,7 @@ class CalendarController extends GetxController {
     CustomWarningModalWidget.show(
         '페이지를 나가시겠어요?', '지금까지 작성했던 내용들은\n지워지게 되므로 유의해주세요', () {
       Get.back();
-      clear();
+      clearForm();
     });
     return true;
   }

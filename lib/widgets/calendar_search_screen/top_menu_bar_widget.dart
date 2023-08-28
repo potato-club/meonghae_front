@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/api/dio.dart';
+import 'package:meonghae_front/controllers/calendar_controller.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 import 'package:meonghae_front/widgets/svg/arrow.dart';
 import 'package:meonghae_front/widgets/svg/search.dart';
 
 class TopMenuBarWidget extends StatefulWidget {
-  final Function setSearchResult;
-  const TopMenuBarWidget({super.key, required this.setSearchResult});
+  const TopMenuBarWidget({super.key});
 
   @override
   State<TopMenuBarWidget> createState() => _TopMenuBarWidgetState();
@@ -16,19 +16,6 @@ class TopMenuBarWidget extends StatefulWidget {
 
 class _TopMenuBarWidgetState extends State<TopMenuBarWidget> {
   final TextEditingController _searchController = TextEditingController();
-
-  Future<void> handleSearch() async {
-    String searchValue = _searchController.text;
-    if (searchValue.length >= 2) {
-      SendAPI.get(
-          url: "/profile-service/profile/calendar/find",
-          request: {'key': searchValue},
-          successFunc: (data) => widget.setSearchResult(data.data),
-          errorMsg: "일정 검색에 실패하였어요");
-    } else {
-      SnackBarWidget.show(SnackBarType.error, '2글자 이상의 단어를 검색해주세요');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +26,10 @@ class _TopMenuBarWidgetState extends State<TopMenuBarWidget> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           InkWell(
-            onTap: () => Get.back(),
+            onTap: () {
+              Get.back();
+              Get.find<CalendarController>().searchEvents.clear();
+            },
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
             child: const SizedBox(
@@ -76,11 +66,11 @@ class _TopMenuBarWidgetState extends State<TopMenuBarWidget> {
               validator: (value) {
                 return null;
               },
-              onSaved: (value) {},
             ),
           ),
           InkWell(
-            onTap: () => handleSearch(),
+            onTap: () =>
+                Get.find<CalendarController>().search(_searchController.text),
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
             child: const SizedBox(

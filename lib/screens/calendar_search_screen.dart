@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:meonghae_front/controllers/calendar_controller.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/calendar_search_screen/search_item_widget.dart';
 import 'package:meonghae_front/widgets/calendar_search_screen/top_menu_bar_widget.dart';
@@ -11,11 +13,6 @@ class CalendarSearchScreen extends StatefulWidget {
 }
 
 class _CalendarSearchScreenState extends State<CalendarSearchScreen> {
-  List searchResult = [];
-  void setSearchResult(List data) async {
-    setState(() => searchResult = data);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +21,7 @@ class _CalendarSearchScreenState extends State<CalendarSearchScreen> {
           child: Column(
             children: [
               const SizedBox(height: 32),
-              TopMenuBarWidget(setSearchResult: setSearchResult),
+              const TopMenuBarWidget(),
               const SizedBox(height: 10),
               Expanded(
                 child: Stack(
@@ -34,22 +31,17 @@ class _CalendarSearchScreenState extends State<CalendarSearchScreen> {
                         padding: EdgeInsets.symmetric(
                             horizontal:
                                 MediaQuery.of(context).size.width * 0.06),
-                        child: const Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            SizedBox(height: 20),
-                            SearchItemWidget(),
-                            SearchItemWidget(),
-                            SearchItemWidget(),
-                            SearchItemWidget(),
-                            SearchItemWidget(),
-                            SearchItemWidget(),
-                            SearchItemWidget(),
-                            SearchItemWidget(),
-                            SearchItemWidget(),
-                            SizedBox(height: 24),
-                          ],
-                        ),
+                        child: GetX<CalendarController>(builder: (controller) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              const SizedBox(height: 20),
+                              ...controller.searchEvents.map((element) =>
+                                  SearchItemWidget(eventDetail: element)),
+                              const SizedBox(height: 24),
+                            ],
+                          );
+                        }),
                       ),
                     ),
                     Positioned(
