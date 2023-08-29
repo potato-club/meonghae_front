@@ -6,6 +6,7 @@ import 'package:meonghae_front/widgets/calendar_info_screen/additional_info_widg
 import 'package:meonghae_front/widgets/calendar_info_screen/dog_select_widget.dart';
 import 'package:meonghae_front/widgets/calendar_info_screen/filter_widget.dart';
 import 'package:meonghae_front/widgets/calendar_info_screen/top_menu_bar_widget.dart';
+import 'package:meonghae_front/widgets/common/loading_dot_widget.dart';
 
 class CalendarInfoScreen extends StatefulWidget {
   const CalendarInfoScreen({super.key});
@@ -52,7 +53,16 @@ class _CalendarInfoScreenState extends State<CalendarInfoScreen> {
                   width: MediaQuery.of(context).size.width,
                   height: 100,
                   color: CustomColor.ivory2,
-                  child: const TopMenuBarWidget()))
+                  child: const TopMenuBarWidget())),
+          GetX<CalendarController>(builder: (controller) {
+            return Visibility(
+              visible: controller.isSending.value,
+              child: const Positioned(
+                  child: Center(
+                child: LoadingDotWidget(color: CustomColor.black2),
+              )),
+            );
+          }),
         ]),
       ),
     );

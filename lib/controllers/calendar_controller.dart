@@ -64,7 +64,6 @@ class CalendarController extends GetxController {
             final List<CalendarDetailModel> eventsList = contentList
                 .map((json) => CalendarDetailModel.fromJson(json))
                 .toList();
-            print(data.data);
             searchEvents.value = eventsList;
           },
           errorMsg: "일정 검색에 실패하였어요");
@@ -85,17 +84,19 @@ class CalendarController extends GetxController {
               'scheduleId': monthEvent.scheduleIds,
             },
             successFunc: (data) {
+              print(data.data);
               List<Map<String, dynamic>> contentList =
                   List<Map<String, dynamic>>.from(data.data);
               final List<CalendarDetailModel> eventsList = contentList
                   .map((json) => CalendarDetailModel.fromJson(json))
                   .toList();
-              print(data.data);
               dayEvents.value = eventsList;
             },
             errorMsg: "일정 호출에 실패하였어요");
+        return;
       }
     }
+    dayEvents.value = [];
   }
 
   Future<void> fetchData() async {
@@ -119,13 +120,14 @@ class CalendarController extends GetxController {
     selectedDay.value = DateTime.now();
     focusedDay.value = DateTime.now();
     fetchData();
-    selectedDay();
+    clickDay();
   }
 
   Future<void> addCalendar() async {
     if (!isSending.value) {
       if (calendarForm.value.isFilled()) {
-        SendAPI.post(
+        isSending.value = true;
+        await SendAPI.post(
           url: "/profile-service/profile/calendar",
           request: {
             'petId': calendarForm.value.petId,
@@ -147,14 +149,16 @@ class CalendarController extends GetxController {
               'alarmTime': calendarForm.value.alarmTimeFormat(
                   calendarForm.value.alarmDate, calendarForm.value.alarmTime),
           },
-          successFunc: (data) {
+          successFunc: (data) async {
             Get.back();
             clearForm();
-            fetchData();
+            await fetchData();
+            await clickDay();
             SnackBarWidget.show(SnackBarType.check, "성공적으로 일정을 등록했어요");
           },
           errorMsg: "일정 등록에 실패하였어요",
         );
+        isSending.value = false;
       } else {
         SnackBarWidget.show(SnackBarType.error, "모든 정보를 입력해주세요");
       }
@@ -174,6 +178,7 @@ class CalendarController extends GetxController {
       scheduleTime: DateTime.now(),
       scheduleType: null,
     );
+    isSending.value = false;
     customMode.value = false;
     memoController.clear();
   }

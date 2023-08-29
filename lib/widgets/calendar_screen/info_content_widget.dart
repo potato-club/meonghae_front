@@ -116,7 +116,7 @@ class _InfoContentWidgetState extends State<InfoContentWidget> {
                         ? const NoInfoWidget()
                         : SizedBox(
                             height: MediaQuery.of(context).size.height -
-                                633 +
+                                625 +
                                 _containerHeight,
                             child: _containerHeight == 0
                                 ? Padding(
