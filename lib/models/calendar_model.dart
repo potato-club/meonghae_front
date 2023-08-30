@@ -1,14 +1,14 @@
 import 'package:intl/intl.dart';
 
 class CalendarModel {
-  final int day;
-  final List<dynamic> scheduleIds;
-  CalendarModel({required this.day, required this.scheduleIds});
+  final int month;
+  final List<dynamic> schedules;
+  CalendarModel({required this.month, required this.schedules});
 
   factory CalendarModel.fromJson(Map<String, dynamic> json) {
     return CalendarModel(
-      day: json['day'],
-      scheduleIds: json['scheduleIds'],
+      month: json['month'],
+      schedules: json['schedules'],
     );
   }
 }

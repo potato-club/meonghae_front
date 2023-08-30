@@ -22,15 +22,12 @@ class CalendarController extends GetxController {
   var customMode = false.obs;
   final TextEditingController memoController = TextEditingController();
   var isSending = false.obs;
+  var isLoading = false.obs;
   var selectedDay = DateTime.now().obs;
   var focusedDay = DateTime.now().obs;
   var monthEvents = <CalendarModel>[].obs;
   var dayEvents = <CalendarDetailModel>[].obs;
   var searchEvents = <CalendarDetailModel>[].obs;
-
-  // String formatDate(int date) {
-  //   return date.toString().padLeft(2, '0');
-  // }
 
   String parseTimeString(String time) {
     DateTime dateTime = DateTime.parse(time);
@@ -55,6 +52,7 @@ class CalendarController extends GetxController {
 
   Future<void> search(String key) async {
     if (key.length > 1) {
+      isLoading.value = true;
       await SendAPI.get(
           url: "/profile-service/profile/calendar/find",
           params: {'key': key},
@@ -67,6 +65,7 @@ class CalendarController extends GetxController {
             searchEvents.value = eventsList;
           },
           errorMsg: "일정 검색에 실패하였어요");
+      isLoading.value = false;
     } else {
       SnackBarWidget.show(SnackBarType.error, '2글자 이상의 단어를 검색해주세요');
     }
@@ -74,26 +73,29 @@ class CalendarController extends GetxController {
 
   Future<void> clickDay() async {
     for (var monthEvent in monthEvents) {
-      if (monthEvent.day == selectedDay.value.day) {
-        await SendAPI.get(
-            url: "/profile-service/profile/calendar/day",
-            request: {
-              'year': focusedDay.value.year,
-              'month': focusedDay.value.month,
-              'day': focusedDay.value.day,
-              'scheduleId': monthEvent.scheduleIds,
-            },
-            successFunc: (data) {
-              print(data.data);
-              List<Map<String, dynamic>> contentList =
-                  List<Map<String, dynamic>>.from(data.data);
-              final List<CalendarDetailModel> eventsList = contentList
-                  .map((json) => CalendarDetailModel.fromJson(json))
-                  .toList();
-              dayEvents.value = eventsList;
-            },
-            errorMsg: "일정 호출에 실패하였어요");
-        return;
+      if (monthEvent.month == selectedDay.value.month) {
+        for (var schedule in monthEvent.schedules) {
+          if (schedule['day'] == selectedDay.value.day) {
+            await SendAPI.get(
+                url: "/profile-service/profile/calendar/day",
+                request: {
+                  'year': focusedDay.value.year,
+                  'month': focusedDay.value.month,
+                  'day': focusedDay.value.day,
+                  'scheduleId': schedule['scheduleIds'],
+                },
+                successFunc: (data) {
+                  List<Map<String, dynamic>> contentList =
+                      List<Map<String, dynamic>>.from(data.data);
+                  final List<CalendarDetailModel> eventsList = contentList
+                      .map((json) => CalendarDetailModel.fromJson(json))
+                      .toList();
+                  dayEvents.value = eventsList;
+                },
+                errorMsg: "일정 호출에 실패하였어요");
+            return;
+          }
+        }
       }
     }
     dayEvents.value = [];

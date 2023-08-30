@@ -34,6 +34,7 @@ class _TopMenuBarWidgetState extends State<TopMenuBarWidget> {
             highlightColor: Colors.transparent,
             child: const SizedBox(
                 width: 34,
+                height: 34,
                 child: Align(
                     alignment: Alignment.center,
                     child: ArrowSVG(strokeColor: CustomColor.black2))),
@@ -41,6 +42,8 @@ class _TopMenuBarWidgetState extends State<TopMenuBarWidget> {
           Expanded(
             child: TextFormField(
               controller: _searchController,
+              onEditingComplete: () =>
+                  Get.find<CalendarController>().search(_searchController.text),
               decoration: const InputDecoration(
                 hintText: "검색어를 입력해주세요",
                 hintStyle: TextStyle(
@@ -74,7 +77,8 @@ class _TopMenuBarWidgetState extends State<TopMenuBarWidget> {
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
             child: const SizedBox(
-                width: 30,
+                width: 34,
+                height: 34,
                 child: Align(
                     alignment: Alignment.center,
                     child: SearchSVG(strokeColor: CustomColor.black2))),

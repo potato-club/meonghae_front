@@ -26,7 +26,11 @@ class _CalendarWidgetState extends State<CalendarWidget> {
               selectedBuilder: (context, date, _) {
                 return Container(
                     decoration: BoxDecoration(
-                      border: Border.all(color: CustomColor.brown1, width: 1),
+                      border: Border.all(
+                          color: date.month == controller.focusedDay.value.month
+                              ? CustomColor.brown1
+                              : CustomColor.brown1.withOpacity(0.6),
+                          width: 1),
                       shape: BoxShape.circle,
                     ),
                     width: 36,
@@ -34,10 +38,13 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                     margin: const EdgeInsets.only(bottom: 8),
                     child: Center(
                       child: Text('${date.day}',
-                          style: const TextStyle(
+                          style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
-                              color: CustomColor.brown1)),
+                              color: date.month ==
+                                      controller.focusedDay.value.month
+                                  ? CustomColor.brown1
+                                  : CustomColor.brown1.withOpacity(0.6))),
                     ));
               },
               markerBuilder: (context, day, events) {
@@ -47,12 +54,19 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                     offset: const Offset(0, -12),
                     child: Container(
                       decoration: BoxDecoration(
-                          color: (!(day.year == now.year &&
-                                      day.month == now.month &&
-                                      day.day == now.day) &&
-                                  day == controller.selectedDay.value)
-                              ? CustomColor.brown1
-                              : CustomColor.black2,
+                          color: day.month == controller.focusedDay.value.month
+                              ? !(day.year == now.year &&
+                                          day.month == now.month &&
+                                          day.day == now.day) &&
+                                      day == controller.selectedDay.value
+                                  ? CustomColor.brown1
+                                  : CustomColor.black2
+                              : !(day.year == now.year &&
+                                          day.month == now.month &&
+                                          day.day == now.day) &&
+                                      day == controller.selectedDay.value
+                                  ? CustomColor.brown1.withOpacity(0.6)
+                                  : CustomColor.lightGray2,
                           shape: BoxShape.circle),
                       width: 4,
                       height: 4,
@@ -90,27 +104,31 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                   horizontal: MediaQuery.of(context).size.width * 0.03,
                   vertical: 12,
                 )),
-            calendarStyle: const CalendarStyle(
-              defaultTextStyle: TextStyle(
+            calendarStyle: CalendarStyle(
+              defaultTextStyle: const TextStyle(
                 color: CustomColor.black2,
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
               ),
               todayDecoration: BoxDecoration(
-                color: CustomColor.brown1,
+                color: controller.focusedDay.value.month == DateTime.now().month
+                    ? CustomColor.brown1
+                    : CustomColor.brown1.withOpacity(0.6),
                 shape: BoxShape.circle,
               ),
               todayTextStyle: TextStyle(
-                color: CustomColor.black2,
+                color: controller.focusedDay.value.month == DateTime.now().month
+                    ? CustomColor.black2
+                    : CustomColor.lightGray2,
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
               ),
-              weekendTextStyle: TextStyle(
+              weekendTextStyle: const TextStyle(
                 color: CustomColor.black2,
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
               ),
-              outsideTextStyle: TextStyle(
+              outsideTextStyle: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
                 color: CustomColor.lightGray2,
@@ -129,9 +147,12 @@ class _CalendarWidgetState extends State<CalendarWidget> {
             calendarFormat: CalendarFormat.month,
             eventLoader: (day) {
               for (var event in controller.monthEvents) {
-                if (controller.focusedDay.value.month == day.month &&
-                    event.day == day.day) {
-                  return event.scheduleIds;
+                if (event.month == day.month) {
+                  for (var schedule in event.schedules) {
+                    if (schedule['day'] == day.day) {
+                      return schedule['scheduleIds'];
+                    }
+                  }
                 }
               }
               return [];
