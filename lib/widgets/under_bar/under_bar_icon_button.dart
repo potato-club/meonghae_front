@@ -3,14 +3,14 @@ import 'package:get/get.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 
 class UnderBarIconButtonWidget extends StatelessWidget {
-  final String routePath;
+  final Function onClick;
   final Widget iconSVG;
   final String currentScreen;
   final String label;
   const UnderBarIconButtonWidget({
     super.key,
     required this.iconSVG,
-    required this.routePath,
+    required this.onClick,
     required this.currentScreen,
     required this.label,
   });
@@ -18,7 +18,7 @@ class UnderBarIconButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => {if (currentScreen != label) Get.offNamed(routePath)},
+      onTap: () => onClick(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [

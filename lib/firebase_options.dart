@@ -63,7 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '519382706310',
     projectId: 'meonghae-b9c8b',
     storageBucket: 'meonghae-b9c8b.appspot.com',
-    iosClientId: '519382706310-oj5h68gi4hm82k9g269erol6bgv5tjsj.apps.googleusercontent.com',
-    iosBundleId: 'com.example.meonghaeFront',
+    iosClientId:
+        '519382706310-oj5h68gi4hm82k9g269erol6bgv5tjsj.apps.googleusercontent.com',
+    iosBundleId: 'com.meonghae',
   );
 }

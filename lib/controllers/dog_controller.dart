@@ -169,7 +169,6 @@ class DogController extends GetxController {
                     "image": await dio.MultipartFile.fromFile(
                         dogsForm[i].image!.path)
                 });
-                print('put');
                 await SendAPI.put(
                   url: "/profile-service/profile/${dogsForm[i].id}",
                   request: formData,
@@ -188,7 +187,6 @@ class DogController extends GetxController {
                   "image":
                       await dio.MultipartFile.fromFile(dogsForm[i].image!.path)
               });
-              print('post');
               await SendAPI.post(
                 url: "/profile-service/profile",
                 request: formData,
