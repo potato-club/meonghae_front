@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/screens/calendar_screen.dart';
-import 'package:meonghae_front/screens/inquiry_screen.dart';
-import 'package:meonghae_front/screens/main_screen.dart';
-import 'package:meonghae_front/screens/post_screen.dart';
-import 'package:meonghae_front/screens/review_menu_screen.dart';
+import 'package:get/get.dart';
+import 'package:meonghae_front/config/app_routes.dart';
+import 'package:meonghae_front/controllers/calendar_controller.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/svg/under_bar/ask.dart';
 import 'package:meonghae_front/widgets/svg/under_bar/calendar.dart';
@@ -24,9 +22,9 @@ class UnderBarWidget extends StatelessWidget {
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-                color: CustomColor.black1.withOpacity(0.12),
-                offset: const Offset(0, -4),
-                blurRadius: 12,
+                color: CustomColor.black1.withOpacity(0.2),
+                offset: const Offset(0, 8),
+                blurRadius: 20,
                 spreadRadius: 0)
           ],
         ),
@@ -42,28 +40,48 @@ class UnderBarWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   UnderBarIconButtonWidget(
-                      iconSVG: CalendarSVG(isCurrent: '캘린더' == currentScreen),
-                      routePath: const CalendarScreen(),
+                      iconSVG:
+                          CalendarSVG(isCurrent: currentScreen.contains('캘린더')),
+                      onClick: () {
+                        if (currentScreen != '캘린더') {
+                          Get.offNamed(AppRoutes.calendar);
+                          Get.find<CalendarController>().clear();
+                        }
+                      },
                       currentScreen: currentScreen,
                       label: '캘린더'),
                   UnderBarIconButtonWidget(
-                      iconSVG: PostSVG(isCurrent: '게시물' == currentScreen),
-                      routePath: const PostScreen(),
+                      iconSVG:
+                          PostSVG(isCurrent: currentScreen.contains('게시물')),
+                      onClick: () => {
+                            if (currentScreen != '게시물')
+                              Get.offNamed(AppRoutes.post)
+                          },
                       currentScreen: currentScreen,
                       label: '게시물'),
                   UnderBarIconButtonWidget(
-                      iconSVG: HomeSVG(isCurrent: '홈' == currentScreen),
-                      routePath: const MainScreen(),
+                      iconSVG: HomeSVG(isCurrent: currentScreen.contains('홈')),
+                      onClick: () => {
+                            if (currentScreen != '홈')
+                              Get.offNamed(AppRoutes.main)
+                          },
                       currentScreen: currentScreen,
                       label: '홈'),
                   UnderBarIconButtonWidget(
-                      iconSVG: ReviewSVG(isCurrent: '리뷰' == currentScreen),
-                      routePath: const ReviewMenuScreen(),
+                      iconSVG:
+                          ReviewSVG(isCurrent: currentScreen.contains('리뷰')),
+                      onClick: () => {
+                            if (currentScreen != '리뷰')
+                              Get.offNamed(AppRoutes.reviewMenu)
+                          },
                       currentScreen: currentScreen,
                       label: '리뷰'),
                   UnderBarIconButtonWidget(
-                      iconSVG: AskSVG(isCurrent: '문의' == currentScreen),
-                      routePath: const InquiryScreen(),
+                      iconSVG: AskSVG(isCurrent: currentScreen.contains('문의')),
+                      onClick: () => {
+                            if (currentScreen != '문의')
+                              Get.offNamed(AppRoutes.inquiry)
+                          },
                       currentScreen: currentScreen,
                       label: '문의')
                 ],

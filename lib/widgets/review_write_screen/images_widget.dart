@@ -1,8 +1,9 @@
-import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:get/get.dart';
+import 'package:meonghae_front/controllers/review_controller.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/widgets/common/custom_modal_widget.dart';
 import 'package:meonghae_front/widgets/svg/plus.dart';
 
 class ImagesWidget extends StatefulWidget {
@@ -13,54 +14,55 @@ class ImagesWidget extends StatefulWidget {
 }
 
 class _ImagesWidgetState extends State<ImagesWidget> {
-  List<File?> images = [];
-  void pickImage() async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      if (pickedFile != null) {
-        images.add(File(pickedFile.path));
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        for (var image in images)
-          Row(
-            children: [
-              Container(
-                width: 78,
-                height: 78,
-                clipBehavior: Clip.hardEdge,
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                child: Image.file(image!, fit: BoxFit.cover),
-              ),
-              SizedBox(width: 14)
-            ],
-          ),
-        if (images.length < 3)
-          InkWell(
-            onTap: pickImage,
-            child: SizedBox(
-              width: 78,
-              height: 78,
-              child: DottedBorder(
-                  color: CustomColor.gray,
-                  strokeWidth: 1,
-                  borderType: BorderType.RRect,
-                  radius: const Radius.circular(10),
-                  child: const Center(
-                    child: PlusSVG(
-                      color: CustomColor.gray,
-                    ),
-                  )),
+    return GetX<ReviewController>(builder: (controller) {
+      return Row(
+        children: [
+          for (int i = 0; i < controller.images.length; i++)
+            Row(
+              children: [
+                InkWell(
+                  onTap: () => CustomModalWidget.show("사진을 삭제하시겠어요?", () {
+                    controller.deleteImage(i);
+                    FocusScope.of(context).unfocus();
+                  }),
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  child: Container(
+                    width: 78,
+                    height: 78,
+                    clipBehavior: Clip.hardEdge,
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(10)),
+                    child: Image.file(controller.images[i], fit: BoxFit.cover),
+                  ),
+                ),
+                const SizedBox(width: 14)
+              ],
             ),
-          )
-      ],
-    );
+          if (controller.images.length < 3)
+            InkWell(
+              onTap: () => controller.pickImage(),
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              child: SizedBox(
+                width: 80,
+                height: 80,
+                child: DottedBorder(
+                    color: CustomColor.gray,
+                    strokeWidth: 1,
+                    borderType: BorderType.RRect,
+                    radius: const Radius.circular(10),
+                    child: const Center(
+                      child: PlusSVG(
+                        color: CustomColor.gray,
+                      ),
+                    )),
+              ),
+            )
+        ],
+      );
+    });
   }
 }
