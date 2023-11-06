@@ -15,7 +15,7 @@ class NoInfoWidget extends StatelessWidget {
         height: MediaQuery.of(context).size.height - 645,
         child: const Align(
           child: Text(
-            '저장된 기록이 없습니다',
+            '저장된 기록이 없어요',
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w700,

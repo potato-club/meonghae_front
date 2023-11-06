@@ -37,7 +37,7 @@ class _ImagesSwiperWidgetState extends State<ImagesSwiperWidget> {
                     width: MediaQuery.of(context).size.width * 0.88,
                     child: Image.network(
                       item["fileUrl"],
-                      // fit: BoxFit.cover,
+                      fit: BoxFit.cover,
                     ));
               },
             );

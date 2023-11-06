@@ -1,24 +1,16 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/config/base_url.dart';
-import 'package:meonghae_front/login/token.dart';
+import 'package:get/get.dart';
+import 'package:meonghae_front/controllers/post_detail_controller.dart';
+import 'package:meonghae_front/models/custom_under_modal_model.dart';
 import 'package:meonghae_front/themes/customColor.dart';
-import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
-import 'package:meonghae_front/widgets/post_detail_screen/custom_under_modal_widget.dart';
+import 'package:meonghae_front/widgets/common/custom_under_modal_widget.dart';
 import 'package:meonghae_front/widgets/post_detail_screen/banner_widget.dart';
 import 'package:meonghae_front/widgets/post_detail_screen/detail_comment_widget.dart';
 import 'package:meonghae_front/widgets/post_detail_screen/detail_content_widget.dart';
 import 'package:meonghae_front/widgets/post_detail_screen/write_comment_bar_widget.dart';
 
 class PostDetailScreen extends StatefulWidget {
-  final String currentSection;
-  final int id;
-  final Function fetchData;
-  const PostDetailScreen(
-      {super.key,
-      required this.id,
-      required this.currentSection,
-      required this.fetchData});
+  const PostDetailScreen({super.key});
   @override
   State<PostDetailScreen> createState() => _PostDetailScreenState();
 }
@@ -35,53 +27,6 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    fetchData();
-  }
-
-  Map<String, dynamic>? post;
-  List comments = [];
-
-  void handlePop() {
-    widget.fetchData();
-    Navigator.pop(context);
-  }
-
-  Future<void> fetchData() async {
-    try {
-      final dio = Dio();
-      var token = await readAccessToken();
-      dio.options.headers['Authorization'] = token;
-      final response = await dio.get(
-        '${baseUrl}community-service/boards/${widget.id}',
-      );
-      if (response.statusCode == 200) {
-        setState(() => post = response.data);
-      } else {
-        SnackBarWidget.show(context, SnackBarType.error, "게시글 정보 호출에 실패하였습니다");
-      }
-    } catch (error) {
-      SnackBarWidget.show(context, SnackBarType.error, error.toString());
-    }
-    try {
-      final dio = Dio();
-      var token = await readAccessToken();
-      dio.options.headers['Authorization'] = token;
-      final response = await dio.get(
-        '${baseUrl}community-service/boardComments/${widget.id}',
-      );
-      if (response.statusCode == 200) {
-        setState(() => comments = response.data['content']);
-      } else {
-        SnackBarWidget.show(context, SnackBarType.error, "댓글 정보 호출에 실패하였습니다");
-      }
-    } catch (error) {
-      SnackBarWidget.show(context, SnackBarType.error, error.toString());
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColor.white,
@@ -89,38 +34,31 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
         SizedBox(
           height: MediaQuery.of(context).size.height,
           child: SingleChildScrollView(
+              controller:
+                  Get.find<PostDetailController>().scrollController.value,
               child: Column(
-            children: [
-              SizedBox(height: 100),
-              DetailContentWidget(
-                  post: post, fetchData: fetchData, id: widget.id),
-              DetailCommentWidget(
-                setIsCommentMoreModal: setIsCommentMoreModal,
-                comments: comments,
-              ),
-            ],
-          )),
+                children: [
+                  const SizedBox(height: 100),
+                  const DetailContentWidget(),
+                  DetailCommentWidget(
+                      setIsCommentMoreModal: setIsCommentMoreModal),
+                ],
+              )),
         ),
         Positioned(
             top: 0,
-            child: BannerWidget(
-              setIsPostMoreModal: setIsPostMoreModal,
-              currentSection: widget.currentSection,
-              handlePop: handlePop,
-            )),
-        Positioned(
-            bottom: 0,
-            child: WriteCommentBarWidget(id: widget.id, fetchData: fetchData)),
+            child: BannerWidget(setIsPostMoreModal: setIsPostMoreModal)),
+        const Positioned(bottom: 0, child: WriteCommentBarWidget()),
         if (isPostMoreModalOpen)
           Positioned(
               bottom: 0,
               child: CustomUnderModalWidget(
                 isOpen: isPostMoreModalOpen,
                 onClose: () => setIsPostMoreModal(false),
-                label1: '게시물 수정하기',
-                label2: '게시물 삭제하기',
-                func1: () => {},
-                func2: () => {},
+                modalList: [
+                  CustomUnderModalModel(label: '게시글 수정하기', onClick: () {}),
+                  CustomUnderModalModel(label: '게시글 삭제하기', onClick: () {}),
+                ],
               )),
         if (isCommentMoreModalOpen)
           Positioned(
@@ -128,10 +66,16 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
               child: CustomUnderModalWidget(
                 isOpen: isCommentMoreModalOpen,
                 onClose: () => setIsCommentMoreModal(false),
-                label1: '댓글 수정하기',
-                label2: '댓글 삭제하기',
-                func1: () => {},
-                func2: () => {},
+                modalList: [
+                  CustomUnderModalModel(
+                      label: '대댓글 작성하기',
+                      onClick: () {
+                        Get.find<PostDetailController>().setReplyMode(true);
+                        FocusScope.of(context).unfocus();
+                      }),
+                  CustomUnderModalModel(label: '댓글 수정하기', onClick: () {}),
+                  CustomUnderModalModel(label: '댓글 삭제하기', onClick: () {}),
+                ],
               ))
       ]),
     );

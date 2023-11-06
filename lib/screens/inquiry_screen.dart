@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/screens/Inquiry_1to1_screen.dart';
+import 'package:get/get.dart';
+import 'package:meonghae_front/config/app_routes.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/svg/pencil.dart';
 import 'package:meonghae_front/widgets/under_bar/under_bar_widget.dart';
@@ -360,10 +361,9 @@ class _InquiryScreenState extends State<InquiryScreen> {
                           height: 33,
                         ),
                         InkWell(
-                          onTap: () => Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      InQuiry1To1Screen())),
+                          onTap: () => Get.toNamed(AppRoutes.inquiry1to1),
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
                           child: Container(
                             decoration: BoxDecoration(
                               color: Colors.white,

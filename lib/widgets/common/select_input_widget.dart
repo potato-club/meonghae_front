@@ -103,11 +103,14 @@ class _SelectInputWidgetState extends State<SelectInputWidget> {
             isOpen = !isOpen;
           });
           if (isOpen) {
+            FocusScope.of(context).unfocus();
             Overlay.of(context).insert(_overlayEntry!);
           } else {
             _overlayEntry!.remove();
           }
         },
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
         child: Container(
           width: widget.width,
           height: widget.height,
@@ -123,13 +126,16 @@ class _SelectInputWidgetState extends State<SelectInputWidget> {
                       left: widget.isBigIcon ? 22 : 14,
                       right: widget.isBigIcon ? 12 : 8),
                   child: Text(
-                    value ?? (widget.hintText ?? ""),
+                    (value == '' || value == null)
+                        ? (widget.hintText ?? "")
+                        : value!,
                     textAlign: widget.textAlign,
                     style: TextStyle(
                       fontSize: widget.fontSize,
-                      color:
-                          value == null ? CustomColor.gray : CustomColor.black2,
-                      letterSpacing: value == null ? -1 : null,
+                      color: (value == '' || value == null)
+                          ? CustomColor.gray
+                          : CustomColor.black2,
+                      letterSpacing: (value == '' || value == null) ? -1 : null,
                       fontWeight: widget.isBold ? FontWeight.w700 : null,
                     ),
                   ),
@@ -139,7 +145,7 @@ class _SelectInputWidgetState extends State<SelectInputWidget> {
                 padding: EdgeInsets.only(right: widget.isBigIcon ? 16 : 8),
                 child: widget.isBigIcon
                     ? const BottomArrowSVG(size: 12, color: CustomColor.gray)
-                    : const TinyBottomArrowSVG(),
+                    : const TinyBottomArrowSVG(strokeColor: CustomColor.black2),
               ),
             ],
           ),

@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:meonghae_front/controllers/post_controller.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/svg/arrow.dart';
 import 'package:meonghae_front/widgets/svg/more.dart';
 
 class BannerWidget extends StatefulWidget {
   final Function setIsPostMoreModal;
-  final String currentSection;
-  final Function handlePop;
   const BannerWidget({
     super.key,
     required this.setIsPostMoreModal,
-    required this.currentSection,
-    required this.handlePop,
   });
 
   @override
@@ -24,7 +22,7 @@ class _BannerWidgetState extends State<BannerWidget> {
     return Container(
       height: 100,
       width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: CustomColor.brown1,
       ),
       child: Column(
@@ -35,7 +33,9 @@ class _BannerWidgetState extends State<BannerWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               InkWell(
-                  onTap: () => widget.handlePop(),
+                  onTap: () => Get.back(),
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
                   child: Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: MediaQuery.of(context).size.width * 0.06,
@@ -47,13 +47,17 @@ class _BannerWidgetState extends State<BannerWidget> {
                             alignment: Alignment.centerLeft,
                             child: ArrowSVG(strokeColor: CustomColor.black2))),
                   )),
-              Text(widget.currentSection,
-                  style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                      color: CustomColor.black2)),
+              GetX<PostController>(builder: (controller) {
+                return Text(controller.typeToString(),
+                    style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        color: CustomColor.black2));
+              }),
               InkWell(
                   onTap: () => widget.setIsPostMoreModal(true),
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
                   child: Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: MediaQuery.of(context).size.width * 0.06,

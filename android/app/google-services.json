@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "519382706310",
+    "project_id": "meonghae-b9c8b",
+    "storage_bucket": "meonghae-b9c8b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:519382706310:android:e5e2637f679e0fce840907",
+        "android_client_info": {
+          "package_name": "com.meonghae"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "519382706310-p6e71niulq5ko2easdnhi47nhrdm6hp6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8ib63cJYyvJgsSuA7qwneTxxsvI5ePfE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "519382706310-p6e71niulq5ko2easdnhi47nhrdm6hp6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:519382706310:android:5ea2dea725250ce4840907",
+        "android_client_info": {
+          "package_name": "com.meonghae.profile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "519382706310-p6e71niulq5ko2easdnhi47nhrdm6hp6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8ib63cJYyvJgsSuA7qwneTxxsvI5ePfE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "519382706310-p6e71niulq5ko2easdnhi47nhrdm6hp6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

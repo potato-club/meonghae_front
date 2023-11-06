@@ -1,4 +1,4 @@
-package com.example.meonghae_front
+package com.meonghae
 
 import io.flutter.embedding.android.FlutterActivity
 

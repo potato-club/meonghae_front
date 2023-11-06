@@ -1,115 +1,138 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/config/base_url.dart';
-import 'package:meonghae_front/login/token.dart';
+import 'package:get/get.dart';
+import 'package:meonghae_front/controllers/post_detail_controller.dart';
 import 'package:meonghae_front/themes/customColor.dart';
-import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
-import 'package:meonghae_front/widgets/svg/tiny_right_arrow.dart';
+import 'package:meonghae_front/widgets/svg/cancel.dart';
+import 'package:meonghae_front/widgets/svg/reply.dart';
+import 'package:meonghae_front/widgets/svg/send.dart';
 
 class WriteCommentBarWidget extends StatefulWidget {
-  final int id;
-  final Function fetchData;
-  const WriteCommentBarWidget(
-      {super.key, required this.id, required this.fetchData});
+  const WriteCommentBarWidget({super.key});
 
   @override
   State<WriteCommentBarWidget> createState() => _WriteCommentBarWidgetState();
 }
 
 class _WriteCommentBarWidgetState extends State<WriteCommentBarWidget> {
-  TextEditingController textController = TextEditingController();
-
-  @override
-  void dispose() {
-    textController.dispose();
-    super.dispose();
-  }
-
-  void handleClearText() {
-    textController.clear();
-  }
-
-  Future<void> handlePostComment() async {
-    if (textController.text != '') {
-      try {
-        final dio = Dio();
-        var token = await readAccessToken();
-        dio.options.headers['Authorization'] = token;
-        print('${baseUrl}community-service/boardComments/${widget.id}');
-        final response = await dio.post(
-            '${baseUrl}community-service/boardComments/${widget.id}',
-            data: {"comment": "${textController.text}"});
-        print(response.headers);
-        print(response.data);
-        print(response.statusCode);
-        if (response.statusCode == 201) {
-          FocusScope.of(context).unfocus();
-          handleClearText();
-          widget.fetchData();
-        } else {
-          SnackBarWidget.show(context, SnackBarType.error, "댓글 작성에 실패하였습니다");
-        }
-      } catch (error) {
-        SnackBarWidget.show(context, SnackBarType.error, error.toString());
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: CustomColor.white,
-        boxShadow: [
-          BoxShadow(
-              color: CustomColor.black1.withOpacity(0.20),
-              offset: const Offset(0, 8),
-              blurRadius: 20,
-              spreadRadius: 0)
-        ],
-      ),
-      height: 74,
-      width: MediaQuery.of(context).size.width,
-      child: Padding(
-        padding: EdgeInsets.symmetric(
-            horizontal: MediaQuery.of(context).size.width * 0.06, vertical: 15),
-        child: Stack(children: [
-          TextFormField(
-            controller: textController,
-            decoration: const InputDecoration(
-              hintText: '댓글 입력하기',
-              alignLabelWithHint: true,
-              border: OutlineInputBorder(
-                borderSide: BorderSide.none,
-                borderRadius: BorderRadius.all(Radius.circular(10)),
+    return GetX<PostDetailController>(builder: (controller) {
+      return Container(
+        decoration: BoxDecoration(
+          color: CustomColor.white,
+          boxShadow: [
+            BoxShadow(
+                color: CustomColor.black1.withOpacity(0.2),
+                offset: const Offset(0, 8),
+                blurRadius: 20,
+                spreadRadius: 0)
+          ],
+        ),
+        height: controller.replyMode.value ? 105 : 74,
+        width: MediaQuery.of(context).size.width,
+        child: Stack(
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width * 0.06,
+                  vertical: 15),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  if (controller.replyMode.value)
+                    Padding(
+                        padding: const EdgeInsets.only(right: 12, top: 5),
+                        child: Text(controller.replyComment.value,
+                            style: const TextStyle(fontSize: 13, height: 1.2))),
+                  Stack(children: [
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: controller.replyMode.value ? 20 : 0),
+                      child: SizedBox(
+                        height: 44,
+                        child: TextFormField(
+                          controller: controller.textController,
+                          decoration: InputDecoration(
+                            hintText: controller.replyMode.value
+                                ? '대댓글 입력하기'
+                                : '댓글 입력하기',
+                            alignLabelWithHint: true,
+                            border: const OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                            ),
+                            filled: true,
+                            fillColor: CustomColor.ivory2,
+                            contentPadding:
+                                const EdgeInsets.only(left: 14, right: 45),
+                            hintStyle: const TextStyle(
+                              color: CustomColor.gray,
+                              fontSize: 14,
+                            ),
+                            errorStyle: const TextStyle(
+                                fontSize: 11, color: Colors.transparent),
+                          ),
+                          style: const TextStyle(fontSize: 14),
+                          keyboardType: TextInputType.text,
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      right: 0,
+                      child: InkWell(
+                        onTap: () {
+                          if (controller.replyMode.value) {
+                            controller
+                                .postReply(controller.textController.text);
+                            controller.replyMode(false);
+                          } else {
+                            controller
+                                .postComment(controller.textController.text);
+                          }
+                          FocusScope.of(context).unfocus();
+                          controller.textController.clear();
+                        },
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        child: const SizedBox(
+                          height: 44,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 13),
+                            child: SendSVG(strokeColor: CustomColor.lightGray2),
+                          ),
+                        ),
+                      ),
+                    ),
+                    if (controller.replyMode.value)
+                      const Positioned(left: 0, top: 0, child: ReplySVG())
+                  ]),
+                ],
               ),
-              filled: true,
-              fillColor: CustomColor.ivory2,
-              contentPadding: EdgeInsets.only(left: 14, right: 34),
-              hintStyle: TextStyle(
-                color: CustomColor.gray,
-                fontSize: 12,
-              ),
-              errorStyle: TextStyle(fontSize: 11, color: Colors.transparent),
             ),
-            style: const TextStyle(fontSize: 12),
-            keyboardType: TextInputType.text,
-          ),
-          Positioned(
-            right: 0,
-            child: InkWell(
-              onTap: () => handlePostComment(),
-              child: const SizedBox(
-                  width: 34,
-                  height: 44,
+            if (controller.replyMode.value)
+              Positioned(
+                right: 0,
+                child: InkWell(
+                  onTap: () {
+                    controller.replyMode(false);
+                    FocusScope.of(context).unfocus();
+                  },
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-                    child: TinyRightArrowSVG(color: CustomColor.gray),
-                  )),
-            ),
-          )
-        ]),
-      ),
-    );
+                    padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width * 0.06,
+                        vertical: 15),
+                    child: const SizedBox(width: 14, child: CancelSVG()),
+                  ),
+                ),
+              ),
+          ],
+        ),
+      );
+    });
   }
 }

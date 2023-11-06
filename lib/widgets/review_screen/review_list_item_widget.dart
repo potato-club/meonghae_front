@@ -1,46 +1,25 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/config/base_url.dart';
-import 'package:meonghae_front/login/token.dart';
+import 'package:get/get.dart';
+import 'package:meonghae_front/controllers/review_controller.dart';
+import 'package:meonghae_front/models/review_model.dart';
 import 'package:meonghae_front/themes/customColor.dart';
-import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 import 'package:meonghae_front/widgets/review_screen/images_swiper_widget.dart';
 import 'package:meonghae_front/widgets/review_screen/star_rating_widget.dart';
 import 'package:meonghae_front/widgets/svg/like.dart';
 
 class ReviewListItemWidget extends StatefulWidget {
-  final Function fetchReviewData;
-  final Map<String, dynamic> review;
+  final ReviewModel reviewData;
+  final int index;
   const ReviewListItemWidget(
-      {super.key, required this.review, required this.fetchReviewData});
+      {super.key, required this.reviewData, required this.index});
 
   @override
   State<ReviewListItemWidget> createState() => _ReviewListItemWidgetState();
 }
 
 class _ReviewListItemWidgetState extends State<ReviewListItemWidget> {
-  Future<void> onClickLike(bool isLike) async {
-    try {
-      final dio = Dio();
-      var token = await readAccessToken();
-      dio.options.headers['Authorization'] = token;
-      final response = await dio.post(
-          '${baseUrl}community-service/reviews/${widget.review['id']}/recommend',
-          data: {"isLike": isLike});
-      if (response.statusCode == 200) {
-        widget.fetchReviewData();
-      } else {
-        SnackBarWidget.show(context, SnackBarType.error,
-            "${isLike ? "좋아요" : "싫어요"} 등록에 실패하였습니다");
-      }
-    } catch (error) {
-      SnackBarWidget.show(context, SnackBarType.error, error.toString());
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    print(widget.review);
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: MediaQuery.of(context).size.width * 0.06,
@@ -55,12 +34,12 @@ class _ReviewListItemWidgetState extends State<ReviewListItemWidget> {
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
           child: Stack(children: [
             Column(
               children: [
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
                       clipBehavior: Clip.hardEdge,
@@ -69,26 +48,26 @@ class _ReviewListItemWidgetState extends State<ReviewListItemWidget> {
                       decoration: const BoxDecoration(
                           color: CustomColor.lightGray3,
                           shape: BoxShape.circle),
-                      child: Transform.scale(
-                        scale: 1.8,
-                        child: widget.review["profileUrl"] != null
-                            ? Image.network(
-                                widget.review["profileUrl"],
-                                fit: BoxFit.cover,
-                              )
-                            : const Image(
+                      child: widget.reviewData.profileUrl != null
+                          ? Image.network(
+                              widget.reviewData.profileUrl!,
+                              fit: BoxFit.cover,
+                            )
+                          : Transform.scale(
+                              scale: 1.8,
+                              child: const Image(
                                 image: AssetImage(
                                   'assets/images/dog_pictures/face.png',
                                 ),
                               ),
-                      ),
+                            ),
                     ),
                     const SizedBox(width: 12),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          widget.review['nickname'],
+                          widget.reviewData.nickname,
                           style: const TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w700,
@@ -98,14 +77,13 @@ class _ReviewListItemWidgetState extends State<ReviewListItemWidget> {
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            StarRatingWidget(rate: widget.review['rating']),
+                            StarRatingWidget(rate: widget.reviewData.rating),
                             const SizedBox(width: 8),
                             Text(
-                                widget.review['date']
-                                        .substring(0, 10)
-                                        .replaceAll('-', '.') ??
-                                    '',
-                                style: TextStyle(
+                                widget.reviewData.date
+                                    .substring(0, 10)
+                                    .replaceAll('-', '.'),
+                                style: const TextStyle(
                                     fontSize: 10, color: CustomColor.gray))
                           ],
                         ),
@@ -120,29 +98,30 @@ class _ReviewListItemWidgetState extends State<ReviewListItemWidget> {
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.88 - 40,
                       child: Text(
-                        widget.review['title'],
+                        widget.reviewData.title,
                         style: const TextStyle(
-                            fontSize: 14,
+                            fontSize: 15,
                             fontWeight: FontWeight.w700,
                             color: CustomColor.black2),
                       ),
                     ),
-                    if (widget.review['images'] != null)
+                    if (widget.reviewData.images != null)
                       Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 6),
+                          padding: const EdgeInsets.symmetric(vertical: 12),
                           child: ImagesSwiperWidget(
-                              images: widget.review['images'])),
+                              images: widget.reviewData.images)),
                     const SizedBox(height: 8),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.88 - 100,
                       child: Text(
-                        widget.review['content'],
+                        widget.reviewData.content,
                         style: const TextStyle(
-                          fontSize: 11,
+                          fontSize: 12,
                           color: CustomColor.black2,
                         ),
                       ),
-                    )
+                    ),
+                    const SizedBox(height: 18)
                   ],
                 )
               ],
@@ -155,27 +134,33 @@ class _ReviewListItemWidgetState extends State<ReviewListItemWidget> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     InkWell(
-                        onTap: () => onClickLike(true),
+                        onTap: () => Get.find<ReviewController>().onClickLike(
+                            widget.index, widget.reviewData.id, true),
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
                         child: LikeSVG(
-                            color: widget.review['recommendStatus'] == 'TRUE'
+                            color: widget.reviewData.recommendStatus == 'TRUE'
                                 ? CustomColor.brown1
                                 : CustomColor.lightGray2)),
                     const SizedBox(width: 4),
-                    Text("${widget.review['likes']}",
+                    Text("${widget.reviewData.likes}",
                         style: const TextStyle(
                             fontSize: 11, color: CustomColor.gray)),
                     const SizedBox(width: 10),
                     InkWell(
-                        onTap: () => onClickLike(false),
+                        onTap: () => Get.find<ReviewController>().onClickLike(
+                            widget.index, widget.reviewData.id, false),
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
                         child: Transform.rotate(
                             angle: -3.14,
                             child: LikeSVG(
                                 color:
-                                    widget.review['recommendStatus'] == 'FALSE'
+                                    widget.reviewData.recommendStatus == 'FALSE'
                                         ? CustomColor.brown1
                                         : CustomColor.lightGray2))),
                     const SizedBox(width: 4),
-                    Text("${widget.review['dislikes']}",
+                    Text("${widget.reviewData.dislikes}",
                         style: const TextStyle(
                             fontSize: 11, color: CustomColor.gray)),
                   ],
