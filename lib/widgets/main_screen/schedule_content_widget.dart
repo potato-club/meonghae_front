@@ -1,10 +1,7 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/config/base_url.dart';
-import 'package:meonghae_front/login/token.dart';
-import 'package:meonghae_front/screens/calendar_screen.dart';
+import 'package:meonghae_front/api/dio.dart';
+import 'package:meonghae_front/config/app_routes.dart';
 import 'package:meonghae_front/themes/customColor.dart';
-import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 import 'package:meonghae_front/widgets/main_screen/main_content_label_widget.dart';
 
 class ScheduleContentWidget extends StatefulWidget {
@@ -24,26 +21,20 @@ class _ScheduleContentWidgetState extends State<ScheduleContentWidget> {
   }
 
   Future<void> getPreview() async {
-    try {
-      var token = await readAccessToken();
-      Dio dio = Dio();
-      dio.options.headers['Authorization'] = token;
-      final response =
-          await dio.get('${baseUrl}profile-service/profile/calendar/preview');
-      if (response.statusCode == 200) {
-        preview = response.data;
-        setState(() {});
-      } else {
-        SnackBarWidget.show(
-            context, SnackBarType.error, '일정 미리보기 정보 호출에 실패하였습니다');
-      }
-    } catch (error) {
-      SnackBarWidget.show(context, SnackBarType.error, error.toString());
-    }
+    SendAPI.get(
+      url: "/profile-service/profile/calendar/preview",
+      successFunc: (data) {
+        setState(() => preview = data.data);
+      },
+      errorMsg: "일정 미리보기 정보 호출에 실패하였어요",
+    );
   }
 
   Widget createPostItem(
-      String time, String content, String userName, bool isEndItem) {
+      {required String time,
+      required String content,
+      required String name,
+      required bool isEndItem}) {
     var dateTime = DateTime.parse(time);
     var difference = DateTime.now().difference(dateTime).inDays;
 
@@ -63,20 +54,32 @@ class _ScheduleContentWidgetState extends State<ScheduleContentWidget> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            Row(
+              children: [
+                SizedBox(
+                  width: 72,
+                  child: Text(
+                    'D-$difference',
+                    style: const TextStyle(fontSize: 13),
+                  ),
+                ),
+                SizedBox(
+                  width: MediaQuery.sizeOf(context).width * 0.88 - 130,
+                  child: Text(
+                    content,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(fontSize: 12),
+                  ),
+                ),
+              ],
+            ),
             SizedBox(
-              width: 32,
+              width: 54,
               child: Text(
-                'D-${difference}',
-                style: const TextStyle(fontSize: 13),
+                name,
+                textAlign: TextAlign.end,
+                style: const TextStyle(fontSize: 12),
               ),
-            ),
-            Text(
-              content,
-              style: const TextStyle(fontSize: 12),
-            ),
-            Text(
-              userName,
-              style: const TextStyle(fontSize: 12),
             )
           ],
         ),
@@ -93,9 +96,8 @@ class _ScheduleContentWidgetState extends State<ScheduleContentWidget> {
           padding: EdgeInsets.symmetric(
               horizontal: MediaQuery.of(context).size.width * 0.06),
           child: const MainContentLabelWidget(
-              label: "일정", routingScreen: CalendarScreen()),
+              label: "일정", routingPath: AppRoutes.calendar),
         ),
-        const SizedBox(height: 4),
         SizedBox(
           height: MediaQuery.of(context).size.height - 624,
           child: Stack(children: [
@@ -107,12 +109,23 @@ class _ScheduleContentWidgetState extends State<ScheduleContentWidget> {
                 child: Column(
                   children: [
                     const SizedBox(height: 8),
-                    for (int i = 0; i < preview!.length; i++)
+                    if (preview.isEmpty)
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height - 660,
+                        child: const Center(
+                          child: Text(
+                            '아직 일정이 없네요',
+                            style: TextStyle(
+                                fontSize: 13, color: CustomColor.lightGray2),
+                          ),
+                        ),
+                      ),
+                    for (int i = 0; i < preview.length; i++)
                       createPostItem(
-                          preview[i]['scheduleTime'],
-                          preview[i]['text'],
-                          preview[i]['petName'],
-                          i + 1 == preview.length),
+                          time: preview[i]['scheduleDate'],
+                          content: preview[i]['scheduleText'],
+                          name: preview[i]['petName'],
+                          isEndItem: i + 1 == preview.length),
                     const SizedBox(height: 20),
                   ],
                 ),

@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:meonghae_front/api/dio.dart';
+import 'package:meonghae_front/controllers/calendar_controller.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 import 'package:meonghae_front/widgets/svg/arrow.dart';
-import 'package:meonghae_front/widgets/svg/cancel.dart';
+import 'package:meonghae_front/widgets/svg/search.dart';
 
-class TopMenuBarWidget extends StatelessWidget {
+class TopMenuBarWidget extends StatefulWidget {
   const TopMenuBarWidget({super.key});
+
+  @override
+  State<TopMenuBarWidget> createState() => _TopMenuBarWidgetState();
+}
+
+class _TopMenuBarWidgetState extends State<TopMenuBarWidget> {
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -15,17 +26,26 @@ class TopMenuBarWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           InkWell(
-            onTap: () => Navigator.pop(context),
+            onTap: () {
+              Get.back();
+              Get.find<CalendarController>().searchEvents.clear();
+            },
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
             child: const SizedBox(
                 width: 34,
+                height: 34,
                 child: Align(
                     alignment: Alignment.center,
                     child: ArrowSVG(strokeColor: CustomColor.black2))),
           ),
           Expanded(
             child: TextFormField(
+              controller: _searchController,
+              onEditingComplete: () =>
+                  Get.find<CalendarController>().search(_searchController.text),
               decoration: const InputDecoration(
-                hintText: "검색하세요",
+                hintText: "검색어를 입력해주세요",
                 hintStyle: TextStyle(
                   color: CustomColor.gray,
                   fontWeight: FontWeight.w700,
@@ -49,14 +69,19 @@ class TopMenuBarWidget extends StatelessWidget {
               validator: (value) {
                 return null;
               },
-              onSaved: (value) {},
             ),
           ),
           InkWell(
-            onTap: () => Navigator.pop(context),
+            onTap: () =>
+                Get.find<CalendarController>().search(_searchController.text),
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
             child: const SizedBox(
-                width: 30,
-                child: Align(alignment: Alignment.center, child: CancelSVG())),
+                width: 34,
+                height: 34,
+                child: Align(
+                    alignment: Alignment.center,
+                    child: SearchSVG(strokeColor: CustomColor.black2))),
           ),
         ],
       ),
