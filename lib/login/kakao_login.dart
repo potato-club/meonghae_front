@@ -1,5 +1,6 @@
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:meonghae_front/login/social_login.dart';
+import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 
 class KakaoLogin implements SocialLogin {
   @override
@@ -11,8 +12,10 @@ class KakaoLogin implements SocialLogin {
           OAuthToken tokenResponse =
               await UserApi.instance.loginWithKakaoTalk();
           TokenManagerProvider.instance.manager.setToken(tokenResponse);
+          SnackBarWidget.show(SnackBarType.error, '$tokenResponse');
           return true;
         } catch (err) {
+          SnackBarWidget.show(SnackBarType.error, '$err');
           return false;
         }
       } else {
