@@ -26,7 +26,6 @@ class PostController extends GetxController {
 
   @override
   void onInit() {
-    fetchData(type.value);
     scrollController.value.addListener(() {
       if (scrollController.value.position.pixels ==
               scrollController.value.position.maxScrollExtent &&

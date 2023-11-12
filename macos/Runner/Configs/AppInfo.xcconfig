@@ -8,7 +8,7 @@
 PRODUCT_NAME = meonghae_front
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.meonghae
+PRODUCT_BUNDLE_IDENTIFIER = com.example.meonghae_front
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2023 com.meonghae All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2023 com.example.meonghae_front All rights reserved.

@@ -37,7 +37,6 @@ class CalendarController extends GetxController {
 
   @override
   void onInit() {
-    fetchData();
     clickDay();
     super.onInit();
   }

@@ -12,10 +12,9 @@ class KakaoLogin implements SocialLogin {
           OAuthToken tokenResponse =
               await UserApi.instance.loginWithKakaoTalk();
           TokenManagerProvider.instance.manager.setToken(tokenResponse);
-          SnackBarWidget.show(SnackBarType.error, '$tokenResponse');
           return true;
         } catch (err) {
-          SnackBarWidget.show(SnackBarType.error, '$err');
+          SnackBarWidget.show(SnackBarType.error, '4#.$err');
           return false;
         }
       } else {

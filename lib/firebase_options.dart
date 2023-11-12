@@ -65,6 +65,6 @@ class DefaultFirebaseOptions {
     storageBucket: 'meonghae-b9c8b.appspot.com',
     iosClientId:
         '519382706310-oj5h68gi4hm82k9g269erol6bgv5tjsj.apps.googleusercontent.com',
-    iosBundleId: 'com.meonghae',
+    iosBundleId: 'com.example.meonghae_front',
   );
 }

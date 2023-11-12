@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:meonghae_front/login/token.dart';
 import 'package:meonghae_front/models/login_,model.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
@@ -37,15 +38,14 @@ class SendAPI {
           }));
           successFunc(response0);
         } catch (error) {
-          SnackBarWidget.show(SnackBarType.error, error.toString());
+          SnackBarWidget.show(SnackBarType.error, "1#.${error.toString()}");
         }
       } on DioException catch (error) {
-        SnackBarWidget.show(SnackBarType.error, error.toString());
+        SnackBarWidget.show(SnackBarType.error, "2#.${error.toString()}");
       } finally {
         dio.close();
       }
     } else {
-      print(error.response);
       SnackBarWidget.show(SnackBarType.error, errorMsg);
     }
   }
@@ -100,9 +100,16 @@ class SendAPI {
   }) async {
     var accessToken = await readAccessToken();
     var refreshToken = await readRefreshToken();
+    var fcmToken = await FirebaseMessaging.instance.getToken(
+        vapidKey:
+            "BJw5iH7_tounnU7fXc_QPkzm1Rh_yIa6xxOkNDw5sWAwlGKPRcd2ojVHsJwhLvQDH9hS3nQ3f-XQDTpdP0dp8gs");
     final dio = Dio(BaseOptions(
       baseUrl: 'https://api.meonghae.site/',
-      headers: {'Authorization': accessToken, 'refreshToken': refreshToken},
+      headers: {
+        'Authorization': accessToken,
+        'refreshToken': refreshToken,
+        'FCMToken': fcmToken
+      },
     ));
     try {
       final response = request == null

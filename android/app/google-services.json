@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:519382706310:android:e5e2637f679e0fce840907",
         "android_client_info": {
-          "package_name": "com.meonghae"
+          "package_name": "com.example.meonghae_front"
         }
       },
       "oauth_client": [
@@ -29,6 +29,13 @@
             {
               "client_id": "519382706310-p6e71niulq5ko2easdnhi47nhrdm6hp6.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "519382706310-oj5h68gi4hm82k9g269erol6bgv5tjsj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.meonghaeFront"
+              }
             }
           ]
         }
@@ -38,7 +45,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:519382706310:android:5ea2dea725250ce4840907",
         "android_client_info": {
-          "package_name": "com.meonghae.profile"
+          "package_name": "com.example.meonghae_front.profile"
         }
       },
       "oauth_client": [
@@ -58,6 +65,13 @@
             {
               "client_id": "519382706310-p6e71niulq5ko2easdnhi47nhrdm6hp6.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "519382706310-oj5h68gi4hm82k9g269erol6bgv5tjsj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.meonghaeFront"
+              }
             }
           ]
         }
