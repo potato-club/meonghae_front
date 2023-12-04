@@ -45,7 +45,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:519382706310:android:5ea2dea725250ce4840907",
         "android_client_info": {
-          "package_name": "com.example.meonghae_front.profile"
+          "package_name": "com.meonghae.profile"
         }
       },
       "oauth_client": [
