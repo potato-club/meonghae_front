@@ -32,6 +32,7 @@ class _KakaoButtonState extends State<KakaoButton> {
     } else if (!result['success']) {
       var a = await KakaoSdk.origin;
       SnackBarWidget.show(SnackBarType.error, a);
+      print(a + "여기여기!!");
     }
     setState(() {});
   }
