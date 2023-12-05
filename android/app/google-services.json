@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:519382706310:android:e5e2637f679e0fce840907",
+        "mobilesdk_app_id": "1:519382706310:android:26313889f698dd20840907",
         "android_client_info": {
-          "package_name": "com.example.meonghae_front"
+          "package_name": "com.meonghae"
         }
       },
       "oauth_client": [
