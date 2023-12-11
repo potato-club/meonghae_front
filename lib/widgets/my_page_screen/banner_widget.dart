@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/controllers/user_controller.dart';
@@ -32,8 +33,15 @@ class _BannerWidgetState extends State<BannerWidget> {
                     shape: BoxShape.circle, color: CustomColor.ivory2),
                 clipBehavior: Clip.hardEdge,
                 child: controller.userInfo.value.fileUrl != null
-                    ? Image.network(controller.userInfo.value.fileUrl!,
-                        fit: BoxFit.cover)
+                    ? CachedNetworkImage(
+                        imageUrl: controller.userInfo.value.fileUrl!,
+                        fit: BoxFit.cover,
+                        memCacheWidth: 270,
+                        errorWidget: (context, url, error) => const Icon(
+                          Icons.error_outline_outlined,
+                          color: CustomColor.brown1,
+                        ),
+                      )
                     : Transform.scale(
                         scale: 1.8,
                         child: const Image(

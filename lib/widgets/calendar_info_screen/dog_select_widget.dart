@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/controllers/calendar_controller.dart';
@@ -42,7 +43,13 @@ class _DogSelectWidgetState extends State<DogSelectWidget> {
                       shape: BoxShape.circle,
                     ),
                     child: dogInfo.s3ResponseDto != null
-                        ? Image.network(dogInfo.s3ResponseDto!['fileUrl'],
+                        ? CachedNetworkImage(
+                            imageUrl: dogInfo.s3ResponseDto!['fileUrl'],
+                            memCacheWidth: 350,
+                            errorWidget: (context, url, error) => const Icon(
+                                  Icons.error_outline_outlined,
+                                  color: CustomColor.brown1,
+                                ),
                             fit: BoxFit.cover)
                         : Transform.scale(
                             scale: 1.8,

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/controllers/user_controller.dart';
@@ -32,9 +33,14 @@ class _UserPhotoWidgetState extends State<UserPhotoWidget> {
                       radius: 75,
                     )
                   : controller.userInfo.value.fileUrl != null
-                      ? Image.network(
-                          controller.userInfo.value.fileUrl!,
+                      ? CachedNetworkImage(
+                          imageUrl: controller.userInfo.value.fileUrl!,
                           fit: BoxFit.cover,
+                          memCacheWidth: 375,
+                          errorWidget: (context, url, error) => const Icon(
+                            Icons.error_outline_outlined,
+                            color: CustomColor.brown1,
+                          ),
                         )
                       : Transform.scale(
                           scale: 1.8,

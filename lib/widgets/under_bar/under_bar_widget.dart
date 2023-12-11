@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/config/app_routes.dart';
 import 'package:meonghae_front/controllers/calendar_controller.dart';
+import 'package:meonghae_front/controllers/post_controller.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/svg/under_bar/ask.dart';
 import 'package:meonghae_front/widgets/svg/under_bar/calendar.dart';
@@ -53,10 +54,12 @@ class UnderBarWidget extends StatelessWidget {
                   UnderBarIconButtonWidget(
                       iconSVG:
                           PostSVG(isCurrent: currentScreen.contains('게시물')),
-                      onClick: () => {
-                            if (currentScreen != '게시물')
-                              Get.offNamed(AppRoutes.post)
-                          },
+                      onClick: () {
+                        if (currentScreen != '게시물') {
+                          Get.find<PostController>().reload();
+                          Get.offNamed(AppRoutes.post);
+                        }
+                      },
                       currentScreen: currentScreen,
                       label: '게시물'),
                   UnderBarIconButtonWidget(

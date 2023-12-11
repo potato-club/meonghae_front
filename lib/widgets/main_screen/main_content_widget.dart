@@ -45,7 +45,7 @@ class MainContentWidget extends StatelessWidget {
                   padding: EdgeInsets.only(
                     top: 18,
                   ),
-                  // child: ScheduleContentWidget(),
+                  child: ScheduleContentWidget(),
                 ),
               ],
             ),

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/controllers/dog_controller.dart';
@@ -35,10 +36,16 @@ class _DogPhotoWidgetState extends State<DogPhotoWidget> {
                     radius: 75,
                   )
                 : controller.dogsForm[widget.index].s3ResponseDto != null
-                    ? Image.network(
-                        controller
+                    ? CachedNetworkImage(
+                        imageUrl: controller
                             .dogsForm[widget.index].s3ResponseDto!['fileUrl'],
-                        fit: BoxFit.cover)
+                        fit: BoxFit.cover,
+                        memCacheWidth: 650,
+                        errorWidget: (context, url, error) => const Icon(
+                          Icons.error_outline_outlined,
+                          color: CustomColor.brown1,
+                        ),
+                      )
                     : Transform.scale(
                         scale: 1.8,
                         child: const Image(
