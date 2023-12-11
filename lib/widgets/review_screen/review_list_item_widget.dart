@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/controllers/review_controller.dart';
@@ -49,9 +50,14 @@ class _ReviewListItemWidgetState extends State<ReviewListItemWidget> {
                           color: CustomColor.lightGray3,
                           shape: BoxShape.circle),
                       child: widget.reviewData.profileUrl != null
-                          ? Image.network(
-                              widget.reviewData.profileUrl!,
+                          ? CachedNetworkImage(
+                              imageUrl: widget.reviewData.profileUrl!,
                               fit: BoxFit.cover,
+                              memCacheWidth: 185,
+                              errorWidget: (context, url, error) => const Icon(
+                                Icons.error_outline_outlined,
+                                color: CustomColor.brown1,
+                              ),
                             )
                           : Transform.scale(
                               scale: 1.8,
