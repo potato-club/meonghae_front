@@ -12,6 +12,8 @@ enum SnackBarType {
 }
 
 class SnackBarWidget {
+  SnackBarWidget(SnackBarType alarm, String s);
+
   static void show(SnackBarType type, String content) {
     if (type == SnackBarType.error) {
       Get.snackbar(

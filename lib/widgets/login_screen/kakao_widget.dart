@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:meonghae_front/config/app_routes.dart';
 import 'package:meonghae_front/controllers/user_controller.dart';
 import 'package:meonghae_front/models/login_,model.dart';
@@ -29,7 +30,9 @@ class _KakaoButtonState extends State<KakaoButton> {
         Get.offNamed(AppRoutes.introVideo);
       }
     } else if (!result['success']) {
+      var a = await KakaoSdk.origin;
       SnackBarWidget.show(SnackBarType.error, result['error']);
+      print(a + "여기여기!!");
     }
     setState(() {});
   }
