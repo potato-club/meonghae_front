@@ -10,7 +10,7 @@ import 'package:meonghae_front/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  KakaoSdk.init(nativeAppKey: 'b9af1657c2b23b75e1461b4369ab3dee');
+  KakaoSdk.init(nativeAppKey: '04be34236d1a366937f755ac8f2389db');
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
