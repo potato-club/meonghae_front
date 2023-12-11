@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/config/app_routes.dart';
@@ -52,9 +53,14 @@ class _PostListItemWidgetState extends State<PostListItemWidget> {
                   decoration: const BoxDecoration(
                       color: CustomColor.lightGray3, shape: BoxShape.circle),
                   child: widget.postData.profileUrl != null
-                      ? Image.network(
-                          widget.postData.profileUrl!,
+                      ? CachedNetworkImage(
+                          imageUrl: widget.postData.profileUrl!,
                           fit: BoxFit.cover,
+                          memCacheWidth: 185,
+                          errorWidget: (context, url, error) => const Icon(
+                            Icons.error_outline_outlined,
+                            color: CustomColor.brown1,
+                          ),
                         )
                       : Transform.scale(
                           scale: 1.8,
