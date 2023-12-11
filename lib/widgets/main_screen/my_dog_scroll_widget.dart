@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:meonghae_front/controllers/dog_controller.dart';
+import 'package:meonghae_front/models/dog_info_model.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 
 class MyDogScrollWidget extends StatefulWidget {
@@ -9,24 +12,33 @@ class MyDogScrollWidget extends StatefulWidget {
 }
 
 class _MyDogScrollWidgetState extends State<MyDogScrollWidget> {
-  List<String> dogs = ['흥이1', '흥이2', '흥이3', '흥이4', '흥이5'];
-
-  Widget createDogCardItem(String dogName, bool isEnd) {
+  Widget createDogCardItem(DogInfoModel dogInfo, bool isEnd) {
     return Padding(
       padding: EdgeInsets.only(right: isEnd ? 0 : 30),
       child: Column(
         children: [
           Container(
+            clipBehavior: Clip.hardEdge,
             width: 70,
             height: 70,
-            decoration: BoxDecoration(
-                color: CustomColor.ivory2,
-                borderRadius: BorderRadius.circular(35)),
+            decoration: const BoxDecoration(
+                color: CustomColor.ivory2, shape: BoxShape.circle),
+            child: dogInfo.s3ResponseDto != null
+                ? Image.network(dogInfo.s3ResponseDto!['fileUrl'],
+                    fit: BoxFit.cover)
+                : Transform.scale(
+                    scale: 1.8,
+                    child: const Image(
+                      image: AssetImage(
+                        'assets/images/dog_pictures/face.png',
+                      ),
+                    ),
+                  ),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 4),
             child: Text(
-              dogName,
+              dogInfo.petName,
               style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w700,
@@ -45,17 +57,21 @@ class _MyDogScrollWidgetState extends State<MyDogScrollWidget> {
       child: Stack(children: [
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              SizedBox(width: MediaQuery.of(context).size.width * 0.06),
-              for (var i = 0; i < dogs.length; i++)
-                createDogCardItem(
-                  dogs[i],
-                  i + 1 == dogs.length,
-                ),
-              SizedBox(width: MediaQuery.of(context).size.width * 0.06),
-            ],
-          ),
+          child: GetX<DogController>(builder: (controller) {
+            print(controller.dogsInfo);
+            return Row(
+              children: [
+                SizedBox(width: MediaQuery.of(context).size.width * 0.06),
+                if (controller.dogsInfo.isNotEmpty)
+                  for (var i = 0; i < controller.dogsInfo.length; i++)
+                    createDogCardItem(
+                      controller.dogsInfo[i],
+                      i + 1 == controller.dogsInfo.length,
+                    ),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.06),
+              ],
+            );
+          }),
         ),
         Positioned(
           top: 0,

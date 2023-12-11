@@ -1,6 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/screens/calendar_info_screen.dart';
-import 'package:meonghae_front/screens/calendar_search_screen.dart';
+import 'package:get/get.dart';
+import 'package:meonghae_front/config/app_routes.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/calendar_screen/calendar_widget.dart';
 import 'package:meonghae_front/widgets/calendar_screen/info_content_widget.dart';
@@ -16,18 +18,6 @@ class CalendarScreen extends StatefulWidget {
 }
 
 class _CalendarScreenState extends State<CalendarScreen> {
-  DateTime selectedDay = DateTime.now();
-  List<Event> events = [];
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  void onSelectedDay(DateTime day, List<Event> e) {
-    setState(() => {selectedDay = day, events = e});
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,34 +29,25 @@ class _CalendarScreenState extends State<CalendarScreen> {
               right: MediaQuery.of(context).size.width * 0.03,
               left: MediaQuery.of(context).size.width * 0.03,
             ),
-            child: CalendarWidget(
-              onSelectedDay: onSelectedDay,
-            ),
+            child: CalendarWidget(),
           ),
           Positioned(
             top: 58,
             right: MediaQuery.of(context).size.width * 0.03 + 56,
             child: GestureDetector(
-                onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (BuildContext context) =>
-                        const CalendarSearchScreen())),
-                child: const SearchSVG()),
+                onTap: () => Get.toNamed(AppRoutes.calendarSearch),
+                child: const SearchSVG(strokeColor: CustomColor.black2)),
           ),
           Positioned(
             top: 58,
             right: MediaQuery.of(context).size.width * 0.03 + 16,
             child: GestureDetector(
-                onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (BuildContext context) =>
-                        const CalendarInfoScreen())),
+                onTap: () => Get.toNamed(AppRoutes.calendarInfo),
                 child: const PlusSVG(color: CustomColor.black2)),
           ),
-          Positioned(
+          const Positioned(
             bottom: 72,
-            child: InfoContentWidget(
-              events: events,
-              selectedDay: selectedDay,
-            ),
+            child: InfoContentWidget(),
           ),
           const Positioned(
             bottom: 0,

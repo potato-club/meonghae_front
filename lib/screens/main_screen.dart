@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:meonghae_front/api/dio.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/main_screen/banner_widget.dart';
 import 'package:meonghae_front/widgets/main_screen/main_content_widget.dart';
 import 'package:meonghae_front/widgets/main_screen/my_dog_scroll_widget.dart';
 import 'package:meonghae_front/widgets/under_bar/under_bar_widget.dart';
 
-class MainScreen extends StatelessWidget {
+class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
+  @override
+  State<MainScreen> createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,6 +37,7 @@ class MainScreen extends StatelessWidget {
                               image: AssetImage(
                                   'assets/images/logo/meonghae_logo.png'),
                               width: 68,
+                              height: 46,
                             ),
                           ),
                           const Padding(

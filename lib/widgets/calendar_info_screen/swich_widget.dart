@@ -12,9 +12,9 @@ class SwitchWidget extends StatefulWidget {
 }
 
 class _SwitchWidgetState extends State<SwitchWidget> {
-  double thumbPosition = -12.0;
   @override
   Widget build(BuildContext context) {
+    double thumbPosition = widget.isChecked ? 12.0 : -12.0;
     return InkWell(
       onTap: () {
         setState(() {
@@ -22,11 +22,16 @@ class _SwitchWidgetState extends State<SwitchWidget> {
         });
         widget.clickSwitch(); // clickSwitch 콜백 호출
       },
-      child: Container(
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.ease,
         width: 52,
         height: 27,
         decoration: BoxDecoration(
-            color: CustomColor.lightGray1,
+            color:
+                widget.isChecked ? CustomColor.brown1 : CustomColor.lightGray1,
             borderRadius: BorderRadius.circular(14)),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 2),

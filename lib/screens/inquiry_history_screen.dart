@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/screens/Inquiry_1to1_screen.dart';
+import 'package:get/get.dart';
+import 'package:meonghae_front/config/app_routes.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/svg/arrow.dart';
-import 'package:meonghae_front/widgets/under_bar/under_bar_widget.dart';
 
-class InQuiryHistoryScreen extends StatefulWidget {
-  const InQuiryHistoryScreen({super.key});
+class InquiryHistoryScreen extends StatefulWidget {
+  const InquiryHistoryScreen({super.key});
 
   @override
-  State<InQuiryHistoryScreen> createState() => _InQuiryHistoryScreenState();
+  State<InquiryHistoryScreen> createState() => _InquiryHistoryScreenState();
 }
 
 List<Map<String, String>> data = [
@@ -26,7 +26,7 @@ List<Map<String, String>> data = [
   },
 ];
 
-class _InQuiryHistoryScreenState extends State<InQuiryHistoryScreen> {
+class _InquiryHistoryScreenState extends State<InquiryHistoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +42,9 @@ class _InQuiryHistoryScreenState extends State<InQuiryHistoryScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   InkWell(
-                    onTap: () => Navigator.pop(context),
+                    onTap: () => Get.back(),
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
                     child: const SizedBox(
                       width: 30,
                       child: Align(
@@ -53,13 +55,7 @@ class _InQuiryHistoryScreenState extends State<InQuiryHistoryScreen> {
                   ),
                   Expanded(
                     child: TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const InQuiry1To1Screen()),
-                        );
-                      },
+                      onPressed: () => Get.offNamed(AppRoutes.inquiry1to1),
                       child: const Text(
                         '1대1 문의',
                         style: TextStyle(
@@ -72,14 +68,7 @@ class _InQuiryHistoryScreenState extends State<InQuiryHistoryScreen> {
                   ),
                   Expanded(
                     child: TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const InQuiryHistoryScreen()),
-                        );
-                      },
+                      onPressed: () => Get.offNamed(AppRoutes.inquiryHistory),
                       child: const Text(
                         '문의 내역',
                         style: TextStyle(
@@ -182,7 +171,6 @@ class _InQuiryHistoryScreenState extends State<InQuiryHistoryScreen> {
                 ),
               ),
             ),
-            const UnderBarWidget(currentScreen: '문의'),
           ],
         ),
       ),

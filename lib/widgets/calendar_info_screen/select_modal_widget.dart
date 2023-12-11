@@ -1,26 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 
-class FilterModalWidget extends StatefulWidget {
+class SelectModalWidget extends StatefulWidget {
   final bool isOpen;
   final List<dynamic> list;
   final LayerLink selectLink;
   final String? value;
   final Function setValue;
-  const FilterModalWidget({
+  final Function closeModal;
+  const SelectModalWidget({
     super.key,
     required this.isOpen,
     required this.list,
     required this.selectLink,
     required this.setValue,
     required this.value,
+    required this.closeModal,
   });
 
   @override
-  State<FilterModalWidget> createState() => _FilterWidgetState();
+  State<SelectModalWidget> createState() => _SelectWidgetState();
 }
 
-class _FilterWidgetState extends State<FilterModalWidget>
+class _SelectWidgetState extends State<SelectModalWidget>
     with SingleTickerProviderStateMixin {
   String? lateValue;
   late ScrollController _scrollController;
@@ -38,7 +40,8 @@ class _FilterWidgetState extends State<FilterModalWidget>
       parent: _animationController,
       curve: Curves.ease,
     );
-    _animation = Tween<double>(begin: 0, end: 180).animate(curve);
+    _animation =
+        Tween<double>(begin: 0, end: 45.0 * widget.list.length).animate(curve);
     if (widget.isOpen) {
       _animationController.forward();
     }
@@ -60,26 +63,29 @@ class _FilterWidgetState extends State<FilterModalWidget>
       onTap: () {
         setState(() => lateValue = value);
         widget.setValue(value);
+        widget.closeModal();
       },
       child: Container(
-          height: 45,
-          color:
-              value == lateValue ? CustomColor.lightGray1 : CustomColor.white,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 22),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                value,
-                style: TextStyle(
-                    fontSize: 14,
-                    color: value == lateValue
-                        ? CustomColor.gray
-                        : CustomColor.black2,
-                    fontWeight: FontWeight.w700),
-              ),
+        height: 45,
+        color: value == lateValue ? CustomColor.brown1 : CustomColor.white,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 22),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              value,
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                  fontSize: 14,
+                  color: value == lateValue
+                      ? CustomColor.black2
+                      : CustomColor.black2,
+                  decoration: TextDecoration.none,
+                  fontWeight: FontWeight.w700),
             ),
-          )),
+          ),
+        ),
+      ),
     );
   }
 
@@ -101,11 +107,18 @@ class _FilterWidgetState extends State<FilterModalWidget>
               builder: (context, child) {
                 return Container(
                   height: _animation.value,
-                  width: MediaQuery.of(context).size.width * 0.88 - 94,
+                  width: MediaQuery.of(context).size.width * 0.88,
                   clipBehavior: Clip.hardEdge,
                   decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(10)),
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                            color: CustomColor.black1.withOpacity(0.12),
+                            offset: const Offset(0, 4),
+                            blurRadius: 8,
+                            spreadRadius: 0)
+                      ]),
                   child: SingleChildScrollView(
                     controller: _scrollController,
                     child: Column(

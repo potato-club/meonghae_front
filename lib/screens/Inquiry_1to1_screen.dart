@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/screens/inquiry_history_screen.dart';
+import 'package:get/get.dart';
+import 'package:meonghae_front/config/app_routes.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/svg/arrow.dart';
 import 'package:file_picker/file_picker.dart';
@@ -7,14 +8,14 @@ import 'package:meonghae_front/widgets/svg/clip.dart';
 import 'package:meonghae_front/widgets/svg/tiny_plus.dart';
 import 'package:meonghae_front/widgets/under_bar/under_bar_widget.dart';
 
-class InQuiry1To1Screen extends StatefulWidget {
-  const InQuiry1To1Screen({super.key});
+class Inquiry1To1Screen extends StatefulWidget {
+  const Inquiry1To1Screen({super.key});
 
   @override
-  State<InQuiry1To1Screen> createState() => _InQuiry1To1ScreenState();
+  State<Inquiry1To1Screen> createState() => _Inquiry1To1ScreenState();
 }
 
-class _InQuiry1To1ScreenState extends State<InQuiry1To1Screen> {
+class _Inquiry1To1ScreenState extends State<Inquiry1To1Screen> {
   String _title = '';
   String _content = '';
   final List<String?> _filePaths = List.filled(2, null);
@@ -45,7 +46,9 @@ class _InQuiry1To1ScreenState extends State<InQuiry1To1Screen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     InkWell(
-                      onTap: () => Navigator.pop(context),
+                      onTap: () => Get.back(),
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
                       child: const SizedBox(
                         width: 30,
                         child: Align(
@@ -56,14 +59,7 @@ class _InQuiry1To1ScreenState extends State<InQuiry1To1Screen> {
                     ),
                     Expanded(
                       child: TextButton(
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const InQuiry1To1Screen(),
-                            ),
-                          );
-                        },
+                        onPressed: () => Get.offNamed(AppRoutes.inquiry1to1),
                         child: const Text(
                           '1대1 문의',
                           style: TextStyle(
@@ -76,15 +72,7 @@ class _InQuiry1To1ScreenState extends State<InQuiry1To1Screen> {
                     ),
                     Expanded(
                       child: TextButton(
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  const InQuiryHistoryScreen(),
-                            ),
-                          );
-                        },
+                        onPressed: () => Get.offNamed(AppRoutes.inquiryHistory),
                         child: const Text(
                           '문의 내역',
                           style: TextStyle(

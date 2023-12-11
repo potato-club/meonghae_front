@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:meonghae_front/controllers/review_controller.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 import 'package:meonghae_front/widgets/svg/search.dart';
 
 class SearchBarWidget extends StatefulWidget {
@@ -10,6 +13,8 @@ class SearchBarWidget extends StatefulWidget {
 }
 
 class _SearchBarWidgetState extends State<SearchBarWidget> {
+  TextEditingController textController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -20,11 +25,21 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
         padding: const EdgeInsets.only(left: 16),
         child: Row(
           children: [
-            GestureDetector(child: const SearchSVG()),
+            GestureDetector(
+                onTap: () => {
+                      if (textController.text.length > 1)
+                        Get.find<ReviewController>()
+                            .setKeyWord(textController.text)
+                      else
+                        SnackBarWidget.show(
+                            SnackBarType.error, "2글자 이상의 단어를 검색해주세요")
+                    },
+                child: const SearchSVG(strokeColor: CustomColor.black2)),
             Expanded(
               child: Transform.translate(
                 offset: const Offset(0, 2),
                 child: TextFormField(
+                  controller: textController,
                   decoration: const InputDecoration(
                     alignLabelWithHint: true,
                     border: OutlineInputBorder(
@@ -42,7 +57,11 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
                   validator: (value) {
                     return null;
                   },
-                  onSaved: (value) {},
+                  onChanged: (value) {
+                    if (value.isEmpty) {
+                      Get.find<ReviewController>().setKeyWord('');
+                    }
+                  },
                 ),
               ),
             )

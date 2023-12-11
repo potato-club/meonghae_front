@@ -1,10 +1,9 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/models/loginModel.dart';
-import 'package:meonghae_front/screens/register_dog_screen.dart';
-import 'package:meonghae_front/screens/select_screen.dart';
-import 'package:meonghae_front/screens/video_player_screen.dart';
+import 'package:get/get.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+import 'package:meonghae_front/config/app_routes.dart';
+import 'package:meonghae_front/controllers/user_controller.dart';
+import 'package:meonghae_front/models/login_,model.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 
@@ -23,30 +22,28 @@ class _KakaoButtonState extends State<KakaoButton> {
   void handleLogin() async {
     Map<String, dynamic> result = await widget.loginModel.login();
     if (result['success']) {
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) =>
-                result['response']['responseCode'] == "201_CREATED"
-                    ? SelectScreen(email: result['response']['email'])
-                    // : const VideoPlayerScreen(),
-                    : const RegisterDogScreen(),
-          ));
-    } else {
-      SnackBarWidget.show(context, SnackBarType.error, result['error']);
+      if (result['response']['responseCode'] == "201_CREATED") {
+        Get.find<UserController>()
+            .setRegisterEmail(result['response']['email']);
+        Get.offNamed(AppRoutes.select);
+      } else {
+        Get.offNamed(AppRoutes.introVideo);
+      }
+    } else if (!result['success']) {
+      var a = await KakaoSdk.origin;
+      SnackBarWidget.show(SnackBarType.error, result['error']);
+      print(a + "여기여기!!");
     }
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-          horizontal: MediaQuery.of(context).size.width * 0.145),
+    return Center(
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           elevation: 0,
-          fixedSize: const Size(270, 50),
+          fixedSize: const Size(270, 49),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
           ),
@@ -74,7 +71,7 @@ class _KakaoButtonState extends State<KakaoButton> {
               child: Text(
                 '카카오 로그인',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 14, color: CustomColor.black2),
+                style: TextStyle(fontSize: 15, color: CustomColor.black2),
               ),
             ),
             const SizedBox(width: 10)

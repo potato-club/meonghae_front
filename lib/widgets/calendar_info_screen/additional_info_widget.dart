@@ -1,10 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:meonghae_front/controllers/calendar_controller.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/widgets/calendar_info_screen/cycle_count_widget.dart';
+import 'package:meonghae_front/widgets/calendar_info_screen/dial_box_widget.dart';
 import 'package:meonghae_front/widgets/calendar_info_screen/swich_widget.dart';
-import 'package:meonghae_front/widgets/common/select_input_widget.dart';
-import 'package:spinner_date_time_picker/spinner_date_time_picker.dart';
+import 'package:meonghae_front/widgets/common/dial_Input_widget.dart';
 
 class AdditionalInfoWidget extends StatefulWidget {
   const AdditionalInfoWidget({super.key});
@@ -14,361 +17,295 @@ class AdditionalInfoWidget extends StatefulWidget {
 }
 
 class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
-  bool isAllday = false;
-  List<String> repeatList = ['안 함', '함'];
-  String selectedRepeatList = '안 함';
-
-  List<String> informList = ['안 함', '함'];
-  String selectedInformList = '안 함';
-
-  DateTime selectedStartDate = DateTime.now();
-  DateTime selectedStartTime = DateTime.now();
-  DateTime selectedFinishDate = DateTime.now();
-  DateTime selectedFinishTime = DateTime.now();
-
-  final TextEditingController _textEditingController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            color: CustomColor.white,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Column(
-            children: [
-              Container(
-                height: 45,
-                decoration: const BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: CustomColor.lightGray1,
-                      width: 1.0,
-                    ),
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                  ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        '하루종일',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700,
-                          color: CustomColor.black1,
-                        ),
-                      ),
-                      SwitchWidget(
-                        clickSwitch: () {
-                          setState(() {
-                            isAllday = !isAllday;
-                          });
-                        },
-                        isChecked: isAllday,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Container(
-                decoration: const BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: CustomColor.lightGray1,
-                      width: 1.0,
-                    ),
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    left: 20,
-                    right: 9,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        '시작',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700,
-                          color: CustomColor.black1,
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              var today = DateTime.now();
-                              return Dialog(
-                                child: SpinnerDateTimePicker(
-                                  initialDateTime: today,
-                                  maximumDate:
-                                      today.add(const Duration(days: 7500)),
-                                  minimumDate: today
-                                      .subtract(const Duration(days: 7500)),
-                                  mode: CupertinoDatePickerMode.date,
-                                  use24hFormat: true,
-                                  didSetTime: (value) {
-                                    setState(() {
-                                      selectedStartDate = value;
-                                    });
-                                  },
-                                ),
-                              );
-                            },
-                          );
-                        },
-                        child: Text(
-                          DateFormat('yyyy-MM-dd').format(selectedStartDate),
-                          style: const TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w400,
-                            color: CustomColor.gray,
-                          ),
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              var today = DateTime.now();
-                              return Dialog(
-                                child: SpinnerDateTimePicker(
-                                  initialDateTime: today,
-                                  maximumDate:
-                                      today.add(const Duration(days: 7)),
-                                  minimumDate:
-                                      today.subtract(const Duration(days: 1)),
-                                  mode: CupertinoDatePickerMode.time,
-                                  use24hFormat: true,
-                                  didSetTime: (value) {
-                                    setState(() {
-                                      selectedStartTime = value;
-                                    });
-                                  },
-                                ),
-                              );
-                            },
-                          );
-                        },
-                        child: Text(
-                          DateFormat('HH:mm').format(selectedStartTime),
-                          style: const TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w400,
-                            color: CustomColor.gray,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 20,
-                  right: 9,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      '종료',
+    return GetX<CalendarController>(builder: (controller) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Container(
+            height: 45,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: CustomColor.white,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const SizedBox(
+                    width: 75,
+                    child: Text(
+                      '일정일',
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
-                        color: CustomColor.black1,
+                        color: CustomColor.black2,
                       ),
                     ),
-                    TextButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            var today = DateTime.now();
-                            return Dialog(
-                              child: SpinnerDateTimePicker(
-                                initialDateTime: today,
-                                maximumDate:
-                                    today.add(const Duration(days: 7500)),
-                                minimumDate:
-                                    today.subtract(const Duration(days: 7500)),
-                                mode: CupertinoDatePickerMode.date,
-                                use24hFormat: true,
-                                didSetTime: (value) {
-                                  setState(() {
-                                    selectedFinishDate = value;
-                                  });
-                                },
-                              ),
-                            );
-                          },
-                        );
-                      },
-                      child: Text(
-                        DateFormat('yyyy-MM-dd').format(selectedFinishDate),
-                        style: const TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w400,
-                          color: CustomColor.gray,
-                        ),
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            var today = DateTime.now();
-                            return Dialog(
-                              child: SpinnerDateTimePicker(
-                                initialDateTime: today,
-                                maximumDate: today.add(const Duration(days: 7)),
-                                minimumDate:
-                                    today.subtract(const Duration(days: 1)),
-                                mode: CupertinoDatePickerMode.time,
-                                use24hFormat: true,
-                                didSetTime: (value) {
-                                  setState(() {
-                                    selectedFinishTime = value;
-                                  });
-                                },
-                              ),
-                            );
-                          },
-                        );
-                      },
-                      child: Text(
-                        DateFormat('HH:mm').format(selectedFinishTime),
-                        style: const TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w400,
-                          color: CustomColor.gray,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                  DialBoxWidget(
+                    label: DateFormat('yyyy. MM. dd')
+                        .format(controller.calendarForm.value.scheduleTime),
+                    onSave: (DateTime dateTime) {
+                      controller.calendarForm.value.scheduleTime = dateTime;
+                      controller.calendarForm.update((val) {});
+                    },
+                    dialType: DialType.DATE,
+                    scheduleTime: controller.calendarForm.value.scheduleTime,
+                    textAlign: TextAlign.center,
+                  ),
+                  DialBoxWidget(
+                    label: DateFormat('a hh:mm', 'ko')
+                        .format(controller.calendarForm.value.scheduleTime),
+                    onSave: (DateTime dateTime) {
+                      controller.calendarForm.value.scheduleTime = dateTime;
+                      controller.calendarForm.update((val) {});
+                    },
+                    dialType: DialType.TIME,
+                    scheduleTime: controller.calendarForm.value.scheduleTime,
+                    textAlign: TextAlign.end,
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-        const SizedBox(
-          height: 24,
-        ),
-        SizedBox(
-          height: 45,
-          child: Stack(children: [
-            SelectInputWidget(
-              width: MediaQuery.of(context).size.width * 0.88,
-              height: 45,
-              itemHeight: 45,
-              list: repeatList,
-              listHeight: 90,
-              borderRadius: 10,
-              fontSize: 13,
-              defaultValue: selectedRepeatList,
-              setValue: (String value) =>
-                  setState(() => selectedRepeatList = value),
-              isBigIcon: true,
-              textAlign: TextAlign.right,
-            ),
-            const Positioned(
-              top: 0,
-              bottom: 0,
-              left: 20,
-              child: Center(
-                child: Text(
-                  '반복',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                    color: CustomColor.black1,
-                  ),
-                ),
-              ),
-            )
-          ]),
-        ),
-        const SizedBox(
-          height: 24,
-        ),
-        SizedBox(
-          height: 45,
-          child: Stack(children: [
-            SelectInputWidget(
-              width: MediaQuery.of(context).size.width * 0.88,
-              height: 45,
-              itemHeight: 45,
-              list: informList,
-              listHeight: 90,
-              borderRadius: 10,
-              fontSize: 13,
-              defaultValue: selectedInformList,
-              setValue: (String value) =>
-                  setState(() => selectedInformList = value),
-              isBigIcon: true,
-              textAlign: TextAlign.right,
-            ),
-            const Positioned(
-              top: 0,
-              bottom: 0,
-              left: 20,
-              child: Center(
-                child: Text(
-                  '알림',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                    color: CustomColor.black1,
-                  ),
-                ),
-              ),
-            )
-          ]),
-        ),
-        const SizedBox(
-          height: 24,
-        ),
-        Container(
-          height: 376,
-          decoration: BoxDecoration(
+          const SizedBox(height: 24),
+          AnimatedContainer(
+            clipBehavior: Clip.hardEdge,
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.ease,
+            height: controller.calendarForm.value.hasRepeat ? 90 : 45,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
               color: CustomColor.white,
-              borderRadius: BorderRadius.circular(10)),
-          child: Padding(
-            padding: const EdgeInsets.only(left: 22, right: 22),
-            child: TextField(
-              controller: _textEditingController,
-              style: const TextStyle(
-                color: CustomColor.black1,
-                fontWeight: FontWeight.w700,
-                fontSize: 14,
-              ),
-              maxLines: null,
-              decoration: const InputDecoration(
-                labelText: '메모',
-                labelStyle: TextStyle(
-                  color: Colors.black,
-                  fontSize: 14,
+            ),
+            child: SingleChildScrollView(
+              child: Column(children: [
+                SizedBox(
+                  height: 45,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          '반복',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700,
+                            color: CustomColor.black2,
+                          ),
+                        ),
+                        SwitchWidget(
+                          clickSwitch: () {
+                            controller.calendarForm.value.hasRepeat =
+                                !controller.calendarForm.value.hasRepeat;
+                            controller.calendarForm.update((val) {});
+                          },
+                          isChecked: controller.calendarForm.value.hasRepeat,
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-                border: InputBorder.none,
-                focusedBorder: InputBorder.none,
+                if (controller.calendarForm.value.hasRepeat)
+                  Container(
+                    decoration: const BoxDecoration(
+                        border: Border(
+                            top: BorderSide(
+                                width: 1, color: CustomColor.ivory2))),
+                    height: 45,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        left: 20,
+                        right: 9,
+                      ),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text('반복 설정',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                  color: CustomColor.black2,
+                                )),
+                            const CycleCountWidget(),
+                            DialInputWidget(
+                              width: 75,
+                              height: 30,
+                              itemHeight: 30,
+                              list: controller.cycleList.keys.toList(),
+                              listHeight: 90,
+                              fontSize: 13,
+                              color: CustomColor.gray,
+                              bgColor: CustomColor.white,
+                              strColor: CustomColor.ivory2,
+                              defaultValue: controller.cycleList.keys
+                                  .firstWhere((key) =>
+                                      controller.cycleList[key] ==
+                                      controller.calendarForm.value.cycleCount),
+                              setValue: (String value) {
+                                controller.calendarForm.value.cycleCount =
+                                    controller.cycleList[value]!;
+                                controller.calendarForm.update((val) {});
+                              },
+                            ),
+                          ]),
+                    ),
+                  ),
+              ]),
+            ),
+          ),
+          const SizedBox(height: 24),
+          AnimatedContainer(
+            clipBehavior: Clip.hardEdge,
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.ease,
+            height: controller.calendarForm.value.hasAlarm ? 90 : 45,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: CustomColor.white,
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 45,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            '알림',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                              color: CustomColor.black2,
+                            ),
+                          ),
+                          SwitchWidget(
+                            clickSwitch: () {
+                              controller.calendarForm.value.hasAlarm =
+                                  !controller.calendarForm.value.hasAlarm;
+                              controller.calendarForm.update((val) {});
+                            },
+                            isChecked: controller.calendarForm.value.hasAlarm,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  if (controller.calendarForm.value.hasAlarm)
+                    Container(
+                      decoration: const BoxDecoration(
+                          border: Border(
+                              top: BorderSide(
+                                  width: 1, color: CustomColor.ivory2))),
+                      height: 45,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const SizedBox(
+                              width: 75,
+                              child: Text(
+                                '알림 설정',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                  color: CustomColor.black2,
+                                ),
+                              ),
+                            ),
+                            DialInputWidget(
+                              width: 75,
+                              height: 30,
+                              itemHeight: 30,
+                              list: controller.alarmList.keys.toList(),
+                              listHeight: 150,
+                              fontSize: 13,
+                              color: CustomColor.gray,
+                              bgColor: CustomColor.white,
+                              strColor: CustomColor.ivory2,
+                              defaultValue: controller.alarmList.keys
+                                  .firstWhere((key) =>
+                                      controller.alarmList[key] ==
+                                      controller.calendarForm.value.alarmDate),
+                              setValue: (String index) {
+                                controller.calendarForm.value.alarmDate =
+                                    controller.alarmList[index]!;
+                                controller.calendarForm.update((val) {});
+                              },
+                            ),
+                            DialBoxWidget(
+                              label: DateFormat('a hh:mm', 'ko').format(
+                                  controller.calendarForm.value.alarmTime),
+                              onSave: (DateTime dateTime) {
+                                controller.calendarForm.value.alarmTime =
+                                    dateTime;
+                                controller.calendarForm.update((val) {});
+                              },
+                              dialType: DialType.TIME,
+                              scheduleTime:
+                                  controller.calendarForm.value.alarmTime,
+                              textAlign: TextAlign.end,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                ],
               ),
             ),
           ),
-        ),
-      ],
-    );
+          const SizedBox(height: 24),
+          Container(
+            height: 301,
+            decoration: BoxDecoration(
+                color: CustomColor.white,
+                borderRadius: BorderRadius.circular(10)),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    '메모',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      color: CustomColor.black2,
+                    ),
+                  ),
+                  TextField(
+                    controller: controller.memoController,
+                    style: const TextStyle(
+                      color: CustomColor.black2,
+                      fontSize: 13,
+                    ),
+                    maxLines: 20,
+                    decoration: const InputDecoration(
+                      contentPadding: EdgeInsets.only(top: 12),
+                      hintText: "내용을 입력해주세요",
+                      hintStyle:
+                          TextStyle(fontSize: 12, color: CustomColor.gray),
+                      border: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      );
+    });
   }
 }
