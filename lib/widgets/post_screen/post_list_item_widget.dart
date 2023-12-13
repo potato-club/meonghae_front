@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:meonghae_front/config/app_routes.dart';
 import 'package:meonghae_front/controllers/post_controller.dart';
 import 'package:meonghae_front/controllers/post_detail_controller.dart';
 import 'package:meonghae_front/models/post_model.dart';
@@ -29,8 +31,7 @@ class _PostListItemWidgetState extends State<PostListItemWidget> {
       child: GestureDetector(
         onTap: () {
           Get.find<PostDetailController>().setId(widget.postData.id);
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (BuildContext context) => const PostDetailScreen()));
+          Get.toNamed(AppRoutes.postDetail);
         },
         child: Container(
           decoration: BoxDecoration(
@@ -52,9 +53,14 @@ class _PostListItemWidgetState extends State<PostListItemWidget> {
                   decoration: const BoxDecoration(
                       color: CustomColor.lightGray3, shape: BoxShape.circle),
                   child: widget.postData.profileUrl != null
-                      ? Image.network(
-                          widget.postData.profileUrl!,
+                      ? CachedNetworkImage(
+                          imageUrl: widget.postData.profileUrl!,
                           fit: BoxFit.cover,
+                          memCacheWidth: 185,
+                          errorWidget: (context, url, error) => const Icon(
+                            Icons.error_outline_outlined,
+                            color: CustomColor.brown1,
+                          ),
                         )
                       : Transform.scale(
                           scale: 1.8,

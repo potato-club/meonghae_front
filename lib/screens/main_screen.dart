@@ -14,20 +14,6 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  List<dynamic>? dogsInfo;
-  @override
-  void initState() {
-    _getDogsInfo();
-    super.initState();
-  }
-
-  Future<void> _getDogsInfo() async {
-    SendAPI.get(
-        url: "/profile-service/profile",
-        successFunc: (data) => setState(() => dogsInfo = data.data),
-        errorMsg: "애완동물정보 호출에 실패하였습니다");
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,7 +45,7 @@ class _MainScreenState extends State<MainScreen> {
                             child: BannerWidget(),
                           )
                         ])),
-                MyDogScrollWidget(dogsInfo: dogsInfo),
+                const MyDogScrollWidget(),
               ],
             ),
           ),

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/api/dio.dart';
@@ -38,7 +39,7 @@ class _CommentWidgetState extends State<CommentWidget> {
         hasMore = data.data['content'].length == 20;
         if (data.data['content'].length == 20) p++;
       }),
-      errorMsg: "대댓글 정보 호출에 실패하였습니다",
+      errorMsg: "대댓글 정보 호출에 실패하였어요",
     );
   }
 
@@ -60,9 +61,14 @@ class _CommentWidgetState extends State<CommentWidget> {
                 decoration: const BoxDecoration(
                     color: CustomColor.lightGray3, shape: BoxShape.circle),
                 child: widget.comment.profileUrl != null
-                    ? Image.network(
-                        widget.comment.profileUrl!,
+                    ? CachedNetworkImage(
+                        imageUrl: widget.comment.profileUrl!,
                         fit: BoxFit.cover,
+                        memCacheWidth: 140,
+                        errorWidget: (context, url, error) => const Icon(
+                          Icons.error_outline_outlined,
+                          color: CustomColor.brown1,
+                        ),
                       )
                     : Transform.scale(
                         scale: 1.8,

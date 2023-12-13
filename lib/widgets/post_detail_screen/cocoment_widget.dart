@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/svg/tiny_more.dart';
@@ -32,9 +33,14 @@ class _CocomentWidgetState extends State<CocomentWidget> {
                 decoration: const BoxDecoration(
                     color: CustomColor.lightGray3, shape: BoxShape.circle),
                 child: widget.cocomment['profileUrl'] != null
-                    ? Image.network(
-                        widget.cocomment['profileUrl']!,
+                    ? CachedNetworkImage(
+                        imageUrl: widget.cocomment['profileUrl']!,
                         fit: BoxFit.cover,
+                        memCacheWidth: 140,
+                        errorWidget: (context, url, error) => const Icon(
+                          Icons.error_outline_outlined,
+                          color: CustomColor.brown1,
+                        ),
                       )
                     : Transform.scale(
                         scale: 1.8,
