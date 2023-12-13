@@ -38,22 +38,35 @@ class CalendarFormModel {
     required this.scheduleType,
   });
 
-  bool isFilled() {
-    if (hasRepeat) {
-      if (petId != null &&
-          cycle != null &&
-          cycleType != null &&
-          scheduleType != null) {
-        return true;
+  bool isFilled(bool customMode) {
+    if (petId != null && scheduleTime != null && scheduleType != null) {
+      if (hasRepeat) {
+        if (cycleCount != null && cycle != null && cycleType != null) {
+          if (hasAlarm) {
+            if (alarmTime != null) {
+              return true;
+            } else {
+              return false;
+            }
+          } else {
+            return true;
+          }
+        } else {
+          return false;
+        }
       } else {
-        return false;
+        if (hasAlarm) {
+          if (alarmTime != null) {
+            return true;
+          } else {
+            return false;
+          }
+        } else {
+          return true;
+        }
       }
     } else {
-      if (petId != null && scheduleType != null) {
-        return true;
-      } else {
-        return false;
-      }
+      return false;
     }
   }
 

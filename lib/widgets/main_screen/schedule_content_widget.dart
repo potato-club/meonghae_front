@@ -25,6 +25,7 @@ class _ScheduleContentWidgetState extends State<ScheduleContentWidget> {
       url: "/profile-service/profile/calendar/preview",
       successFunc: (data) {
         setState(() => preview = data.data);
+        print(data.data);
       },
       errorMsg: "일정 미리보기 정보 호출에 실패하였어요",
     );
@@ -123,7 +124,7 @@ class _ScheduleContentWidgetState extends State<ScheduleContentWidget> {
                     for (int i = 0; i < preview.length; i++)
                       createPostItem(
                           time: preview[i]['scheduleDate'],
-                          content: preview[i]['scheduleText'],
+                          content: preview[i]['scheduleText'] ?? '',
                           name: preview[i]['petName'],
                           isEndItem: i + 1 == preview.length),
                     const SizedBox(height: 20),

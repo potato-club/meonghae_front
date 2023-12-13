@@ -59,7 +59,6 @@ class LoginModel {
     isLogined = await socialLogin.login();
     Dio dio = Dio(BaseOptions(baseUrl: 'https://api.meonghae.site/'));
     final String mobileId = await getMobileId();
-    print(mobileId);
     var fcmToken = await FirebaseMessaging.instance.getToken(
         vapidKey:
             "BJw5iH7_tounnU7fXc_QPkzm1Rh_yIa6xxOkNDw5sWAwlGKPRcd2ojVHsJwhLvQDH9hS3nQ3f-XQDTpdP0dp8gs");

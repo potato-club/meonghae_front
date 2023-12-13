@@ -1,5 +1,4 @@
-class Species {
-  static const List<String> dogSpecies = [
+List<String> dogSpecies = [
     "🐶 그레이하운드",
     "🐶 닥스훈트",
     "🐶 달마시안",
@@ -43,7 +42,7 @@ class Species {
     "🐶 푸들"
   ];
 
-  static const List<String> catSpecies = [
+   List<String> catSpecies = [
     "😺 나폴레옹",
     "😺 네벨룽",
     "😺 노르웨이 숲 고양이",
@@ -92,4 +91,3 @@ class Species {
     "😺 하바나 브라운",
     "😺 히말라얀"
   ];
-}
