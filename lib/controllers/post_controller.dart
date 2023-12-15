@@ -69,9 +69,7 @@ class PostController extends GetxController {
   }
 
   void deleteImage(int index) {
-    List<File> editImages = images;
-    editImages.removeAt(index);
-    images.value = editImages;
+    images.value.removeAt(index);
   }
 
   void reload() {

@@ -99,7 +99,7 @@ class _ScheduleContentWidgetState extends State<ScheduleContentWidget> {
               label: "일정", routingPath: AppRoutes.calendar),
         ),
         SizedBox(
-          height: MediaQuery.of(context).size.height - 624,
+          height: MediaQuery.of(context).size.height - 602,
           child: Stack(children: [
             SingleChildScrollView(
               scrollDirection: Axis.vertical,
@@ -123,7 +123,7 @@ class _ScheduleContentWidgetState extends State<ScheduleContentWidget> {
                     for (int i = 0; i < preview.length; i++)
                       createPostItem(
                           time: preview[i]['scheduleDate'],
-                          content: preview[i]['scheduleText'],
+                          content: preview[i]['scheduleText'] ?? '',
                           name: preview[i]['petName'],
                           isEndItem: i + 1 == preview.length),
                     const SizedBox(height: 20),
@@ -143,21 +143,6 @@ class _ScheduleContentWidgetState extends State<ScheduleContentWidget> {
                       CustomColor.white.withOpacity(0),
                     ])),
                 height: 8,
-                width: MediaQuery.of(context).size.width,
-              ),
-            ),
-            Positioned(
-              bottom: 0,
-              child: Container(
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.topCenter,
-                        colors: [
-                      CustomColor.white,
-                      CustomColor.white.withOpacity(0),
-                    ])),
-                height: 20,
                 width: MediaQuery.of(context).size.width,
               ),
             ),

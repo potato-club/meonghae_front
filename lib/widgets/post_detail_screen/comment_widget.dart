@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/api/dio.dart';
 import 'package:meonghae_front/controllers/post_detail_controller.dart';
+import 'package:meonghae_front/controllers/post_edit_controller.dart';
 import 'package:meonghae_front/models/post_comment_model.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/post_detail_screen/cocoment_widget.dart';
@@ -38,6 +39,7 @@ class _CommentWidgetState extends State<CommentWidget> {
         cocomment.addAll(data.data['content']);
         hasMore = data.data['content'].length == 20;
         if (data.data['content'].length == 20) p++;
+        print(data.data);
       }),
       errorMsg: "대댓글 정보 호출에 실패하였어요",
     );
@@ -132,7 +134,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                                     if (hasMore)
                                       Padding(
                                         padding:
-                                            const EdgeInsets.only(right: 12),
+                                            const EdgeInsets.only(right: 10),
                                         child: GestureDetector(
                                           onTap: () => fetchData(),
                                           child: const Text(
@@ -180,22 +182,25 @@ class _CommentWidgetState extends State<CommentWidget> {
           ],
         ),
       ),
-      Positioned(
-          top: 14,
-          right: 0,
-          child: InkWell(
-              onTap: () {
-                Get.find<PostDetailController>()
-                    .setCommentId(widget.comment.id, widget.comment.comment);
-                widget.setIsCommentMoreModal(true);
-              },
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              child: Padding(
-                  padding: EdgeInsets.symmetric(
-                      vertical: 2,
-                      horizontal: MediaQuery.of(context).size.width * 0.06),
-                  child: const TinyMoreSVG(color: CustomColor.lightGray2))))
+      if (widget.comment.isWriter)
+        Positioned(
+            top: 14,
+            right: 0,
+            child: InkWell(
+                onTap: () {
+                  Get.find<PostDetailController>()
+                      .setCommentId(widget.comment.id, widget.comment.comment);
+                  Get.find<PostEditController>()
+                      .setCommentId(widget.comment.id);
+                  widget.setIsCommentMoreModal(true);
+                },
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                child: Padding(
+                    padding: EdgeInsets.symmetric(
+                        vertical: 2,
+                        horizontal: MediaQuery.of(context).size.width * 0.06),
+                    child: const TinyMoreSVG(color: CustomColor.lightGray2))))
     ]);
   }
 }

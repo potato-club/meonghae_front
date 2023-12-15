@@ -66,7 +66,6 @@ class _MyDogScrollWidgetState extends State<MyDogScrollWidget> {
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: GetX<DogController>(builder: (controller) {
-            print(controller.dogsInfo);
             return Row(
               children: [
                 SizedBox(width: MediaQuery.of(context).size.width * 0.06),
