@@ -5,6 +5,7 @@ import 'package:dio/dio.dart' as dio;
 import 'package:image_picker/image_picker.dart';
 import 'package:meonghae_front/api/dio.dart';
 import 'package:meonghae_front/config/app_routes.dart';
+import 'package:meonghae_front/controllers/post_controller.dart';
 import 'package:meonghae_front/controllers/post_detail_controller.dart';
 import 'package:meonghae_front/models/post_detail_model.dart';
 import 'package:meonghae_front/widgets/common/custom_modal_widget.dart';
@@ -80,10 +81,12 @@ class PostEditController extends GetxController {
     isEditing.value = true;
     editImages.clear();
     prevEditImages.clear();
-    for (var file in editPost.value.images!) {
-      File imgFile = await downloadAndSaveImage(file['fileUrl']);
-      editImages.add(imgFile);
-      prevEditImages.add(imgFile);
+    if (editPost.value.images != null) {
+      for (var file in editPost.value.images!) {
+        File imgFile = await downloadAndSaveImage(file['fileUrl']);
+        editImages.add(imgFile);
+        prevEditImages.add(imgFile);
+      }
     }
     isEditing.value = false;
     Get.toNamed(AppRoutes.postEdit);
@@ -126,11 +129,13 @@ class PostEditController extends GetxController {
       isEditing.value = true;
       await SendAPI.delete(
         url: "/community-service/boards/${editId.value}",
-        successFunc: (data) {},
+        successFunc: (data) {
+          Get.find<PostController>().reload();
+          Get.back();
+        },
         errorMsg: "게시글 삭제에 실패하였어요",
       );
       isEditing.value = false;
-      Get.back();
     });
   }
 
