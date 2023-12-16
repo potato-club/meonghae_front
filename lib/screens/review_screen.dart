@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:meonghae_front/config/app_routes.dart';
 import 'package:meonghae_front/controllers/review_controller.dart';
-import 'package:meonghae_front/screens/review_write_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/widgets/common/loading_spinner_widget.dart';
 import 'package:meonghae_front/widgets/review_screen/filter_bar_widget.dart';
 import 'package:meonghae_front/widgets/review_screen/review_list_item_widget.dart';
 import 'package:meonghae_front/widgets/review_screen/search_bar_widget.dart';
 import 'package:meonghae_front/widgets/svg/arrow.dart';
 import 'package:meonghae_front/widgets/svg/pencil.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class ReviewScreen extends StatefulWidget {
   const ReviewScreen({super.key});
@@ -32,7 +34,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
               child: Row(
                 children: [
                   GestureDetector(
-                      onTap: () => Navigator.pop(context),
+                      onTap: () => Get.back(),
                       child: const ArrowSVG(strokeColor: CustomColor.black2)),
                   const SizedBox(width: 20),
                   GetX<ReviewController>(builder: (controller) {
@@ -63,14 +65,12 @@ class _ReviewScreenState extends State<ReviewScreen> {
               GetX<ReviewController>(builder: (controller) {
                 if (controller.isLoading.value) {
                   return const Center(
-                    child: CircularProgressIndicator(
-                      valueColor:
-                          AlwaysStoppedAnimation<Color>(CustomColor.brown1),
-                      strokeWidth: 5,
-                    ),
-                  );
+                      child: Padding(
+                    padding: EdgeInsets.only(bottom: 45),
+                    child: LoadingSpinnerWidget(),
+                  ));
                 } else {
-                  if (controller.reviews.value.isEmpty) {
+                  if (controller.reviews.isEmpty) {
                     return Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -100,11 +100,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                             ),
                             onPressed: () {
                               controller.setWriteType(controller.type.value);
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const ReviewWriteScreen()));
+                              Get.toNamed(AppRoutes.reviewWrite);
                             },
                             child: const Text(
                               '새 게시글 작성하기',
@@ -120,29 +116,86 @@ class _ReviewScreenState extends State<ReviewScreen> {
                       ),
                     );
                   } else {
-                    return ListView.builder(
-                        controller: controller.scrollController.value,
-                        itemCount: controller.reviews.length,
-                        itemBuilder: (context, index) {
-                          return Column(children: [
-                            ReviewListItemWidget(
-                              reviewData: controller.reviews[index],
-                              index: index,
-                            ),
-                            if (controller.hasMore.value &&
-                                controller.reviews.length == index + 1)
-                              Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 20),
-                                  child: Container())
-                            else if (!controller.hasMore.value &&
-                                controller.reviews.length == index + 1)
-                              Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 20),
-                                  child: Container()),
-                          ]);
-                        });
+                    return SmartRefresher(
+                        controller: controller.refreshController,
+                        enablePullDown: true,
+                        enablePullUp: false,
+                        onRefresh: () async => controller.reload(),
+                        header: CustomHeader(
+                          builder: (BuildContext context, RefreshStatus? mode) {
+                            return Container(
+                              height: 120,
+                              color: CustomColor.ivory2,
+                              child: Stack(
+                                children: [
+                                  Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: Container(
+                                      height: 24,
+                                      decoration: const BoxDecoration(
+                                          color: CustomColor.white,
+                                          borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(24),
+                                              topRight: Radius.circular(24))),
+                                    ),
+                                  ),
+                                  const Positioned(
+                                      bottom: 70,
+                                      left: 0,
+                                      right: 0,
+                                      child: Center(
+                                          child: Text(
+                                        '새로고침 하개?',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                          color: CustomColor.black3,
+                                        ),
+                                      ))),
+                                  Positioned(
+                                    bottom: 0,
+                                    child: SizedBox(
+                                      width: MediaQuery.of(context).size.width,
+                                      child: Center(
+                                        child: SizedBox(
+                                          width: 100,
+                                          child: Transform.translate(
+                                            offset: const Offset(0, 7),
+                                            child: Image.asset(
+                                                'assets/images/dog_pictures/peek_dog.png'),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                        child: ListView.builder(
+                            controller: controller.scrollController.value,
+                            itemCount: controller.reviews.length,
+                            itemBuilder: (context, index) {
+                              return Column(children: [
+                                ReviewListItemWidget(
+                                  reviewData: controller.reviews[index],
+                                  index: index,
+                                ),
+                                if (controller.hasMore.value &&
+                                    controller.reviews.length == index + 1)
+                                  Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 20),
+                                      child: Container())
+                                else if (!controller.hasMore.value &&
+                                    controller.reviews.length == index + 1)
+                                  Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 20),
+                                      child: Container()),
+                              ]);
+                            }));
                   }
                 }
               }),
@@ -153,9 +206,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     onTap: () {
                       Get.find<ReviewController>().setWriteType(
                           Get.find<ReviewController>().type.value);
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              const ReviewWriteScreen()));
+                      Get.toNamed(AppRoutes.reviewWrite);
                     },
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,

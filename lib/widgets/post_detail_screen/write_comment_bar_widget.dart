@@ -53,7 +53,6 @@ class _WriteCommentBarWidgetState extends State<WriteCommentBarWidget> {
                         height: 44,
                         child: TextFormField(
                           controller: controller.textController,
-                          focusNode: controller.focusNode,
                           decoration: InputDecoration(
                             hintText: controller.replyMode.value
                                 ? '대댓글 입력하기'
@@ -119,7 +118,7 @@ class _WriteCommentBarWidgetState extends State<WriteCommentBarWidget> {
                 child: InkWell(
                   onTap: () {
                     controller.replyMode(false);
-                    controller.focusNode.unfocus();
+                    FocusScope.of(context).unfocus();
                   },
                   splashColor: Colors.transparent,
                   highlightColor: Colors.transparent,

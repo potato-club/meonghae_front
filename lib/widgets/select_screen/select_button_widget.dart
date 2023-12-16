@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:meonghae_front/config/app_routes.dart';
+import 'package:meonghae_front/controllers/user_controller.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 
 class SelectButtonWidget extends StatelessWidget {
+  final bool hasAnimal;
   final String content;
-  final Widget routingWidget;
 
   const SelectButtonWidget(
-      {super.key, required this.content, required this.routingWidget});
+      {super.key, required this.content, required this.hasAnimal});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => routingWidget))
+      onTap: () {
+        Get.find<UserController>().setHasAnimal(hasAnimal);
+        Get.toNamed(AppRoutes.registerUser);
       },
       child: Container(
           width: 270,
@@ -26,7 +29,7 @@ class SelectButtonWidget extends StatelessWidget {
             child: Text(
               content,
               style: const TextStyle(
-                fontSize: 14,
+                fontSize: 15,
                 fontWeight: FontWeight.w400,
               ),
             ),

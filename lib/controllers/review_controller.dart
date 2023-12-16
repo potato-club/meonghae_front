@@ -5,12 +5,16 @@ import 'package:image_picker/image_picker.dart';
 import 'package:meonghae_front/api/dio.dart';
 import 'package:meonghae_front/models/review_model.dart';
 import 'package:dio/dio.dart' as dio;
+import 'package:meonghae_front/widgets/common/custom_warning_modal_widget.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class ReviewController extends GetxController {
   var scrollController = ScrollController().obs;
   var titleTextController = TextEditingController();
   var contentTextController = TextEditingController();
+  RefreshController refreshController =
+      RefreshController(initialRefresh: false);
   var reviews = <ReviewModel>[].obs;
   var isLoading = true.obs;
   var hasMore = false.obs;
@@ -22,6 +26,7 @@ class ReviewController extends GetxController {
   var writeType = 0.obs;
   var images = <File>[].obs;
   var rate = 0.0.obs;
+  var isWriting = false.obs;
 
   @override
   void onInit() {
@@ -87,10 +92,9 @@ class ReviewController extends GetxController {
   }
 
   void deleteImage(int index) {
-    List<File> editImages = images.value;
+    List<File> editImages = images;
     editImages.removeAt(index);
     images.value = editImages;
-    Get.back();
   }
 
   Future<void> onClickLike(int index, int id, bool isLike) async {
@@ -143,7 +147,7 @@ class ReviewController extends GetxController {
       url: "/community-service/reviews/$id/recommend",
       request: {"isLike": isLike},
       successFunc: (data) {},
-      errorMsg: "${isLike ? "좋아요" : "싫어요"} 등록에 실패하였습니다",
+      errorMsg: "${isLike ? "좋아요" : "싫어요"} 등록에 실패하였어요",
     );
   }
 
@@ -156,10 +160,11 @@ class ReviewController extends GetxController {
   }
 
   void reload() {
-    reviews.clear();
     isLoading.value = true;
+    reviews.value = [];
     page.value = 1;
     fetchData();
+    refreshController.refreshCompleted();
   }
 
   void fetchData() async {
@@ -179,41 +184,55 @@ class ReviewController extends GetxController {
             contentList.map((json) => ReviewModel.fromJson(json)).toList();
         reviews.addAll(postList);
       },
-      errorMsg: "리뷰정보 호출에 실패하였습니다",
+      errorMsg: "리뷰정보 호출에 실패하였어요",
     );
     isLoading.value = false;
     if (hasMore.value) page++;
   }
 
   void writeReview() async {
-    if (titleTextController.text != '' &&
-        contentTextController.text != '' &&
-        rate.value != 0) {
-      dio.FormData formData = dio.FormData.fromMap({
-        "title": titleTextController.text,
-        "content": contentTextController.text,
-        "rating": rate.toInt(),
-        "type": writeType.value,
-        if (images.value.isNotEmpty)
-          "images": [
-            for (File image in images.value)
-              await dio.MultipartFile.fromFile(image.path)
-          ]
-      });
-      SendAPI.post(
-        url: "/community-service/reviews",
-        request: formData,
-        successCode: 201,
-        successFunc: (data) {
-          Get.back();
-          reload();
-          SnackBarWidget.show(SnackBarType.check, '성공적으로 리뷰를 작성하였습니다');
-        },
-        errorMsg: '리뷰 작성에 실패하였습니다',
-      );
-    } else {
-      SnackBarWidget.show(SnackBarType.error, "모든 정보를 입력해주세요");
+    if (!isWriting.value) {
+      if (titleTextController.text != '' &&
+          contentTextController.text != '' &&
+          rate.value != 0) {
+        isWriting.value = true;
+        dio.FormData formData = dio.FormData.fromMap({
+          "title": titleTextController.text,
+          "content": contentTextController.text,
+          "rating": rate.toInt(),
+          "type": writeType.value,
+          if (images.isNotEmpty)
+            "images": [
+              for (File image in images)
+                await dio.MultipartFile.fromFile(image.path)
+            ]
+        });
+        await SendAPI.post(
+          url: "/community-service/reviews",
+          request: formData,
+          successCode: 201,
+          successFunc: (data) {
+            Get.back();
+            reload();
+            clear();
+            SnackBarWidget.show(SnackBarType.check, '성공적으로 리뷰를 작성하였어요');
+          },
+          errorMsg: '리뷰 작성에 실패하였어요',
+        );
+        isWriting.value = false;
+      } else {
+        SnackBarWidget.show(SnackBarType.error, "모든 정보를 입력해주세요");
+      }
     }
+  }
+
+  Future<bool> willPop() async {
+    CustomWarningModalWidget.show(
+        '페이지를 나가시겠어요?', '지금까지 작성했던 내용들은\n지워지게 되므로 유의해주세요', () {
+      Get.back();
+      clear();
+    });
+    return true;
   }
 
   String typeToString(int type) {

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:meonghae_front/config/app_routes.dart';
 import 'package:meonghae_front/controllers/post_controller.dart';
-import 'package:meonghae_front/screens/post_write_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/widgets/common/loading_spinner_widget.dart';
 import 'package:meonghae_front/widgets/post_screen/post_list_item_widget.dart';
 import 'package:meonghae_front/widgets/post_screen/post_menu_bar_widget.dart';
 import 'package:meonghae_front/widgets/svg/pencil.dart';
 import 'package:meonghae_front/widgets/under_bar/under_bar_widget.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class PostScreen extends StatefulWidget {
   const PostScreen({super.key});
@@ -34,15 +36,9 @@ class _PostScreenState extends State<PostScreen> {
               child: Stack(children: [
                 GetX<PostController>(builder: (controller) {
                   if (controller.isLoading.value) {
-                    return const Center(
-                      child: CircularProgressIndicator(
-                        valueColor:
-                            AlwaysStoppedAnimation<Color>(CustomColor.brown1),
-                        strokeWidth: 5,
-                      ),
-                    );
+                    return const LoadingSpinnerWidget();
                   } else {
-                    if (controller.posts.value.isEmpty) {
+                    if (controller.posts.isEmpty) {
                       return Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -73,11 +69,7 @@ class _PostScreenState extends State<PostScreen> {
                               ),
                               onPressed: () {
                                 controller.setWriteType(controller.type.value);
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const PostWriteScreen()));
+                                Get.toNamed(AppRoutes.postWrite);
                               },
                               child: const Text(
                                 '새 게시글 작성하기',
@@ -92,27 +84,85 @@ class _PostScreenState extends State<PostScreen> {
                         ),
                       );
                     } else {
-                      return ListView.builder(
-                          controller: controller.scrollController.value,
-                          itemCount: controller.posts.length,
-                          itemBuilder: (context, index) {
-                            return Column(children: [
-                              PostListItemWidget(
-                                  postData: controller.posts[index]),
-                              if (controller.hasMore.value &&
-                                  controller.posts.length == index + 1)
-                                Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 20),
-                                    child: Container())
-                              else if (!controller.hasMore.value &&
-                                  controller.posts.length == index + 1)
-                                Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 20),
-                                    child: Container()),
-                            ]);
-                          });
+                      return SmartRefresher(
+                        controller: controller.refreshController,
+                        enablePullDown: true,
+                        enablePullUp: false,
+                        onRefresh: () async => controller.reload(),
+                        header: CustomHeader(
+                          builder: (BuildContext context, RefreshStatus? mode) {
+                            return Container(
+                              height: 120,
+                              color: CustomColor.ivory2,
+                              child: Stack(
+                                children: [
+                                  Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: Container(
+                                      height: 24,
+                                      decoration: const BoxDecoration(
+                                          color: CustomColor.white,
+                                          borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(24),
+                                              topRight: Radius.circular(24))),
+                                    ),
+                                  ),
+                                  const Positioned(
+                                      bottom: 70,
+                                      left: 0,
+                                      right: 0,
+                                      child: Center(
+                                          child: Text(
+                                        '새로고침 하개?',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                          color: CustomColor.black3,
+                                        ),
+                                      ))),
+                                  Positioned(
+                                    bottom: 0,
+                                    child: SizedBox(
+                                      width: MediaQuery.of(context).size.width,
+                                      child: Center(
+                                        child: SizedBox(
+                                          width: 100,
+                                          child: Transform.translate(
+                                            offset: const Offset(0, 7),
+                                            child: Image.asset(
+                                                'assets/images/dog_pictures/peek_dog.png'),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                        child: ListView.builder(
+                            controller: controller.scrollController.value,
+                            itemCount: controller.posts.length,
+                            itemBuilder: (context, index) {
+                              return Column(children: [
+                                PostListItemWidget(
+                                    postData: controller.posts[index]),
+                                if (controller.hasMore.value &&
+                                    controller.posts.length == index + 1)
+                                  Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 20),
+                                      child: Container())
+                                else if (!controller.hasMore.value &&
+                                    controller.posts.length == index + 1)
+                                  Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 20),
+                                      child: Container()),
+                              ]);
+                            }),
+                      );
                     }
                   }
                 }),
@@ -123,9 +173,7 @@ class _PostScreenState extends State<PostScreen> {
                       onTap: () {
                         Get.find<PostController>().setWriteType(
                             Get.find<PostController>().type.value);
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                const PostWriteScreen()));
+                        Get.toNamed(AppRoutes.postWrite);
                       },
                       splashColor: Colors.transparent,
                       highlightColor: Colors.transparent,

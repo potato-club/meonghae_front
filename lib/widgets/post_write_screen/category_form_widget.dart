@@ -48,8 +48,9 @@ class _CategoryFormWidgetState extends State<CategoryFormWidget> {
                 controllter.writeType.value == 1,
                 '멍자랑',
                 () {
-                  if (controllter.writeType.value == 3)
+                  if (controllter.writeType.value == 3) {
                     controllter.contentTextController.clear();
+                  }
                   controllter.setWriteType(1);
                   controllter.editImages();
                 },
@@ -59,8 +60,9 @@ class _CategoryFormWidgetState extends State<CategoryFormWidget> {
                 controllter.writeType.value == 2,
                 '웃긴멍',
                 () {
-                  if (controllter.writeType.value == 3)
+                  if (controllter.writeType.value == 3) {
                     controllter.contentTextController.clear();
+                  }
                   controllter.setWriteType(2);
                   controllter.editImages();
                 },

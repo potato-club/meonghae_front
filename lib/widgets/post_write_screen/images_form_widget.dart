@@ -1,7 +1,5 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:meonghae_front/controllers/post_controller.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/common/custom_modal_widget.dart';
@@ -18,7 +16,7 @@ class _ImagesFormWidgetState extends State<ImagesFormWidget> {
   @override
   Widget build(BuildContext context) {
     return GetX<PostController>(builder: (controller) {
-      var maxImageLength = controller.writeType == 3 ? 5 : 3;
+      var maxImageLength = controller.writeType.value == 3 ? 5 : 3;
       return SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Padding(
@@ -50,14 +48,10 @@ class _ImagesFormWidgetState extends State<ImagesFormWidget> {
                     Padding(
                       padding: EdgeInsets.only(left: i != 0 ? 14 : 0),
                       child: InkWell(
-                        onTap: () => CustomModalWidget.show(
-                          context,
-                          "사진을 삭제하시겠어요?",
-                          () {
-                            controller.deleteImage(i);
-                            FocusScope.of(context).unfocus();
-                          },
-                        ),
+                        onTap: () => CustomModalWidget.show("사진을 삭제하시겠어요?", () {
+                          controller.deleteImage(i);
+                          FocusScope.of(context).unfocus();
+                        }),
                         splashColor: Colors.transparent,
                         highlightColor: Colors.transparent,
                         child: Container(
@@ -67,7 +61,7 @@ class _ImagesFormWidgetState extends State<ImagesFormWidget> {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10)),
                           child: Image.file(
-                              Get.find<PostController>().images.value[i],
+                              Get.find<PostController>().images[i],
                               fit: BoxFit.cover),
                         ),
                       ),

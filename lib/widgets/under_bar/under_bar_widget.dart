@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/screens/calendar_screen.dart';
-import 'package:meonghae_front/screens/inquiry_screen.dart';
-import 'package:meonghae_front/screens/main_screen.dart';
-import 'package:meonghae_front/screens/post_screen.dart';
-import 'package:meonghae_front/screens/review_menu_screen.dart';
+import 'package:get/get.dart';
+import 'package:meonghae_front/config/app_routes.dart';
+import 'package:meonghae_front/controllers/calendar_controller.dart';
+import 'package:meonghae_front/controllers/post_controller.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/svg/under_bar/ask.dart';
 import 'package:meonghae_front/widgets/svg/under_bar/calendar.dart';
@@ -44,29 +43,48 @@ class UnderBarWidget extends StatelessWidget {
                   UnderBarIconButtonWidget(
                       iconSVG:
                           CalendarSVG(isCurrent: currentScreen.contains('캘린더')),
-                      routePath: const CalendarScreen(),
+                      onClick: () {
+                        if (currentScreen != '캘린더') {
+                          Get.offNamed(AppRoutes.calendar);
+                          Get.find<CalendarController>().clear();
+                        }
+                      },
                       currentScreen: currentScreen,
                       label: '캘린더'),
                   UnderBarIconButtonWidget(
                       iconSVG:
                           PostSVG(isCurrent: currentScreen.contains('게시물')),
-                      routePath: const PostScreen(),
+                      onClick: () {
+                        if (currentScreen != '게시물') {
+                          Get.find<PostController>().reload();
+                          Get.offNamed(AppRoutes.post);
+                        }
+                      },
                       currentScreen: currentScreen,
                       label: '게시물'),
                   UnderBarIconButtonWidget(
                       iconSVG: HomeSVG(isCurrent: currentScreen.contains('홈')),
-                      routePath: const MainScreen(),
+                      onClick: () => {
+                            if (currentScreen != '홈')
+                              Get.offNamed(AppRoutes.main)
+                          },
                       currentScreen: currentScreen,
                       label: '홈'),
                   UnderBarIconButtonWidget(
                       iconSVG:
                           ReviewSVG(isCurrent: currentScreen.contains('리뷰')),
-                      routePath: const ReviewMenuScreen(),
+                      onClick: () => {
+                            if (currentScreen != '리뷰')
+                              Get.offNamed(AppRoutes.reviewMenu)
+                          },
                       currentScreen: currentScreen,
                       label: '리뷰'),
                   UnderBarIconButtonWidget(
                       iconSVG: AskSVG(isCurrent: currentScreen.contains('문의')),
-                      routePath: const InquiryScreen(),
+                      onClick: () => {
+                            if (currentScreen != '문의')
+                              Get.offNamed(AppRoutes.inquiry)
+                          },
                       currentScreen: currentScreen,
                       label: '문의')
                 ],

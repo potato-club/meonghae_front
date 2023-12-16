@@ -33,7 +33,7 @@ class _BannerWidgetState extends State<BannerWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               InkWell(
-                  onTap: () => Navigator.pop(context),
+                  onTap: () => Get.back(),
                   splashColor: Colors.transparent,
                   highlightColor: Colors.transparent,
                   child: Padding(

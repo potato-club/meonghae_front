@@ -101,7 +101,7 @@ class _SelectWidgetState extends State<SelectModalWidget>
       Positioned(
         child: CompositedTransformFollower(
           link: widget.selectLink,
-          offset: Offset(0, 54),
+          offset: const Offset(0, 54),
           child: AnimatedBuilder(
               animation: _animation,
               builder: (context, child) {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/controllers/review_controller.dart';
 import 'package:meonghae_front/themes/customColor.dart';
-import 'package:meonghae_front/widgets/common/custom_warning_modal_widget.dart';
+import 'package:meonghae_front/widgets/common/loading_dot_widget.dart';
 import 'package:meonghae_front/widgets/review_write_screen/review_category_widget.dart';
 import 'package:meonghae_front/widgets/review_write_screen/star_rating_widget.dart';
 import 'package:meonghae_front/widgets/review_write_screen/write_form_widget.dart';
@@ -18,64 +18,64 @@ class _ReviewWriteScreenState extends State<ReviewWriteScreen> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async {
-        CustomWarningModalWidget.show(
-            context, '페이지를 나가시겠어요?', '지금까지 작성했던 내용들은\n지워지게 되므로 유의해주세요', () {
-          Get.back();
-          Get.back();
-          Get.find<ReviewController>().clear();
-        });
-        return true;
-      },
+      onWillPop: () async => Get.find<ReviewController>().willPop(),
       child: Scaffold(
         backgroundColor: CustomColor.white,
         body: SafeArea(
-          child: Stack(
-            children: [
-              SafeArea(
-                  child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const SizedBox(height: 144),
-                    const ReviewCategoryWidget(),
-                    const Padding(
-                      padding: EdgeInsets.fromLTRB(0, 14, 0, 40),
-                      child: WriteFormWidget(),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: MediaQuery.of(context).size.width * 0.06),
-                      child: InkWell(
-                        onTap: () => Get.find<ReviewController>().writeReview(),
-                        splashColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        child: Container(
-                          height: 45,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: CustomColor.brown1),
-                          child: const Expanded(
-                              child: Center(
-                            child: Text("리뷰 등록하기",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                  color: CustomColor.white,
-                                )),
-                          )),
+          child: GetX<ReviewController>(builder: (controller) {
+            return Stack(
+              children: [
+                SafeArea(
+                    child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 144),
+                      const ReviewCategoryWidget(),
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(0, 14, 0, 40),
+                        child: WriteFormWidget(),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal:
+                                MediaQuery.of(context).size.width * 0.06),
+                        child: InkWell(
+                          onTap: () => controller.writeReview(),
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          child: Container(
+                            height: 45,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: CustomColor.brown1),
+                            child: const Expanded(
+                                child: Center(
+                              child: Text("리뷰 등록하기",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                    color: CustomColor.white,
+                                  )),
+                            )),
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 60),
-                  ],
+                      const SizedBox(height: 60),
+                    ],
+                  ),
+                )),
+                const Positioned(
+                  top: 0,
+                  child: StarRatingWidget(),
                 ),
-              )),
-              const Positioned(
-                top: 0,
-                child: StarRatingWidget(),
-              )
-            ],
-          ),
+                if (controller.isWriting.value)
+                  const Positioned(
+                      child: Center(
+                    child: LoadingDotWidget(color: CustomColor.brown1),
+                  )),
+              ],
+            );
+          }),
         ),
       ),
     );

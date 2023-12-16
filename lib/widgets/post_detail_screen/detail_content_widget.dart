@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/controllers/post_detail_controller.dart';
@@ -19,7 +20,7 @@ class _DetailContentWidgetState extends State<DetailContentWidget> {
   Widget build(BuildContext context) {
     return GetX<PostDetailController>(builder: (controller) {
       if (controller.isLoading.value) {
-        return SizedBox(height: 0);
+        return const SizedBox(height: 0);
       } else {
         return Padding(
           padding: EdgeInsets.symmetric(
@@ -38,9 +39,14 @@ class _DetailContentWidgetState extends State<DetailContentWidget> {
                     decoration: const BoxDecoration(
                         color: CustomColor.lightGray3, shape: BoxShape.circle),
                     child: controller.post.value.profileUrl != null
-                        ? Image.network(
-                            controller.post.value.profileUrl!,
+                        ? CachedNetworkImage(
+                            imageUrl: controller.post.value.profileUrl!,
                             fit: BoxFit.cover,
+                            memCacheWidth: 185,
+                            errorWidget: (context, url, error) => const Icon(
+                              Icons.error_outline_outlined,
+                              color: CustomColor.brown1,
+                            ),
                           )
                         : Transform.scale(
                             scale: 1.8,
