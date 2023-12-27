@@ -10,6 +10,7 @@ class ReviewModel {
   final String? profileUrl;
   final int rating;
   final String? recommendStatus;
+  final bool writer;
 
   ReviewModel({
     required this.id,
@@ -23,6 +24,7 @@ class ReviewModel {
     this.profileUrl,
     required this.rating,
     this.recommendStatus,
+    required this.writer,
   });
 
   factory ReviewModel.fromJson(Map<String, dynamic> json) {
@@ -38,6 +40,7 @@ class ReviewModel {
       profileUrl: json['profileUrl'],
       rating: json['rating'],
       recommendStatus: json['recommendStatus'],
+      writer: json['writer'],
     );
   }
 }
