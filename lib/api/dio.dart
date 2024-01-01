@@ -13,6 +13,7 @@ class SendAPI {
     required String errorMsg,
   }) async {
     int? errorCode;
+    print(errorCode);
     if (error.response?.data.runtimeType == String) {
       errorCode = jsonDecode(error.response?.data)['errorCode'];
     } else {
@@ -163,9 +164,11 @@ class SendAPI {
       if (response.statusCode == successCode) {
         successFunc(response);
       } else {
+        print(response);
         SnackBarWidget.show(SnackBarType.error, errorMsg);
       }
     } on DioException catch (error) {
+      print(error);
       tokenRefresh(
         error: error,
         successFunc: successFunc,
@@ -184,20 +187,30 @@ class SendAPI {
     required Function successFunc,
     required String errorMsg,
     dynamic request,
+    dynamic params,
   }) async {
-    var token = await readAccessToken();
+    var accessToken = await readAccessToken();
+    var refreshToken = await readRefreshToken();
     final dio = Dio(BaseOptions(
       baseUrl: 'https://api.meonghae.site/',
-      headers: {'Authorization': token},
+      headers: {'Authorization': accessToken, 'refreshToken': refreshToken},
     ));
     try {
-      final response = await dio.delete(url, queryParameters: request);
+      final response = request == null
+          ? params == null
+              ? await dio.delete(url)
+              : await dio.delete(url, queryParameters: params)
+          : params == null
+              ? await dio.delete(url, data: request)
+              : await dio.delete(url, data: request, queryParameters: params);
       if (response.statusCode == successCode) {
         successFunc(response);
       } else {
+        print(response);
         SnackBarWidget.show(SnackBarType.error, errorMsg);
       }
     } on DioException catch (error) {
+      print(error);
       tokenRefresh(
         error: error,
         successFunc: successFunc,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/api/dio.dart';
+import 'package:meonghae_front/controllers/post_edit_controller.dart';
 import 'package:meonghae_front/models/post_comment_model.dart';
 import 'package:meonghae_front/models/post_detail_model.dart';
 
@@ -15,10 +16,11 @@ class PostDetailController extends GetxController {
     content: '',
     date: '',
     profileUrl: null,
-    images: null,
+    images: [],
     commentSize: 0,
     likeStatus: false,
     likes: 0,
+    writer: false,
   ).obs;
   var comments = <PostCommentModel>[].obs;
   var hasMore = false.obs;
@@ -61,7 +63,7 @@ class PostDetailController extends GetxController {
     replyMode.value = mode;
   }
 
-  void initPost() {
+  void initData() {
     post.value = PostDetailModel(
       id: 0,
       title: '',
@@ -72,7 +74,12 @@ class PostDetailController extends GetxController {
       commentSize: 0,
       likeStatus: false,
       likes: 0,
+      writer: false,
     );
+    comments.clear();
+    isLoading.value = true;
+    page.value = 1;
+    commentId.value = 0;
   }
 
   Future<void> onClickHeart() async {
@@ -87,6 +94,7 @@ class PostDetailController extends GetxController {
       likeStatus: !post.value.likeStatus,
       likes:
           post.value.likeStatus ? post.value.likes - 1 : post.value.likes + 1,
+      writer: post.value.writer,
     );
     await SendAPI.post(
       url: "/community-service/boards/${id.value}/like",
@@ -95,20 +103,14 @@ class PostDetailController extends GetxController {
     );
   }
 
-  void reload() {
-    initPost();
-    comments.clear();
-    isLoading.value = true;
-    page.value = 1;
-    commentId.value = 0;
-    fetchData();
-  }
-
   void fetchData() async {
+    initData();
     await SendAPI.get(
       url: "/community-service/boards/${id.value}",
       successFunc: (data) {
         post.value = PostDetailModel.fromJson(data.data);
+        Get.find<PostEditController>().setEditPost(post.value, id.value);
+        print(data.data);
       },
       errorMsg: "게시글정보 호출에 실패하였어요",
     );
@@ -135,7 +137,7 @@ class PostDetailController extends GetxController {
         url: "/community-service/boardComments/${id.value}",
         request: {"comment": comment},
         successCode: 201,
-        successFunc: (data) => reload(),
+        successFunc: (data) => fetchData(),
         errorMsg: "댓글 작성에 실패하였어요",
       );
     }
@@ -147,7 +149,7 @@ class PostDetailController extends GetxController {
         url: "/community-service/boardComments/${commentId.value}/reply",
         request: {"comment": comment},
         successCode: 201,
-        successFunc: (data) => reload(),
+        successFunc: (data) => fetchData(),
         errorMsg: "대댓글 작성에 실패하였어요",
       );
     }

@@ -30,7 +30,7 @@ class PostController extends GetxController {
       if (scrollController.value.position.pixels ==
               scrollController.value.position.maxScrollExtent &&
           hasMore.value) {
-        fetchData(type.value);
+        fetchData();
       }
     });
     super.onInit();
@@ -42,7 +42,7 @@ class PostController extends GetxController {
       isLoading.value = true;
       type.value = value;
       page.value = 1;
-      fetchData(type.value);
+      fetchData();
     }
   }
 
@@ -69,16 +69,14 @@ class PostController extends GetxController {
   }
 
   void deleteImage(int index) {
-    List<File> editImages = images;
-    editImages.removeAt(index);
-    images.value = editImages;
+    images.removeAt(index);
   }
 
   void reload() {
     isLoading.value = true;
     posts.value = [];
     page.value = 1;
-    fetchData(type.value);
+    fetchData();
     refreshController.refreshCompleted();
   }
 
@@ -89,7 +87,7 @@ class PostController extends GetxController {
     images.value = [];
   }
 
-  void fetchData(int type) async {
+  void fetchData() async {
     await SendAPI.get(
       url: "/community-service/boards",
       params: {'type': type, 'p': page.value},

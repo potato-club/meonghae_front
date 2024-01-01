@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/controllers/post_controller.dart';
+import 'package:meonghae_front/controllers/post_detail_controller.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/svg/arrow.dart';
 import 'package:meonghae_front/widgets/svg/more.dart';
@@ -54,21 +55,29 @@ class _BannerWidgetState extends State<BannerWidget> {
                         fontWeight: FontWeight.w700,
                         color: CustomColor.black2));
               }),
-              InkWell(
-                  onTap: () => widget.setIsPostMoreModal(true),
-                  splashColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * 0.06,
-                      vertical: 20,
-                    ),
-                    child: const SizedBox(
-                        width: 24,
-                        child: Align(
-                            alignment: Alignment.centerRight,
-                            child: MoreSVG())),
-                  ))
+              GetX<PostDetailController>(builder: (controller) {
+                return SizedBox(
+                  width: 67,
+                  child: controller.post.value.writer
+                      ? InkWell(
+                          onTap: () => widget.setIsPostMoreModal(true),
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal:
+                                  MediaQuery.of(context).size.width * 0.06,
+                              vertical: 20,
+                            ),
+                            child: const SizedBox(
+                                width: 24,
+                                child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: MoreSVG())),
+                          ))
+                      : null,
+                );
+              })
             ],
           ),
         ],
