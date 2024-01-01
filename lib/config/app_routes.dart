@@ -12,6 +12,7 @@ import 'package:meonghae_front/screens/my_page_screen.dart';
 import 'package:meonghae_front/screens/my_page_user_screen.dart';
 import 'package:meonghae_front/screens/my_page_withdrawal_screen.dart';
 import 'package:meonghae_front/screens/post_detail_screen.dart';
+import 'package:meonghae_front/screens/post_edit_screen.dart';
 import 'package:meonghae_front/screens/post_screen.dart';
 import 'package:meonghae_front/screens/post_write_screen.dart';
 import 'package:meonghae_front/screens/register_dog_screen.dart';
@@ -39,6 +40,7 @@ class AppRoutes {
   static const String post = "/post";
   static const String postDetail = "/post/detail";
   static const String postWrite = "/post/write";
+  static const String postEdit = "/post/edit";
 // review
   static const String review = "/review";
   static const String reviewMenu = "/review/menu";
@@ -69,6 +71,7 @@ class AppRoutes {
     GetPage(name: post, page: () => const PostScreen()),
     GetPage(name: postDetail, page: () => const PostDetailScreen()),
     GetPage(name: postWrite, page: () => const PostWriteScreen()),
+    GetPage(name: postEdit, page: () => const PostEditScreen()),
     // review
     GetPage(name: review, page: () => const ReviewScreen()),
     GetPage(name: reviewMenu, page: () => const ReviewMenuScreen()),

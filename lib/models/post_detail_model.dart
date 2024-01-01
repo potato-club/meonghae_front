@@ -6,6 +6,7 @@ class PostDetailModel {
   final String? profileUrl;
   final List<dynamic>? images;
   final int commentSize;
+  final bool writer;
   bool likeStatus;
   int likes;
 
@@ -19,6 +20,7 @@ class PostDetailModel {
     required this.commentSize,
     required this.likeStatus,
     required this.likes,
+    required this.writer,
   });
 
   factory PostDetailModel.fromJson(Map<String, dynamic> json) {
@@ -32,6 +34,7 @@ class PostDetailModel {
       commentSize: json['commentSize'],
       likeStatus: json['likeStatus'],
       likes: json['likes'],
+      writer: json['writer'],
     );
   }
 }

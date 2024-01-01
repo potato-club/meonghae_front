@@ -42,9 +42,8 @@ class _DetailCommentWidgetState extends State<DetailCommentWidget> {
                   Column(
                     children: [
                       CommentWidget(
-                        comment: controller.comments.value[i],
-                        setIsCommentMoreModal: widget.setIsCommentMoreModal,
-                      ),
+                          comment: controller.comments.value[i],
+                          setIsCommentMoreModal: widget.setIsCommentMoreModal),
                       if (i == controller.comments.length - 1 &&
                           controller.hasMore.value)
                         Padding(

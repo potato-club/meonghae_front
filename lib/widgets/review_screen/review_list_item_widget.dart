@@ -27,7 +27,6 @@ class ReviewListItemWidget extends StatefulWidget {
 class _ReviewListItemWidgetState extends State<ReviewListItemWidget> {
   @override
   Widget build(BuildContext context) {
-    print(widget.reviewData);
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: MediaQuery.of(context).size.width * 0.06,

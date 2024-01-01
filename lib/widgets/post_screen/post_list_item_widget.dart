@@ -5,7 +5,6 @@ import 'package:meonghae_front/config/app_routes.dart';
 import 'package:meonghae_front/controllers/post_controller.dart';
 import 'package:meonghae_front/controllers/post_detail_controller.dart';
 import 'package:meonghae_front/models/post_model.dart';
-import 'package:meonghae_front/screens/post_detail_screen.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/svg/tiny_comment.dart';
 import 'package:meonghae_front/widgets/svg/tiny_heart.dart';
