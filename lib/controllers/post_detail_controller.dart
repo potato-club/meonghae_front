@@ -110,6 +110,7 @@ class PostDetailController extends GetxController {
       successFunc: (data) {
         post.value = PostDetailModel.fromJson(data.data);
         Get.find<PostEditController>().setEditPost(post.value, id.value);
+        print(data.data);
       },
       errorMsg: "게시글정보 호출에 실패하였어요",
     );
@@ -123,7 +124,6 @@ class PostDetailController extends GetxController {
         final List<PostCommentModel> postList =
             contentList.map((json) => PostCommentModel.fromJson(json)).toList();
         comments.addAll(postList);
-        print(data.data);
       },
       errorMsg: "댓글정보 호출에 실패하였어요",
     );

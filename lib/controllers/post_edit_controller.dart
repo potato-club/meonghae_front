@@ -49,11 +49,12 @@ class PostEditController extends GetxController {
       if (editPost.value.title != titleTextController.text ||
           editPost.value.content != contentTextController.text ||
           prevEditImages != editImages) {
+        print('###${editImages.value}');
         isEditing.value = true;
         dio.FormData formData = dio.FormData.fromMap({
           "title": titleTextController.text,
           "content": contentTextController.text,
-          if (prevEditImages != editImages && editImages.isNotEmpty)
+          if (editImages.isNotEmpty)
             "images": [
               for (File image in editImages)
                 await dio.MultipartFile.fromFile(image.path)
