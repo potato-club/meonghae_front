@@ -126,7 +126,7 @@ class CalendarController extends GetxController {
 
   Future<void> addCalendar() async {
     if (!isSending.value) {
-      if (calendarForm.value.isFilled()) {
+      if (calendarForm.value.isFilled(customMode.value)) {
         isSending.value = true;
         await SendAPI.post(
           url: "/profile-service/profile/calendar",

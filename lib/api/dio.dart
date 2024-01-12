@@ -104,7 +104,6 @@ class SendAPI {
     var fcmToken = await FirebaseMessaging.instance.getToken(
         vapidKey:
             "BJw5iH7_tounnU7fXc_QPkzm1Rh_yIa6xxOkNDw5sWAwlGKPRcd2ojVHsJwhLvQDH9hS3nQ3f-XQDTpdP0dp8gs");
-    print('FCM => $fcmToken');
     final dio = Dio(BaseOptions(
       baseUrl: 'https://api.meonghae.site/',
       headers: {
@@ -124,6 +123,7 @@ class SendAPI {
       if (response.statusCode == successCode) {
         successFunc(response);
       } else {
+        print(response);
         SnackBarWidget.show(SnackBarType.error, errorMsg);
       }
     } on DioException catch (error) {

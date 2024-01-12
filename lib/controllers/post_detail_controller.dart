@@ -110,7 +110,6 @@ class PostDetailController extends GetxController {
       successFunc: (data) {
         post.value = PostDetailModel.fromJson(data.data);
         Get.find<PostEditController>().setEditPost(post.value, id.value);
-        print(data.data);
       },
       errorMsg: "게시글정보 호출에 실패하였어요",
     );
