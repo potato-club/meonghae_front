@@ -113,7 +113,6 @@ class CalendarController extends GetxController {
           final List<CalendarModel> eventsList =
               contentList.map((json) => CalendarModel.fromJson(json)).toList();
           monthEvents.value = eventsList;
-          print(data.data);
         },
         errorMsg: "캘린더 정보 호출에 실패하였어요");
   }
@@ -129,8 +128,6 @@ class CalendarController extends GetxController {
     if (!isSending.value) {
       if (calendarForm.value.isFilled(customMode.value)) {
         isSending.value = true;
-        print(
-            "${calendarForm.value.petId}//${calendarForm.value.scheduleType}//${DateFormat('yyyy-MM-ddTHH:mm').format(calendarForm.value.scheduleTime)}//${calendarForm.value.hasRepeat}//${calendarForm.value.cycle}//${calendarForm.value.cycleType}//${calendarForm.value.cycleCount}");
         await SendAPI.post(
           url: "/profile-service/profile/calendar",
           request: {
