@@ -19,6 +19,11 @@ class KakaoButton extends StatefulWidget {
 }
 
 class _KakaoButtonState extends State<KakaoButton> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   void handleLogin() async {
     Map<String, dynamic> result = await widget.loginModel.login();
     if (result['success']) {

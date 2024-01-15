@@ -97,6 +97,25 @@ class LoginModel {
     }
   }
 
+  Future<void> waslogined() async {
+    Dio dio = Dio(BaseOptions(baseUrl: 'https://api.meonghae.site/'));
+    final String mobileId = await getMobileId();
+    var fcmToken = await FirebaseMessaging.instance.getToken(
+        vapidKey:
+            "BJw5iH7_tounnU7fXc_QPkzm1Rh_yIa6xxOkNDw5sWAwlGKPRcd2ojVHsJwhLvQDH9hS3nQ3f-XQDTpdP0dp8gs");
+    try {
+      user = await UserApi.instance.me();
+      final response = await dio.get('/user-service/login',
+          queryParameters: {'email': user!.kakaoAccount!.email},
+          options:
+              Options(headers: {'androidId': mobileId, 'FCMToken': fcmToken}));
+      if (response.data['responseCode'] == "200_OK") {
+        saveAccessToken(response.headers['authorization']![0]);
+        saveRefreshToken(response.headers['refreshtoken']![0]);
+      }
+    } on DioException catch (error) {}
+  }
+
   Future logout() async {
     await socialLogin.logout();
     isLogined = false;
