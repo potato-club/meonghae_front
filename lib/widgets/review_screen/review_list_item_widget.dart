@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/controllers/review_controller.dart';
@@ -6,12 +7,18 @@ import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/review_screen/images_swiper_widget.dart';
 import 'package:meonghae_front/widgets/review_screen/star_rating_widget.dart';
 import 'package:meonghae_front/widgets/svg/like.dart';
+import 'package:meonghae_front/widgets/svg/tiny_more.dart';
 
 class ReviewListItemWidget extends StatefulWidget {
   final ReviewModel reviewData;
   final int index;
-  const ReviewListItemWidget(
-      {super.key, required this.reviewData, required this.index});
+  final Function setIsMoreModal;
+  const ReviewListItemWidget({
+    super.key,
+    required this.reviewData,
+    required this.index,
+    required this.setIsMoreModal,
+  });
 
   @override
   State<ReviewListItemWidget> createState() => _ReviewListItemWidgetState();
@@ -49,9 +56,14 @@ class _ReviewListItemWidgetState extends State<ReviewListItemWidget> {
                           color: CustomColor.lightGray3,
                           shape: BoxShape.circle),
                       child: widget.reviewData.profileUrl != null
-                          ? Image.network(
-                              widget.reviewData.profileUrl!,
+                          ? CachedNetworkImage(
+                              imageUrl: widget.reviewData.profileUrl!,
                               fit: BoxFit.cover,
+                              memCacheWidth: 185,
+                              errorWidget: (context, url, error) => const Icon(
+                                Icons.error_outline_outlined,
+                                color: CustomColor.brown1,
+                              ),
                             )
                           : Transform.scale(
                               scale: 1.8,
@@ -164,7 +176,23 @@ class _ReviewListItemWidgetState extends State<ReviewListItemWidget> {
                         style: const TextStyle(
                             fontSize: 11, color: CustomColor.gray)),
                   ],
-                ))
+                )),
+            if (widget.reviewData.writer)
+              Positioned(
+                  top: -4,
+                  right: -11,
+                  child: InkWell(
+                      onTap: () {
+                        Get.find<ReviewController>()
+                            .setEditId(widget.reviewData.id);
+                        widget.setIsMoreModal(true);
+                      },
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      child: const Padding(
+                          padding:
+                              EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                          child: TinyMoreSVG(color: CustomColor.lightGray2))))
           ]),
         ),
       ),
