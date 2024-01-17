@@ -60,9 +60,12 @@ dependencies:
   firebase_messaging: ^14.7.3
   flutter_spinkit: ^5.2.0
   pull_to_refresh: ^2.0.0
-  kakao_flutter_sdk: ^1.6.1
+  kakao_flutter_sdk: ^1.8.0
   cached_network_image: ^3.3.0
   path_provider: ^2.0.15
+  langchain: ^0.3.1+1
+  langchain_openai: ^0.3.1+1
+  flutter_email_sender: ^6.0.2
 
 dev_dependencies:
   flutter_test:

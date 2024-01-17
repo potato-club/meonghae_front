@@ -99,7 +99,7 @@ class _ScheduleContentWidgetState extends State<ScheduleContentWidget> {
               label: "일정", routingPath: AppRoutes.calendar),
         ),
         SizedBox(
-          height: MediaQuery.of(context).size.height - 602,
+          height: MediaQuery.of(context).size.height - 611,
           child: Stack(children: [
             SingleChildScrollView(
               scrollDirection: Axis.vertical,

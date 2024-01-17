@@ -85,7 +85,7 @@ class _DogSelectWidgetState extends State<DogSelectWidget> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 85,
+      height: 87,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 4),
         child: Stack(children: [

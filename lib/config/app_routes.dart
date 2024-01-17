@@ -1,9 +1,7 @@
 import 'package:get/get.dart';
-import 'package:meonghae_front/screens/Inquiry_1to1_screen.dart';
 import 'package:meonghae_front/screens/calendar_info_screen.dart';
 import 'package:meonghae_front/screens/calendar_screen.dart';
 import 'package:meonghae_front/screens/calendar_search_screen.dart';
-import 'package:meonghae_front/screens/inquiry_history_screen.dart';
 import 'package:meonghae_front/screens/inquiry_screen.dart';
 import 'package:meonghae_front/screens/login_screen.dart';
 import 'package:meonghae_front/screens/main_screen.dart';
@@ -78,8 +76,6 @@ class AppRoutes {
     GetPage(name: reviewWrite, page: () => const ReviewWriteScreen()),
     // inquiry
     GetPage(name: inquiry, page: () => const InquiryScreen()),
-    GetPage(name: inquiry1to1, page: () => const Inquiry1To1Screen()),
-    GetPage(name: inquiryHistory, page: () => const InquiryHistoryScreen()),
     // mypage
     GetPage(name: mypage, page: () => const MyPageScreen()),
     GetPage(name: mypageDog, page: () => const MyPageDogScreen()),
