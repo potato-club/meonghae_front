@@ -1,9 +1,8 @@
 import 'package:get/get.dart';
-import 'package:meonghae_front/screens/Inquiry_1to1_screen.dart';
 import 'package:meonghae_front/screens/calendar_info_screen.dart';
 import 'package:meonghae_front/screens/calendar_screen.dart';
 import 'package:meonghae_front/screens/calendar_search_screen.dart';
-import 'package:meonghae_front/screens/inquiry_history_screen.dart';
+import 'package:meonghae_front/screens/init_loading_screen.dart';
 import 'package:meonghae_front/screens/inquiry_screen.dart';
 import 'package:meonghae_front/screens/login_screen.dart';
 import 'package:meonghae_front/screens/main_screen.dart';
@@ -25,6 +24,7 @@ import 'package:meonghae_front/screens/select_screen.dart';
 import 'package:meonghae_front/screens/video_player_screen.dart';
 
 class AppRoutes {
+  static const String initLoading = "/initLoading";
   static const String login = "/login";
   static const String select = "/select";
   static const String registerUser = "/registerUser";
@@ -56,6 +56,7 @@ class AppRoutes {
   static const String mypageWithdrawal = "/mypage/withdrawal";
 
   static final List<GetPage> pages = [
+    GetPage(name: initLoading, page: () => const InitLoadingScreen()),
     GetPage(name: login, page: () => const LoginScreen()),
     GetPage(name: select, page: () => const SelectScreen()),
     GetPage(name: registerUser, page: () => const RegisterUserScreen()),
@@ -78,8 +79,6 @@ class AppRoutes {
     GetPage(name: reviewWrite, page: () => const ReviewWriteScreen()),
     // inquiry
     GetPage(name: inquiry, page: () => const InquiryScreen()),
-    GetPage(name: inquiry1to1, page: () => const Inquiry1To1Screen()),
-    GetPage(name: inquiryHistory, page: () => const InquiryHistoryScreen()),
     // mypage
     GetPage(name: mypage, page: () => const MyPageScreen()),
     GetPage(name: mypageDog, page: () => const MyPageDogScreen()),

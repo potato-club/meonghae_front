@@ -60,9 +60,13 @@ dependencies:
   firebase_messaging: ^14.7.3
   flutter_spinkit: ^5.2.0
   pull_to_refresh: ^2.0.0
-  kakao_flutter_sdk: ^1.6.1
+  kakao_flutter_sdk: ^1.8.0
   cached_network_image: ^3.3.0
   path_provider: ^2.0.15
+  langchain: ^0.3.1+1
+  langchain_openai: ^0.3.1+1
+  flutter_email_sender: ^6.0.2
+  flutter_dotenv: ^5.1.0
 
 dev_dependencies:
   flutter_test:
@@ -87,10 +91,9 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - .env
     - assets/images/logo/
     - assets/images/dog_pictures/
-    - assets/images/icon/
-    - assets/images/dummy/
     - assets/videos/
 
   # An image asset can refer to one or more resolution-specific "variants", see

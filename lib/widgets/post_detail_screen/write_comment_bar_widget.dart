@@ -100,7 +100,7 @@ class _WriteCommentBarWidgetState extends State<WriteCommentBarWidget> {
                           height: 44,
                           child: Padding(
                             padding: EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 13),
+                                horizontal: 10, vertical: 14),
                             child: SendSVG(strokeColor: CustomColor.lightGray2),
                           ),
                         ),

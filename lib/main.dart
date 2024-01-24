@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:flutter/services.dart';
@@ -9,7 +10,8 @@ import 'package:meonghae_front/fcmSetting.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  KakaoSdk.init(nativeAppKey: '04be34236d1a366937f755ac8f2389db');
+  await dotenv.load(fileName: ".env");
+  KakaoSdk.init(nativeAppKey: dotenv.env['KAKAO_NATIVE_KEY']);
   await initializeDateFormatting();
   String? firebaseToken = await fcmSetting();
   runApp(const MyApp());
@@ -31,7 +33,7 @@ class MyApp extends StatelessWidget {
       title: 'Meonghae',
       initialBinding: AppBinding(),
       getPages: AppRoutes.pages,
-      initialRoute: AppRoutes.login,
+      initialRoute: AppRoutes.initLoading,
     );
   }
 }

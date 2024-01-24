@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -167,7 +166,8 @@ class UserController extends GetxController {
             errorMsg: "회원탈퇴에 실패하였어요"));
   }
 
-  void cancelWidthdrawal(String email) async {
+  Future<bool> cancelWidthdrawal(String email) async {
+    bool isSuccess = false;
     SendAPI.put(
         url: "/user-service/cancel",
         request: {
@@ -176,7 +176,9 @@ class UserController extends GetxController {
         },
         successFunc: (data) {
           SnackBarWidget.show(SnackBarType.check, '성공적으로 회원탈퇴가 취소되었어요');
+          isSuccess = true;
         },
         errorMsg: "회원탈퇴 취소에 실패하였어요");
+    return isSuccess;
   }
 }
