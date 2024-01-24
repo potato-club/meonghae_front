@@ -358,6 +358,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.5.1"
+  flutter_dotenv:
+    dependency: "direct main"
+    description:
+      name: flutter_dotenv
+      sha256: "9357883bdd153ab78cbf9ffa07656e336b8bbb2b5a3ca596b0b27e119f7c7d77"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.1.0"
   flutter_email_sender:
     dependency: "direct main"
     description:
@@ -812,10 +820,10 @@ packages:
     dependency: transitive
     description:
       name: openai_dart
-      sha256: "8dfc9a60427a54bb0cd9e2113989254d5fb6fcf9d359b38a0cd6dfe9a074129a"
+      sha256: "38020cd123355e1d5b6d8061ff8c39903e0a8e310a0d9f69698b0474e7627645"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.4"
+    version: "0.1.5"
   path:
     dependency: transitive
     description:

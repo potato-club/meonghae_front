@@ -64,7 +64,5 @@ Future<String?> fcmSetting() async {
   });
 
   String? firebaseToken = await messaging.getToken();
-
-  print('firebaseToken: ${firebaseToken}');
   return firebaseToken;
 }

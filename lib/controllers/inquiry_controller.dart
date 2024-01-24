@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:langchain/langchain.dart';
 import 'package:langchain_openai/langchain_openai.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 
-const apiKey = "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";
-
 class InquiryController extends GetxController {
   late RunnableSequence<Object, Object> chain;
   late ConversationBufferMemory memory;
   @override
   Future<void> onInit() async {
+    final openaiApiKey = dotenv.env['OPENAI_API_KEY'];
     final model = ChatOpenAI(
-        apiKey: apiKey,
+        apiKey: openaiApiKey,
         defaultOptions: const ChatOpenAIOptions(maxTokens: 100));
     const stringOutputParser = StringOutputParser();
     memory = ConversationBufferMemory(returnMessages: true);
@@ -92,7 +92,6 @@ class InquiryController extends GetxController {
     try {
       await FlutterEmailSender.send(email);
     } catch (error) {
-      print(error);
       SnackBarWidget.show(SnackBarType.error, "기본 메일 앱을 사용할 수 없어요");
     }
   }

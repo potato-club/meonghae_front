@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:get/get.dart';
+import 'package:meonghae_front/config/app_routes.dart';
 import 'package:meonghae_front/login/token.dart';
 import 'package:meonghae_front/models/login_,model.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
@@ -13,41 +16,77 @@ class SendAPI {
     required String errorMsg,
   }) async {
     int? errorCode;
-    print(errorCode);
     if (error.response?.data.runtimeType == String) {
       errorCode = jsonDecode(error.response?.data)['errorCode'];
     } else {
       error.response?.data['errorCode'];
     }
-    if (errorCode == 4002) {
-      var refreshToken = await readRefreshToken();
-      var mobileId = await LoginModel.getMobileId();
-      final dio = Dio(BaseOptions(
-        baseUrl: 'https://api.meonghae.site/',
-        headers: {'refreshToken': refreshToken, 'androidId': mobileId},
-      ));
-      try {
-        final response = await dio.get('/user-service/reissue');
-        saveAccessToken(response.headers['authorization']![0]);
-        saveRefreshToken(response.headers['refreshtoken']![0]);
-        var accessToken = await readAccessToken();
-        var refreshToken0 = await readRefreshToken();
-        try {
-          final response0 = await requestMethod(Options(headers: {
-            'Authorization': accessToken,
-            'refreshToken': refreshToken0,
-          }));
-          successFunc(response0);
-        } catch (error) {
-          SnackBarWidget.show(SnackBarType.error, "1#.${error.toString()}");
+    print(errorCode);
+    switch (errorCode) {
+      case 4002:
+        {
+          var refreshToken = await readRefreshToken();
+          var mobileId = await LoginModel.getMobileId();
+          final dio = Dio(BaseOptions(
+            baseUrl: dotenv.env['SERVER_URL']!,
+            headers: {'refreshToken': refreshToken, 'androidId': mobileId},
+          ));
+          try {
+            final response = await dio.get('/user-service/reissue');
+            saveAccessToken(response.headers['authorization']![0]);
+            saveRefreshToken(response.headers['refreshtoken']![0]);
+            var accessToken = await readAccessToken();
+            var refreshToken_ = await readRefreshToken();
+            try {
+              final response_ = await requestMethod(Options(headers: {
+                'Authorization': accessToken,
+                'refreshToken': refreshToken_,
+              }));
+              successFunc(response_);
+            } catch (error) {
+              deleteAccessToken();
+              deleteRefreshToken();
+              Get.offNamed(AppRoutes.login);
+              SnackBarWidget.show(SnackBarType.error, error.toString());
+            }
+          } on DioException catch (error) {
+            deleteAccessToken();
+            deleteRefreshToken();
+            Get.offNamed(AppRoutes.login);
+            SnackBarWidget.show(SnackBarType.error, "만료된 토큰이에요");
+          } finally {
+            dio.close();
+          }
         }
-      } on DioException catch (error) {
-        SnackBarWidget.show(SnackBarType.error, "2#.${error.toString()}");
-      } finally {
-        dio.close();
-      }
-    } else {
-      SnackBarWidget.show(SnackBarType.error, errorMsg);
+      default:
+        {
+          var refreshToken = await readRefreshToken();
+          var mobileId = await LoginModel.getMobileId();
+          final dio = Dio(BaseOptions(
+            baseUrl: dotenv.env['SERVER_URL']!,
+            headers: {'refreshToken': refreshToken, 'androidId': mobileId},
+          ));
+          try {
+            final response = await dio.get('/user-service/reissue');
+            saveAccessToken(response.headers['authorization']![0]);
+            saveRefreshToken(response.headers['refreshtoken']![0]);
+            var accessToken = await readAccessToken();
+            var refreshToken0 = await readRefreshToken();
+            try {
+              final response0 = await requestMethod(Options(headers: {
+                'Authorization': accessToken,
+                'refreshToken': refreshToken0,
+              }));
+              successFunc(response0);
+            } catch (error) {
+              SnackBarWidget.show(SnackBarType.error, "1#.${error.toString()}");
+            }
+          } on DioException catch (error) {
+            SnackBarWidget.show(SnackBarType.error, "2#.${error.toString()}");
+          } finally {
+            dio.close();
+          }
+        }
     }
   }
 
@@ -62,7 +101,7 @@ class SendAPI {
     var accessToken = await readAccessToken();
     var refreshToken = await readRefreshToken();
     final dio = Dio(BaseOptions(
-      baseUrl: 'https://api.meonghae.site/',
+      baseUrl: dotenv.env['SERVER_URL']!,
       headers: {'Authorization': accessToken, 'refreshToken': refreshToken},
     ));
     try {
@@ -101,11 +140,10 @@ class SendAPI {
   }) async {
     var accessToken = await readAccessToken();
     var refreshToken = await readRefreshToken();
-    var fcmToken = await FirebaseMessaging.instance.getToken(
-        vapidKey:
-            "BJw5iH7_tounnU7fXc_QPkzm1Rh_yIa6xxOkNDw5sWAwlGKPRcd2ojVHsJwhLvQDH9hS3nQ3f-XQDTpdP0dp8gs");
+    var fcmToken = await FirebaseMessaging.instance
+        .getToken(vapidKey: dotenv.env['FCM_VAPID_KEY']);
     final dio = Dio(BaseOptions(
-      baseUrl: 'https://api.meonghae.site/',
+      baseUrl: dotenv.env['SERVER_URL']!,
       headers: {
         'Authorization': accessToken,
         'refreshToken': refreshToken,
@@ -150,7 +188,7 @@ class SendAPI {
     var accessToken = await readAccessToken();
     var refreshToken = await readRefreshToken();
     final dio = Dio(BaseOptions(
-      baseUrl: 'https://api.meonghae.site/',
+      baseUrl: dotenv.env['SERVER_URL']!,
       headers: {'Authorization': accessToken, 'refreshToken': refreshToken},
     ));
     try {
@@ -192,7 +230,7 @@ class SendAPI {
     var accessToken = await readAccessToken();
     var refreshToken = await readRefreshToken();
     final dio = Dio(BaseOptions(
-      baseUrl: 'https://api.meonghae.site/',
+      baseUrl: dotenv.env['SERVER_URL']!,
       headers: {'Authorization': accessToken, 'refreshToken': refreshToken},
     ));
     try {
