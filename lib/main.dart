@@ -28,6 +28,7 @@ class MyApp extends StatelessWidget {
       statusBarIconBrightness: Brightness.dark,
     ));
     return GetMaterialApp(
+      theme: ThemeData(fontFamily: 'GmarketSans'),
       debugShowCheckedModeBanner: false,
       locale: const Locale('ko', 'KR'),
       title: 'Meonghae',
