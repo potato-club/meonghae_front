@@ -25,7 +25,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
         _controller.play();
         _controller.addListener(() {
           if (_controller.value.position == _controller.value.duration) {
-            Get.offNamed(AppRoutes.main);
+            Get.offNamed(AppRoutes.home);
           }
         });
       });

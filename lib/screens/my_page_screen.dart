@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:meonghae_front/config/app_routes.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/my_page_screen/banner_widget.dart';
 import 'package:meonghae_front/widgets/my_page_screen/menu_buttons_widget.dart';
 import 'package:meonghae_front/widgets/svg/arrow.dart';
-import 'package:meonghae_front/widgets/under_bar/under_bar_widget.dart';
 
 class MyPageScreen extends StatefulWidget {
   const MyPageScreen({super.key});
@@ -31,7 +29,7 @@ class _MyPageScreenState extends State<MyPageScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       InkWell(
-                        onTap: () => Get.offNamed(AppRoutes.main),
+                        onTap: () => Get.back(),
                         splashColor: Colors.transparent,
                         highlightColor: Colors.transparent,
                         child: Padding(
@@ -72,7 +70,6 @@ class _MyPageScreenState extends State<MyPageScreen> {
                   const MenuButtonsWidget(),
                 ],
               ),
-              const UnderBarWidget(currentScreen: '홈마이'),
             ],
           ),
         ));

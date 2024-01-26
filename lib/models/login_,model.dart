@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:meonghae_front/config/app_routes.dart';
 import 'package:meonghae_front/controllers/dog_controller.dart';
+import 'package:meonghae_front/controllers/post_controller.dart';
 import 'package:meonghae_front/controllers/user_controller.dart';
 import 'package:meonghae_front/login/social_login.dart';
 import 'package:meonghae_front/login/token.dart';
@@ -62,6 +63,7 @@ class LoginModel {
           return {'success': false, 'error': '허가되지 않은 게정이에요'};
         }
       } on DioException catch (error) {
+        print("${error.response}");
         if (error.response?.data['errorCode'] == 'Already Withdrawal') {
           bool isCancelWithdrawal = false;
           CustomWarningModalWidget.show('회원탈퇴 신청 계정이에요',
@@ -95,7 +97,8 @@ class LoginModel {
         if (response.data == true) {
           Get.find<UserController>().fetchData();
           Get.find<DogController>().fetchData();
-          Get.offNamed(AppRoutes.main);
+          Get.find<PostController>().fetchData();
+          Get.offNamed(AppRoutes.home);
         }
       } on DioException catch (error) {
         if (jsonDecode(error.response?.data)['errorCode'] == 4002) {
@@ -111,7 +114,8 @@ class LoginModel {
             saveRefreshToken(response.headers['refreshtoken']![0]);
             Get.find<UserController>().fetchData();
             Get.find<DogController>().fetchData();
-            Get.offNamed(AppRoutes.main);
+            Get.find<PostController>().fetchData();
+            Get.offNamed(AppRoutes.home);
           } catch (error) {
             deleteAccessToken();
             deleteRefreshToken();

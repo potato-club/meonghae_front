@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:meonghae_front/controllers/home_controller.dart';
 import 'package:meonghae_front/themes/customColor.dart';
 import 'package:meonghae_front/widgets/svg/tiny_right_arrow.dart';
 
 class MainContentLabelWidget extends StatelessWidget {
-  final String routingPath;
+  final int navyIndex;
   final String label;
 
   const MainContentLabelWidget(
-      {super.key, required this.label, required this.routingPath});
+      {super.key, required this.label, required this.navyIndex});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class MainContentLabelWidget extends StatelessWidget {
           ),
         ),
         InkWell(
-          onTap: () => Get.toNamed(routingPath),
+          onTap: () => Get.find<HomeController>().navigateToPage(2),
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
           child: const Padding(

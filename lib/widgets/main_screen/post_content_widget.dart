@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/api/dio.dart';
-import 'package:meonghae_front/config/app_routes.dart';
+import 'package:get/get.dart';
+import 'package:meonghae_front/controllers/home_controller.dart';
+import 'package:meonghae_front/models/post_preview_model.dart';
 import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/widgets/common/loading_dot_widget.dart';
 import 'package:meonghae_front/widgets/main_screen/main_content_label_widget.dart';
 import 'package:meonghae_front/widgets/svg/comment.dart';
 import 'package:meonghae_front/widgets/svg/tiny_heart.dart';
@@ -14,41 +16,15 @@ class PostContentWidget extends StatefulWidget {
 }
 
 class _PostContentWidgetState extends State<PostContentWidget> {
-  List<dynamic>? preview = [];
-  Map<String, dynamic>? showData;
-  Map<String, dynamic>? funData;
-  Map<String, dynamic>? missingData;
-
   @override
   void initState() {
-    getPreview();
+    Get.find<HomeController>().getPostPreview();
     super.initState();
-  }
-
-  Future<void> getPreview() async {
-    SendAPI.get(
-      url: "/community-service/boards/main",
-      successFunc: (data) {
-        for (int i = 0; i < data.data.length; i++) {
-          if (data.data[i]['type'] == 'SHOW') {
-            showData = data.data[i];
-          } else if (data.data[i]['type'] == 'FUN') {
-            funData = data.data[i];
-          } else {
-            missingData = data.data[i];
-          }
-        }
-        setState(() {});
-      },
-      errorMsg: "게시글 미리보기 정보 호출에 실패하였어요",
-    );
   }
 
   Widget createPostItem(
       {required String postCategory,
-      required String? content,
-      required int? likes,
-      required int? comments,
+      required PostPreviewModel postPreview,
       required bool isEndItem}) {
     return Container(
       decoration: BoxDecoration(
@@ -77,15 +53,15 @@ class _PostContentWidgetState extends State<PostContentWidget> {
                   ),
                 ),
                 Transform.translate(
-                  offset: Offset(0, 1),
+                  offset: const Offset(0, 1),
                   child: SizedBox(
                     width: MediaQuery.sizeOf(context).width * 0.88 - 130,
                     child: Text(
-                      content ?? "아직 인기 게시글이 없어요",
+                      postPreview.title ?? "아직 인기 게시글이 없어요",
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontSize: 12,
-                          color: content != null
+                          color: postPreview.title != null
                               ? CustomColor.black1
                               : CustomColor.lightGray2),
                     ),
@@ -94,26 +70,26 @@ class _PostContentWidgetState extends State<PostContentWidget> {
               ],
             ),
             Transform.translate(
-              offset: Offset(0, 2),
+              offset: const Offset(0, 2),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Row(
                     children: [
-                      if (likes != null)
+                      if (postPreview.likes != null)
                         const SizedBox(
                             width: 9, height: 9, child: TinyHeartSVG()),
                       const SizedBox(width: 2),
-                      Text("${likes ?? ''}",
+                      Text("${postPreview.likes ?? ''}",
                           style: const TextStyle(
                               fontSize: 12, color: CustomColor.gray)),
                     ],
                   ),
                   const SizedBox(width: 6),
-                  if (comments != null)
+                  if (postPreview.commentSize != null)
                     const SizedBox(width: 9, height: 9, child: CommentSVG()),
                   const SizedBox(width: 2),
-                  Text("${comments ?? ''}",
+                  Text("${postPreview.commentSize ?? ''}",
                       style: const TextStyle(
                           fontSize: 12, color: CustomColor.gray)),
                 ],
@@ -130,32 +106,33 @@ class _PostContentWidgetState extends State<PostContentWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const MainContentLabelWidget(
-            label: "인기 게시글", routingPath: AppRoutes.post),
+        const MainContentLabelWidget(label: "인기 게시글", navyIndex: 1),
         Padding(
           padding: const EdgeInsets.only(top: 8),
-          child: Column(
-            children: [
-              createPostItem(
-                  postCategory: '멍자랑',
-                  content: showData?['title'],
-                  isEndItem: false,
-                  likes: showData?['likes'],
-                  comments: showData?['commentSize']),
-              createPostItem(
-                  postCategory: '웃긴멍',
-                  content: funData?['title'],
-                  isEndItem: false,
-                  likes: funData?['likes'],
-                  comments: funData?['commentSize']),
-              createPostItem(
-                  postCategory: '실종신고',
-                  content: missingData?['title'],
-                  isEndItem: true,
-                  likes: missingData?['likes'],
-                  comments: missingData?['commentSize'])
-            ],
-          ),
+          child: GetX<HomeController>(builder: (controller) {
+            if (controller.isPostLoading.value) {
+              return const Center(
+                  child:
+                      LoadingDotWidget(color: CustomColor.brown1, size: 30.0));
+            } else {
+              return Column(
+                children: [
+                  createPostItem(
+                      postCategory: '멍자랑',
+                      postPreview: controller.postPreviewShow.value,
+                      isEndItem: false),
+                  createPostItem(
+                      postCategory: '웃긴멍',
+                      postPreview: controller.postPreviewFun.value,
+                      isEndItem: false),
+                  createPostItem(
+                      postCategory: '실종신고',
+                      postPreview: controller.postPreviewMissing.value,
+                      isEndItem: true)
+                ],
+              );
+            }
+          }),
         )
       ],
     );

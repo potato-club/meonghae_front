@@ -9,7 +9,7 @@ class MainContentWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height - 320,
+      height: MediaQuery.of(context).size.height - 400,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -66,7 +66,7 @@ class MainContentWidget extends StatelessWidget {
                 left: MediaQuery.of(context).size.width * 0.06,
                 right: MediaQuery.of(context).size.width * 0.06,
                 top: 18,
-                bottom: 104,
+                bottom: 30,
               ),
               child: const PostContentWidget(),
             ),
