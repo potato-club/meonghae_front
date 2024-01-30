@@ -3,17 +3,20 @@ import 'dart:io';
 import 'package:device_info/device_info.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:meonghae_front/config/app_routes.dart';
 import 'package:meonghae_front/controllers/dog_controller.dart';
+import 'package:meonghae_front/controllers/home_controller.dart';
 import 'package:meonghae_front/controllers/post_controller.dart';
 import 'package:meonghae_front/controllers/user_controller.dart';
 import 'package:meonghae_front/login/social_login.dart';
 import 'package:meonghae_front/login/token.dart';
 import 'package:meonghae_front/widgets/common/custom_warning_modal_widget.dart';
+import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 
 class LoginModel {
   final SocialLogin socialLogin;
@@ -42,7 +45,13 @@ class LoginModel {
     return id;
   }
 
-  Future<Map<String, dynamic>> login() async {
+  static void getAppData() {
+    Get.find<UserController>().fetchData();
+    Get.find<DogController>().fetchData();
+    Get.find<PostController>().fetchData();
+  }
+
+  Future<void> login() async {
     isLogined = await socialLogin.login();
     if (isLogined) {
       Dio dio = Dio(BaseOptions(baseUrl: dotenv.env['SERVER_URL']!));
@@ -58,12 +67,16 @@ class LoginModel {
         if (response.data['responseCode'] == "200_OK") {
           saveAccessToken(response.headers['authorization']![0]);
           saveRefreshToken(response.headers['refreshtoken']![0]);
-          return {'success': true, 'response': response.data};
+          if (response.data['responseCode'] == "201_CREATED") {
+            Get.find<UserController>().setRegisterEmail(response.data['email']);
+            Get.offNamed(AppRoutes.select);
+          } else {
+            Get.offNamed(AppRoutes.introVideo);
+          }
         } else {
-          return {'success': false, 'error': '허가되지 않은 게정이에요'};
+          SnackBarWidget(SnackBarType.error, '허가되지 않은 게정이에요');
         }
       } on DioException catch (error) {
-        print("${error.response}");
         if (error.response?.data['errorCode'] == 'Already Withdrawal') {
           bool isCancelWithdrawal = false;
           CustomWarningModalWidget.show('회원탈퇴 신청 계정이에요',
@@ -74,20 +87,29 @@ class LoginModel {
           if (isCancelWithdrawal) {
             return login();
           } else {
-            return {'success': false, 'error': '회원탈퇴에 실패하였어요'};
+            SnackBarWidget(SnackBarType.error, '회원탈퇴에 실패하였어요');
           }
         } else {
-          return {'success': false, 'error': '로그인에 실패하였어요'};
+          SnackBarWidget(SnackBarType.error, '로그인에 실패하였어요');
         }
       } finally {
         dio.close();
       }
     } else {
-      return {'success': false, 'error': '카카오 인증에 실패하였어요'};
+      SnackBarWidget(SnackBarType.error, '카카오 인증에 실패하였어요');
     }
   }
 
-  static Future<void> waslogined() async {
+  static void logout() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Get.find<HomeController>().initPageController();
+    });
+    deleteAccessToken();
+    deleteRefreshToken();
+    Get.offAllNamed(AppRoutes.login);
+  }
+
+  static Future<void> wasLogined() async {
     if (await readAccessToken() != null) {
       Dio dio = Dio(BaseOptions(baseUrl: dotenv.env['SERVER_URL']!));
       try {
@@ -95,9 +117,7 @@ class LoginModel {
             options:
                 Options(headers: {'Authorization': await readAccessToken()}));
         if (response.data == true) {
-          Get.find<UserController>().fetchData();
-          Get.find<DogController>().fetchData();
-          Get.find<PostController>().fetchData();
+          getAppData();
           Get.offNamed(AppRoutes.home);
         }
       } on DioException catch (error) {
@@ -112,19 +132,13 @@ class LoginModel {
             final response = await dio.get('/user-service/reissue');
             saveAccessToken(response.headers['authorization']![0]);
             saveRefreshToken(response.headers['refreshtoken']![0]);
-            Get.find<UserController>().fetchData();
-            Get.find<DogController>().fetchData();
-            Get.find<PostController>().fetchData();
+            getAppData();
             Get.offNamed(AppRoutes.home);
           } catch (error) {
-            deleteAccessToken();
-            deleteRefreshToken();
-            Get.offNamed(AppRoutes.login);
+            logout();
           }
         } else {
-          deleteAccessToken();
-          deleteRefreshToken();
-          Get.offNamed(AppRoutes.login);
+          logout();
         }
       } finally {
         dio.close();

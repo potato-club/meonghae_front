@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:meonghae_front/config/app_routes.dart';
 import 'package:meonghae_front/widgets/main_screen/banner_widget.dart';
 import 'package:meonghae_front/widgets/main_screen/main_content_widget.dart';
 import 'package:meonghae_front/widgets/main_screen/my_dog_scroll_widget.dart';
@@ -39,7 +41,9 @@ class _MainScreenState extends State<MainScreen> {
                         child: BannerWidget(),
                       )
                     ])),
-            const MyDogScrollWidget(),
+            GestureDetector(
+                onTap: () => Get.toNamed(AppRoutes.mypageDog),
+                child: const MyDogScrollWidget()),
           ],
         ),
       ),

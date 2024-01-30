@@ -12,7 +12,7 @@ class InitLoadingScreen extends StatefulWidget {
 class _InitLoadingScreenState extends State<InitLoadingScreen> {
   @override
   void initState() {
-    LoginModel.waslogined();
+    LoginModel.wasLogined();
     super.initState();
   }
 

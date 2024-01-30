@@ -18,7 +18,9 @@ class PostContentWidget extends StatefulWidget {
 class _PostContentWidgetState extends State<PostContentWidget> {
   @override
   void initState() {
-    Get.find<HomeController>().getPostPreview();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Get.find<HomeController>().getPostPreview();
+    });
     super.initState();
   }
 

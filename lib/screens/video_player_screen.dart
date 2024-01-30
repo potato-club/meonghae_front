@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/config/app_routes.dart';
-import 'package:meonghae_front/controllers/dog_controller.dart';
-import 'package:meonghae_front/controllers/user_controller.dart';
+import 'package:meonghae_front/models/login_,model.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
   const VideoPlayerScreen({super.key});
 
   @override
-  _VideoPlayerScreenState createState() => _VideoPlayerScreenState();
+  State<VideoPlayerScreen> createState() => _VideoPlayerScreenState();
 }
 
 class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
@@ -17,14 +16,13 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
 
   @override
   void initState() {
-    Get.find<UserController>().fetchData();
-    Get.find<DogController>().fetchData();
     _controller = VideoPlayerController.asset('assets/videos/intro.mp4')
       ..initialize().then((_) {
         setState(() {});
         _controller.play();
         _controller.addListener(() {
           if (_controller.value.position == _controller.value.duration) {
+            LoginModel.getAppData();
             Get.offNamed(AppRoutes.home);
           }
         });

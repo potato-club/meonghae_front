@@ -80,6 +80,18 @@ class UserController extends GetxController {
     );
   }
 
+  Future<void> submitForm() async {
+    if (nameTextController.text.isNotEmpty &&
+        birthTextController.text.length == 10 &&
+        registerAge.value != null) {
+      savePrevUserInfo();
+      Get.toNamed(AppRoutes.registeredUser);
+      registerAge.value = null;
+    } else {
+      SnackBarWidget.show(SnackBarType.error, '모두 입력해주세요');
+    }
+  }
+
   Future<void> editUserInfo() async {
     if (!isLoading.value) {
       if (nameTextController.text != userInfo.value.nickname ||

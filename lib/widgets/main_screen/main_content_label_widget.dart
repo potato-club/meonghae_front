@@ -24,7 +24,7 @@ class MainContentLabelWidget extends StatelessWidget {
           ),
         ),
         InkWell(
-          onTap: () => Get.find<HomeController>().navigateToPage(2),
+          onTap: () => Get.find<HomeController>().navigateToPage(navyIndex),
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
           child: const Padding(

@@ -15,7 +15,9 @@ class ScheduleContentWidget extends StatefulWidget {
 class _ScheduleContentWidgetState extends State<ScheduleContentWidget> {
   @override
   void initState() {
-    Get.find<HomeController>().getSchedulePreview();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Get.find<HomeController>().getSchedulePreview();
+    });
     super.initState();
   }
 

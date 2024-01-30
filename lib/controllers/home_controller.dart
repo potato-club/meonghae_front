@@ -6,7 +6,7 @@ import 'package:meonghae_front/models/schedule_preview_model.dart';
 
 class HomeController extends GetxController {
   var currentPage = 2.obs;
-  PageController pageController = PageController(initialPage: 2);
+  var pageController = PageController(initialPage: 2).obs;
 
   var schedulePreview = <SchedulePreviewModel>[].obs;
   var isScheduleLoading = false.obs;
@@ -14,6 +14,10 @@ class HomeController extends GetxController {
   var postPreviewFun = PostPreviewModel().obs;
   var postPreviewMissing = PostPreviewModel().obs;
   var isPostLoading = false.obs;
+
+  void initPageController() {
+    pageController.value.jumpToPage(2);
+  }
 
   Future<void> getSchedulePreview() async {
     isScheduleLoading.value = true;
@@ -56,8 +60,11 @@ class HomeController extends GetxController {
   }
 
   void navigateToPage(int index) {
+    var lastPage = currentPage.value;
     currentPage.value = index;
-    pageController.animateToPage(index,
-        duration: const Duration(milliseconds: 400), curve: Curves.ease);
+    pageController.value.animateToPage(index,
+        duration: Duration(
+            milliseconds: 400 + 150 * (lastPage - currentPage.value).abs()),
+        curve: Curves.ease);
   }
 }

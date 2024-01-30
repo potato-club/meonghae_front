@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:meonghae_front/config/app_routes.dart';
 import 'package:meonghae_front/controllers/user_controller.dart';
 import 'package:meonghae_front/themes/customColor.dart';
-import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 import 'package:meonghae_front/widgets/register_user_screen/user_form_widget.dart';
 import 'package:meonghae_front/widgets/register_user_screen/user_photo_widget.dart';
 import 'package:meonghae_front/widgets/svg/arrow.dart';
@@ -16,19 +14,6 @@ class RegisterUserScreen extends StatefulWidget {
 }
 
 class _RegisterUserScreenState extends State<RegisterUserScreen> {
-  var controller = Get.put(UserController());
-  Future<void> _submitForm() async {
-    if (controller.nameTextController.text.isNotEmpty &&
-        controller.birthTextController.text.length == 10 &&
-        controller.registerAge.value != null) {
-      Get.find<UserController>().savePrevUserInfo();
-      Get.toNamed(AppRoutes.registeredUser);
-      Get.find<UserController>().registerAge.value = null;
-    } else {
-      SnackBarWidget.show(SnackBarType.error, '모두 입력해주세요');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,7 +80,8 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                               ),
                               backgroundColor: CustomColor.black2,
                             ),
-                            onPressed: _submitForm,
+                            onPressed: () =>
+                                Get.find<UserController>().submitForm(),
                             child: const Text(
                               '다음',
                               style: TextStyle(

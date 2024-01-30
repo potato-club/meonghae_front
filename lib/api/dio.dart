@@ -31,9 +31,7 @@ class SendAPI {
             saveRefreshToken(response.headers['refreshtoken']![0]);
             return true;
           } on DioException catch (error) {
-            deleteAccessToken();
-            deleteRefreshToken();
-            Get.offNamed(AppRoutes.login);
+            LoginModel.logout();
             SnackBarWidget.show(SnackBarType.error, "만료된 토큰이에요");
             return false;
           } finally {
