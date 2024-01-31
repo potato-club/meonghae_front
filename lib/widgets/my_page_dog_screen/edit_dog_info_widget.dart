@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:meonghae_front/controllers/dog_controller.dart';
 import 'package:meonghae_front/data/species.dart';
 import 'package:meonghae_front/models/dog_info_model.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/common/select_input_widget.dart';
 import 'package:meonghae_front/widgets/format/date_input_formatter.dart';
 import 'package:meonghae_front/widgets/my_page_dog_screen/dog_photo_widget.dart';

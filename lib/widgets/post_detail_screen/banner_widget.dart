@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/controllers/post_controller.dart';
 import 'package:meonghae_front/controllers/post_detail_controller.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/svg/arrow.dart';
 import 'package:meonghae_front/widgets/svg/more.dart';
 

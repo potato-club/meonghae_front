@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/common/select_modal_widget.dart';
 import 'package:meonghae_front/widgets/svg/bottom_arrow.dart';
 import 'package:meonghae_front/widgets/svg/tiny_bottom_arrow.dart';

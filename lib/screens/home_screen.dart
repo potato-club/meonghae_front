@@ -7,7 +7,7 @@ import 'package:meonghae_front/screens/inquiry_screen.dart';
 import 'package:meonghae_front/screens/main_screen.dart';
 import 'package:meonghae_front/screens/post_screen.dart';
 import 'package:meonghae_front/screens/review_menu_screen.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 import 'package:meonghae_front/widgets/svg/under_bar/ask.dart';
 import 'package:meonghae_front/widgets/svg/under_bar/calendar.dart';

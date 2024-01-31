@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/controllers/home_controller.dart';
 import 'package:meonghae_front/models/post_preview_model.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/common/loading_dot_widget.dart';
 import 'package:meonghae_front/widgets/main_screen/main_content_label_widget.dart';
 import 'package:meonghae_front/widgets/svg/comment.dart';
@@ -16,14 +16,6 @@ class PostContentWidget extends StatefulWidget {
 }
 
 class _PostContentWidgetState extends State<PostContentWidget> {
-  @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Get.find<HomeController>().getPostPreview();
-    });
-    super.initState();
-  }
-
   Widget createPostItem(
       {required String postCategory,
       required PostPreviewModel postPreview,

@@ -5,7 +5,7 @@ import 'package:meonghae_front/api/dio.dart';
 import 'package:meonghae_front/controllers/post_detail_controller.dart';
 import 'package:meonghae_front/controllers/post_edit_controller.dart';
 import 'package:meonghae_front/models/post_comment_model.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/post_detail_screen/cocoment_widget.dart';
 import 'package:meonghae_front/widgets/svg/tiny_more.dart';
 

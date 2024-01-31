@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/controllers/inquiry_controller.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/inquiry_screen/bubble_widget.dart';
 import 'package:meonghae_front/widgets/inquiry_screen/write_question_bar_widget.dart';
 
@@ -16,7 +16,7 @@ class InquiryScreen extends StatefulWidget {
 class _InquiryScreenState extends State<InquiryScreen> {
   @override
   void initState() {
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Get.find<InquiryController>().setScrollDown();
     });
     super.initState();
@@ -58,7 +58,7 @@ class _InquiryScreenState extends State<InquiryScreen> {
                                 isAnswer: true,
                                 needMail: false,
                                 text: '안녕하세요 1대1 채팅문의 입니다.\n무엇을 도와드릴까요?'),
-                            ...controller.dialog.value.map((i) => BubbleWidget(
+                            ...controller.dialog.map((i) => BubbleWidget(
                                 isAnswer: i["isAnswer"],
                                 needMail: i["needMail"],
                                 text: i["text"])),

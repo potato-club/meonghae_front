@@ -1,11 +1,10 @@
+// ignore_for_file: avoid_print
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:get/get.dart';
-import 'package:meonghae_front/config/app_routes.dart';
 import 'package:meonghae_front/login/token.dart';
-import 'package:meonghae_front/models/login_,model.dart';
+import 'package:meonghae_front/models/login_model.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 
 class SendAPI {
@@ -31,6 +30,7 @@ class SendAPI {
             saveRefreshToken(response.headers['refreshtoken']![0]);
             return true;
           } on DioException catch (error) {
+            print(error);
             LoginModel.logout();
             SnackBarWidget.show(SnackBarType.error, "만료된 토큰이에요");
             return false;
@@ -94,7 +94,6 @@ class SendAPI {
       }
     } on DioException catch (error) {
       var refreshSuccess = await tokenRefresh(error: error);
-      print(refreshSuccess);
       if (refreshSuccess) {
         try {
           get(
@@ -144,10 +143,10 @@ class SendAPI {
       if (response.statusCode == successCode) {
         successFunc(response);
       } else {
-        print(response);
         SnackBarWidget.show(SnackBarType.error, errorMsg);
       }
     } on DioException catch (error) {
+      print(error);
       post(
           url: url,
           successFunc: successFunc,
@@ -185,10 +184,10 @@ class SendAPI {
       if (response.statusCode == successCode) {
         successFunc(response);
       } else {
-        print(response);
         SnackBarWidget.show(SnackBarType.error, errorMsg);
       }
     } on DioException catch (error) {
+      print(error);
       put(
           url: url,
           successFunc: successFunc,
@@ -226,10 +225,10 @@ class SendAPI {
       if (response.statusCode == successCode) {
         successFunc(response);
       } else {
-        print(response);
         SnackBarWidget.show(SnackBarType.error, errorMsg);
       }
     } on DioException catch (error) {
+      print(error);
       delete(
           url: url,
           successFunc: successFunc,

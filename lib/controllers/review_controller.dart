@@ -93,7 +93,7 @@ class ReviewController extends GetxController {
   }
 
   void deleteImage(int index) {
-    images.value.removeAt(index);
+    images.removeAt(index);
   }
 
   Future<void> onClickLike(int index, int id, bool isLike) async {

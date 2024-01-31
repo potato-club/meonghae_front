@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/models/custom_under_modal_model.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 
 class CustomUnderModalWidget extends StatefulWidget {
   final List<CustomUnderModalModel> modalList;

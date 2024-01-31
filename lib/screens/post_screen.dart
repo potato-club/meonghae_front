@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/config/app_routes.dart';
 import 'package:meonghae_front/controllers/post_controller.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/common/loading_spinner_widget.dart';
 import 'package:meonghae_front/widgets/post_screen/post_list_item_widget.dart';
 import 'package:meonghae_front/widgets/post_screen/post_menu_bar_widget.dart';

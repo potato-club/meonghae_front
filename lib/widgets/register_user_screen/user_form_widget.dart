@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/controllers/user_controller.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/common/select_input_widget.dart';
 import 'package:meonghae_front/widgets/format/date_input_formatter.dart';
 import 'package:intl/intl.dart';
@@ -16,7 +16,7 @@ class UserFormWidget extends StatefulWidget {
 class _UserFormWidgetState extends State<UserFormWidget> {
   @override
   Widget build(BuildContext context) {
-    List<String> _generateNumberOptions() {
+    List<String> generateNumberOptions() {
       List<String> options = [];
       for (int i = 1; i < 100; i++) {
         options.add(i.toString());
@@ -135,7 +135,7 @@ class _UserFormWidgetState extends State<UserFormWidget> {
                   itemHeight: 30,
                   listHeight: 120,
                   fontSize: 14,
-                  list: _generateNumberOptions(),
+                  list: generateNumberOptions(),
                   defaultValue: controller.registerAge.value,
                   setValue: (value) => controller.registerAge.value = value,
                 )

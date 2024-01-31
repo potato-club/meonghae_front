@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/calendar_info_screen/date_select_modal_widget.dart';
 import 'package:meonghae_front/widgets/calendar_info_screen/time_select_modal_widget.dart';
 
-enum DialType { DATE, TIME }
+enum DialType { date, time }
 
 class DialBoxWidget extends StatefulWidget {
   final Function onSave;
@@ -47,13 +47,13 @@ class _DialBoxWidgetState extends State<DialBoxWidget> {
 
   Widget buildDialWidget() {
     switch (widget.dialType) {
-      case DialType.DATE:
+      case DialType.date:
         return DateSelectModalWidget(
           scheduleTime: widget.scheduleTime,
           onSave: widget.onSave,
           handleClose: handleClose,
         );
-      case DialType.TIME:
+      case DialType.time:
         return TimeSelectModalWidget(
           onSave: widget.onSave,
           scheduleTime: widget.scheduleTime,

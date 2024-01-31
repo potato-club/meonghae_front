@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/config/app_routes.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/calendar_screen/calendar_widget.dart';
 import 'package:meonghae_front/widgets/calendar_screen/info_content_widget.dart';
 import 'package:meonghae_front/widgets/svg/plus.dart';
@@ -25,7 +25,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
             right: MediaQuery.of(context).size.width * 0.03,
             left: MediaQuery.of(context).size.width * 0.03,
           ),
-          child: CalendarWidget(),
+          child: const CalendarWidget(),
         ),
         Positioned(
           top: 26,

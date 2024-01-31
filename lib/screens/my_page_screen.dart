@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/my_page_screen/banner_widget.dart';
 import 'package:meonghae_front/widgets/my_page_screen/menu_buttons_widget.dart';
 import 'package:meonghae_front/widgets/svg/arrow.dart';

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:meonghae_front/controllers/post_detail_controller.dart';
 import 'package:meonghae_front/controllers/post_edit_controller.dart';
 import 'package:meonghae_front/models/custom_under_modal_model.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/common/custom_under_modal_widget.dart';
 import 'package:meonghae_front/widgets/common/loading_dot_widget.dart';
 import 'package:meonghae_front/widgets/post_detail_screen/banner_widget.dart';

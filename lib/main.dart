@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:meonghae_front/config/app_binding.dart';
 import 'package:meonghae_front/config/app_routes.dart';
 import 'package:get/get.dart';
-import 'package:meonghae_front/fcmSetting.dart';
+import 'package:meonghae_front/fcm_setting.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,6 +14,8 @@ void main() async {
   KakaoSdk.init(nativeAppKey: dotenv.env['KAKAO_NATIVE_KEY']);
   await initializeDateFormatting();
   String? firebaseToken = await fcmSetting();
+  // ignore: avoid_print
+  print(firebaseToken);
   runApp(const MyApp());
 }
 

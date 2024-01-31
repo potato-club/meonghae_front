@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/controllers/post_controller.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/common/loading_dot_widget.dart';
 import 'package:meonghae_front/widgets/post_write_screen/banner_widget.dart';
 import 'package:meonghae_front/widgets/post_write_screen/write_form_widget.dart';

@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:meonghae_front/controllers/calendar_controller.dart';
 import 'package:meonghae_front/controllers/dog_controller.dart';
 import 'package:meonghae_front/models/dog_info_model.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 
 class DogSelectWidget extends StatefulWidget {
   const DogSelectWidget({super.key});

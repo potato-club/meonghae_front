@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/main_screen/post_content_widget.dart';
 import 'package:meonghae_front/widgets/main_screen/schedule_content_widget.dart';
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:meonghae_front/controllers/calendar_controller.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/calendar_screen/info_item_widget.dart';
 import 'package:meonghae_front/widgets/calendar_screen/no_info_widget.dart';
 

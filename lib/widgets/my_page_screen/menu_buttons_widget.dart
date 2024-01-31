@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/config/app_routes.dart';
-import 'package:meonghae_front/models/login_,model.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/models/login_model.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/svg/tiny_right_arrow.dart';
 
 class MenuButtonsWidget extends StatelessWidget {

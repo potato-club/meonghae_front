@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/config/app_routes.dart';
-import 'package:meonghae_front/models/login_,model.dart';
+import 'package:meonghae_front/models/login_model.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoPlayerScreen extends StatefulWidget {

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:meonghae_front/config/app_routes.dart';
 import 'package:meonghae_front/controllers/review_controller.dart';
 import 'package:meonghae_front/models/custom_under_modal_model.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/common/custom_under_modal_widget.dart';
 import 'package:meonghae_front/widgets/common/loading_spinner_widget.dart';
 import 'package:meonghae_front/widgets/review_screen/filter_bar_widget.dart';

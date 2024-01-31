@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/controllers/home_controller.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/common/loading_dot_widget.dart';
 import 'package:meonghae_front/widgets/main_screen/main_content_label_widget.dart';
 
@@ -13,14 +13,6 @@ class ScheduleContentWidget extends StatefulWidget {
 }
 
 class _ScheduleContentWidgetState extends State<ScheduleContentWidget> {
-  @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Get.find<HomeController>().getSchedulePreview();
-    });
-    super.initState();
-  }
-
   Widget createPostItem(
       {required String time,
       required String content,
