@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/svg/snack_bar/error.dart';
 import 'package:meonghae_front/widgets/svg/snack_bar/check.dart';
 import 'package:meonghae_front/widgets/svg/snack_bar/alarm.dart';
@@ -12,6 +12,8 @@ enum SnackBarType {
 }
 
 class SnackBarWidget {
+  SnackBarWidget(SnackBarType alarm, String s);
+
   static void show(SnackBarType type, String content) {
     if (type == SnackBarType.error) {
       Get.snackbar(

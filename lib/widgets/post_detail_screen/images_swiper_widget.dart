@@ -1,6 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 
 class ImagesSwiperWidget extends StatefulWidget {
   final List<dynamic>? images;
@@ -35,9 +36,13 @@ class _ImagesSwiperWidgetState extends State<ImagesSwiperWidget> {
                 return Container(
                     color: CustomColor.ivory2,
                     width: MediaQuery.of(context).size.width * 0.88,
-                    child: Image.network(
-                      item["fileUrl"],
+                    child: CachedNetworkImage(
+                      imageUrl: item["fileUrl"],
                       fit: BoxFit.cover,
+                      errorWidget: (context, url, error) => const Icon(
+                        Icons.error_outline_outlined,
+                        color: CustomColor.brown1,
+                      ),
                     ));
               },
             );

@@ -1,11 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/config/app_routes.dart';
 import 'package:meonghae_front/controllers/post_controller.dart';
 import 'package:meonghae_front/controllers/post_detail_controller.dart';
 import 'package:meonghae_front/models/post_model.dart';
-import 'package:meonghae_front/screens/post_detail_screen.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/svg/tiny_comment.dart';
 import 'package:meonghae_front/widgets/svg/tiny_heart.dart';
 import 'package:meonghae_front/widgets/svg/tiny_picture.dart';
@@ -52,9 +52,14 @@ class _PostListItemWidgetState extends State<PostListItemWidget> {
                   decoration: const BoxDecoration(
                       color: CustomColor.lightGray3, shape: BoxShape.circle),
                   child: widget.postData.profileUrl != null
-                      ? Image.network(
-                          widget.postData.profileUrl!,
+                      ? CachedNetworkImage(
+                          imageUrl: widget.postData.profileUrl!,
                           fit: BoxFit.cover,
+                          memCacheWidth: 185,
+                          errorWidget: (context, url, error) => const Icon(
+                            Icons.error_outline_outlined,
+                            color: CustomColor.brown1,
+                          ),
                         )
                       : Transform.scale(
                           scale: 1.8,

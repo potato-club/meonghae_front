@@ -1,9 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/api/dio.dart';
 import 'package:meonghae_front/controllers/post_detail_controller.dart';
+import 'package:meonghae_front/controllers/post_edit_controller.dart';
 import 'package:meonghae_front/models/post_comment_model.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/post_detail_screen/cocoment_widget.dart';
 import 'package:meonghae_front/widgets/svg/tiny_more.dart';
 
@@ -60,9 +62,14 @@ class _CommentWidgetState extends State<CommentWidget> {
                 decoration: const BoxDecoration(
                     color: CustomColor.lightGray3, shape: BoxShape.circle),
                 child: widget.comment.profileUrl != null
-                    ? Image.network(
-                        widget.comment.profileUrl!,
+                    ? CachedNetworkImage(
+                        imageUrl: widget.comment.profileUrl!,
                         fit: BoxFit.cover,
+                        memCacheWidth: 140,
+                        errorWidget: (context, url, error) => const Icon(
+                          Icons.error_outline_outlined,
+                          color: CustomColor.brown1,
+                        ),
                       )
                     : Transform.scale(
                         scale: 1.8,
@@ -126,7 +133,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                                     if (hasMore)
                                       Padding(
                                         padding:
-                                            const EdgeInsets.only(right: 12),
+                                            const EdgeInsets.only(right: 10),
                                         child: GestureDetector(
                                           onTap: () => fetchData(),
                                           child: const Text(
@@ -174,22 +181,25 @@ class _CommentWidgetState extends State<CommentWidget> {
           ],
         ),
       ),
-      Positioned(
-          top: 14,
-          right: 0,
-          child: InkWell(
-              onTap: () {
-                Get.find<PostDetailController>()
-                    .setCommentId(widget.comment.id, widget.comment.comment);
-                widget.setIsCommentMoreModal(true);
-              },
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              child: Padding(
-                  padding: EdgeInsets.symmetric(
-                      vertical: 2,
-                      horizontal: MediaQuery.of(context).size.width * 0.06),
-                  child: const TinyMoreSVG(color: CustomColor.lightGray2))))
+      if (widget.comment.isWriter)
+        Positioned(
+            top: 14,
+            right: 0,
+            child: InkWell(
+                onTap: () {
+                  Get.find<PostDetailController>()
+                      .setCommentId(widget.comment.id, widget.comment.comment);
+                  Get.find<PostEditController>()
+                      .setCommentId(widget.comment.id);
+                  widget.setIsCommentMoreModal(true);
+                },
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                child: Padding(
+                    padding: EdgeInsets.symmetric(
+                        vertical: 2,
+                        horizontal: MediaQuery.of(context).size.width * 0.06),
+                    child: const TinyMoreSVG(color: CustomColor.lightGray2))))
     ]);
   }
 }

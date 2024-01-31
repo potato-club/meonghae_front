@@ -1,8 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/controllers/user_controller.dart';
-import 'package:meonghae_front/themes/customColor.dart';
-import 'package:meonghae_front/widgets/common/custom_warning_modal_widget.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/svg/arrow.dart';
 
 class MyPageWithdrawalScreen extends StatefulWidget {
@@ -35,8 +35,16 @@ class _MyPageWithdrawalScreenState extends State<MyPageWithdrawalScreen> {
                         decoration: const BoxDecoration(
                             color: CustomColor.white, shape: BoxShape.circle),
                         child: controller.userInfo.value.fileUrl != null
-                            ? Image.network(controller.userInfo.value.fileUrl!,
-                                fit: BoxFit.cover)
+                            ? CachedNetworkImage(
+                                imageUrl: controller.userInfo.value.fileUrl!,
+                                fit: BoxFit.cover,
+                                memCacheWidth: 650,
+                                errorWidget: (context, url, error) =>
+                                    const Icon(
+                                  Icons.error_outline_outlined,
+                                  color: CustomColor.brown1,
+                                ),
+                              )
                             : Transform.scale(
                                 scale: 1.8,
                                 child: const Image(
@@ -97,14 +105,7 @@ class _MyPageWithdrawalScreenState extends State<MyPageWithdrawalScreen> {
                             ),
                             backgroundColor: CustomColor.black2,
                             elevation: 0),
-                        onPressed: () => CustomWarningModalWidget.show(
-                          context,
-                          '계정을 삭제하시겠습니까?',
-                          '탈퇴 후 개인정보 등의 데이터가 삭제되며\n복구할 수 없습니다',
-                          () {
-                            controller.withdrawal();
-                          },
-                        ),
+                        onPressed: () => controller.withdrawal(),
                         child: const Text(
                           '계정 삭제',
                           style: TextStyle(

@@ -1,23 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 
 class CustomModalWidget {
-  static void show(
-    BuildContext context,
-    String label,
-    Function onClick,
-  ) {
-    showDialog(
-      context: context,
-      barrierColor: CustomColor.black1.withOpacity(0.2),
-      builder: (BuildContext context) {
-        return Dialog(
-          elevation: 0,
-          backgroundColor: CustomColor.black1.withOpacity(0),
-          insetPadding: EdgeInsets.symmetric(
-            horizontal: MediaQuery.of(context).size.width * 0.06,
-          ),
+  static void show(String label, Function onClick) {
+    Get.dialog(
+      Dialog(
+        elevation: 0, // Customize elevation
+        backgroundColor: Colors.transparent,
+        child: Center(
           child: Container(
             width: 288,
             height: 166,
@@ -86,7 +77,10 @@ class CustomModalWidget {
                             color: CustomColor.black2,
                           ),
                         ),
-                        onPressed: () => onClick(),
+                        onPressed: () {
+                          onClick();
+                          Get.back();
+                        },
                         child: const Center(
                           child: Text(
                             '네',
@@ -104,8 +98,9 @@ class CustomModalWidget {
               ),
             ),
           ),
-        );
-      },
+        ),
+      ),
+      barrierColor: CustomColor.black1.withOpacity(0.25),
     );
   }
 }

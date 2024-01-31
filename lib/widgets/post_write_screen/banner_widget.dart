@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/controllers/post_controller.dart';
-import 'package:meonghae_front/themes/customColor.dart';
-import 'package:meonghae_front/widgets/common/custom_warning_modal_widget.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/svg/arrow.dart';
-import 'package:meonghae_front/widgets/svg/saveCheck.dart';
+import 'package:meonghae_front/widgets/svg/save_check.dart';
 
 class BannerWidget extends StatelessWidget {
   const BannerWidget({super.key});
@@ -24,14 +23,7 @@ class BannerWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               InkWell(
-                  onTap: () => CustomWarningModalWidget.show(
-                          context,
-                          '페이지를 나가시겠어요?',
-                          '지금까지 작성했던 내용들은\n지워지게 되므로 유의해주세요', () {
-                        Get.back();
-                        Get.back();
-                        Get.find<PostController>().clear();
-                      }),
+                  onTap: () => Get.find<PostController>().willPop(),
                   splashColor: Colors.transparent,
                   highlightColor: Colors.transparent,
                   child: Padding(

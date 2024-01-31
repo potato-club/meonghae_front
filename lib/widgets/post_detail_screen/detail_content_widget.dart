@@ -1,7 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/controllers/post_detail_controller.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/post_detail_screen/images_swiper_widget.dart';
 import 'package:meonghae_front/widgets/svg/comment.dart';
 import 'package:meonghae_front/widgets/svg/heart.dart';
@@ -38,9 +39,14 @@ class _DetailContentWidgetState extends State<DetailContentWidget> {
                     decoration: const BoxDecoration(
                         color: CustomColor.lightGray3, shape: BoxShape.circle),
                     child: controller.post.value.profileUrl != null
-                        ? Image.network(
-                            controller.post.value.profileUrl!,
+                        ? CachedNetworkImage(
+                            imageUrl: controller.post.value.profileUrl!,
                             fit: BoxFit.cover,
+                            memCacheWidth: 185,
+                            errorWidget: (context, url, error) => const Icon(
+                              Icons.error_outline_outlined,
+                              color: CustomColor.brown1,
+                            ),
                           )
                         : Transform.scale(
                             scale: 1.8,

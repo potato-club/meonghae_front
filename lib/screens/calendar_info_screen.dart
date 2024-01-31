@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:get/get.dart';
+import 'package:meonghae_front/controllers/calendar_controller.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/calendar_info_screen/additional_info_widget.dart';
 import 'package:meonghae_front/widgets/calendar_info_screen/dog_select_widget.dart';
 import 'package:meonghae_front/widgets/calendar_info_screen/filter_widget.dart';
 import 'package:meonghae_front/widgets/calendar_info_screen/top_menu_bar_widget.dart';
+import 'package:meonghae_front/widgets/common/loading_dot_widget.dart';
 
 class CalendarInfoScreen extends StatefulWidget {
   const CalendarInfoScreen({super.key});
@@ -14,93 +16,54 @@ class CalendarInfoScreen extends StatefulWidget {
 }
 
 class _CalendarInfoScreenState extends State<CalendarInfoScreen> {
-  Map<String, dynamic> calendarData = {
-    'petId': null,
-    'title': null,
-    'vaccinationType': null,
-    'isRepeat': false,
-    'repeat': {
-      'term': {'month': 0, 'day': 7},
-      'times': 3
-    },
-    'isAlarm': true,
-    'alarm': {'day': 0, 'time': ''},
-    'memo': null,
-    'scheduleTime': DateFormat('yyyyMMdd').format(DateTime.now())
-  };
-
-  void setCalendarData(String key, dynamic data) {
-    setState(() => calendarData[key] = data);
-  }
-
-  Future<void> handleSave() async {
-    // if (content != null &&
-    //     (isAllday || (time['date'] != null && time['time'] != null))) {
-    // SendAPI.post(
-    //   context: context,
-    //   url: "/profile-service/profile/calendar",
-    //   request: {
-    //     "petId": petId,
-    //     "scheduleTime":
-    //         isAllday ? "2023-06-14T00:00" : "${time['date']}T${time['time']}",
-    //     "text": content
-    //   },
-    //   successFunc: (data) {
-    //     Get.back();
-    //     SnackBarWidget.show(context, SnackBarType.check, "성공적으로 일정을 등록했어요");
-    //   },
-    //   errorMsg: "일정 등록에 실패하였어요",
-    // );
-    // } else {
-    //   SnackBarWidget.show(context, SnackBarType.error, "모든 정보를 입력해주세요");
-    // }
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: CustomColor.brown1,
-      body: Column(
-        children: [
-          const SizedBox(height: 32),
-          TopMenuBarWidget(handleSave: handleSave),
-          const SizedBox(height: 4),
-          Expanded(
-            child: Stack(children: [
-              SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    const SizedBox(height: 26),
-                    DogSelectWidget(
-                      calendarData: calendarData,
-                      setCalendarData: setCalendarData,
-                    ),
-                    const SizedBox(height: 24),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: MediaQuery.of(context).size.width * 0.06),
-                      child: FilterWidget(
-                        calendarData: calendarData,
-                        setCalendarData: setCalendarData,
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: MediaQuery.of(context).size.width * 0.06),
-                      child: AdditionalInfoWidget(
-                        calendarData: calendarData,
-                        setCalendarData: setCalendarData,
-                      ),
-                    ),
-                    const SizedBox(height: 60)
-                  ],
+    return WillPopScope(
+      onWillPop: () async {
+        Get.find<CalendarController>().willPop();
+        return true;
+      },
+      child: Scaffold(
+        backgroundColor: CustomColor.ivory2,
+        body: Stack(children: [
+          SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: 126),
+                const DogSelectWidget(),
+                const SizedBox(height: 24),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 0.06),
+                  child: const FilterWidget(),
                 ),
-              ),
-            ]),
-          )
-        ],
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 0.06),
+                  child: const AdditionalInfoWidget(),
+                ),
+                const SizedBox(height: 60)
+              ],
+            ),
+          ),
+          Positioned(
+              top: 0,
+              child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 100,
+                  color: CustomColor.ivory2,
+                  child: const TopMenuBarWidget())),
+          GetX<CalendarController>(builder: (controller) {
+            return Visibility(
+              visible: controller.isSending.value,
+              child: const Positioned(
+                  child: Center(
+                child: LoadingDotWidget(color: CustomColor.black2),
+              )),
+            );
+          }),
+        ]),
       ),
     );
   }

@@ -2,7 +2,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/controllers/review_controller.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/common/custom_modal_widget.dart';
 import 'package:meonghae_front/widgets/svg/plus.dart';
 
@@ -23,11 +23,10 @@ class _ImagesWidgetState extends State<ImagesWidget> {
             Row(
               children: [
                 InkWell(
-                  onTap: () => CustomModalWidget.show(
-                    context,
-                    "사진을 삭제하시겠어요?",
-                    () => controller.deleteImage(i),
-                  ),
+                  onTap: () => CustomModalWidget.show("사진을 삭제하시겠어요?", () {
+                    controller.deleteImage(i);
+                    FocusScope.of(context).unfocus();
+                  }),
                   splashColor: Colors.transparent,
                   highlightColor: Colors.transparent,
                   child: Container(

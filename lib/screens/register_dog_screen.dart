@@ -2,7 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/controllers/dog_controller.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/register_dog_screen/register_init_form.dart';
 import 'package:meonghae_front/widgets/svg/arrow.dart';
 import 'package:meonghae_front/widgets/svg/tiny_right_arrow.dart';
@@ -196,7 +196,7 @@ class _RegisterDogScreenState extends State<RegisterDogScreen> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text(
-                          '추가하기',
+                          '폼 추가하기',
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.bold,

@@ -1,6 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/models/dog_info_model.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 
 class ShowDogInfoWidget extends StatefulWidget {
   final DogInfoModel dogInfo;
@@ -61,8 +62,15 @@ class _ShowDogInfoWidgetState extends State<ShowDogInfoWidget> {
               shape: BoxShape.circle, color: CustomColor.ivory2),
           clipBehavior: Clip.hardEdge,
           child: widget.dogInfo.s3ResponseDto != null
-              ? Image.network(widget.dogInfo.s3ResponseDto!['fileUrl']!,
-                  fit: BoxFit.cover)
+              ? CachedNetworkImage(
+                  imageUrl: widget.dogInfo.s3ResponseDto!['fileUrl']!,
+                  fit: BoxFit.cover,
+                  memCacheWidth: 650,
+                  errorWidget: (context, url, error) => const Icon(
+                    Icons.error_outline_outlined,
+                    color: CustomColor.brown1,
+                  ),
+                )
               : Transform.scale(
                   scale: 1.8,
                   child: const Image(

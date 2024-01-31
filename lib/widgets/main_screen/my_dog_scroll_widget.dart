@@ -1,8 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/controllers/dog_controller.dart';
 import 'package:meonghae_front/models/dog_info_model.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 
 class MyDogScrollWidget extends StatefulWidget {
   const MyDogScrollWidget({super.key});
@@ -24,8 +25,15 @@ class _MyDogScrollWidgetState extends State<MyDogScrollWidget> {
             decoration: const BoxDecoration(
                 color: CustomColor.ivory2, shape: BoxShape.circle),
             child: dogInfo.s3ResponseDto != null
-                ? Image.network(dogInfo.s3ResponseDto!['fileUrl'],
-                    fit: BoxFit.cover)
+                ? CachedNetworkImage(
+                    imageUrl: dogInfo.s3ResponseDto!['fileUrl'],
+                    fit: BoxFit.cover,
+                    memCacheWidth: 350,
+                    errorWidget: (context, url, error) => const Icon(
+                      Icons.error_outline_outlined,
+                      color: CustomColor.brown1,
+                    ),
+                  )
                 : Transform.scale(
                     scale: 1.8,
                     child: const Image(

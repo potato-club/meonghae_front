@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/controllers/post_detail_controller.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/svg/cancel.dart';
 import 'package:meonghae_front/widgets/svg/reply.dart';
 import 'package:meonghae_front/widgets/svg/send.dart';
@@ -53,7 +53,6 @@ class _WriteCommentBarWidgetState extends State<WriteCommentBarWidget> {
                         height: 44,
                         child: TextFormField(
                           controller: controller.textController,
-                          focusNode: controller.focusNode,
                           decoration: InputDecoration(
                             hintText: controller.replyMode.value
                                 ? '대댓글 입력하기'
@@ -101,7 +100,7 @@ class _WriteCommentBarWidgetState extends State<WriteCommentBarWidget> {
                           height: 44,
                           child: Padding(
                             padding: EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 13),
+                                horizontal: 10, vertical: 14),
                             child: SendSVG(strokeColor: CustomColor.lightGray2),
                           ),
                         ),
@@ -119,7 +118,7 @@ class _WriteCommentBarWidgetState extends State<WriteCommentBarWidget> {
                 child: InkWell(
                   onTap: () {
                     controller.replyMode(false);
-                    controller.focusNode.unfocus();
+                    FocusScope.of(context).unfocus();
                   },
                   splashColor: Colors.transparent,
                   highlightColor: Colors.transparent,

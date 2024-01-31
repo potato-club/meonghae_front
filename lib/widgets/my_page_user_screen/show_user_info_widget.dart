@@ -1,7 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/controllers/user_controller.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 
 class ShowUserInfoWidget extends StatefulWidget {
   const ShowUserInfoWidget({super.key});
@@ -26,8 +27,15 @@ class _ShowUserInfoWidgetState extends State<ShowUserInfoWidget> {
                   shape: BoxShape.circle, color: CustomColor.white),
               clipBehavior: Clip.hardEdge,
               child: controller.prevUserInfo.value.fileUrl != null
-                  ? Image.network(controller.prevUserInfo.value.fileUrl!,
-                      fit: BoxFit.cover)
+                  ? CachedNetworkImage(
+                      imageUrl: controller.prevUserInfo.value.fileUrl!,
+                      fit: BoxFit.cover,
+                      memCacheWidth: 650,
+                      errorWidget: (context, url, error) => const Icon(
+                        Icons.error_outline_outlined,
+                        color: CustomColor.brown1,
+                      ),
+                    )
                   : Transform.scale(
                       scale: 1.8,
                       child: const Image(

@@ -1,8 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/config/app_routes.dart';
 import 'package:meonghae_front/controllers/user_controller.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/svg/gear.dart';
 import 'package:meonghae_front/widgets/svg/tiny_bottom_arrow.dart';
 
@@ -28,23 +29,33 @@ class _BannerWidgetState extends State<BannerWidget> {
             return Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(
-                  width: 54,
-                  height: 54,
-                  decoration: const BoxDecoration(
-                      color: CustomColor.white, shape: BoxShape.circle),
-                  clipBehavior: Clip.hardEdge,
-                  child: controller.userInfo.value.fileUrl != null
-                      ? Image.network(controller.userInfo.value.fileUrl!,
-                          fit: BoxFit.cover)
-                      : Transform.scale(
-                          scale: 1.8,
-                          child: const Image(
-                            image: AssetImage(
-                              'assets/images/dog_pictures/face.png',
+                GestureDetector(
+                  onTap: () => Get.toNamed(AppRoutes.mypageUser),
+                  child: Container(
+                    width: 54,
+                    height: 54,
+                    decoration: const BoxDecoration(
+                        color: CustomColor.white, shape: BoxShape.circle),
+                    clipBehavior: Clip.hardEdge,
+                    child: controller.userInfo.value.fileUrl != null
+                        ? CachedNetworkImage(
+                            imageUrl: controller.userInfo.value.fileUrl!,
+                            fit: BoxFit.cover,
+                            memCacheWidth: 270,
+                            errorWidget: (context, url, error) => const Icon(
+                              Icons.error_outline_outlined,
+                              color: CustomColor.brown1,
+                            ),
+                          )
+                        : Transform.scale(
+                            scale: 1.8,
+                            child: const Image(
+                              image: AssetImage(
+                                'assets/images/dog_pictures/face.png',
+                              ),
                             ),
                           ),
-                        ),
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 13),

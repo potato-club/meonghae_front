@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:meonghae_front/config/app_routes.dart';
-import 'package:meonghae_front/controllers/user_controller.dart';
-import 'package:meonghae_front/models/login_,model.dart';
-import 'package:meonghae_front/screens/select_screen.dart';
-import 'package:meonghae_front/screens/video_player_screen.dart';
-import 'package:meonghae_front/themes/customColor.dart';
-import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
+import 'package:meonghae_front/models/login_model.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 
 class KakaoButton extends StatefulWidget {
   final LoginModel loginModel;
@@ -20,20 +14,8 @@ class KakaoButton extends StatefulWidget {
 }
 
 class _KakaoButtonState extends State<KakaoButton> {
-  void handleLogin() async {
-    Map<String, dynamic> result = await widget.loginModel.login();
-    if (result['success']) {
-      if (result['response']['responseCode'] == "201_CREATED") {
-        Get.find<UserController>()
-            .setRegisterEmail(result['response']['email']);
-        Get.offNamed(AppRoutes.select);
-      } else {
-        Get.offNamed(AppRoutes.introVideo);
-      }
-    } else {
-      SnackBarWidget.show(SnackBarType.error, result['error']);
-    }
-    setState(() {});
+  void handleLogin() {
+    widget.loginModel.login();
   }
 
   @override
