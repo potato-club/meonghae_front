@@ -119,17 +119,17 @@ class PostController extends GetxController {
             ]
         });
         await SendAPI.post(
-          url: "/community-service/boards/${writeType.value}",
-          request: formData,
-          successCode: 201,
-          successFunc: (data) {
-            Get.back();
-            clear();
-            reload();
-            SnackBarWidget.show(SnackBarType.check, '성공적으로 게시글을 작성하였어요');
-          },
-          errorMsg: "게시글 작성에 실패하였어요",
-        );
+            url: "/community-service/boards/${writeType.value}",
+            request: formData,
+            isFormData: true,
+            successCode: 201,
+            successFunc: (data) {
+              Get.back();
+              clear();
+              reload();
+              SnackBarWidget.show(SnackBarType.check, '성공적으로 게시글을 작성하였어요');
+            },
+            errorMsg: "게시글 작성에 실패하였어요");
         isWriting.value = false;
       } else {
         SnackBarWidget.show(SnackBarType.error, "모든 정보를 입력해주세요");

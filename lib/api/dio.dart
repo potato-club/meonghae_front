@@ -8,6 +8,15 @@ import 'package:meonghae_front/models/login_model.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 
 class SendAPI {
+  static FormData getAnotherFormData(FormData formData) {
+    FormData anotherFormData = FormData();
+    formData.fields.forEach((MapEntry<String, dynamic> entry) {
+      anotherFormData.fields
+          .add(MapEntry<String, String>(entry.key, entry.value));
+    });
+    return anotherFormData;
+  }
+
   static Future<bool> tokenRefresh({required DioException error}) async {
     int? errorCode;
     if (error.response?.data.runtimeType == String) {
@@ -15,7 +24,15 @@ class SendAPI {
     } else {
       error.response?.data['errorCode'];
     }
+    print('##########0 $error');
     switch (errorCode) {
+      case 4001:
+      case 4003:
+      case 4005:
+        {
+          print('##########1 $errorCode');
+          return false;
+        }
       case 4002:
         {
           var refreshToken = await readRefreshToken();
@@ -30,7 +47,7 @@ class SendAPI {
             saveRefreshToken(response.headers['refreshtoken']![0]);
             return true;
           } on DioException catch (error) {
-            print(error);
+            print('##########2 $error');
             LoginModel.logout();
             SnackBarWidget.show(SnackBarType.error, "만료된 토큰이에요");
             return false;
@@ -40,26 +57,8 @@ class SendAPI {
         }
       default:
         {
-          // var refreshToken = await readRefreshToken();
-          // var mobileId = await LoginModel.getMobileId();
-          // final dio = Dio(BaseOptions(
-          //   baseUrl: dotenv.env['SERVER_URL']!,
-          //   headers: {'refreshToken': refreshToken, 'androidId': mobileId},
-          // ));
-          // try {
-          //   final response = await dio.get('/user-service/reissue');
-          //   saveAccessToken(response.headers['authorization']![0]);
-          //   saveRefreshToken(response.headers['refreshtoken']![0]);
-          //   return true;
-          // } on DioException catch (error) {
-          //   deleteAccessToken();
-          //   deleteRefreshToken();
-          //   Get.offNamed(AppRoutes.login);
-          //   SnackBarWidget.show(SnackBarType.error, "만료된 토큰이에요");
-          //   return false;
-          // } finally {
-          //   dio.close();
-          // }
+          print('##########1 $errorCode');
+          // LoginModel.logout();
           return false;
         }
     }
@@ -97,12 +96,13 @@ class SendAPI {
       if (refreshSuccess) {
         try {
           get(
-              url: url,
-              successFunc: successFunc,
-              successCode: successCode,
-              errorMsg: errorMsg,
-              params: params,
-              request: request);
+            url: url,
+            successFunc: successFunc,
+            successCode: successCode,
+            errorMsg: errorMsg,
+            request: request,
+            params: params,
+          );
         } catch (error) {
           SnackBarWidget.show(SnackBarType.error, errorMsg);
         }
@@ -119,6 +119,7 @@ class SendAPI {
     required String errorMsg,
     dynamic request,
     dynamic params,
+    bool isFormData = false,
   }) async {
     var accessToken = await readAccessToken();
     var refreshToken = await readRefreshToken();
@@ -146,14 +147,26 @@ class SendAPI {
         SnackBarWidget.show(SnackBarType.error, errorMsg);
       }
     } on DioException catch (error) {
-      print(error);
-      post(
-          url: url,
-          successFunc: successFunc,
-          successCode: successCode,
-          errorMsg: errorMsg,
-          params: params,
-          request: request);
+      var refreshSuccess = await tokenRefresh(error: error);
+      if (refreshSuccess) {
+        var request_ = request;
+        if (isFormData) {
+          request_ = getAnotherFormData(request);
+          print('#########?? $request_');
+        }
+        try {
+          put(
+            url: url,
+            successFunc: successFunc,
+            successCode: successCode,
+            errorMsg: errorMsg,
+            request: request_,
+            params: params,
+          );
+        } catch (error) {
+          SnackBarWidget.show(SnackBarType.error, errorMsg);
+        }
+      }
     } finally {
       dio.close();
     }
@@ -166,6 +179,7 @@ class SendAPI {
     required String errorMsg,
     dynamic request,
     dynamic params,
+    bool isFormData = false,
   }) async {
     var accessToken = await readAccessToken();
     var refreshToken = await readRefreshToken();
@@ -187,14 +201,26 @@ class SendAPI {
         SnackBarWidget.show(SnackBarType.error, errorMsg);
       }
     } on DioException catch (error) {
-      print(error);
-      put(
-          url: url,
-          successFunc: successFunc,
-          successCode: successCode,
-          errorMsg: errorMsg,
-          params: params,
-          request: request);
+      var refreshSuccess = await tokenRefresh(error: error);
+      if (refreshSuccess) {
+        var request_ = request;
+        if (isFormData) {
+          request_ = getAnotherFormData(request);
+        }
+        try {
+          put(
+            url: url,
+            successFunc: successFunc,
+            successCode: successCode,
+            errorMsg: errorMsg,
+            request: request_,
+            params: params,
+          );
+        } catch (error) {
+          print('1 $error');
+          SnackBarWidget.show(SnackBarType.error, errorMsg);
+        }
+      }
     } finally {
       dio.close();
     }
@@ -228,14 +254,21 @@ class SendAPI {
         SnackBarWidget.show(SnackBarType.error, errorMsg);
       }
     } on DioException catch (error) {
-      print(error);
-      delete(
-          url: url,
-          successFunc: successFunc,
-          successCode: successCode,
-          errorMsg: errorMsg,
-          params: params,
-          request: request);
+      var refreshSuccess = await tokenRefresh(error: error);
+      if (refreshSuccess) {
+        try {
+          delete(
+            url: url,
+            successFunc: successFunc,
+            successCode: successCode,
+            errorMsg: errorMsg,
+            request: request,
+            params: params,
+          );
+        } catch (error) {
+          SnackBarWidget.show(SnackBarType.error, errorMsg);
+        }
+      }
     } finally {
       dio.close();
     }

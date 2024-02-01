@@ -113,6 +113,7 @@ class UserController extends GetxController {
           await SendAPI.put(
               url: "/user-service/mypage",
               request: formData,
+              isFormData: true,
               successFunc: (data) {
                 SnackBarWidget.show(SnackBarType.check, '내 정보가 성공적으로 변경되었어요');
                 fetchData();
@@ -149,20 +150,20 @@ class UserController extends GetxController {
       if (prevUserInfo.value.fileUrl != null)
         "file": await dio.MultipartFile.fromFile(prevUserInfo.value.fileUrl!)
     });
-    SendAPI.post(
-      url: "/user-service/signup",
-      request: formData,
-      successFunc: (data) {
-        saveAccessToken(data.headers['authorization']![0]);
-        saveRefreshToken(data.headers['refreshtoken']![0]);
-        SnackBarWidget.show(SnackBarType.check, '회원가입에 성공했어요');
-        file.value = null;
-        hasAnimal.value
-            ? Get.offAllNamed(AppRoutes.registerDog)
-            : Get.offAllNamed(AppRoutes.introVideo);
-      },
-      errorMsg: '유저정보 등록에 실패하였어요',
-    );
+    await SendAPI.post(
+        url: "/user-service/signup",
+        request: formData,
+        isFormData: true,
+        successFunc: (data) {
+          saveAccessToken(data.headers['authorization']![0]);
+          saveRefreshToken(data.headers['refreshtoken']![0]);
+          SnackBarWidget.show(SnackBarType.check, '회원가입에 성공했어요');
+          file.value = null;
+          hasAnimal.value
+              ? Get.offAllNamed(AppRoutes.registerDog)
+              : Get.offAllNamed(AppRoutes.introVideo);
+        },
+        errorMsg: '유저정보 등록에 실패하였어요');
   }
 
   void withdrawal() {
