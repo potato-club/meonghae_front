@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'registerForm_widget.dart';
-import 'registerImage_widget.dart';
+import 'package:meonghae_front/widgets/register_dog_screen/register_form_widget.dart';
+import 'package:meonghae_front/widgets/register_dog_screen/register_image_widget.dart';
 
 class RegisterInitForm extends StatelessWidget {
   final int index;
