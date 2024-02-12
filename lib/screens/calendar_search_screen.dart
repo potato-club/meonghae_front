@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/controllers/calendar_controller.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/calendar_search_screen/search_item_widget.dart';
 import 'package:meonghae_front/widgets/calendar_search_screen/top_menu_bar_widget.dart';
 import 'package:meonghae_front/widgets/common/loading_dot_widget.dart';

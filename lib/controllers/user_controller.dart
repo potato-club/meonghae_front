@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -81,6 +80,18 @@ class UserController extends GetxController {
     );
   }
 
+  Future<void> submitForm() async {
+    if (nameTextController.text.isNotEmpty &&
+        birthTextController.text.length == 10 &&
+        registerAge.value != null) {
+      savePrevUserInfo();
+      Get.toNamed(AppRoutes.registeredUser);
+      registerAge.value = null;
+    } else {
+      SnackBarWidget.show(SnackBarType.error, '모두 입력해주세요');
+    }
+  }
+
   Future<void> editUserInfo() async {
     if (!isLoading.value) {
       if (nameTextController.text != userInfo.value.nickname ||
@@ -102,6 +113,7 @@ class UserController extends GetxController {
           await SendAPI.put(
               url: "/user-service/mypage",
               request: formData,
+              isFormData: true,
               successFunc: (data) {
                 SnackBarWidget.show(SnackBarType.check, '내 정보가 성공적으로 변경되었어요');
                 fetchData();
@@ -138,20 +150,20 @@ class UserController extends GetxController {
       if (prevUserInfo.value.fileUrl != null)
         "file": await dio.MultipartFile.fromFile(prevUserInfo.value.fileUrl!)
     });
-    SendAPI.post(
-      url: "/user-service/signup",
-      request: formData,
-      successFunc: (data) {
-        saveAccessToken(data.headers['authorization']![0]);
-        saveRefreshToken(data.headers['refreshtoken']![0]);
-        SnackBarWidget.show(SnackBarType.check, '회원가입에 성공했어요');
-        file.value = null;
-        hasAnimal.value
-            ? Get.offAllNamed(AppRoutes.registerDog)
-            : Get.offAllNamed(AppRoutes.introVideo);
-      },
-      errorMsg: '유저정보 등록에 실패하였어요',
-    );
+    await SendAPI.post(
+        url: "/user-service/signup",
+        request: formData,
+        isFormData: true,
+        successFunc: (data) {
+          saveAccessToken(data.headers['authorization']![0]);
+          saveRefreshToken(data.headers['refreshtoken']![0]);
+          SnackBarWidget.show(SnackBarType.check, '회원가입에 성공했어요');
+          file.value = null;
+          hasAnimal.value
+              ? Get.offAllNamed(AppRoutes.registerDog)
+              : Get.offAllNamed(AppRoutes.introVideo);
+        },
+        errorMsg: '유저정보 등록에 실패하였어요');
   }
 
   void withdrawal() {
@@ -167,7 +179,8 @@ class UserController extends GetxController {
             errorMsg: "회원탈퇴에 실패하였어요"));
   }
 
-  void cancelWidthdrawal(String email) async {
+  Future<bool> cancelWidthdrawal(String email) async {
+    bool isSuccess = false;
     SendAPI.put(
         url: "/user-service/cancel",
         request: {
@@ -176,7 +189,9 @@ class UserController extends GetxController {
         },
         successFunc: (data) {
           SnackBarWidget.show(SnackBarType.check, '성공적으로 회원탈퇴가 취소되었어요');
+          isSuccess = true;
         },
         errorMsg: "회원탈퇴 취소에 실패하였어요");
+    return isSuccess;
   }
 }

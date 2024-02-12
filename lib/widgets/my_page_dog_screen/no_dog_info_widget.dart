@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 
 class NoDogInfoWidget extends StatelessWidget {
   const NoDogInfoWidget({super.key});
