@@ -17,6 +17,7 @@ class _ScheduleContentWidgetState extends State<ScheduleContentWidget> {
       {required String time,
       required String content,
       required String name,
+      required int index,
       required bool isEndItem}) {
     var dateTime = DateTime.parse(time);
     var difference = dateTime.difference(DateTime.now()).inDays + 1;
@@ -43,6 +44,7 @@ class _ScheduleContentWidgetState extends State<ScheduleContentWidget> {
                   width: 72,
                   child: Text(
                     'D - $difference',
+                    overflow: TextOverflow.ellipsis,
                     style: const TextStyle(fontSize: 13),
                   ),
                 ),
@@ -51,17 +53,33 @@ class _ScheduleContentWidgetState extends State<ScheduleContentWidget> {
                   child: Text(
                     content,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(fontSize: 12),
+                    style: const TextStyle(fontSize: 13),
                   ),
                 ),
               ],
             ),
-            SizedBox(
-              width: 54,
-              child: Text(
-                name,
-                textAlign: TextAlign.end,
-                style: const TextStyle(fontSize: 12),
+            Flexible(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: index % 2 == 0
+                      ? CustomColor.brown1
+                      : CustomColor.brown1.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(6),
+                  border: index % 2 == 0
+                      ? null
+                      : Border.all(width: 1, color: CustomColor.brown1),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      vertical: index % 2 == 0 ? 4 : 3,
+                      horizontal: index % 2 == 0 ? 6 : 5),
+                  child: Text(
+                    name,
+                    textAlign: TextAlign.end,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(fontSize: 11),
+                  ),
+                ),
               ),
             )
           ],
@@ -127,6 +145,7 @@ class _ScheduleContentWidgetState extends State<ScheduleContentWidget> {
                                         .schedulePreview[i].scheduleText ??
                                     '',
                                 name: controller.schedulePreview[i].petName,
+                                index: i,
                                 isEndItem:
                                     i + 1 == controller.schedulePreview.length),
                           const SizedBox(height: 20),
