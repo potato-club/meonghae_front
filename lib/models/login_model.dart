@@ -67,12 +67,10 @@ class LoginModel {
         if (response.data['responseCode'] == "200_OK") {
           saveAccessToken(response.headers['authorization']![0]);
           saveRefreshToken(response.headers['refreshtoken']![0]);
-          if (response.data['responseCode'] == "201_CREATED") {
-            Get.find<UserController>().setRegisterEmail(response.data['email']);
-            Get.offNamed(AppRoutes.select);
-          } else {
-            Get.offNamed(AppRoutes.introVideo);
-          }
+          Get.offNamed(AppRoutes.introVideo);
+        } else if (response.data['responseCode'] == "201_CREATED") {
+          Get.find<UserController>().setRegisterEmail(response.data['email']);
+          Get.offNamed(AppRoutes.select);
         } else {
           SnackBarWidget(SnackBarType.error, '허가되지 않은 게정이에요');
         }
