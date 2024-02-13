@@ -16,6 +16,16 @@ Future<String?> fcmSetting() async {
   await messaging.setForegroundNotificationPresentationOptions(
       alert: true, badge: true, sound: true);
 
+  NotificationSettings settings = await messaging.requestPermission(
+    alert: true,
+    announcement: false,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
+  );
+
   const AndroidNotificationChannel channel = AndroidNotificationChannel(
       'meongahe', 'meonghae', '멍해',
       importance: Importance.max);

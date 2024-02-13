@@ -124,7 +124,7 @@ class LoginModel {
           var mobileId = await LoginModel.getMobileId();
           final dio = Dio(BaseOptions(
             baseUrl: dotenv.env['SERVER_URL']!,
-            headers: {'refreshToken': refreshToken, 'androidId': mobileId},
+            headers: {'RefreshToken': refreshToken, 'androidId': mobileId},
           ));
           try {
             final response = await dio.get('/user-service/reissue');
