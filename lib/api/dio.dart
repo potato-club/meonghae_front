@@ -39,7 +39,7 @@ class SendAPI {
           var mobileId = await LoginModel.getMobileId();
           final dio = Dio(BaseOptions(
             baseUrl: dotenv.env['SERVER_URL']!,
-            headers: {'refreshToken': refreshToken, 'androidId': mobileId},
+            headers: {'RefreshToken': refreshToken, 'androidId': mobileId},
           ));
           try {
             final response = await dio.get('/user-service/reissue');
@@ -76,7 +76,7 @@ class SendAPI {
     var refreshToken = await readRefreshToken();
     final dio = Dio(BaseOptions(
       baseUrl: dotenv.env['SERVER_URL']!,
-      headers: {'Authorization': accessToken, 'refreshToken': refreshToken},
+      headers: {'Authorization': accessToken, 'RefreshToken': refreshToken},
     ));
     try {
       final response = request == null
@@ -129,7 +129,7 @@ class SendAPI {
       baseUrl: dotenv.env['SERVER_URL']!,
       headers: {
         'Authorization': accessToken,
-        'refreshToken': refreshToken,
+        'RefreshToken': refreshToken,
         'FCMToken': fcmToken
       },
     ));
@@ -185,7 +185,7 @@ class SendAPI {
     var refreshToken = await readRefreshToken();
     final dio = Dio(BaseOptions(
       baseUrl: dotenv.env['SERVER_URL']!,
-      headers: {'Authorization': accessToken, 'refreshToken': refreshToken},
+      headers: {'Authorization': accessToken, 'RefreshToken': refreshToken},
     ));
     try {
       final response = request == null
@@ -238,7 +238,7 @@ class SendAPI {
     var refreshToken = await readRefreshToken();
     final dio = Dio(BaseOptions(
       baseUrl: dotenv.env['SERVER_URL']!,
-      headers: {'Authorization': accessToken, 'refreshToken': refreshToken},
+      headers: {'Authorization': accessToken, 'RefreshToken': refreshToken},
     ));
     try {
       final response = request == null
