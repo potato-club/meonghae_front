@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/controllers/dog_controller.dart';
+import 'package:meonghae_front/data/species.dart';
 import 'package:meonghae_front/models/dog_info_model.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/common/select_input_widget.dart';
 import 'package:meonghae_front/widgets/format/date_input_formatter.dart';
 import 'package:meonghae_front/widgets/my_page_dog_screen/dog_photo_widget.dart';
@@ -20,8 +21,19 @@ class EditDogInfoWidget extends StatefulWidget {
 
 class _EditDogInfoWidgetState extends State<EditDogInfoWidget> {
   List<String> genderList = ['남', '여'];
-  List<String> kindList = ['치와와', '불독'];
-  List<String> placeList = ['길거리', '집', '병원'];
+  List<String> kindList = dogSpecies + catSpecies;
+  List<String> placeList = [
+    '지인',
+    '일반 애견센터',
+    '동물병원',
+    '펫샵 등 복합매장',
+    '인터넷 개인간 거래',
+    '동물보호센터',
+    '브리더',
+    '길거리 판매자',
+    '길거리',
+    '유기장소'
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -219,7 +231,7 @@ class _EditDogInfoWidgetState extends State<EditDogInfoWidget> {
                         height: 30,
                         itemHeight: 30,
                         list: kindList,
-                        listHeight: 90,
+                        listHeight: 150,
                         textAlign: TextAlign.left,
                         defaultValue:
                             controller.dogsForm[widget.index].petSpecies,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/controllers/post_detail_controller.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/post_detail_screen/comment_widget.dart';
 
 class DetailCommentWidget extends StatefulWidget {
@@ -42,7 +42,7 @@ class _DetailCommentWidgetState extends State<DetailCommentWidget> {
                   Column(
                     children: [
                       CommentWidget(
-                          comment: controller.comments.value[i],
+                          comment: controller.comments[i],
                           setIsCommentMoreModal: widget.setIsCommentMoreModal),
                       if (i == controller.comments.length - 1 &&
                           controller.hasMore.value)

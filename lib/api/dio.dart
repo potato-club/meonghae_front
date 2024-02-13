@@ -1,53 +1,66 @@
+// ignore_for_file: avoid_print
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:meonghae_front/login/token.dart';
-import 'package:meonghae_front/models/login_,model.dart';
+import 'package:meonghae_front/models/login_model.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 
 class SendAPI {
-  static Future<void> tokenRefresh({
-    required DioException error,
-    required Function(Options?) requestMethod,
-    required Function successFunc,
-    required String errorMsg,
-  }) async {
+  static FormData getAnotherFormData(FormData formData) {
+    FormData anotherFormData = FormData();
+    formData.fields.forEach((MapEntry<String, dynamic> entry) {
+      anotherFormData.fields
+          .add(MapEntry<String, String>(entry.key, entry.value));
+    });
+    return anotherFormData;
+  }
+
+  static Future<bool> tokenRefresh({required DioException error}) async {
     int? errorCode;
-    print(errorCode);
     if (error.response?.data.runtimeType == String) {
       errorCode = jsonDecode(error.response?.data)['errorCode'];
     } else {
       error.response?.data['errorCode'];
     }
-    if (errorCode == 4002) {
-      var refreshToken = await readRefreshToken();
-      var mobileId = await LoginModel.getMobileId();
-      final dio = Dio(BaseOptions(
-        baseUrl: 'https://api.meonghae.site/',
-        headers: {'refreshToken': refreshToken, 'androidId': mobileId},
-      ));
-      try {
-        final response = await dio.get('/user-service/reissue');
-        saveAccessToken(response.headers['authorization']![0]);
-        saveRefreshToken(response.headers['refreshtoken']![0]);
-        var accessToken = await readAccessToken();
-        var refreshToken0 = await readRefreshToken();
-        try {
-          final response0 = await requestMethod(Options(headers: {
-            'Authorization': accessToken,
-            'refreshToken': refreshToken0,
-          }));
-          successFunc(response0);
-        } catch (error) {
-          SnackBarWidget.show(SnackBarType.error, "1#.${error.toString()}");
+    print('##########0 $error');
+    switch (errorCode) {
+      case 4001:
+      case 4003:
+      case 4005:
+        {
+          print('##########1 $errorCode');
+          return false;
         }
-      } on DioException catch (error) {
-        SnackBarWidget.show(SnackBarType.error, "2#.${error.toString()}");
-      } finally {
-        dio.close();
-      }
-    } else {
-      SnackBarWidget.show(SnackBarType.error, errorMsg);
+      case 4002:
+        {
+          var refreshToken = await readRefreshToken();
+          var mobileId = await LoginModel.getMobileId();
+          final dio = Dio(BaseOptions(
+            baseUrl: dotenv.env['SERVER_URL']!,
+            headers: {'RefreshToken': refreshToken, 'androidId': mobileId},
+          ));
+          try {
+            final response = await dio.get('/user-service/reissue');
+            saveAccessToken(response.headers['authorization']![0]);
+            saveRefreshToken(response.headers['refreshtoken']![0]);
+            return true;
+          } on DioException catch (error) {
+            print('##########2 $error');
+            LoginModel.logout();
+            SnackBarWidget.show(SnackBarType.error, "만료된 토큰이에요");
+            return false;
+          } finally {
+            dio.close();
+          }
+        }
+      default:
+        {
+          print('##########1 $errorCode');
+          // LoginModel.logout();
+          return false;
+        }
     }
   }
 
@@ -62,8 +75,8 @@ class SendAPI {
     var accessToken = await readAccessToken();
     var refreshToken = await readRefreshToken();
     final dio = Dio(BaseOptions(
-      baseUrl: 'https://api.meonghae.site/',
-      headers: {'Authorization': accessToken, 'refreshToken': refreshToken},
+      baseUrl: dotenv.env['SERVER_URL']!,
+      headers: {'Authorization': accessToken, 'RefreshToken': refreshToken},
     ));
     try {
       final response = request == null
@@ -79,13 +92,21 @@ class SendAPI {
         SnackBarWidget.show(SnackBarType.error, errorMsg);
       }
     } on DioException catch (error) {
-      tokenRefresh(
-        error: error,
-        successFunc: successFunc,
-        errorMsg: errorMsg,
-        requestMethod: (options) =>
-            Dio().get('https://api.meonghae.site$url', options: options),
-      );
+      var refreshSuccess = await tokenRefresh(error: error);
+      if (refreshSuccess) {
+        try {
+          get(
+            url: url,
+            successFunc: successFunc,
+            successCode: successCode,
+            errorMsg: errorMsg,
+            request: request,
+            params: params,
+          );
+        } catch (error) {
+          SnackBarWidget.show(SnackBarType.error, errorMsg);
+        }
+      }
     } finally {
       dio.close();
     }
@@ -98,17 +119,17 @@ class SendAPI {
     required String errorMsg,
     dynamic request,
     dynamic params,
+    bool isFormData = false,
   }) async {
     var accessToken = await readAccessToken();
     var refreshToken = await readRefreshToken();
-    var fcmToken = await FirebaseMessaging.instance.getToken(
-        vapidKey:
-            "BJw5iH7_tounnU7fXc_QPkzm1Rh_yIa6xxOkNDw5sWAwlGKPRcd2ojVHsJwhLvQDH9hS3nQ3f-XQDTpdP0dp8gs");
+    var fcmToken = await FirebaseMessaging.instance
+        .getToken(vapidKey: dotenv.env['FCM_VAPID_KEY']);
     final dio = Dio(BaseOptions(
-      baseUrl: 'https://api.meonghae.site/',
+      baseUrl: dotenv.env['SERVER_URL']!,
       headers: {
         'Authorization': accessToken,
-        'refreshToken': refreshToken,
+        'RefreshToken': refreshToken,
         'FCMToken': fcmToken
       },
     ));
@@ -123,17 +144,29 @@ class SendAPI {
       if (response.statusCode == successCode) {
         successFunc(response);
       } else {
-        print(response);
         SnackBarWidget.show(SnackBarType.error, errorMsg);
       }
     } on DioException catch (error) {
-      tokenRefresh(
-        error: error,
-        successFunc: successFunc,
-        errorMsg: errorMsg,
-        requestMethod: (options) =>
-            Dio().post('https://api.meonghae.site$url', options: options),
-      );
+      var refreshSuccess = await tokenRefresh(error: error);
+      if (refreshSuccess) {
+        var request_ = request;
+        if (isFormData) {
+          request_ = getAnotherFormData(request);
+          print('#########?? $request_');
+        }
+        try {
+          put(
+            url: url,
+            successFunc: successFunc,
+            successCode: successCode,
+            errorMsg: errorMsg,
+            request: request_,
+            params: params,
+          );
+        } catch (error) {
+          SnackBarWidget.show(SnackBarType.error, errorMsg);
+        }
+      }
     } finally {
       dio.close();
     }
@@ -146,12 +179,13 @@ class SendAPI {
     required String errorMsg,
     dynamic request,
     dynamic params,
+    bool isFormData = false,
   }) async {
     var accessToken = await readAccessToken();
     var refreshToken = await readRefreshToken();
     final dio = Dio(BaseOptions(
-      baseUrl: 'https://api.meonghae.site/',
-      headers: {'Authorization': accessToken, 'refreshToken': refreshToken},
+      baseUrl: dotenv.env['SERVER_URL']!,
+      headers: {'Authorization': accessToken, 'RefreshToken': refreshToken},
     ));
     try {
       final response = request == null
@@ -164,18 +198,29 @@ class SendAPI {
       if (response.statusCode == successCode) {
         successFunc(response);
       } else {
-        print(response);
         SnackBarWidget.show(SnackBarType.error, errorMsg);
       }
     } on DioException catch (error) {
-      print(error);
-      tokenRefresh(
-        error: error,
-        successFunc: successFunc,
-        errorMsg: errorMsg,
-        requestMethod: (options) =>
-            Dio().put('https://api.meonghae.site$url', options: options),
-      );
+      var refreshSuccess = await tokenRefresh(error: error);
+      if (refreshSuccess) {
+        var request_ = request;
+        if (isFormData) {
+          request_ = getAnotherFormData(request);
+        }
+        try {
+          put(
+            url: url,
+            successFunc: successFunc,
+            successCode: successCode,
+            errorMsg: errorMsg,
+            request: request_,
+            params: params,
+          );
+        } catch (error) {
+          print('1 $error');
+          SnackBarWidget.show(SnackBarType.error, errorMsg);
+        }
+      }
     } finally {
       dio.close();
     }
@@ -192,8 +237,8 @@ class SendAPI {
     var accessToken = await readAccessToken();
     var refreshToken = await readRefreshToken();
     final dio = Dio(BaseOptions(
-      baseUrl: 'https://api.meonghae.site/',
-      headers: {'Authorization': accessToken, 'refreshToken': refreshToken},
+      baseUrl: dotenv.env['SERVER_URL']!,
+      headers: {'Authorization': accessToken, 'RefreshToken': refreshToken},
     ));
     try {
       final response = request == null
@@ -206,18 +251,24 @@ class SendAPI {
       if (response.statusCode == successCode) {
         successFunc(response);
       } else {
-        print(response);
         SnackBarWidget.show(SnackBarType.error, errorMsg);
       }
     } on DioException catch (error) {
-      print(error);
-      tokenRefresh(
-        error: error,
-        successFunc: successFunc,
-        errorMsg: errorMsg,
-        requestMethod: (options) =>
-            Dio().delete('https://api.meonghae.site$url', options: options),
-      );
+      var refreshSuccess = await tokenRefresh(error: error);
+      if (refreshSuccess) {
+        try {
+          delete(
+            url: url,
+            successFunc: successFunc,
+            successCode: successCode,
+            errorMsg: errorMsg,
+            request: request,
+            params: params,
+          );
+        } catch (error) {
+          SnackBarWidget.show(SnackBarType.error, errorMsg);
+        }
+      }
     } finally {
       dio.close();
     }

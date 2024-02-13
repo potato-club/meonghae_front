@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/controllers/dog_controller.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/svg/big_plus.dart';
 import 'package:meonghae_front/widgets/svg/pencil.dart';
 
@@ -11,7 +11,7 @@ class RegisterImage extends StatefulWidget {
   const RegisterImage({super.key, required this.index});
 
   @override
-  _RegisterImageState createState() => _RegisterImageState();
+  State<RegisterImage> createState() => _RegisterImageState();
 }
 
 class _RegisterImageState extends State<RegisterImage> {

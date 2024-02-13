@@ -60,13 +60,13 @@ class PostEditController extends GetxController {
             ],
         });
         await SendAPI.put(
-          url: "/community-service/boards/${editId.value}",
-          request: formData,
-          successFunc: (data) {
-            Get.find<PostDetailController>().fetchData();
-          },
-          errorMsg: "게시글 수정에 실패하였어요",
-        );
+            url: "/community-service/boards/${editId.value}",
+            request: formData,
+            isFormData: true,
+            successFunc: (data) {
+              Get.find<PostDetailController>().fetchData();
+            },
+            errorMsg: "게시글 수정에 실패하였어요");
         isEditing.value = false;
         Get.back();
       } else {

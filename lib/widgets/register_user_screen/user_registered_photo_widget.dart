@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-import '../../themes/customColor.dart';
+import '../../themes/custom_color.dart';
 
 class UserRegisteredPhotoWidget extends StatefulWidget {
   final File? imageFile;

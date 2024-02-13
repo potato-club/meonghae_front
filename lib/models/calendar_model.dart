@@ -39,31 +39,15 @@ class CalendarFormModel {
   });
 
   bool isFilled(bool customMode) {
-    if (petId != null && scheduleTime != null && scheduleType != null) {
+    if (petId != null && scheduleType != null) {
       if (hasRepeat) {
-        if (cycleCount != null && cycle != null && cycleType != null) {
-          if (hasAlarm) {
-            if (alarmTime != null) {
-              return true;
-            } else {
-              return false;
-            }
-          } else {
-            return true;
-          }
+        if (cycle != null && cycleType != null) {
+          return true;
         } else {
           return false;
         }
       } else {
-        if (hasAlarm) {
-          if (alarmTime != null) {
-            return true;
-          } else {
-            return false;
-          }
-        } else {
-          return true;
-        }
+        return true;
       }
     } else {
       return false;

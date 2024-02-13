@@ -5,7 +5,6 @@ import 'package:meonghae_front/firebase_options.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  print("메시지 왔써염: ${message.messageId}");
 }
 
 Future<String?> fcmSetting() async {
@@ -27,8 +26,6 @@ Future<String?> fcmSetting() async {
     sound: true,
   );
 
-  print("User granted permission: ${settings.authorizationStatus}");
-
   const AndroidNotificationChannel channel = AndroidNotificationChannel(
       'meongahe', 'meonghae', '멍해',
       importance: Importance.max);
@@ -44,9 +41,6 @@ Future<String?> fcmSetting() async {
     RemoteNotification? notification = message.notification;
     AndroidNotification? android = message.notification?.android;
 
-    print('Got a message whilst in the foreground');
-    print('message data:${message.data}');
-
     if (message.notification != null && android != null) {
       flutterLocalNotificationsPlugin.show(
           notification.hashCode,
@@ -59,12 +53,9 @@ Future<String?> fcmSetting() async {
             channel.description,
             icon: android.smallIcon,
           )));
-      print('Message also contained a notification: ${message.notification}');
     }
   });
 
   String? firebaseToken = await messaging.getToken();
-
-  print('firebaseToken: ${firebaseToken}');
   return firebaseToken;
 }

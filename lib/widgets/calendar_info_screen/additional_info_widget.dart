@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:meonghae_front/controllers/calendar_controller.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/calendar_info_screen/cycle_count_widget.dart';
 import 'package:meonghae_front/widgets/calendar_info_screen/dial_box_widget.dart';
 import 'package:meonghae_front/widgets/calendar_info_screen/swich_widget.dart';
-import 'package:meonghae_front/widgets/common/dial_Input_widget.dart';
+import 'package:meonghae_front/widgets/common/dial_input_widget.dart';
 
 class AdditionalInfoWidget extends StatefulWidget {
   const AdditionalInfoWidget({super.key});
@@ -53,7 +52,7 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                       controller.calendarForm.value.scheduleTime = dateTime;
                       controller.calendarForm.update((val) {});
                     },
-                    dialType: DialType.DATE,
+                    dialType: DialType.date,
                     scheduleTime: controller.calendarForm.value.scheduleTime,
                     textAlign: TextAlign.center,
                   ),
@@ -64,7 +63,7 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                       controller.calendarForm.value.scheduleTime = dateTime;
                       controller.calendarForm.update((val) {});
                     },
-                    dialType: DialType.TIME,
+                    dialType: DialType.time,
                     scheduleTime: controller.calendarForm.value.scheduleTime,
                     textAlign: TextAlign.end,
                   ),
@@ -252,7 +251,7 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                                     dateTime;
                                 controller.calendarForm.update((val) {});
                               },
-                              dialType: DialType.TIME,
+                              dialType: DialType.time,
                               scheduleTime:
                                   controller.calendarForm.value.alarmTime,
                               textAlign: TextAlign.end,

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/controllers/post_controller.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/svg/arrow.dart';
-import 'package:meonghae_front/widgets/svg/saveCheck.dart';
+import 'package:meonghae_front/widgets/svg/save_check.dart';
 
 class BannerWidget extends StatelessWidget {
   const BannerWidget({super.key});
