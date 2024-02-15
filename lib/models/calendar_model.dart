@@ -54,7 +54,11 @@ class CalendarFormModel {
     }
   }
 
-  String alarmTimeFormat(int day, DateTime time) {
+  String alarmTimeFormat(int day, DateTime alarmTime, DateTime scheduleTime) {
+    var time = alarmTime.copyWith(
+        year: scheduleTime.year,
+        month: scheduleTime.month,
+        day: scheduleTime.day);
     DateTime date = time.add(Duration(days: day));
     return DateFormat('yyyy-MM-ddTHH:mm').format(date);
   }

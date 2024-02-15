@@ -193,7 +193,9 @@ class CalendarController extends GetxController {
             'hasAlarm': calendarForm.value.hasAlarm,
             if (calendarForm.value.hasAlarm)
               'alarmTime': calendarForm.value.alarmTimeFormat(
-                  calendarForm.value.alarmDate, calendarForm.value.alarmTime),
+                  calendarForm.value.alarmDate,
+                  calendarForm.value.alarmTime,
+                  calendarForm.value.scheduleTime),
           },
           successFunc: (data) async {
             Get.back();

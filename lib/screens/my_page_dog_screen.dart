@@ -125,7 +125,7 @@ class _MyPageDogScreenState extends State<MyPageDogScreen> {
                         ),
                         Positioned(
                             child: (controller.dogsInfo.isEmpty &&
-                                    controller.dogsForm.isEmpty)
+                                    !controller.isEdit.value)
                                 ? const NoDogInfoWidget()
                                 : SizedBox(
                                     width: MediaQuery.of(context).size.width,

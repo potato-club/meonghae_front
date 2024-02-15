@@ -31,8 +31,8 @@ class InfoItemWidget extends StatelessWidget {
     String? calculateDayDifference(String scheduleTime, String? alarmTime) {
       if (alarmTime != null) {
         int diff = DateFormat("yyyy-MM-ddTHH:mm:ss")
-            .parse(scheduleTime)
-            .difference(DateFormat("yyyy-MM-ddTHH:mm:ss").parse(alarmTime))
+            .parse(alarmTime)
+            .difference(DateFormat("yyyy-MM-ddTHH:mm:ss").parse(scheduleTime))
             .inDays;
         var alarmDay = '';
         Get.find<CalendarController>().alarmList.forEach((key, value) {
