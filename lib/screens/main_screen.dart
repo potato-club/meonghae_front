@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/config/app_routes.dart';
-import 'package:meonghae_front/controllers/home_controller.dart';
 import 'package:meonghae_front/widgets/main_screen/banner_widget.dart';
 import 'package:meonghae_front/widgets/main_screen/main_content_widget.dart';
 import 'package:meonghae_front/widgets/main_screen/my_dog_scroll_widget.dart';
@@ -14,13 +13,6 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  @override
-  void initState() {
-    Get.find<HomeController>().getPostPreview();
-    Get.find<HomeController>().getSchedulePreview();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Stack(children: [
