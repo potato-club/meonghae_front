@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/controllers/calendar_controller.dart';
+import 'package:meonghae_front/controllers/calendar_edit_controller.dart';
 import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/calendar_edit_screen/additional_info_widget.dart';
 import 'package:meonghae_front/widgets/calendar_edit_screen/dog_select_widget.dart';
+import 'package:meonghae_front/widgets/calendar_edit_screen/edit_buttons_widget.dart';
 import 'package:meonghae_front/widgets/calendar_edit_screen/filter_widget.dart';
 import 'package:meonghae_front/widgets/calendar_edit_screen/top_menu_bar_widget.dart';
 import 'package:meonghae_front/widgets/common/loading_dot_widget.dart';
@@ -38,7 +40,7 @@ class _CalendarEditScreenState extends State<CalendarEditScreen> {
                     horizontal: MediaQuery.of(context).size.width * 0.06),
                 child: const AdditionalInfoWidget(),
               ),
-              const SizedBox(height: 60)
+              const SizedBox(height: 120)
             ],
           ),
         ),
@@ -49,9 +51,15 @@ class _CalendarEditScreenState extends State<CalendarEditScreen> {
                 height: 100,
                 color: CustomColor.ivory2,
                 child: const TopMenuBarWidget())),
-        GetX<CalendarController>(builder: (controller) {
+        Positioned(
+            bottom: 30,
+            child: Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * 0.06),
+                child: const EditButtonsWidget())),
+        GetX<CalendarEditController>(builder: (controller) {
           return Visibility(
-            visible: controller.isSending.value,
+            visible: controller.isLoading.value,
             child: const Positioned(
                 child: Center(
               child: LoadingDotWidget(color: CustomColor.black2),

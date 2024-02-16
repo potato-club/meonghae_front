@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:meonghae_front/api/dio.dart';
 import 'package:meonghae_front/config/app_routes.dart';
+import 'package:meonghae_front/controllers/calendar_controller.dart';
+import 'package:meonghae_front/controllers/home_controller.dart';
 import 'package:meonghae_front/models/calendar_model.dart';
+import 'package:meonghae_front/widgets/common/custom_modal_widget.dart';
+import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 
 import '../data/filter_categories.dart';
 
@@ -28,6 +33,7 @@ class CalendarEditController extends GetxController {
   var memoController = TextEditingController().obs;
   var cycleMonthController = TextEditingController().obs;
   var cycleDayController = TextEditingController().obs;
+  var isLoading = false.obs;
 
   void initEditData() {
     editData.value = CalendarDetailModel(
@@ -102,5 +108,38 @@ class CalendarEditController extends GetxController {
     if (editData.value.text != null) {
       memoController.value.text = editData.value.text!;
     }
+  }
+
+  Future<void> editCalendarData() async {
+    isLoading.value = true;
+    await SendAPI.put(
+        url: "/profile-service/profile/calendar/${editData.value.id}",
+        request: {},
+        successFunc: (data) async {
+          Get.back();
+          SnackBarWidget.show(SnackBarType.check, "성공적으로 기록을 수정했어요");
+          await Get.find<CalendarController>().fetchData();
+          await Get.find<CalendarController>().clickDay();
+          await Get.find<HomeController>().getSchedulePreview();
+        },
+        errorMsg: "기록 수정에 실패하였어요");
+    isLoading.value = false;
+  }
+
+  Future<void> deleteCalendarData() async {
+    CustomModalWidget.show('기록을 삭제하시겠어요?', () async {
+      isLoading.value = true;
+      await SendAPI.delete(
+          url: "/profile-service/profile/calendar/${editData.value.id}",
+          successFunc: (data) async {
+            Get.back();
+            SnackBarWidget.show(SnackBarType.check, "성공적으로 기록을 삭제했어요");
+            await Get.find<CalendarController>().fetchData();
+            await Get.find<CalendarController>().clickDay();
+            await Get.find<HomeController>().getSchedulePreview();
+          },
+          errorMsg: "기록 삭제에 실패하였어요");
+      isLoading.value = false;
+    });
   }
 }

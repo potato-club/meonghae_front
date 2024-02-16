@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:meonghae_front/controllers/calendar_edit_controller.dart';
 import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/svg/arrow.dart';
-import 'package:meonghae_front/widgets/svg/save_check.dart';
 
 class TopMenuBarWidget extends StatelessWidget {
   const TopMenuBarWidget({super.key});
@@ -34,7 +32,7 @@ class TopMenuBarWidget extends StatelessWidget {
               ),
             ),
             const Text(
-              '새로운 기록',
+              '기록 수정',
               style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
