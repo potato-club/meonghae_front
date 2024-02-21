@@ -53,7 +53,8 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                         DateTime.parse(controller.editData.value.scheduleTime)),
                     onSave: (DateTime dateTime) {
                       controller.editData.value.scheduleTime =
-                          dateTime.toString();
+                          DateFormat('yyyy-MM-ddTHH:mm').format(dateTime);
+                      controller.editData.update((val) {});
                     },
                     dialType: DialType.date,
                     scheduleTime:
@@ -65,7 +66,8 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                         DateTime.parse(controller.editData.value.scheduleTime)),
                     onSave: (DateTime dateTime) {
                       controller.editData.value.scheduleTime =
-                          dateTime.toString();
+                          DateFormat('yyyy-MM-ddTHH:mm').format(dateTime);
+                      controller.editData.update((val) {});
                     },
                     dialType: DialType.time,
                     scheduleTime:
@@ -108,6 +110,7 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                           clickSwitch: () {
                             controller.editData.value.hasRepeat =
                                 !controller.editData.value.hasRepeat;
+                            controller.editData.update((val) {});
                           },
                           isChecked: controller.editData.value.hasRepeat,
                         ),
@@ -153,6 +156,7 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                               setValue: (String value) {
                                 controller.editData.value.cycleCount =
                                     cycleList[value]!;
+                                controller.editData.update((val) {});
                               },
                             ),
                           ]),
@@ -194,6 +198,7 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                             clickSwitch: () {
                               controller.editData.value.hasAlarm =
                                   !controller.editData.value.hasAlarm;
+                              controller.editData.update((val) {});
                             },
                             isChecked: controller.editData.value.hasAlarm,
                           ),
@@ -246,7 +251,9 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                                       controller.editData.value.alarmTime!)),
                               onSave: (DateTime dateTime) {
                                 controller.editData.value.alarmTime =
-                                    dateTime.toString();
+                                    DateFormat('yyyy-MM-ddTHH:mm')
+                                        .format(dateTime);
+                                controller.editData.update((val) {});
                               },
                               dialType: DialType.time,
                               scheduleTime: DateTime.parse(

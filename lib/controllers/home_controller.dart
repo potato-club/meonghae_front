@@ -24,6 +24,7 @@ class HomeController extends GetxController {
     await SendAPI.get(
         url: "/profile-service/profile/calendar/preview",
         successFunc: (data) {
+          print(data);
           List<Map<String, dynamic>> contentList =
               List<Map<String, dynamic>>.from(data.data);
           final List<SchedulePreviewModel> eventsList = contentList

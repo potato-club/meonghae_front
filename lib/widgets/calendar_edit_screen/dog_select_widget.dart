@@ -25,14 +25,18 @@ class _DogSelectWidgetState extends State<DogSelectWidget> {
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
             onTap: () {
-              // controller.editData.value.id = dogInfo.id; 수정
+              if (dogInfo.id != controller.editData.value.petId) {
+                controller.editData.value.petId = dogInfo.id;
+              } else {
+                controller.editData.value.petId = null;
+              }
+              controller.editData.update((val) {});
             },
             child: Column(
               children: [
                 Opacity(
-                  opacity: controller.editData.value.id == dogInfo.id
-                      ? 1
-                      : 0.5, // 수정
+                  opacity:
+                      controller.editData.value.petId == dogInfo.id ? 1 : 0.5,
                   child: Container(
                     clipBehavior: Clip.hardEdge,
                     width: 70,
@@ -67,7 +71,7 @@ class _DogSelectWidgetState extends State<DogSelectWidget> {
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w700,
-                      color: controller.editData.value.id == dogInfo.id // 수정
+                      color: controller.editData.value.petId == dogInfo.id
                           ? CustomColor.black2
                           : CustomColor.gray,
                     ),

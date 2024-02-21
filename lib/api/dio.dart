@@ -10,10 +10,19 @@ import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 class SendAPI {
   static FormData getAnotherFormData(FormData formData) {
     FormData anotherFormData = FormData();
-    formData.fields.forEach((MapEntry<String, dynamic> entry) {
-      anotherFormData.fields
-          .add(MapEntry<String, String>(entry.key, entry.value));
-    });
+    if (formData.fields.isNotEmpty) {
+      formData.fields.forEach((MapEntry<String, dynamic> entry) {
+        anotherFormData.fields
+            .add(MapEntry<String, String>(entry.key, entry.value));
+      });
+    }
+    if (formData.files.isNotEmpty) {
+      formData.files.forEach((MapEntry<String, dynamic> entry) {
+        MultipartFile clonedFile = entry.value.clone();
+        anotherFormData.files
+            .add(MapEntry<String, MultipartFile>(entry.key, clonedFile));
+      });
+    }
     return anotherFormData;
   }
 

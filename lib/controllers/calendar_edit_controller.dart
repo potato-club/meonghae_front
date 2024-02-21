@@ -13,10 +13,11 @@ import '../data/filter_categories.dart';
 class CalendarEditController extends GetxController {
   var editData = CalendarDetailModel(
     id: 0,
-    petName: '',
+    petId: null,
+    petName: null,
     alarmTime: null,
     cycle: null,
-    cycleCount: null,
+    cycleCount: 2,
     cycleType: null,
     hasRepeat: false,
     hasAlarm: false,
@@ -38,10 +39,11 @@ class CalendarEditController extends GetxController {
   void initEditData() {
     editData.value = CalendarDetailModel(
       id: 0,
-      petName: '',
+      petId: null,
+      petName: null,
       alarmTime: null,
       cycle: null,
-      cycleCount: null,
+      cycleCount: 2,
       cycleType: null,
       hasRepeat: false,
       hasAlarm: false,
@@ -55,11 +57,31 @@ class CalendarEditController extends GetxController {
     detailIndex.value = -1;
     cycleMonthController.value.clear();
     cycleDayController.value.clear();
+    titleController.value.clear();
+    memoController.value.clear();
+  }
+
+  void setEditData(CalendarDetailModel data) {
+    editData.value = CalendarDetailModel(
+      id: data.id,
+      petId: data.petId,
+      petName: data.petName,
+      alarmTime: data.alarmTime,
+      cycle: data.cycle,
+      cycleCount: data.cycleCount,
+      cycleType: data.cycleType,
+      hasRepeat: data.hasRepeat,
+      hasAlarm: data.hasAlarm,
+      scheduleType: data.scheduleType,
+      scheduleTime: data.scheduleTime,
+      customScheduleTitle: data.customScheduleTitle,
+      text: data.text,
+    );
   }
 
   void goEditScreen(CalendarDetailModel data) {
     initEditData();
-    editData.value = data;
+    setEditData(data);
     setFilter();
     setRepeat();
     setAlarm();
@@ -112,17 +134,40 @@ class CalendarEditController extends GetxController {
 
   Future<void> editCalendarData() async {
     isLoading.value = true;
-    await SendAPI.put(
-        url: "/profile-service/profile/calendar/${editData.value.id}",
-        request: {},
-        successFunc: (data) async {
-          Get.back();
-          SnackBarWidget.show(SnackBarType.check, "성공적으로 기록을 수정했어요");
-          await Get.find<CalendarController>().fetchData();
-          await Get.find<CalendarController>().clickDay();
-          await Get.find<HomeController>().getSchedulePreview();
-        },
-        errorMsg: "기록 수정에 실패하였어요");
+    if (editData.value.isFilled(customMode.value, titleController.value.text)) {
+      await SendAPI.put(
+          url: "/profile-service/profile/calendar/${editData.value.id}",
+          request: {
+            "petId": editData.value.petId ?? 'nonPet',
+            "scheduleType":
+                customMode.value ? 'Custom' : editData.value.scheduleType,
+            if (customMode.value)
+              'customScheduleTitle': titleController.value.text,
+            "scheduleTime": editData.value.scheduleTime,
+            if (memoController.value.text.isNotEmpty)
+              "text": memoController.value.text,
+            "hasAlarm": editData.value.hasAlarm,
+            "hasRepeat": editData.value.hasRepeat,
+            if (editData.value.hasRepeat) ...{
+              'cycle': editData.value.cycleType == 'Month'
+                  ? cycleMonthController.value.text
+                  : cycleDayController.value.text,
+              'cycleType': editData.value.cycleType,
+              'cycleCount': editData.value.cycleCount
+            },
+            if (editData.value.hasAlarm)
+              "alarmTime": editData.value.alarmTimeFormat(alarmDate.value,
+                  editData.value.alarmTime!, editData.value.scheduleTime),
+          },
+          successFunc: (data) async {
+            Get.back();
+            SnackBarWidget.show(SnackBarType.check, "성공적으로 기록을 수정했어요");
+            await Get.find<CalendarController>().fetchData();
+            await Get.find<CalendarController>().clickDay();
+            await Get.find<HomeController>().getSchedulePreview();
+          },
+          errorMsg: "기록 수정에 실패하였어요");
+    }
     isLoading.value = false;
   }
 

@@ -8,7 +8,7 @@ import 'package:meonghae_front/widgets/common/custom_warning_modal_widget.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 
 class CalendarController extends GetxController {
-  Rx<CalendarFormModel> calendarForm = CalendarFormModel(
+  var calendarForm = CalendarFormModel(
     petId: null,
     alarmTime: DateTime.now(),
     alarmDate: 0,
@@ -171,12 +171,12 @@ class CalendarController extends GetxController {
 
   Future<void> addCalendar() async {
     if (!isSending.value) {
-      if (calendarForm.value.isFilled(customMode.value)) {
+      if (calendarForm.value.isFilled()) {
         isSending.value = true;
         await SendAPI.post(
           url: "/profile-service/profile/calendar",
           request: {
-            'petId': calendarForm.value.petId,
+            'petId': calendarForm.value.petId ?? 'nonPet',
             'scheduleType':
                 customMode.value ? 'Custom' : calendarForm.value.scheduleType,
             if (customMode.value)
@@ -193,8 +193,8 @@ class CalendarController extends GetxController {
             'hasAlarm': calendarForm.value.hasAlarm,
             if (calendarForm.value.hasAlarm)
               'alarmTime': calendarForm.value.alarmTimeFormat(
-                  calendarForm.value.alarmDate,
-                  calendarForm.value.alarmTime,
+                  calendarForm.value.alarmDate!,
+                  calendarForm.value.alarmTime!,
                   calendarForm.value.scheduleTime),
           },
           successFunc: (data) async {

@@ -25,7 +25,11 @@ class _DogSelectWidgetState extends State<DogSelectWidget> {
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
             onTap: () {
-              controller.calendarForm.value.petId = dogInfo.id;
+              if (controller.calendarForm.value.petId != dogInfo.id) {
+                controller.calendarForm.value.petId = dogInfo.id;
+              } else {
+                controller.calendarForm.value.petId = null;
+              }
               controller.calendarForm.update((val) {});
             },
             child: Column(

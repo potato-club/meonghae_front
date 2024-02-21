@@ -59,9 +59,6 @@ class _FilterWidgetState extends State<FilterWidget> {
                         style: const TextStyle(
                             fontSize: 13, color: CustomColor.black2),
                         maxLines: 1,
-                        onChanged: (value) {
-                          controller.editData.value.scheduleType = value;
-                        },
                       ),
                     )
                 ],

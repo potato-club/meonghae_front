@@ -34,9 +34,7 @@ class _CycleCountWidgetState extends State<CycleCountWidget> {
               onTap: () {
                 controller.cycleDayController.value.clear();
                 controller.editData.value.cycleType = 'Month';
-              },
-              onChanged: (value) {
-                controller.editData.value.cycle = int.parse(value);
+                controller.editData.update((val) {});
               },
               textAlign: TextAlign.center,
               keyboardType: TextInputType.number,
@@ -77,9 +75,7 @@ class _CycleCountWidgetState extends State<CycleCountWidget> {
               onTap: () {
                 controller.cycleMonthController.value.clear();
                 controller.editData.value.cycleType = 'Day';
-              },
-              onChanged: (value) {
-                controller.editData.value.cycle = int.parse(value);
+                controller.editData.update((val) {});
               },
               textAlign: TextAlign.center,
               keyboardType: TextInputType.number,
