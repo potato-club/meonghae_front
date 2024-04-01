@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:meonghae_front/controllers/calendar_controller.dart';
+import 'package:meonghae_front/controllers/calendar_edit_controller.dart';
 import 'package:meonghae_front/controllers/dog_controller.dart';
 import 'package:meonghae_front/models/dog_info_model.dart';
 import 'package:meonghae_front/themes/custom_color.dart';
@@ -20,24 +20,23 @@ class _DogSelectWidgetState extends State<DogSelectWidget> {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 250),
         curve: Curves.ease,
-        child: GetX<CalendarController>(builder: (controller) {
+        child: GetX<CalendarEditController>(builder: (controller) {
           return InkWell(
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
             onTap: () {
-              if (controller.calendarForm.value.petId != dogInfo.id) {
-                controller.calendarForm.value.petId = dogInfo.id;
+              if (dogInfo.id != controller.editData.value.petId) {
+                controller.editData.value.petId = dogInfo.id;
               } else {
-                controller.calendarForm.value.petId = null;
+                controller.editData.value.petId = null;
               }
-              controller.calendarForm.update((val) {});
+              controller.editData.update((val) {});
             },
             child: Column(
               children: [
                 Opacity(
-                  opacity: controller.calendarForm.value.petId == dogInfo.id
-                      ? 1
-                      : 0.5,
+                  opacity:
+                      controller.editData.value.petId == dogInfo.id ? 1 : 0.5,
                   child: Container(
                     clipBehavior: Clip.hardEdge,
                     width: 70,
@@ -72,7 +71,7 @@ class _DogSelectWidgetState extends State<DogSelectWidget> {
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w700,
-                      color: controller.calendarForm.value.petId == dogInfo.id
+                      color: controller.editData.value.petId == dogInfo.id
                           ? CustomColor.black2
                           : CustomColor.gray,
                     ),

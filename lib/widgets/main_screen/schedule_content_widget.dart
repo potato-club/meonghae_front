@@ -20,7 +20,10 @@ class _ScheduleContentWidgetState extends State<ScheduleContentWidget> {
       required int index,
       required bool isEndItem}) {
     var dateTime = DateTime.parse(time);
-    var difference = dateTime.difference(DateTime.now()).inDays + 1;
+    var now = DateTime.now();
+    var difference = DateTime(dateTime.year, dateTime.month, dateTime.day)
+        .difference(DateTime(now.year, now.month, now.day))
+        .inDays;
 
     return Container(
       decoration: BoxDecoration(

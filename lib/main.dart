@@ -14,8 +14,6 @@ void main() async {
   KakaoSdk.init(nativeAppKey: dotenv.env['KAKAO_NATIVE_KEY']);
   await initializeDateFormatting();
   String? firebaseToken = await fcmSetting();
-  // ignore: avoid_print
-  print(firebaseToken);
   runApp(const MyApp());
 }
 
@@ -36,7 +34,7 @@ class MyApp extends StatelessWidget {
       title: 'Meonghae',
       initialBinding: AppBinding(),
       getPages: AppRoutes.pages,
-      initialRoute: AppRoutes.initLoading,
+      initialRoute: AppRoutes.login,
     );
   }
 }

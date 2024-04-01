@@ -6,6 +6,7 @@ import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/register_dog_screen/register_init_form.dart';
 import 'package:meonghae_front/widgets/svg/arrow.dart';
 import 'package:meonghae_front/widgets/svg/tiny_right_arrow.dart';
+import 'package:meonghae_front/widgets/svg/trash.dart';
 
 class RegisterDogScreen extends StatefulWidget {
   const RegisterDogScreen({super.key});
@@ -62,7 +63,26 @@ class _RegisterDogScreenState extends State<RegisterDogScreen> {
                               fontWeight: FontWeight.w700,
                             ),
                           ),
-                          const SizedBox(width: 84),
+                          const SizedBox(width: 50),
+                          Visibility(
+                            visible: controller.dogsForm.length > 1,
+                            maintainSize: true,
+                            maintainAnimation: true,
+                            maintainState: true,
+                            child: InkWell(
+                                onTap: () => controller.addDeleteIdList(),
+                                splashColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                child: const SizedBox(
+                                  width: 34,
+                                  height: 34,
+                                  child: Padding(
+                                    padding: EdgeInsets.all(5),
+                                    child: TrashSVG(
+                                        strokeColor: CustomColor.black2),
+                                  ),
+                                )),
+                          ),
                         ],
                       ),
                       SizedBox(

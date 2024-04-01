@@ -9,6 +9,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:meonghae_front/config/app_routes.dart';
+import 'package:meonghae_front/controllers/calendar_controller.dart';
 import 'package:meonghae_front/controllers/dog_controller.dart';
 import 'package:meonghae_front/controllers/home_controller.dart';
 import 'package:meonghae_front/controllers/post_controller.dart';
@@ -48,7 +49,10 @@ class LoginModel {
   static void getAppData() {
     Get.find<UserController>().fetchData();
     Get.find<DogController>().fetchData();
-    Get.find<PostController>().fetchData();
+    Get.find<PostController>().initFetchData();
+    Get.find<CalendarController>().loadCalendar();
+    Get.find<HomeController>().getSchedulePreview();
+    Get.find<HomeController>().getPostPreview();
   }
 
   Future<void> login() async {
