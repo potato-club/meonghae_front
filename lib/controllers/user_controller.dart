@@ -142,28 +142,32 @@ class UserController extends GetxController {
   }
 
   void signUp() async {
-    dio.FormData formData = dio.FormData.fromMap({
-      "age": prevUserInfo.value.age,
-      "birth": prevUserInfo.value.birth.replaceAll('.', ''),
-      "email": prevUserInfo.value.email,
-      "nickname": prevUserInfo.value.nickname,
-      if (prevUserInfo.value.fileUrl != null)
-        "file": await dio.MultipartFile.fromFile(prevUserInfo.value.fileUrl!)
-    });
-    await SendAPI.post(
-        url: "/user-service/signup",
-        request: formData,
-        isFormData: true,
-        successFunc: (data) {
-          saveAccessToken(data.headers['authorization']![0]);
-          saveRefreshToken(data.headers['refreshtoken']![0]);
-          SnackBarWidget.show(SnackBarType.check, '회원가입에 성공했어요');
-          file.value = null;
-          hasAnimal.value
-              ? Get.offAllNamed(AppRoutes.registerDog)
-              : Get.offAllNamed(AppRoutes.introVideo);
-        },
-        errorMsg: '유저정보 등록에 실패하였어요');
+    if (!isLoading.value) {
+      isLoading.value = true;
+      dio.FormData formData = dio.FormData.fromMap({
+        "age": prevUserInfo.value.age,
+        "birth": prevUserInfo.value.birth.replaceAll('.', ''),
+        "email": prevUserInfo.value.email,
+        "nickname": prevUserInfo.value.nickname,
+        if (prevUserInfo.value.fileUrl != null)
+          "file": await dio.MultipartFile.fromFile(prevUserInfo.value.fileUrl!)
+      });
+      await SendAPI.post(
+          url: "/user-service/signup",
+          request: formData,
+          isFormData: true,
+          successFunc: (data) {
+            saveAccessToken(data.headers['authorization']![0]);
+            saveRefreshToken(data.headers['refreshtoken']![0]);
+            SnackBarWidget.show(SnackBarType.check, '회원가입에 성공했어요');
+            file.value = null;
+            hasAnimal.value
+                ? Get.offAllNamed(AppRoutes.registerDog)
+                : Get.offAllNamed(AppRoutes.introVideo);
+            isLoading.value = false;
+          },
+          errorMsg: '유저정보 등록에 실패하였어요');
+    }
   }
 
   void withdrawal() {

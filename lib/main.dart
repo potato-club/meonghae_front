@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
       title: 'Meonghae',
       initialBinding: AppBinding(),
       getPages: AppRoutes.pages,
-      initialRoute: AppRoutes.initLoading,
+      initialRoute: AppRoutes.login,
     );
   }
 }
