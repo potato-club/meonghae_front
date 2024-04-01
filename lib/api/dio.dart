@@ -10,10 +10,19 @@ import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 class SendAPI {
   static FormData getAnotherFormData(FormData formData) {
     FormData anotherFormData = FormData();
-    formData.fields.forEach((MapEntry<String, dynamic> entry) {
-      anotherFormData.fields
-          .add(MapEntry<String, String>(entry.key, entry.value));
-    });
+    if (formData.fields.isNotEmpty) {
+      formData.fields.forEach((MapEntry<String, dynamic> entry) {
+        anotherFormData.fields
+            .add(MapEntry<String, String>(entry.key, entry.value));
+      });
+    }
+    if (formData.files.isNotEmpty) {
+      formData.files.forEach((MapEntry<String, dynamic> entry) {
+        MultipartFile clonedFile = entry.value.clone();
+        anotherFormData.files
+            .add(MapEntry<String, MultipartFile>(entry.key, clonedFile));
+      });
+    }
     return anotherFormData;
   }
 
@@ -24,13 +33,11 @@ class SendAPI {
     } else {
       error.response?.data['errorCode'];
     }
-    print('##########0 $error');
     switch (errorCode) {
       case 4001:
       case 4003:
       case 4005:
         {
-          print('##########1 $errorCode');
           return false;
         }
       case 4002:
@@ -47,7 +54,6 @@ class SendAPI {
             saveRefreshToken(response.headers['refreshtoken']![0]);
             return true;
           } on DioException catch (error) {
-            print('##########2 $error');
             LoginModel.logout();
             SnackBarWidget.show(SnackBarType.error, "만료된 토큰이에요");
             return false;
@@ -57,7 +63,6 @@ class SendAPI {
         }
       default:
         {
-          print('##########1 $errorCode');
           // LoginModel.logout();
           return false;
         }
@@ -152,10 +157,9 @@ class SendAPI {
         var request_ = request;
         if (isFormData) {
           request_ = getAnotherFormData(request);
-          print('#########?? $request_');
         }
         try {
-          put(
+          post(
             url: url,
             successFunc: successFunc,
             successCode: successCode,
@@ -217,7 +221,6 @@ class SendAPI {
             params: params,
           );
         } catch (error) {
-          print('1 $error');
           SnackBarWidget.show(SnackBarType.error, errorMsg);
         }
       }

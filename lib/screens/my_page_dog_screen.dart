@@ -70,7 +70,7 @@ class _MyPageDogScreenState extends State<MyPageDogScreen> {
                                   color: CustomColor.black2),
                             ),
                             (controller.isEdit.value &&
-                                    controller.dogsForm.isNotEmpty)
+                                    controller.dogsForm.length > 1)
                                 ? InkWell(
                                     onTap: () => controller.addDeleteIdList(),
                                     splashColor: Colors.transparent,
@@ -125,7 +125,7 @@ class _MyPageDogScreenState extends State<MyPageDogScreen> {
                         ),
                         Positioned(
                             child: (controller.dogsInfo.isEmpty &&
-                                    controller.dogsForm.isEmpty)
+                                    !controller.isEdit.value)
                                 ? const NoDogInfoWidget()
                                 : SizedBox(
                                     width: MediaQuery.of(context).size.width,

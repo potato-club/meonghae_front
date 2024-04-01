@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:meonghae_front/api/dio.dart';
+import 'package:meonghae_front/controllers/home_controller.dart';
 import 'package:meonghae_front/models/calendar_model.dart';
 import 'package:meonghae_front/widgets/common/custom_warning_modal_widget.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 
 class CalendarController extends GetxController {
-  Rx<CalendarFormModel> calendarForm = CalendarFormModel(
+  var calendarForm = CalendarFormModel(
     petId: null,
     alarmTime: DateTime.now(),
     alarmDate: 0,
@@ -70,6 +71,50 @@ class CalendarController extends GetxController {
     }
   }
 
+  Future<void> loadCalendar() async {
+    await SendAPI.get(
+        url: "/profile-service/profile/calendar/month",
+        params: {
+          'year': focusedDay.value.year,
+          'month': focusedDay.value.month,
+        },
+        successFunc: (data) async {
+          List<Map<String, dynamic>> contentList =
+              List<Map<String, dynamic>>.from(data.data);
+          final List<CalendarModel> eventsList =
+              contentList.map((json) => CalendarModel.fromJson(json)).toList();
+          monthEvents.value = eventsList;
+          for (var monthEvent in monthEvents) {
+            if (monthEvent.month == selectedDay.value.month) {
+              for (var schedule in monthEvent.schedules) {
+                if (schedule['day'] == selectedDay.value.day) {
+                  await SendAPI.get(
+                      url: "/profile-service/profile/calendar/day",
+                      request: {
+                        'year': focusedDay.value.year,
+                        'month': focusedDay.value.month,
+                        'day': focusedDay.value.day,
+                        'scheduleId': schedule['scheduleIds'],
+                      },
+                      successFunc: (data) {
+                        List<Map<String, dynamic>> contentList =
+                            List<Map<String, dynamic>>.from(data.data);
+                        final List<CalendarDetailModel> eventsList = contentList
+                            .map((json) => CalendarDetailModel.fromJson(json))
+                            .toList();
+                        dayEvents.value = eventsList;
+                      },
+                      errorMsg: "일정 호출에 실패하였어요");
+                  return;
+                }
+              }
+            }
+          }
+          dayEvents.value = [];
+        },
+        errorMsg: "캘린더 정보 호출에 실패하였어요");
+  }
+
   Future<void> clickDay() async {
     for (var monthEvent in monthEvents) {
       if (monthEvent.month == selectedDay.value.month) {
@@ -126,12 +171,12 @@ class CalendarController extends GetxController {
 
   Future<void> addCalendar() async {
     if (!isSending.value) {
-      if (calendarForm.value.isFilled(customMode.value)) {
+      if (calendarForm.value.isFilled()) {
         isSending.value = true;
         await SendAPI.post(
           url: "/profile-service/profile/calendar",
           request: {
-            'petId': calendarForm.value.petId,
+            'petId': calendarForm.value.petId ?? 'nonPet',
             'scheduleType':
                 customMode.value ? 'Custom' : calendarForm.value.scheduleType,
             if (customMode.value)
@@ -148,13 +193,16 @@ class CalendarController extends GetxController {
             'hasAlarm': calendarForm.value.hasAlarm,
             if (calendarForm.value.hasAlarm)
               'alarmTime': calendarForm.value.alarmTimeFormat(
-                  calendarForm.value.alarmDate, calendarForm.value.alarmTime),
+                  calendarForm.value.alarmDate!,
+                  calendarForm.value.alarmTime!,
+                  calendarForm.value.scheduleTime),
           },
           successFunc: (data) async {
             Get.back();
             clearForm();
             await fetchData();
             await clickDay();
+            await Get.find<HomeController>().getSchedulePreview();
             SnackBarWidget.show(SnackBarType.check, "성공적으로 일정을 등록했어요");
           },
           errorMsg: "일정 등록에 실패하였어요",

@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:meonghae_front/screens/calendar_edit_screen.dart';
 import 'package:meonghae_front/screens/calendar_info_screen.dart';
 import 'package:meonghae_front/screens/calendar_search_screen.dart';
 import 'package:meonghae_front/screens/home_screen.dart';
@@ -31,6 +32,7 @@ class AppRoutes {
 // calendar
   static const String calendarInfo = "/calendar/info";
   static const String calendarSearch = "/calendar/search";
+  static const String calendarEdit = "/calendar/edit";
 // post
   static const String postDetail = "/post/detail";
   static const String postWrite = "/post/write";
@@ -56,6 +58,7 @@ class AppRoutes {
     // calendar
     GetPage(name: calendarInfo, page: () => const CalendarInfoScreen()),
     GetPage(name: calendarSearch, page: () => const CalendarSearchScreen()),
+    GetPage(name: calendarEdit, page: () => const CalendarEditScreen()),
     // post
     GetPage(name: postDetail, page: () => const PostDetailScreen()),
     GetPage(name: postWrite, page: () => const PostWriteScreen()),

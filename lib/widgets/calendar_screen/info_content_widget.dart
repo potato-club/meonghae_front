@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:meonghae_front/controllers/calendar_controller.dart';
 import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/calendar_screen/info_item_widget.dart';
@@ -24,36 +23,6 @@ class _InfoContentWidgetState extends State<InfoContentWidget> {
         _containerHeight = 200;
       }
     });
-  }
-
-  String? formatTime(String? time) {
-    if (time != null) {
-      DateTime dateTime = DateTime.parse(time);
-      String formattedTime = DateFormat('a hh:mm', 'ko_KR').format(dateTime);
-      formattedTime =
-          formattedTime.replaceAll('AM', '오전').replaceAll('PM', '오후');
-      return formattedTime;
-    } else {
-      return null;
-    }
-  }
-
-  String? calculateDayDifference(String scheduleTime, String? alarmTime) {
-    if (alarmTime != null) {
-      int diff = DateFormat("yyyy-MM-ddTHH:mm:ss")
-          .parse(scheduleTime)
-          .difference(DateFormat("yyyy-MM-ddTHH:mm:ss").parse(alarmTime))
-          .inDays;
-      var alarmDay = '';
-      Get.find<CalendarController>().alarmList.forEach((key, value) {
-        if (value == diff) {
-          alarmDay = key;
-        }
-      });
-      return alarmDay;
-    } else {
-      return null;
-    }
   }
 
   @override
@@ -138,26 +107,8 @@ class _InfoContentWidgetState extends State<InfoContentWidget> {
                                               i < controller.dayEvents.length;
                                               i++)
                                             InfoItemWidget(
-                                              scheduleTime: formatTime(
-                                                  controller.dayEvents[i]
-                                                      .scheduleTime)!,
-                                              alarmTime: formatTime(controller
-                                                  .dayEvents[i].alarmTime),
-                                              alarmDay: calculateDayDifference(
-                                                  controller.dayEvents[i]
-                                                      .scheduleTime,
-                                                  controller
-                                                      .dayEvents[i].alarmTime),
-                                              title: controller.dayEvents[i]
-                                                          .scheduleType ==
-                                                      'Custom'
-                                                  ? controller.dayEvents[i]
-                                                      .customScheduleTitle!
-                                                  : controller.dayEvents[i]
-                                                      .scheduleType,
-                                              memo:
-                                                  controller.dayEvents[i].text,
-                                              isEndItem: i + 1 ==
+                                              data: controller.dayEvents[i],
+                                              isEnd: i + 1 ==
                                                   controller.dayEvents.length,
                                             ),
                                         ],
@@ -189,22 +140,8 @@ class _InfoContentWidgetState extends State<InfoContentWidget> {
                                                           .dayEvents.length;
                                                   i++)
                                                 InfoItemWidget(
-                                                  scheduleTime: formatTime(
-                                                      controller.dayEvents[i]
-                                                          .scheduleTime)!,
-                                                  alarmTime: formatTime(
-                                                      controller.dayEvents[i]
-                                                          .alarmTime),
-                                                  title: controller.dayEvents[i]
-                                                              .scheduleType ==
-                                                          'Custom'
-                                                      ? controller.dayEvents[i]
-                                                          .customScheduleTitle!
-                                                      : controller.dayEvents[i]
-                                                          .scheduleType,
-                                                  memo: controller
-                                                      .dayEvents[i].text,
-                                                  isEndItem: i + 1 ==
+                                                  data: controller.dayEvents[i],
+                                                  isEnd: i + 1 ==
                                                       controller
                                                           .dayEvents.length,
                                                 )
