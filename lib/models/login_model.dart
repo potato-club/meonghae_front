@@ -49,7 +49,7 @@ class LoginModel {
   static void getAppData() {
     Get.find<UserController>().fetchData();
     Get.find<DogController>().fetchData();
-    Get.find<PostController>().fetchData();
+    Get.find<PostController>().initFetchData();
     Get.find<CalendarController>().loadCalendar();
     Get.find<HomeController>().getSchedulePreview();
     Get.find<HomeController>().getPostPreview();

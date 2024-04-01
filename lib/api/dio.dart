@@ -63,7 +63,7 @@ class SendAPI {
         }
       default:
         {
-          // LoginModel.logout();
+          LoginModel.logout();
           return false;
         }
     }

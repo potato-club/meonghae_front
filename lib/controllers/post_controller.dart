@@ -24,18 +24,6 @@ class PostController extends GetxController {
   var writeType = 0.obs;
   var isWriting = false.obs;
 
-  @override
-  void onInit() {
-    scrollController.value.addListener(() {
-      if (scrollController.value.position.pixels ==
-              scrollController.value.position.maxScrollExtent &&
-          hasMore.value) {
-        fetchData();
-      }
-    });
-    super.onInit();
-  }
-
   void setType(int value) {
     if (type.value != value) {
       posts.clear();
@@ -85,6 +73,23 @@ class PostController extends GetxController {
     titleTextController.clear();
     contentTextController.clear();
     images.value = [];
+  }
+
+  void initFetchData() async {
+    await SendAPI.get(
+      url: "/community-service/boards",
+      params: {'type': type, 'p': page.value},
+      successFunc: (data) {
+        List<Map<String, dynamic>> contentList =
+            List<Map<String, dynamic>>.from(data.data['content']);
+        hasMore.value = contentList.length == 20;
+        final List<PostModel> postList =
+            contentList.map((json) => PostModel.fromJson(json)).toList();
+        posts.value = postList;
+      },
+      errorMsg: "게시글 리스트 호출에 실패하였어요",
+    );
+    isLoading.value = false;
   }
 
   void fetchData() async {
