@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/api/dio.dart';
-import 'package:meonghae_front/config/app_routes.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:get/get.dart';
+import 'package:meonghae_front/controllers/home_controller.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
+import 'package:meonghae_front/widgets/common/loading_dot_widget.dart';
 import 'package:meonghae_front/widgets/main_screen/main_content_label_widget.dart';
 
 class ScheduleContentWidget extends StatefulWidget {
@@ -12,31 +13,17 @@ class ScheduleContentWidget extends StatefulWidget {
 }
 
 class _ScheduleContentWidgetState extends State<ScheduleContentWidget> {
-  List<dynamic> preview = [];
-
-  @override
-  void initState() {
-    getPreview();
-    super.initState();
-  }
-
-  Future<void> getPreview() async {
-    SendAPI.get(
-      url: "/profile-service/profile/calendar/preview",
-      successFunc: (data) {
-        setState(() => preview = data.data);
-      },
-      errorMsg: "일정 미리보기 정보 호출에 실패하였어요",
-    );
-  }
-
   Widget createPostItem(
       {required String time,
       required String content,
       required String name,
+      required int index,
       required bool isEndItem}) {
     var dateTime = DateTime.parse(time);
-    var difference = DateTime.now().difference(dateTime).inDays;
+    var now = DateTime.now();
+    var difference = DateTime(dateTime.year, dateTime.month, dateTime.day)
+        .difference(DateTime(now.year, now.month, now.day))
+        .inDays;
 
     return Container(
       decoration: BoxDecoration(
@@ -59,7 +46,8 @@ class _ScheduleContentWidgetState extends State<ScheduleContentWidget> {
                 SizedBox(
                   width: 72,
                   child: Text(
-                    'D-$difference',
+                    'D - $difference',
+                    overflow: TextOverflow.ellipsis,
                     style: const TextStyle(fontSize: 13),
                   ),
                 ),
@@ -68,17 +56,33 @@ class _ScheduleContentWidgetState extends State<ScheduleContentWidget> {
                   child: Text(
                     content,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(fontSize: 12),
+                    style: const TextStyle(fontSize: 13),
                   ),
                 ),
               ],
             ),
-            SizedBox(
-              width: 54,
-              child: Text(
-                name,
-                textAlign: TextAlign.end,
-                style: const TextStyle(fontSize: 12),
+            Flexible(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: index % 2 == 0
+                      ? CustomColor.brown1
+                      : CustomColor.brown1.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(6),
+                  border: index % 2 == 0
+                      ? null
+                      : Border.all(width: 1, color: CustomColor.brown1),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      vertical: index % 2 == 0 ? 4 : 3,
+                      horizontal: index % 2 == 0 ? 6 : 5),
+                  child: Text(
+                    name,
+                    textAlign: TextAlign.end,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(fontSize: 11),
+                  ),
+                ),
               ),
             )
           ],
@@ -96,39 +100,63 @@ class _ScheduleContentWidgetState extends State<ScheduleContentWidget> {
           padding: EdgeInsets.symmetric(
               horizontal: MediaQuery.of(context).size.width * 0.06),
           child: const MainContentLabelWidget(
-              label: "일정", routingPath: AppRoutes.calendar),
+            label: "일정",
+            navyIndex: 0,
+          ),
         ),
         SizedBox(
-          height: MediaQuery.of(context).size.height - 624,
+          height: MediaQuery.of(context).size.height - 611,
           child: Stack(children: [
             SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: MediaQuery.of(context).size.width * 0.06),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 8),
-                    if (preview.isEmpty)
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height - 660,
+                child: GetX<HomeController>(builder: (controller) {
+                  if (controller.isScheduleLoading.value) {
+                    return SizedBox(
+                      height: MediaQuery.of(context).size.height - 611,
+                      child: const Center(
+                          child: LoadingDotWidget(
+                        color: CustomColor.brown1,
+                        size: 30.0,
+                      )),
+                    );
+                  } else {
+                    if (controller.schedulePreview.isEmpty) {
+                      return SizedBox(
+                        height: MediaQuery.of(context).size.height - 611,
                         child: const Center(
                           child: Text(
-                            '아직 일정이 없네요',
+                            '아직 일정이 없어요',
                             style: TextStyle(
                                 fontSize: 13, color: CustomColor.lightGray2),
                           ),
                         ),
-                      ),
-                    for (int i = 0; i < preview.length; i++)
-                      createPostItem(
-                          time: preview[i]['scheduleDate'],
-                          content: preview[i]['scheduleText'],
-                          name: preview[i]['petName'],
-                          isEndItem: i + 1 == preview.length),
-                    const SizedBox(height: 20),
-                  ],
-                ),
+                      );
+                    } else {
+                      return Column(
+                        children: [
+                          const SizedBox(height: 8),
+                          for (int i = 0;
+                              i < controller.schedulePreview.length;
+                              i++)
+                            createPostItem(
+                                time:
+                                    controller.schedulePreview[i].scheduleDate,
+                                content: controller
+                                        .schedulePreview[i].scheduleText ??
+                                    '',
+                                name: controller.schedulePreview[i].petName,
+                                index: i,
+                                isEndItem:
+                                    i + 1 == controller.schedulePreview.length),
+                          const SizedBox(height: 20),
+                        ],
+                      );
+                    }
+                  }
+                }),
               ),
             ),
             Positioned(
@@ -143,21 +171,6 @@ class _ScheduleContentWidgetState extends State<ScheduleContentWidget> {
                       CustomColor.white.withOpacity(0),
                     ])),
                 height: 8,
-                width: MediaQuery.of(context).size.width,
-              ),
-            ),
-            Positioned(
-              bottom: 0,
-              child: Container(
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.topCenter,
-                        colors: [
-                      CustomColor.white,
-                      CustomColor.white.withOpacity(0),
-                    ])),
-                height: 20,
                 width: MediaQuery.of(context).size.width,
               ),
             ),

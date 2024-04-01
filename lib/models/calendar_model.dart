@@ -16,9 +16,9 @@ class CalendarModel {
 class CalendarFormModel {
   int? petId;
   DateTime alarmTime;
-  int alarmDate;
+  int? alarmDate;
   String? cycle;
-  int cycleCount;
+  int? cycleCount;
   String? cycleType;
   bool hasRepeat;
   bool hasAlarm;
@@ -26,38 +26,39 @@ class CalendarFormModel {
   String? scheduleType;
 
   CalendarFormModel({
-    required this.petId,
+    this.petId,
     required this.alarmTime,
-    required this.alarmDate,
-    required this.cycle,
-    required this.cycleCount,
-    required this.cycleType,
+    this.alarmDate,
+    this.cycle,
+    this.cycleCount,
+    this.cycleType,
     required this.hasRepeat,
     required this.hasAlarm,
     required this.scheduleTime,
-    required this.scheduleType,
+    this.scheduleType,
   });
 
   bool isFilled() {
-    if (hasRepeat) {
-      if (petId != null &&
-          cycle != null &&
-          cycleType != null &&
-          scheduleType != null) {
-        return true;
+    if (scheduleType != null) {
+      if (hasRepeat) {
+        if (cycle != null && cycleType != null) {
+          return true;
+        } else {
+          return false;
+        }
       } else {
-        return false;
+        return true;
       }
     } else {
-      if (petId != null && scheduleType != null) {
-        return true;
-      } else {
-        return false;
-      }
+      return false;
     }
   }
 
-  String alarmTimeFormat(int day, DateTime time) {
+  String alarmTimeFormat(int day, DateTime alarmTime, DateTime scheduleTime) {
+    var time = alarmTime.copyWith(
+        year: scheduleTime.year,
+        month: scheduleTime.month,
+        day: scheduleTime.day);
     DateTime date = time.add(Duration(days: day));
     return DateFormat('yyyy-MM-ddTHH:mm').format(date);
   }
@@ -65,7 +66,8 @@ class CalendarFormModel {
 
 class CalendarDetailModel {
   int id;
-  String petName;
+  int? petId;
+  String? petName;
   String? alarmTime;
   int? cycle;
   int? cycleCount;
@@ -79,22 +81,24 @@ class CalendarDetailModel {
 
   CalendarDetailModel({
     required this.id,
-    required this.petName,
-    required this.alarmTime,
-    required this.cycle,
-    required this.cycleCount,
-    required this.cycleType,
+    this.petId,
+    this.petName,
+    this.alarmTime,
+    this.cycle,
+    this.cycleCount,
+    this.cycleType,
     required this.hasRepeat,
     required this.hasAlarm,
     required this.scheduleTime,
     required this.scheduleType,
-    required this.customScheduleTitle,
-    required this.text,
+    this.customScheduleTitle,
+    this.text,
   });
 
   factory CalendarDetailModel.fromJson(Map<String, dynamic> json) {
     return CalendarDetailModel(
       id: json['id'],
+      petId: json['petId'],
       petName: json['petName'],
       alarmTime: json['alarmTime'],
       cycle: json['cycle'],
@@ -107,5 +111,45 @@ class CalendarDetailModel {
       customScheduleTitle: json['customScheduleTitle'],
       text: json['text'],
     );
+  }
+
+  bool isFilled(bool customMode, String title) {
+    if (customMode) {
+      if (title.isNotEmpty) {
+        if (hasRepeat) {
+          if (cycle != null && cycleType != null) {
+            return true;
+          } else {
+            return false;
+          }
+        } else {
+          return true;
+        }
+      } else {
+        return false;
+      }
+    } else {
+      if (scheduleType != null) {
+        if (hasRepeat) {
+          if (cycle != null && cycleType != null) {
+            return true;
+          } else {
+            return false;
+          }
+        } else {
+          return true;
+        }
+      } else {
+        return false;
+      }
+    }
+  }
+
+  String alarmTimeFormat(int day, String alarmTime, String scheduleTime) {
+    var schedule = DateTime.parse(scheduleTime);
+    var time = DateTime.parse(alarmTime).copyWith(
+        year: schedule.year, month: schedule.month, day: schedule.day);
+    DateTime date = time.add(Duration(days: day));
+    return DateFormat('yyyy-MM-ddTHH:mm').format(date);
   }
 }

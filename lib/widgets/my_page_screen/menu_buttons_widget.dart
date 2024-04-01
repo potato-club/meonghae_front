@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/config/app_routes.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/models/login_model.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/svg/tiny_right_arrow.dart';
 
 class MenuButtonsWidget extends StatelessWidget {
@@ -9,9 +10,9 @@ class MenuButtonsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget makeButton(String label, Color fontColor, String page) {
+    Widget makeButton(String label, Color fontColor, Function onClick) {
       return ElevatedButton(
-        onPressed: () => Get.toNamed(page),
+        onPressed: () => onClick(),
         style: ElevatedButton.styleFrom(
           elevation: 0,
           fixedSize: Size(MediaQuery.of(context).size.width, 65),
@@ -40,9 +41,13 @@ class MenuButtonsWidget extends StatelessWidget {
 
     return Column(
       children: [
-        makeButton('내 정보 수정', CustomColor.black2, AppRoutes.mypageUser),
-        makeButton('애완동물 정보 수정', CustomColor.black2, AppRoutes.mypageDog),
-        makeButton('회원탈퇴', CustomColor.red, AppRoutes.mypageWithdrawal),
+        makeButton('내 정보 수정', CustomColor.black2,
+            () => Get.toNamed(AppRoutes.mypageUser)),
+        makeButton('애완동물 정보 수정', CustomColor.black2,
+            () => Get.toNamed(AppRoutes.mypageDog)),
+        makeButton('로그아웃', CustomColor.black2, () => LoginModel.logout()),
+        makeButton('회원탈퇴', CustomColor.red,
+            () => Get.toNamed(AppRoutes.mypageWithdrawal)),
       ],
     );
   }

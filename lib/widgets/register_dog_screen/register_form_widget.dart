@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:meonghae_front/controllers/dog_controller.dart';
 import 'package:meonghae_front/data/species.dart';
 import 'package:meonghae_front/models/dog_info_model.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/common/select_input_widget.dart';
 import 'package:meonghae_front/widgets/format/date_input_formatter.dart';
 
@@ -19,7 +19,7 @@ class RegisterForm extends StatefulWidget {
 class _RegisterFormState extends State<RegisterForm> {
   final formKey = GlobalKey<FormState>();
   List<String> genderList = ['남', '여'];
-  List<String> kindList = Species.dogSpecies + Species.catSpecies;
+  List<String> kindList = dogSpecies + catSpecies;
   List<String> placeList = [
     '지인',
     '일반 애견센터',

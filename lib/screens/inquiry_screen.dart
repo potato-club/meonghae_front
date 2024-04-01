@@ -1,10 +1,10 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:meonghae_front/config/app_routes.dart';
-import 'package:meonghae_front/themes/customColor.dart';
-import 'package:meonghae_front/widgets/inquiry_screen/Q_A_widget.dart';
-import 'package:meonghae_front/widgets/svg/pencil.dart';
-import 'package:meonghae_front/widgets/under_bar/under_bar_widget.dart';
+import 'package:meonghae_front/controllers/inquiry_controller.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
+import 'package:meonghae_front/widgets/inquiry_screen/bubble_widget.dart';
+import 'package:meonghae_front/widgets/inquiry_screen/write_question_bar_widget.dart';
 
 class InquiryScreen extends StatefulWidget {
   const InquiryScreen({super.key});
@@ -15,118 +15,82 @@ class InquiryScreen extends StatefulWidget {
 
 class _InquiryScreenState extends State<InquiryScreen> {
   @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Get.find<InquiryController>().setScrollDown();
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: CustomColor.ivory2,
-      body: SafeArea(
-        child: Stack(
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: MediaQuery.of(context).size.width * 0.06),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        vertical:
-                            MediaQuery.of(context).size.height * 0.04 + 20),
-                    child: const Text(
-                      'Q & A',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.88,
-                            child: const SingleChildScrollView(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.fromLTRB(20, 14, 20, 17),
-                                    child: Text(
-                                      '자주하는 질문',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                  ),
-                                  QAWidget(
-                                      question: "자주하는 질문이 뭐가 있을까?",
-                                      answer: "몰?루"),
-                                  QAWidget(
-                                      question: "탈퇴는 어떻게 하나요?", answer: "그러겡"),
-                                  QAWidget(
-                                      question: "반복적으로 앱이 중지됩니다",
-                                      answer: "파이팅"),
-                                  QAWidget(
-                                      question: "게시판의 글이 보이지 않아요",
-                                      answer: "내가 사라져볼게~뿅"),
-                                  QAWidget(
-                                      question: "강아지가 사람이 되었어요",
-                                      answer: "사람 됐다 짱이지 이 손을 봐, 대박임"),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 32,
-                  ),
-                  InkWell(
-                    onTap: () => Get.toNamed(AppRoutes.inquiry1to1),
-                    splashColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    child: Container(
-                      height: 45,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      child: const Padding(
-                        padding: EdgeInsets.only(left: 20, right: 18),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              '문의하기',
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            SizedBox(
-                                height: 16,
-                                child: PencilSVG(color: CustomColor.brown1))
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                      height: MediaQuery.sizeOf(context).height * 0.055 + 74),
-                ],
+    return Container(
+      color: CustomColor.ivory2,
+      child: Stack(
+        children: [
+          Column(
+            children: [
+              SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 22),
+                child: Text(
+                  '채팅 문의',
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      color: CustomColor.black2),
+                ),
               ),
-            ),
-            const Positioned(
-                bottom: 0, child: UnderBarWidget(currentScreen: '문의')),
-          ],
-        ),
+              Flexible(
+                  child: Stack(
+                children: [
+                  SingleChildScrollView(
+                    controller: Get.find<InquiryController>().scrollController,
+                    padding: const EdgeInsets.only(top: 24, bottom: 140),
+                    dragStartBehavior: DragStartBehavior.down,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.06),
+                      child: GetX<InquiryController>(builder: (controller) {
+                        return Column(
+                          children: [
+                            const BubbleWidget(
+                                isAnswer: true,
+                                needMail: false,
+                                text: '안녕하세요 1대1 채팅문의 입니다.\n무엇을 도와드릴까요?'),
+                            ...controller.dialog.map((i) => BubbleWidget(
+                                isAnswer: i["isAnswer"],
+                                needMail: i["needMail"],
+                                text: i["text"])),
+                          ],
+                        );
+                      }),
+                    ),
+                  ),
+                  Positioned(
+                    top: 0,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                            CustomColor.ivory2,
+                            CustomColor.ivory2.withOpacity(0),
+                          ])),
+                      height: 32,
+                      width: MediaQuery.of(context).size.width,
+                    ),
+                  ),
+                ],
+              ))
+            ],
+          ),
+          Positioned(
+              width: MediaQuery.of(context).size.width,
+              bottom: 0,
+              child: const WriteQuestionBarWidget())
+        ],
       ),
     );
   }

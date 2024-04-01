@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meonghae_front/controllers/dog_controller.dart';
 import 'package:meonghae_front/models/dog_info_model.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 
 class MyDogScrollWidget extends StatefulWidget {
   const MyDogScrollWidget({super.key});
@@ -66,7 +66,6 @@ class _MyDogScrollWidgetState extends State<MyDogScrollWidget> {
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: GetX<DogController>(builder: (controller) {
-            print(controller.dogsInfo);
             return Row(
               children: [
                 SizedBox(width: MediaQuery.of(context).size.width * 0.06),

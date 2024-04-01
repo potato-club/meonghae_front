@@ -30,7 +30,7 @@ class PostController extends GetxController {
       if (scrollController.value.position.pixels ==
               scrollController.value.position.maxScrollExtent &&
           hasMore.value) {
-        fetchData(type.value);
+        fetchData();
       }
     });
     super.onInit();
@@ -42,7 +42,7 @@ class PostController extends GetxController {
       isLoading.value = true;
       type.value = value;
       page.value = 1;
-      fetchData(type.value);
+      fetchData();
     }
   }
 
@@ -69,16 +69,14 @@ class PostController extends GetxController {
   }
 
   void deleteImage(int index) {
-    List<File> editImages = images;
-    editImages.removeAt(index);
-    images.value = editImages;
+    images.removeAt(index);
   }
 
   void reload() {
     isLoading.value = true;
     posts.value = [];
     page.value = 1;
-    fetchData(type.value);
+    fetchData();
     refreshController.refreshCompleted();
   }
 
@@ -89,7 +87,7 @@ class PostController extends GetxController {
     images.value = [];
   }
 
-  void fetchData(int type) async {
+  void fetchData() async {
     await SendAPI.get(
       url: "/community-service/boards",
       params: {'type': type, 'p': page.value},
@@ -121,17 +119,17 @@ class PostController extends GetxController {
             ]
         });
         await SendAPI.post(
-          url: "/community-service/boards/${writeType.value}",
-          request: formData,
-          successCode: 201,
-          successFunc: (data) {
-            Get.back();
-            clear();
-            reload();
-            SnackBarWidget.show(SnackBarType.check, '성공적으로 게시글을 작성하였어요');
-          },
-          errorMsg: "게시글 작성에 실패하였어요",
-        );
+            url: "/community-service/boards/${writeType.value}",
+            request: formData,
+            isFormData: true,
+            successCode: 201,
+            successFunc: (data) {
+              Get.back();
+              clear();
+              reload();
+              SnackBarWidget.show(SnackBarType.check, '성공적으로 게시글을 작성하였어요');
+            },
+            errorMsg: "게시글 작성에 실패하였어요");
         isWriting.value = false;
       } else {
         SnackBarWidget.show(SnackBarType.error, "모든 정보를 입력해주세요");

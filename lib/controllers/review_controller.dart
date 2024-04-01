@@ -27,6 +27,7 @@ class ReviewController extends GetxController {
   var images = <File>[].obs;
   var rate = 0.0.obs;
   var isWriting = false.obs;
+  var editId = 0.obs;
 
   @override
   void onInit() {
@@ -92,9 +93,7 @@ class ReviewController extends GetxController {
   }
 
   void deleteImage(int index) {
-    List<File> editImages = images;
-    editImages.removeAt(index);
-    images.value = editImages;
+    images.removeAt(index);
   }
 
   Future<void> onClickLike(int index, int id, bool isLike) async {
@@ -112,6 +111,7 @@ class ReviewController extends GetxController {
         images: reviews[index].images,
         profileUrl: reviews[index].profileUrl,
         recommendStatus: isLike ? 'TRUE' : 'FALSE',
+        writer: reviews[index].writer,
       );
     } else if (reviews[index].recommendStatus == 'TRUE') {
       reviews[index] = ReviewModel(
@@ -127,6 +127,7 @@ class ReviewController extends GetxController {
         images: reviews[index].images,
         profileUrl: reviews[index].profileUrl,
         recommendStatus: isLike ? 'NONE' : 'FALSE',
+        writer: reviews[index].writer,
       );
     } else {
       reviews[index] = ReviewModel(
@@ -141,6 +142,7 @@ class ReviewController extends GetxController {
         images: reviews[index].images,
         profileUrl: reviews[index].profileUrl,
         recommendStatus: isLike ? 'TRUE' : 'NONE',
+        writer: reviews[index].writer,
       );
     }
     await SendAPI.post(
@@ -208,22 +210,38 @@ class ReviewController extends GetxController {
             ]
         });
         await SendAPI.post(
-          url: "/community-service/reviews",
-          request: formData,
-          successCode: 201,
-          successFunc: (data) {
-            Get.back();
-            reload();
-            clear();
-            SnackBarWidget.show(SnackBarType.check, '성공적으로 리뷰를 작성하였어요');
-          },
-          errorMsg: '리뷰 작성에 실패하였어요',
-        );
+            url: "/community-service/reviews",
+            request: formData,
+            isFormData: true,
+            successCode: 201,
+            successFunc: (data) {
+              Get.back();
+              reload();
+              clear();
+              SnackBarWidget.show(SnackBarType.check, '성공적으로 리뷰를 작성하였어요');
+            },
+            errorMsg: '리뷰 작성에 실패하였어요');
         isWriting.value = false;
       } else {
         SnackBarWidget.show(SnackBarType.error, "모든 정보를 입력해주세요");
       }
     }
+  }
+
+  void setEditId(int id) {
+    editId.value = id;
+  }
+
+  void deleteReview() async {
+    isLoading.value = true;
+    await SendAPI.delete(
+      url: "/community-service/reviews/${editId.value}",
+      successFunc: (data) {
+        reload();
+      },
+      errorMsg: "리뷰 삭제에 실패하였어요",
+    );
+    isLoading.value = false;
   }
 
   Future<bool> willPop() async {

@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:get/get.dart';
+import 'package:meonghae_front/controllers/post_edit_controller.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/svg/tiny_more.dart';
 
 class CocomentWidget extends StatefulWidget {
@@ -93,16 +95,21 @@ class _CocomentWidgetState extends State<CocomentWidget> {
             ),
           ],
         ),
-        Positioned(
-            top: 4,
-            right: 0,
-            child: InkWell(
-                onTap: () => widget.setIsCommentMoreModal(true),
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                child: const SizedBox(
-                    width: 12,
-                    child: TinyMoreSVG(color: CustomColor.lightGray2))))
+        if (widget.cocomment['isWriter'])
+          Positioned(
+              top: 4,
+              right: -4.5,
+              child: InkWell(
+                  onTap: () {
+                    Get.find<PostEditController>()
+                        .setCommentId(widget.cocomment['id']);
+                    widget.setIsCommentMoreModal(true);
+                  },
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  child: const SizedBox(
+                      width: 12,
+                      child: TinyMoreSVG(color: CustomColor.lightGray2))))
       ]),
     );
   }

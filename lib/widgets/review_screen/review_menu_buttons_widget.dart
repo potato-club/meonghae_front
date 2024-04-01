@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/review_screen/menu_buttons_widget.dart';
 import 'package:meonghae_front/widgets/svg/review_menu/body.dart';
 import 'package:meonghae_front/widgets/svg/review_menu/cushion.dart';

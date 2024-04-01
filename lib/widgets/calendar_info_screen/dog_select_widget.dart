@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:meonghae_front/controllers/calendar_controller.dart';
 import 'package:meonghae_front/controllers/dog_controller.dart';
 import 'package:meonghae_front/models/dog_info_model.dart';
-import 'package:meonghae_front/themes/customColor.dart';
+import 'package:meonghae_front/themes/custom_color.dart';
 
 class DogSelectWidget extends StatefulWidget {
   const DogSelectWidget({super.key});
@@ -25,7 +25,11 @@ class _DogSelectWidgetState extends State<DogSelectWidget> {
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
             onTap: () {
-              controller.calendarForm.value.petId = dogInfo.id;
+              if (controller.calendarForm.value.petId != dogInfo.id) {
+                controller.calendarForm.value.petId = dogInfo.id;
+              } else {
+                controller.calendarForm.value.petId = null;
+              }
               controller.calendarForm.update((val) {});
             },
             child: Column(
@@ -85,7 +89,7 @@ class _DogSelectWidgetState extends State<DogSelectWidget> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 85,
+      height: 87,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 4),
         child: Stack(children: [

@@ -109,14 +109,14 @@ class DogController extends GetxController {
             "image": await dio.MultipartFile.fromFile(dogInfo.image!.path)
         });
         await SendAPI.post(
-          url: "/profile-service/profile",
-          request: formData,
-          successFunc: (data) {
-            slideIndex.value = 0;
-            Get.offNamed(AppRoutes.introVideo);
-          },
-          errorMsg: "애완동물정보 등록에 실패하였어요",
-        );
+            url: "/profile-service/profile",
+            request: formData,
+            isFormData: true,
+            successFunc: (data) {
+              slideIndex.value = 0;
+              Get.offNamed(AppRoutes.introVideo);
+            },
+            errorMsg: "애완동물정보 등록에 실패하였어요");
       }
     } else {
       int index = validatorList.indexOf(false);
@@ -170,11 +170,11 @@ class DogController extends GetxController {
                         dogsForm[i].image!.path)
                 });
                 await SendAPI.put(
-                  url: "/profile-service/profile/${dogsForm[i].id}",
-                  request: formData,
-                  successFunc: (data) => isChange.value = true,
-                  errorMsg: "애완동물정보 수정에 실패하였어요",
-                );
+                    url: "/profile-service/profile/${dogsForm[i].id}",
+                    request: formData,
+                    isFormData: true,
+                    successFunc: (data) => isChange.value = true,
+                    errorMsg: "애완동물정보 수정에 실패하였어요");
               }
             } else {
               dio.FormData formData = dio.FormData.fromMap({
@@ -188,11 +188,11 @@ class DogController extends GetxController {
                       await dio.MultipartFile.fromFile(dogsForm[i].image!.path)
               });
               await SendAPI.post(
-                url: "/profile-service/profile",
-                request: formData,
-                successFunc: (data) => isChange.value = true,
-                errorMsg: "애완동물정보 수정에 실패하였어요",
-              );
+                  url: "/profile-service/profile",
+                  request: formData,
+                  isFormData: true,
+                  successFunc: (data) => isChange.value = true,
+                  errorMsg: "애완동물정보 수정에 실패하였어요");
             }
           }
         }
