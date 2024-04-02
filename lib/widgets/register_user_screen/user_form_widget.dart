@@ -36,7 +36,7 @@ class _UserFormWidgetState extends State<UserFormWidget> {
               children: [
                 const Text(
                   '이름',
-                  style: TextStyle(fontSize: 16, color: CustomColor.black2),
+                  style: TextStyle(fontSize: 13, color: CustomColor.black2),
                 ),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.075),
                 Expanded(
@@ -64,9 +64,9 @@ class _UserFormWidgetState extends State<UserFormWidget> {
                                 EdgeInsets.symmetric(horizontal: 14),
                             hintStyle: TextStyle(
                               color: CustomColor.gray,
-                              fontSize: 14,
+                              fontSize: 12,
                             )),
-                        style: const TextStyle(fontSize: 14),
+                        style: const TextStyle(fontSize: 12),
                         keyboardType: TextInputType.text,
                       ),
                     ),
@@ -79,7 +79,7 @@ class _UserFormWidgetState extends State<UserFormWidget> {
               children: [
                 const Text(
                   '생일',
-                  style: TextStyle(fontSize: 16, color: CustomColor.black2),
+                  style: TextStyle(fontSize: 13, color: CustomColor.black2),
                 ),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.075),
                 Expanded(
@@ -110,10 +110,10 @@ class _UserFormWidgetState extends State<UserFormWidget> {
                               const EdgeInsets.symmetric(horizontal: 14),
                           hintStyle: const TextStyle(
                             color: CustomColor.gray,
-                            fontSize: 14,
+                            fontSize: 12,
                           ),
                         ),
-                        style: const TextStyle(fontSize: 14),
+                        style: const TextStyle(fontSize: 12),
                         keyboardType: TextInputType.number,
                       ),
                     ),
@@ -126,7 +126,7 @@ class _UserFormWidgetState extends State<UserFormWidget> {
               children: [
                 const Text(
                   '나이',
-                  style: TextStyle(fontSize: 16, color: CustomColor.black2),
+                  style: TextStyle(fontSize: 13, color: CustomColor.black2),
                 ),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.075),
                 SelectInputWidget(
@@ -134,7 +134,7 @@ class _UserFormWidgetState extends State<UserFormWidget> {
                   height: 30,
                   itemHeight: 30,
                   listHeight: 120,
-                  fontSize: 14,
+                  fontSize: 12,
                   list: generateNumberOptions(),
                   defaultValue: controller.registerAge.value,
                   setValue: (value) => controller.registerAge.value = value,

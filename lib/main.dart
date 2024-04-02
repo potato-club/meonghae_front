@@ -27,14 +27,17 @@ class MyApp extends StatelessWidget {
       statusBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.dark,
     ));
-    return GetMaterialApp(
-      theme: ThemeData(fontFamily: 'GmarketSans'),
-      debugShowCheckedModeBanner: false,
-      locale: const Locale('ko', 'KR'),
-      title: 'Meonghae',
-      initialBinding: AppBinding(),
-      getPages: AppRoutes.pages,
-      initialRoute: AppRoutes.login,
+    return MediaQuery(
+      data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+      child: GetMaterialApp(
+        theme: ThemeData(fontFamily: 'GmarketSans'),
+        debugShowCheckedModeBanner: false,
+        locale: const Locale('ko', 'KR'),
+        title: 'Meonghae',
+        initialBinding: AppBinding(),
+        getPages: AppRoutes.pages,
+        initialRoute: AppRoutes.select,
+      ),
     );
   }
 }

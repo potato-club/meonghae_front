@@ -36,7 +36,7 @@ class TopMenuBarWidget extends StatelessWidget {
             const Text(
               '새로운 기록',
               style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 17,
                   fontWeight: FontWeight.w700,
                   color: CustomColor.black2),
             ),

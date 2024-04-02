@@ -49,7 +49,7 @@ class _MyPageScreenState extends State<MyPageScreen> {
                       const Text(
                         '마이페이지',
                         style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 17,
                             fontWeight: FontWeight.w700,
                             color: CustomColor.black2),
                       ),

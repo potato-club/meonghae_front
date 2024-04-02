@@ -48,14 +48,14 @@ class _CycleCountWidgetState extends State<CycleCountWidget> {
                   errorBorder: InputBorder.none,
                   contentPadding:
                       EdgeInsets.symmetric(horizontal: 0, vertical: 15)),
-              style: const TextStyle(fontSize: 13, color: CustomColor.black2),
+              style: const TextStyle(fontSize: 12, color: CustomColor.black2),
               maxLines: 1,
             ),
           ),
           const SizedBox(width: 2),
           const Text(
             '달',
-            style: TextStyle(fontSize: 13, color: CustomColor.gray),
+            style: TextStyle(fontSize: 11, color: CustomColor.gray),
           ),
           const SizedBox(width: 4),
           Container(
@@ -89,14 +89,14 @@ class _CycleCountWidgetState extends State<CycleCountWidget> {
                   errorBorder: InputBorder.none,
                   contentPadding:
                       EdgeInsets.symmetric(horizontal: 0, vertical: 15)),
-              style: const TextStyle(fontSize: 13, color: CustomColor.black2),
+              style: const TextStyle(fontSize: 12, color: CustomColor.black2),
               maxLines: 1,
             ),
           ),
           const SizedBox(width: 2),
           const Text(
             '일 마다',
-            style: TextStyle(fontSize: 13, color: CustomColor.gray),
+            style: TextStyle(fontSize: 11, color: CustomColor.gray),
           ),
         ],
       );

@@ -72,14 +72,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                 '멍해',
                                 style: TextStyle(
                                   color: CustomColor.black2,
-                                  fontSize: 22,
+                                  fontSize: 18,
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
                               Text('로',
                                   style: TextStyle(
                                     color: CustomColor.black2,
-                                    fontSize: 19,
+                                    fontSize: 16,
                                     fontWeight: FontWeight.w400,
                                   ))
                             ],
@@ -90,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: CustomColor.black2,
-                              fontSize: 19,
+                              fontSize: 16,
                               fontWeight: FontWeight.w400,
                               height: 1.3,
                             ),

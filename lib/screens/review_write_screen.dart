@@ -32,7 +32,7 @@ class _ReviewWriteScreenState extends State<ReviewWriteScreen> {
                       const SizedBox(height: 144),
                       const ReviewCategoryWidget(),
                       const Padding(
-                        padding: EdgeInsets.fromLTRB(0, 14, 0, 40),
+                        padding: EdgeInsets.fromLTRB(0, 28, 0, 40),
                         child: WriteFormWidget(),
                       ),
                       Padding(
@@ -48,15 +48,14 @@ class _ReviewWriteScreenState extends State<ReviewWriteScreen> {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 color: CustomColor.brown1),
-                            child: const Expanded(
-                                child: Center(
+                            child: const Center(
                               child: Text("리뷰 등록하기",
                                   style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: 15,
                                     fontWeight: FontWeight.w700,
                                     color: CustomColor.white,
                                   )),
-                            )),
+                            ),
                           ),
                         ),
                       ),

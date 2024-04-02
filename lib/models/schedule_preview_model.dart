@@ -1,13 +1,13 @@
 class SchedulePreviewModel {
   final int id;
   final String scheduleDate;
-  final String? scheduleText;
+  final String? scheduleTitle;
   final String petName;
 
   SchedulePreviewModel({
     required this.id,
     required this.scheduleDate,
-    required this.scheduleText,
+    required this.scheduleTitle,
     required this.petName,
   });
 
@@ -15,7 +15,7 @@ class SchedulePreviewModel {
     return SchedulePreviewModel(
       id: json['id'],
       scheduleDate: json['scheduleDate'],
-      scheduleText: json['scheduleText'],
+      scheduleTitle: json['scheduleTitle'],
       petName: json['petName'],
     );
   }

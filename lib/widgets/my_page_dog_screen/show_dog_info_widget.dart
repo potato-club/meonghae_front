@@ -21,7 +21,8 @@ class _ShowDogInfoWidgetState extends State<ShowDogInfoWidget> {
             width: 66,
             child: Text(
               label,
-              style: const TextStyle(fontSize: 14, color: CustomColor.black2),
+              style: const TextStyle(
+                  fontSize: 12, letterSpacing: -1, color: CustomColor.black2),
             ),
           ),
           Expanded(
@@ -38,7 +39,7 @@ class _ShowDogInfoWidgetState extends State<ShowDogInfoWidget> {
                   child: Text(
                     value ?? '',
                     style: const TextStyle(
-                        fontSize: 13,
+                        fontSize: 12,
                         color: CustomColor.black2,
                         fontWeight: FontWeight.bold),
                   ),

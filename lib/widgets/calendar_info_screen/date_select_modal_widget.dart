@@ -76,7 +76,7 @@ class _DateSelectModalWidgetState extends State<DateSelectModalWidget> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             SizedBox(
-                              width: 33,
+                              width: 38,
                               child: CarouselSlider(
                                   options: CarouselOptions(
                                     height: 148,
@@ -98,7 +98,7 @@ class _DateSelectModalWidgetState extends State<DateSelectModalWidget> {
                                                     decoration:
                                                         TextDecoration.none,
                                                     color: CustomColor.black2,
-                                                    fontSize: 16,
+                                                    fontSize: 15,
                                                     fontWeight: FontWeight.w700,
                                                   )
                                                 : (i - currentYear).abs() == 1
@@ -106,7 +106,7 @@ class _DateSelectModalWidgetState extends State<DateSelectModalWidget> {
                                                         decoration:
                                                             TextDecoration.none,
                                                         color: CustomColor.gray,
-                                                        fontSize: 16,
+                                                        fontSize: 15,
                                                         fontWeight:
                                                             FontWeight.w700,
                                                       )
@@ -115,7 +115,7 @@ class _DateSelectModalWidgetState extends State<DateSelectModalWidget> {
                                                             TextDecoration.none,
                                                         color: CustomColor
                                                             .lightGray3,
-                                                        fontSize: 16,
+                                                        fontSize: 15,
                                                         fontWeight:
                                                             FontWeight.w700,
                                                       ),
@@ -124,7 +124,7 @@ class _DateSelectModalWidgetState extends State<DateSelectModalWidget> {
                             ),
                             const Padding(
                               padding: EdgeInsets.only(
-                                right: 30,
+                                right: 25,
                                 left: 4,
                               ),
                               child: Text(
@@ -132,13 +132,13 @@ class _DateSelectModalWidgetState extends State<DateSelectModalWidget> {
                                 style: TextStyle(
                                   decoration: TextDecoration.none,
                                   color: CustomColor.black2,
-                                  fontSize: 16,
+                                  fontSize: 15,
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
                             ),
                             SizedBox(
-                              width: 17,
+                              width: 18,
                               child: CarouselSlider(
                                   options: CarouselOptions(
                                     height: 148,
@@ -160,7 +160,7 @@ class _DateSelectModalWidgetState extends State<DateSelectModalWidget> {
                                                     decoration:
                                                         TextDecoration.none,
                                                     color: CustomColor.black2,
-                                                    fontSize: 16,
+                                                    fontSize: 15,
                                                     fontWeight: FontWeight.w700,
                                                   )
                                                 : (i - currentMonth).abs() == 1
@@ -168,7 +168,7 @@ class _DateSelectModalWidgetState extends State<DateSelectModalWidget> {
                                                         decoration:
                                                             TextDecoration.none,
                                                         color: CustomColor.gray,
-                                                        fontSize: 16,
+                                                        fontSize: 15,
                                                         fontWeight:
                                                             FontWeight.w700,
                                                       )
@@ -177,7 +177,7 @@ class _DateSelectModalWidgetState extends State<DateSelectModalWidget> {
                                                             TextDecoration.none,
                                                         color: CustomColor
                                                             .lightGray3,
-                                                        fontSize: 16,
+                                                        fontSize: 15,
                                                         fontWeight:
                                                             FontWeight.w700,
                                                       ),
@@ -186,7 +186,7 @@ class _DateSelectModalWidgetState extends State<DateSelectModalWidget> {
                             ),
                             const Padding(
                               padding: EdgeInsets.only(
-                                right: 30,
+                                right: 25,
                                 left: 4,
                               ),
                               child: Text(
@@ -194,13 +194,13 @@ class _DateSelectModalWidgetState extends State<DateSelectModalWidget> {
                                 style: TextStyle(
                                   decoration: TextDecoration.none,
                                   color: CustomColor.black2,
-                                  fontSize: 16,
+                                  fontSize: 15,
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
                             ),
                             SizedBox(
-                              width: 17,
+                              width: 18,
                               child: CarouselSlider(
                                 options: CarouselOptions(
                                   height: 148,
@@ -226,7 +226,7 @@ class _DateSelectModalWidgetState extends State<DateSelectModalWidget> {
                                                   decoration:
                                                       TextDecoration.none,
                                                   color: CustomColor.black2,
-                                                  fontSize: 16,
+                                                  fontSize: 15,
                                                   fontWeight: FontWeight.w700,
                                                 )
                                               : (i - currentDay).abs() == 1
@@ -234,7 +234,7 @@ class _DateSelectModalWidgetState extends State<DateSelectModalWidget> {
                                                       decoration:
                                                           TextDecoration.none,
                                                       color: CustomColor.gray,
-                                                      fontSize: 16,
+                                                      fontSize: 15,
                                                       fontWeight:
                                                           FontWeight.w700,
                                                     )
@@ -243,7 +243,7 @@ class _DateSelectModalWidgetState extends State<DateSelectModalWidget> {
                                                           TextDecoration.none,
                                                       color: CustomColor
                                                           .lightGray3,
-                                                      fontSize: 16,
+                                                      fontSize: 15,
                                                       fontWeight:
                                                           FontWeight.w700,
                                                     ),
@@ -260,7 +260,7 @@ class _DateSelectModalWidgetState extends State<DateSelectModalWidget> {
                                 style: TextStyle(
                                   decoration: TextDecoration.none,
                                   color: CustomColor.black2,
-                                  fontSize: 16,
+                                  fontSize: 15,
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),

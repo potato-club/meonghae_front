@@ -21,7 +21,7 @@ class _WriteFormWidgetState extends State<WriteFormWidget> {
       child: Column(
         children: [
           SizedBox(
-            height: 40,
+            height: 42,
             child: TextField(
               controller: Get.find<ReviewController>().titleTextController,
               decoration: InputDecoration(
@@ -40,7 +40,7 @@ class _WriteFormWidgetState extends State<WriteFormWidget> {
                     borderSide:
                         const BorderSide(width: 1, color: CustomColor.gray),
                     borderRadius: BorderRadius.circular(10)),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 14),
               ),
               style: const TextStyle(fontSize: 12, color: CustomColor.black2),
               maxLines: 1,
@@ -51,7 +51,7 @@ class _WriteFormWidgetState extends State<WriteFormWidget> {
             decoration: BoxDecoration(
                 border: Border.all(color: CustomColor.gray, width: 1),
                 borderRadius: BorderRadius.circular(10)),
-            height: 202,
+            height: 260,
             child: TextField(
               controller: Get.find<ReviewController>().contentTextController,
               decoration: const InputDecoration(
@@ -60,11 +60,10 @@ class _WriteFormWidgetState extends State<WriteFormWidget> {
                 border: InputBorder.none,
                 focusedBorder: InputBorder.none,
                 errorBorder: InputBorder.none,
-                contentPadding:
-                    EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                contentPadding: EdgeInsets.all(14),
               ),
-              maxLines: 16,
-              style: const TextStyle(fontSize: 12, color: CustomColor.black2),
+              maxLines: null,
+              style: const TextStyle(fontSize: 11, color: CustomColor.black2),
             ),
           ),
           const SizedBox(height: 14),
@@ -74,7 +73,7 @@ class _WriteFormWidgetState extends State<WriteFormWidget> {
                 borderRadius: BorderRadius.circular(10)),
             child: const Padding(
               padding:
-                  EdgeInsets.only(top: 12, left: 12, right: 12, bottom: 24),
+                  EdgeInsets.only(top: 12, left: 12, right: 12, bottom: 16),
               child: Column(
                 children: [
                   Row(

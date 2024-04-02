@@ -4,6 +4,7 @@ import 'package:meonghae_front/controllers/calendar_controller.dart';
 import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/calendar_screen/info_item_widget.dart';
 import 'package:meonghae_front/widgets/calendar_screen/no_info_widget.dart';
+import 'package:meonghae_front/widgets/common/loading_dot_widget.dart';
 
 class InfoContentWidget extends StatefulWidget {
   const InfoContentWidget({super.key});
@@ -74,60 +75,41 @@ class _InfoContentWidgetState extends State<InfoContentWidget> {
                       child: Text(
                         "${controller.selectedDay.value.day}일 ${dayOfWeek[controller.selectedDay.value.weekday - 1]}요일",
                         style: const TextStyle(
-                          fontSize: 16,
+                          fontSize: 15,
                           color: CustomColor.brown1,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
                     ),
                     const SizedBox(height: 8),
-                    controller.dayEvents.isEmpty
-                        ? const NoInfoWidget()
-                        : SizedBox(
+                    controller.isLoading.value
+                        ? SizedBox(
                             height: MediaQuery.of(context).size.height -
-                                625 +
+                                630 +
                                 _containerHeight,
-                            child: _containerHeight == 0
-                                ? Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal:
-                                            MediaQuery.of(context).size.width *
-                                                0.06),
-                                    child: Card(
-                                      margin: const EdgeInsets.symmetric(
-                                          horizontal: 6),
-                                      elevation: 0,
-                                      shape: const RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.zero,
-                                      ),
-                                      clipBehavior: Clip.none,
-                                      child: Wrap(
-                                        children: [
-                                          for (var i = 0;
-                                              i < controller.dayEvents.length;
-                                              i++)
-                                            InfoItemWidget(
-                                              data: controller.dayEvents[i],
-                                              isEnd: i + 1 ==
-                                                  controller.dayEvents.length,
-                                            ),
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                                : Stack(children: [
-                                    SingleChildScrollView(
-                                      child: Padding(
+                            child: const Center(
+                                child: LoadingDotWidget(
+                              color: CustomColor.brown1,
+                              size: 28,
+                            )),
+                          )
+                        : controller.dayEvents.isEmpty
+                            ? const NoInfoWidget()
+                            : SizedBox(
+                                height: MediaQuery.of(context).size.height -
+                                    630 +
+                                    _containerHeight,
+                                child: _containerHeight == 0
+                                    ? Padding(
                                         padding: EdgeInsets.symmetric(
-                                            vertical: 4,
                                             horizontal: MediaQuery.of(context)
                                                     .size
                                                     .width *
                                                 0.06),
                                         child: Card(
-                                          elevation: 0,
                                           margin: const EdgeInsets.symmetric(
                                               horizontal: 6),
+                                          elevation: 0,
                                           shape: const RoundedRectangleBorder(
                                             borderRadius: BorderRadius.zero,
                                           ),
@@ -144,30 +126,70 @@ class _InfoContentWidgetState extends State<InfoContentWidget> {
                                                   isEnd: i + 1 ==
                                                       controller
                                                           .dayEvents.length,
-                                                )
+                                                ),
                                             ],
                                           ),
                                         ),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      top: 0,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            gradient: LinearGradient(
-                                                begin: Alignment.topCenter,
-                                                end: Alignment.bottomCenter,
-                                                colors: [
-                                              CustomColor.white,
-                                              CustomColor.white.withOpacity(0),
-                                            ])),
-                                        height: 18,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                      ),
-                                    ),
-                                  ]),
-                          ),
+                                      )
+                                    : Stack(children: [
+                                        SingleChildScrollView(
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 4,
+                                                horizontal:
+                                                    MediaQuery.of(context)
+                                                            .size
+                                                            .width *
+                                                        0.06),
+                                            child: Card(
+                                              elevation: 0,
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 6),
+                                              shape:
+                                                  const RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.zero,
+                                              ),
+                                              clipBehavior: Clip.none,
+                                              child: Wrap(
+                                                children: [
+                                                  for (var i = 0;
+                                                      i <
+                                                          controller
+                                                              .dayEvents.length;
+                                                      i++)
+                                                    InfoItemWidget(
+                                                      data: controller
+                                                          .dayEvents[i],
+                                                      isEnd: i + 1 ==
+                                                          controller
+                                                              .dayEvents.length,
+                                                    )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Positioned(
+                                          top: 0,
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                gradient: LinearGradient(
+                                                    begin: Alignment.topCenter,
+                                                    end: Alignment.bottomCenter,
+                                                    colors: [
+                                                  CustomColor.white,
+                                                  CustomColor.white
+                                                      .withOpacity(0),
+                                                ])),
+                                            height: 18,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                          ),
+                                        ),
+                                      ]),
+                              ),
                   ],
                 );
               })

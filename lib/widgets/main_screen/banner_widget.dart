@@ -65,7 +65,7 @@ class _BannerWidgetState extends State<BannerWidget> {
                       Text(
                         "${controller.userInfo.value.nickname}님 안녕하세요!",
                         style: const TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w700),
+                            fontSize: 16, fontWeight: FontWeight.w700),
                       ),
                       const Padding(
                         padding: EdgeInsets.only(top: 6),
@@ -78,7 +78,7 @@ class _BannerWidgetState extends State<BannerWidget> {
                               child: Text(
                                 "업데이트 공지 2.0.10.2",
                                 style: TextStyle(
-                                    fontSize: 12,
+                                    fontSize: 10,
                                     color: CustomColor.white,
                                     fontWeight: FontWeight.w400),
                               ),
@@ -114,7 +114,7 @@ class _BannerWidgetState extends State<BannerWidget> {
                 Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
               const Text(
                 'MY',
-                style: TextStyle(fontSize: 12, color: CustomColor.black2),
+                style: TextStyle(fontSize: 11, color: CustomColor.black2),
               ),
               Transform.rotate(
                   angle: -1.58,

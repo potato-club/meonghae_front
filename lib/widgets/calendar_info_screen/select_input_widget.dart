@@ -100,7 +100,7 @@ class _SelectInputWidgetState extends State<SelectInputWidget> {
                     value ?? '',
                     textAlign: TextAlign.left,
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 13,
                       color:
                           value == null ? CustomColor.gray : CustomColor.black2,
                       letterSpacing: value == null ? -1 : null,

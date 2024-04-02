@@ -17,8 +17,7 @@ class NoInfoWidget extends StatelessWidget {
           child: Text(
             '저장된 기록이 없어요',
             style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w700,
+              fontSize: 13,
               color: CustomColor.lightGray1,
             ),
           ),

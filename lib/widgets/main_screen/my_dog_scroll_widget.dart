@@ -47,10 +47,7 @@ class _MyDogScrollWidgetState extends State<MyDogScrollWidget> {
             padding: const EdgeInsets.only(top: 4),
             child: Text(
               dogInfo.petName,
-              style: const TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w700,
-              ),
+              style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
             ),
           )
         ],
@@ -92,7 +89,7 @@ class _MyDogScrollWidgetState extends State<MyDogScrollWidget> {
                   CustomColor.white,
                   CustomColor.white.withOpacity(0),
                 ])),
-            height: 91,
+            height: 92,
             width: MediaQuery.of(context).size.width * 0.06,
           ),
         ),
@@ -108,7 +105,7 @@ class _MyDogScrollWidgetState extends State<MyDogScrollWidget> {
                   CustomColor.white,
                   CustomColor.white.withOpacity(0),
                 ])),
-            height: 91,
+            height: 92,
             width: MediaQuery.of(context).size.width * 0.06,
           ),
         ),

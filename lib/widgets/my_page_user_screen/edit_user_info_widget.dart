@@ -28,7 +28,7 @@ class _EditUserInfoWidgetState extends State<EditUserInfoWidget> {
               const Padding(
                 padding: EdgeInsets.only(left: 10, bottom: 8),
                 child: Text('이름',
-                    style: TextStyle(fontSize: 14, color: CustomColor.black2)),
+                    style: TextStyle(fontSize: 13, color: CustomColor.black2)),
               ),
               Container(
                   height: 44,
@@ -45,12 +45,12 @@ class _EditUserInfoWidgetState extends State<EditUserInfoWidget> {
                           EdgeInsets.symmetric(horizontal: 14, vertical: 12),
                     ),
                     style: const TextStyle(
-                        fontSize: 14, color: CustomColor.black2),
+                        fontSize: 13, color: CustomColor.black2),
                   )),
               const Padding(
                 padding: EdgeInsets.only(left: 10, bottom: 8, top: 14),
                 child: Text('생일',
-                    style: TextStyle(fontSize: 14, color: CustomColor.black2)),
+                    style: TextStyle(fontSize: 13, color: CustomColor.black2)),
               ),
               Container(
                   height: 44,
@@ -70,12 +70,12 @@ class _EditUserInfoWidgetState extends State<EditUserInfoWidget> {
                           EdgeInsets.symmetric(horizontal: 14, vertical: 12),
                     ),
                     style: const TextStyle(
-                        fontSize: 14, color: CustomColor.black2),
+                        fontSize: 13, color: CustomColor.black2),
                   )),
               const Padding(
                 padding: EdgeInsets.only(left: 10, bottom: 8, top: 14),
                 child: Text('나이',
-                    style: TextStyle(fontSize: 14, color: CustomColor.black2)),
+                    style: TextStyle(fontSize: 13, color: CustomColor.black2)),
               ),
               Container(
                   height: 44,
@@ -92,7 +92,7 @@ class _EditUserInfoWidgetState extends State<EditUserInfoWidget> {
                           EdgeInsets.symmetric(horizontal: 14, vertical: 12),
                     ),
                     style: const TextStyle(
-                        fontSize: 14, color: CustomColor.black2),
+                        fontSize: 13, color: CustomColor.black2),
                   ))
             ],
           ),

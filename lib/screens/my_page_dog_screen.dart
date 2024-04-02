@@ -65,7 +65,7 @@ class _MyPageDogScreenState extends State<MyPageDogScreen> {
                             const Text(
                               '애완동물 정보 수정',
                               style: TextStyle(
-                                  fontSize: 18,
+                                  fontSize: 17,
                                   fontWeight: FontWeight.w700,
                                   color: CustomColor.black2),
                             ),

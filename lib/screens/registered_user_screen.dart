@@ -40,7 +40,7 @@ class _RegisteredUserScreenState extends State<RegisteredUserScreen> {
                               const Text(
                                 '안녕하세요',
                                 style: TextStyle(
-                                  fontSize: 22,
+                                  fontSize: 20,
                                   fontWeight: FontWeight.w700,
                                   color: CustomColor.black2,
                                 ),
@@ -54,7 +54,7 @@ class _RegisteredUserScreenState extends State<RegisteredUserScreen> {
                                   color: CustomColor.black2,
                                 ),
                               ),
-                              const SizedBox(height: 11),
+                              const SizedBox(height: 12),
                               GestureDetector(
                                 onTap: () {
                                   Get.back();
@@ -66,7 +66,7 @@ class _RegisteredUserScreenState extends State<RegisteredUserScreen> {
                                     Text(
                                       '수정하기',
                                       style: TextStyle(
-                                        fontSize: 13,
+                                        fontSize: 12,
                                         fontWeight: FontWeight.w700,
                                         color: CustomColor.white,
                                       ),
@@ -98,7 +98,7 @@ class _RegisteredUserScreenState extends State<RegisteredUserScreen> {
                             child: const Text(
                               '다음',
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: 15,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),

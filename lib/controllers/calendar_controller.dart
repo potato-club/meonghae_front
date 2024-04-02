@@ -120,6 +120,7 @@ class CalendarController extends GetxController {
       if (monthEvent.month == selectedDay.value.month) {
         for (var schedule in monthEvent.schedules) {
           if (schedule['day'] == selectedDay.value.day) {
+            isLoading.value = true;
             await SendAPI.get(
                 url: "/profile-service/profile/calendar/day",
                 request: {
@@ -135,8 +136,10 @@ class CalendarController extends GetxController {
                       .map((json) => CalendarDetailModel.fromJson(json))
                       .toList();
                   dayEvents.value = eventsList;
+                  print(data.data);
                 },
                 errorMsg: "일정 호출에 실패하였어요");
+            isLoading.value = false;
             return;
           }
         }

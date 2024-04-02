@@ -25,7 +25,7 @@ class DogPictureSwiper extends StatelessWidget {
               '주인아, 멍해?',
               style: TextStyle(
                 color: CustomColor.black3,
-                fontSize: 14,
+                fontSize: 13,
                 fontWeight: FontWeight.w400,
               ),
             ),
@@ -44,7 +44,7 @@ class DogPictureSwiper extends StatelessWidget {
                 '멍멍아, 멍해?',
                 style: TextStyle(
                   color: CustomColor.black3,
-                  fontSize: 14,
+                  fontSize: 13,
                   fontWeight: FontWeight.w400,
                 ),
               ),

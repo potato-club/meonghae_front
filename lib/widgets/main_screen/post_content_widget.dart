@@ -43,7 +43,7 @@ class _PostContentWidgetState extends State<PostContentWidget> {
                   width: 72,
                   child: Text(
                     postCategory,
-                    style: const TextStyle(fontSize: 13),
+                    style: const TextStyle(fontSize: 12),
                   ),
                 ),
                 Transform.translate(
@@ -54,7 +54,7 @@ class _PostContentWidgetState extends State<PostContentWidget> {
                       postPreview.title ?? "아직 인기 게시글이 없어요",
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                          fontSize: 12,
+                          fontSize: 11,
                           color: postPreview.title != null
                               ? CustomColor.black1
                               : CustomColor.lightGray2),
@@ -73,19 +73,19 @@ class _PostContentWidgetState extends State<PostContentWidget> {
                       if (postPreview.likes != null)
                         const SizedBox(
                             width: 9, height: 9, child: TinyHeartSVG()),
-                      const SizedBox(width: 2),
+                      const SizedBox(width: 3),
                       Text("${postPreview.likes ?? ''}",
                           style: const TextStyle(
-                              fontSize: 12, color: CustomColor.gray)),
+                              fontSize: 10, color: CustomColor.gray)),
                     ],
                   ),
-                  const SizedBox(width: 6),
+                  const SizedBox(width: 4),
                   if (postPreview.commentSize != null)
-                    const SizedBox(width: 9, height: 9, child: CommentSVG()),
-                  const SizedBox(width: 2),
+                    const SizedBox(width: 9, height: 10, child: CommentSVG()),
+                  const SizedBox(width: 3),
                   Text("${postPreview.commentSize ?? ''}",
                       style: const TextStyle(
-                          fontSize: 12, color: CustomColor.gray)),
+                          fontSize: 10, color: CustomColor.gray)),
                 ],
               ),
             )

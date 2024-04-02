@@ -17,8 +17,8 @@ class _CategoryFormWidgetState extends State<CategoryFormWidget> {
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
       child: AnimatedContainer(
-          width: selected ? 80 : 64,
-          height: selected ? 30 : 24,
+          width: selected ? 76 : 64,
+          height: selected ? 28 : 24,
           decoration: BoxDecoration(
               color: selected ? CustomColor.brown1 : CustomColor.lightGray3,
               borderRadius: BorderRadius.circular(5)),
@@ -27,7 +27,7 @@ class _CategoryFormWidgetState extends State<CategoryFormWidget> {
           child: Center(
               child: Text(label,
                   style: TextStyle(
-                    fontSize: selected ? 14 : 11,
+                    fontSize: selected ? 13 : 11,
                     color: selected ? CustomColor.black2 : CustomColor.black4,
                   )))),
     );

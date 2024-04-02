@@ -47,7 +47,7 @@ class _TopMenuBarWidgetState extends State<TopMenuBarWidget> {
                 hintStyle: TextStyle(
                   color: CustomColor.gray,
                   fontWeight: FontWeight.w700,
-                  fontSize: 18,
+                  fontSize: 16,
                 ),
                 alignLabelWithHint: true,
                 border: OutlineInputBorder(
@@ -59,7 +59,7 @@ class _TopMenuBarWidgetState extends State<TopMenuBarWidget> {
               ),
               textAlignVertical: TextAlignVertical.center,
               style: const TextStyle(
-                fontSize: 18,
+                fontSize: 16,
                 color: CustomColor.black2,
                 fontWeight: FontWeight.w700,
               ),

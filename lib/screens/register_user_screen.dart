@@ -19,10 +19,10 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
     return Scaffold(
       backgroundColor: CustomColor.brown1,
       body: SafeArea(
-        child: Stack(
-          children: [
-            SingleChildScrollView(
-              child: Column(
+        child: SingleChildScrollView(
+          child: Stack(
+            children: [
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -57,7 +57,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                               child: const Text(
                                 '다음',
                                 style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: 15,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -69,39 +69,39 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                   ),
                 ],
               ),
-            ),
-            Positioned(
-              top: MediaQuery.of(context).size.height * 0.08,
-              child: SizedBox(
-                width: MediaQuery.sizeOf(context).width,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    InkWell(
-                        onTap: () => Get.back(),
-                        splashColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        child: const SizedBox(
-                          width: 34,
-                          height: 34,
-                          child: Padding(
-                            padding: EdgeInsets.all(7),
-                            child: ArrowSVG(strokeColor: CustomColor.black2),
-                          ),
-                        )),
-                    const SizedBox(width: 50),
-                    const Text(
-                      '내 정보 입력',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
-                    ),
-                    const SizedBox(width: 84),
-                  ],
+              Positioned(
+                top: MediaQuery.of(context).size.height * 0.08,
+                child: SizedBox(
+                  width: MediaQuery.sizeOf(context).width,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      InkWell(
+                          onTap: () => Get.back(),
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          child: const SizedBox(
+                            width: 34,
+                            height: 34,
+                            child: Padding(
+                              padding: EdgeInsets.all(7),
+                              child: ArrowSVG(strokeColor: CustomColor.black2),
+                            ),
+                          )),
+                      const SizedBox(width: 50),
+                      const Text(
+                        '내 정보 입력',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w700),
+                      ),
+                      const SizedBox(width: 84),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

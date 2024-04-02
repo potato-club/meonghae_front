@@ -70,8 +70,8 @@ class _DogSelectWidgetState extends State<DogSelectWidget> {
                   child: Text(
                     dogInfo.petName,
                     style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700,
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
                       color: controller.calendarForm.value.petId == dogInfo.id
                           ? CustomColor.black2
                           : CustomColor.gray,
@@ -89,7 +89,7 @@ class _DogSelectWidgetState extends State<DogSelectWidget> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 87,
+      height: 88,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 4),
         child: Stack(children: [
@@ -122,7 +122,7 @@ class _DogSelectWidgetState extends State<DogSelectWidget> {
                     CustomColor.ivory2,
                     CustomColor.ivory2.withOpacity(0),
                   ])),
-              height: 91,
+              height: 92,
               width: MediaQuery.of(context).size.width * 0.06,
             ),
           ),
@@ -138,7 +138,7 @@ class _DogSelectWidgetState extends State<DogSelectWidget> {
                     CustomColor.ivory2,
                     CustomColor.ivory2.withOpacity(0),
                   ])),
-              height: 91,
+              height: 92,
               width: MediaQuery.of(context).size.width * 0.06,
             ),
           ),

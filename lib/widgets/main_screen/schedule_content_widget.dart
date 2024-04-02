@@ -48,7 +48,7 @@ class _ScheduleContentWidgetState extends State<ScheduleContentWidget> {
                   child: Text(
                     'D - $difference',
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(fontSize: 13),
+                    style: const TextStyle(fontSize: 12),
                   ),
                 ),
                 SizedBox(
@@ -56,7 +56,7 @@ class _ScheduleContentWidgetState extends State<ScheduleContentWidget> {
                   child: Text(
                     content,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(fontSize: 13),
+                    style: const TextStyle(fontSize: 12),
                   ),
                 ),
               ],
@@ -130,7 +130,7 @@ class _ScheduleContentWidgetState extends State<ScheduleContentWidget> {
                           child: Text(
                             '아직 일정이 없어요',
                             style: TextStyle(
-                                fontSize: 13, color: CustomColor.lightGray2),
+                                fontSize: 12, color: CustomColor.lightGray2),
                           ),
                         ),
                       );
@@ -145,7 +145,7 @@ class _ScheduleContentWidgetState extends State<ScheduleContentWidget> {
                                 time:
                                     controller.schedulePreview[i].scheduleDate,
                                 content: controller
-                                        .schedulePreview[i].scheduleText ??
+                                        .schedulePreview[i].scheduleTitle ??
                                     '',
                                 name: controller.schedulePreview[i].petName,
                                 index: i,

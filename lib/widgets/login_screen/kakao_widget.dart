@@ -52,7 +52,7 @@ class _KakaoButtonState extends State<KakaoButton> {
               child: Text(
                 '카카오 로그인',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 15, color: CustomColor.black2),
+                style: TextStyle(fontSize: 14, color: CustomColor.black2),
               ),
             ),
             const SizedBox(width: 10)

@@ -88,12 +88,12 @@ class _DialBoxWidgetState extends State<DialBoxWidget> {
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
       child: SizedBox(
-        width: 75,
+        width: 80,
         child: Text(
           widget.label,
           textAlign: widget.textAlign,
           style: const TextStyle(
-            fontSize: 13,
+            fontSize: 12,
             color: CustomColor.gray,
           ),
         ),

@@ -53,7 +53,7 @@ class _ShowUserInfoWidgetState extends State<ShowUserInfoWidget> {
                   padding: EdgeInsets.only(left: 10, bottom: 8),
                   child: Text('이름',
                       style:
-                          TextStyle(fontSize: 14, color: CustomColor.black2)),
+                          TextStyle(fontSize: 13, color: CustomColor.black2)),
                 ),
                 Container(
                   height: 44,
@@ -68,7 +68,7 @@ class _ShowUserInfoWidgetState extends State<ShowUserInfoWidget> {
                       child: Text(
                         controller.prevUserInfo.value.nickname,
                         style: const TextStyle(
-                          fontSize: 14,
+                          fontSize: 13,
                           color: CustomColor.black2,
                           fontWeight: FontWeight.w700,
                         ),
@@ -80,7 +80,7 @@ class _ShowUserInfoWidgetState extends State<ShowUserInfoWidget> {
                   padding: EdgeInsets.only(left: 10, bottom: 8, top: 14),
                   child: Text('생일',
                       style:
-                          TextStyle(fontSize: 14, color: CustomColor.black2)),
+                          TextStyle(fontSize: 13, color: CustomColor.black2)),
                 ),
                 Container(
                   height: 44,
@@ -96,7 +96,7 @@ class _ShowUserInfoWidgetState extends State<ShowUserInfoWidget> {
                         controller.prevUserInfo.value.birth
                             .replaceAll('-', '.'),
                         style: const TextStyle(
-                          fontSize: 14,
+                          fontSize: 13,
                           color: CustomColor.black2,
                           fontWeight: FontWeight.w700,
                         ),
@@ -108,7 +108,7 @@ class _ShowUserInfoWidgetState extends State<ShowUserInfoWidget> {
                   padding: EdgeInsets.only(left: 10, bottom: 8, top: 14),
                   child: Text('나이',
                       style:
-                          TextStyle(fontSize: 14, color: CustomColor.black2)),
+                          TextStyle(fontSize: 13, color: CustomColor.black2)),
                 ),
                 Container(
                   height: 44,
@@ -123,7 +123,7 @@ class _ShowUserInfoWidgetState extends State<ShowUserInfoWidget> {
                       child: Text(
                         '${controller.prevUserInfo.value.age}',
                         style: const TextStyle(
-                          fontSize: 14,
+                          fontSize: 13,
                           color: CustomColor.black2,
                           fontWeight: FontWeight.w700,
                         ),

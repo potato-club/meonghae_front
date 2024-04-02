@@ -24,7 +24,7 @@ class _EditDogInfoWidgetState extends State<EditDogInfoWidget> {
   List<String> kindList = dogSpecies + catSpecies;
   List<String> placeList = [
     '지인',
-    '일반 애견센터',
+    '일반 2애견센터',
     '동물병원',
     '펫샵 등 복합매장',
     '인터넷 개인간 거래',
@@ -57,7 +57,10 @@ class _EditDogInfoWidgetState extends State<EditDogInfoWidget> {
                         child: Text(
                           '이름',
                           style: TextStyle(
-                              fontSize: 14, color: CustomColor.black2),
+                            fontSize: 12,
+                            color: CustomColor.black2,
+                            letterSpacing: -1,
+                          ),
                         ),
                       ),
                       Expanded(
@@ -79,7 +82,7 @@ class _EditDogInfoWidgetState extends State<EditDogInfoWidget> {
                             ),
                             textAlignVertical: TextAlignVertical.center,
                             style: const TextStyle(
-                              fontSize: 13,
+                              fontSize: 12,
                               color: CustomColor.black2,
                             ),
                             keyboardType: TextInputType.text,
@@ -116,11 +119,15 @@ class _EditDogInfoWidgetState extends State<EditDogInfoWidget> {
                         child: Text(
                           '성별',
                           style: TextStyle(
-                              fontSize: 14, color: CustomColor.black2),
+                            fontSize: 12,
+                            color: CustomColor.black2,
+                            letterSpacing: -1,
+                          ),
                         ),
                       ),
                       SelectInputWidget(
                         width: MediaQuery.of(context).size.width * 0.74 - 66,
+                        fontSize: 12,
                         height: 30,
                         itemHeight: 30,
                         list: genderList,
@@ -163,7 +170,10 @@ class _EditDogInfoWidgetState extends State<EditDogInfoWidget> {
                         child: Text(
                           '출생일',
                           style: TextStyle(
-                              fontSize: 14, color: CustomColor.black2),
+                            fontSize: 12,
+                            color: CustomColor.black2,
+                            letterSpacing: -1,
+                          ),
                         ),
                       ),
                       Expanded(
@@ -186,7 +196,7 @@ class _EditDogInfoWidgetState extends State<EditDogInfoWidget> {
                             ),
                             textAlignVertical: TextAlignVertical.center,
                             style: const TextStyle(
-                              fontSize: 14,
+                              fontSize: 12,
                               color: CustomColor.black2,
                             ),
                             keyboardType: TextInputType.number,
@@ -223,12 +233,16 @@ class _EditDogInfoWidgetState extends State<EditDogInfoWidget> {
                         child: Text(
                           '견종/묘종',
                           style: TextStyle(
-                              fontSize: 14, color: CustomColor.black2),
+                            fontSize: 12,
+                            color: CustomColor.black2,
+                            letterSpacing: -1,
+                          ),
                         ),
                       ),
                       SelectInputWidget(
                         width: MediaQuery.of(context).size.width * 0.74 - 66,
                         height: 30,
+                        fontSize: 12,
                         itemHeight: 30,
                         list: kindList,
                         listHeight: 150,
@@ -265,12 +279,13 @@ class _EditDogInfoWidgetState extends State<EditDogInfoWidget> {
                         child: Text(
                           '만남의 경로',
                           style: TextStyle(
-                              fontSize: 14, color: CustomColor.black2),
+                              fontSize: 12, color: CustomColor.black2),
                         ),
                       ),
                       SelectInputWidget(
                         width: MediaQuery.of(context).size.width * 0.74 - 66,
                         height: 30,
+                        fontSize: 12,
                         itemHeight: 30,
                         list: placeList,
                         listHeight: 90,

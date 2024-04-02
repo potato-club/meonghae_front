@@ -33,7 +33,7 @@ class UserController extends GetxController {
   Rx<File?> file = Rx<File?>(null);
   var isEdit = false.obs;
   var registerEmail = ''.obs;
-  Rx<String?> registerAge = Rx<String?>(null);
+  Rx<String> registerAge = Rx<String>("1");
   var hasAnimal = false.obs;
   var isLoading = false.obs;
 
@@ -72,7 +72,7 @@ class UserController extends GetxController {
 
   void savePrevUserInfo() async {
     prevUserInfo.value = UserInfoModel(
-      age: int.parse(registerAge.value ?? ageTextController.text),
+      age: int.parse(registerAge.value),
       birth: birthTextController.text,
       email: registerEmail.value,
       nickname: nameTextController.text,
@@ -82,11 +82,10 @@ class UserController extends GetxController {
 
   Future<void> submitForm() async {
     if (nameTextController.text.isNotEmpty &&
-        birthTextController.text.length == 10 &&
-        registerAge.value != null) {
+        birthTextController.text.length == 10) {
       savePrevUserInfo();
       Get.toNamed(AppRoutes.registeredUser);
-      registerAge.value = null;
+      registerAge.value = "1";
     } else {
       SnackBarWidget.show(SnackBarType.error, '모두 입력해주세요');
     }

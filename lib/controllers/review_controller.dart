@@ -97,7 +97,8 @@ class ReviewController extends GetxController {
   }
 
   Future<void> onClickLike(int index, int id, bool isLike) async {
-    if (reviews[index].recommendStatus == 'NONE') {
+    if (reviews[index].recommendStatus == 'NONE' ||
+        reviews[index].recommendStatus == null) {
       reviews[index] = ReviewModel(
         id: id,
         title: reviews[index].title,

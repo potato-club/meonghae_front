@@ -49,7 +49,7 @@ class _EditButtonWidgetState extends State<EditButtonWidget> {
                     ? '추가하기'
                     : '수정하기',
             style: const TextStyle(
-              fontSize: 16,
+              fontSize: 15,
               fontWeight: FontWeight.bold,
             ),
           ));

@@ -22,7 +22,7 @@ class _CalendarSearchScreenState extends State<CalendarSearchScreen> {
         body: SafeArea(
           child: Column(
             children: [
-              const SizedBox(height: 32),
+              const SizedBox(height: 26),
               const TopMenuBarWidget(),
               const SizedBox(height: 10),
               Expanded(
@@ -48,7 +48,7 @@ class _CalendarSearchScreenState extends State<CalendarSearchScreen> {
                                       SizedBox(height: 12),
                                       Text('검색 결과가 없어요',
                                           style: TextStyle(
-                                              fontSize: 16,
+                                              fontSize: 14,
                                               fontWeight: FontWeight.bold,
                                               color: CustomColor.gray)),
                                     ],

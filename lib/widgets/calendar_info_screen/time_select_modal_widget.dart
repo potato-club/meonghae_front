@@ -101,7 +101,7 @@ class _TimeSelectModalWidgetState extends State<TimeSelectModalWidget> {
                                                       decoration:
                                                           TextDecoration.none,
                                                       color: CustomColor.black2,
-                                                      fontSize: 16,
+                                                      fontSize: 15,
                                                       fontWeight:
                                                           FontWeight.w700,
                                                     )
@@ -109,7 +109,7 @@ class _TimeSelectModalWidgetState extends State<TimeSelectModalWidget> {
                                                       decoration:
                                                           TextDecoration.none,
                                                       color: CustomColor.gray,
-                                                      fontSize: 16,
+                                                      fontSize: 15,
                                                       fontWeight:
                                                           FontWeight.w700,
                                                     ),
@@ -117,7 +117,7 @@ class _TimeSelectModalWidgetState extends State<TimeSelectModalWidget> {
                                     ])),
                             const SizedBox(width: 36),
                             SizedBox(
-                              width: 17,
+                              width: 18,
                               child: CarouselSlider(
                                   options: CarouselOptions(
                                     height: 148,
@@ -141,7 +141,7 @@ class _TimeSelectModalWidgetState extends State<TimeSelectModalWidget> {
                                                     decoration:
                                                         TextDecoration.none,
                                                     color: CustomColor.black2,
-                                                    fontSize: 16,
+                                                    fontSize: 15,
                                                     fontWeight: FontWeight.w700,
                                                   )
                                                 : ((i - currentHour).abs() ==
@@ -153,7 +153,7 @@ class _TimeSelectModalWidgetState extends State<TimeSelectModalWidget> {
                                                         decoration:
                                                             TextDecoration.none,
                                                         color: CustomColor.gray,
-                                                        fontSize: 16,
+                                                        fontSize: 15,
                                                         fontWeight:
                                                             FontWeight.w700,
                                                       )
@@ -162,7 +162,7 @@ class _TimeSelectModalWidgetState extends State<TimeSelectModalWidget> {
                                                             TextDecoration.none,
                                                         color: CustomColor
                                                             .lightGray3,
-                                                        fontSize: 16,
+                                                        fontSize: 15,
                                                         fontWeight:
                                                             FontWeight.w700,
                                                       ),
@@ -171,21 +171,21 @@ class _TimeSelectModalWidgetState extends State<TimeSelectModalWidget> {
                             ),
                             const Padding(
                               padding: EdgeInsets.only(
-                                right: 26,
-                                left: 26,
+                                right: 24,
+                                left: 24,
                               ),
                               child: Text(
                                 ':',
                                 style: TextStyle(
                                   decoration: TextDecoration.none,
                                   color: CustomColor.black2,
-                                  fontSize: 16,
+                                  fontSize: 15,
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
                             ),
                             SizedBox(
-                              width: 17,
+                              width: 18,
                               child: CarouselSlider(
                                 options: CarouselOptions(
                                   height: 148,
@@ -207,7 +207,7 @@ class _TimeSelectModalWidgetState extends State<TimeSelectModalWidget> {
                                                   decoration:
                                                       TextDecoration.none,
                                                   color: CustomColor.black2,
-                                                  fontSize: 16,
+                                                  fontSize: 15,
                                                   fontWeight: FontWeight.w700,
                                                 )
                                               : ((i - currentMinute).abs() ==
@@ -219,7 +219,7 @@ class _TimeSelectModalWidgetState extends State<TimeSelectModalWidget> {
                                                       decoration:
                                                           TextDecoration.none,
                                                       color: CustomColor.gray,
-                                                      fontSize: 16,
+                                                      fontSize: 15,
                                                       fontWeight:
                                                           FontWeight.w700,
                                                     )
@@ -228,7 +228,7 @@ class _TimeSelectModalWidgetState extends State<TimeSelectModalWidget> {
                                                           TextDecoration.none,
                                                       color: CustomColor
                                                           .lightGray3,
-                                                      fontSize: 16,
+                                                      fontSize: 15,
                                                       fontWeight:
                                                           FontWeight.w700,
                                                     ),

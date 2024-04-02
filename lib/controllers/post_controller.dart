@@ -24,6 +24,18 @@ class PostController extends GetxController {
   var writeType = 0.obs;
   var isWriting = false.obs;
 
+  @override
+  void onInit() {
+    scrollController.value.addListener(() {
+      if (scrollController.value.position.pixels ==
+              scrollController.value.position.maxScrollExtent &&
+          hasMore.value) {
+        fetchData();
+      }
+    });
+    super.onInit();
+  }
+
   void setType(int value) {
     if (type.value != value) {
       posts.clear();
@@ -89,6 +101,7 @@ class PostController extends GetxController {
       },
       errorMsg: "게시글 리스트 호출에 실패하였어요",
     );
+    if (hasMore.value) page.value = 2;
     isLoading.value = false;
   }
 

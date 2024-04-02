@@ -48,7 +48,7 @@ class _BubbleWidgetState extends State<BubbleWidget> {
                 child: Column(
                   children: [
                     Text(widget.text,
-                        style: const TextStyle(fontSize: 14), softWrap: true),
+                        style: const TextStyle(fontSize: 12), softWrap: true),
                     if (widget.isAnswer && widget.needMail)
                       Padding(
                         padding: const EdgeInsets.only(top: 12),
@@ -58,7 +58,7 @@ class _BubbleWidgetState extends State<BubbleWidget> {
                           },
                           child: Container(
                             width: MediaQuery.of(context).size.width * 0.6 - 10,
-                            height: 48,
+                            height: 46,
                             decoration: BoxDecoration(
                                 color: CustomColor.white,
                                 borderRadius: BorderRadius.circular(10)),
@@ -69,7 +69,7 @@ class _BubbleWidgetState extends State<BubbleWidget> {
                                 SizedBox(width: 2),
                                 Text("메일로 문의하기",
                                     style: TextStyle(
-                                        fontSize: 14,
+                                        fontSize: 13,
                                         fontWeight: FontWeight.w600)),
                               ],
                             ),

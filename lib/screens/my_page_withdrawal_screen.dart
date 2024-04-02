@@ -59,7 +59,7 @@ class _MyPageWithdrawalScreenState extends State<MyPageWithdrawalScreen> {
                         '${controller.userInfo.value.nickname}님과의 이별인가요?\n너무 아쉬워요',
                         textAlign: TextAlign.center,
                         style: const TextStyle(
-                            fontSize: 18,
+                            fontSize: 16,
                             fontWeight: FontWeight.w700,
                             color: CustomColor.black2,
                             height: 1.3),
@@ -80,17 +80,17 @@ class _MyPageWithdrawalScreenState extends State<MyPageWithdrawalScreen> {
                               Text(
                                 '계정이 비활성화됩니다',
                                 style: TextStyle(
-                                    fontSize: 15, fontWeight: FontWeight.w700),
+                                    fontSize: 14, fontWeight: FontWeight.w700),
                               ),
-                              SizedBox(height: 2),
+                              SizedBox(height: 4),
                               Text(
                                 '회원탈퇴 전에 꼭 확인하세요',
                                 style: TextStyle(fontSize: 13),
                               ),
-                              SizedBox(height: 32),
+                              SizedBox(height: 30),
                               Text(
                                 '계정을 삭제하면 모든 활동을 할 수 없게 됩니다\n서비스 악용 방지를 위해 재가입이 제한됩니다\n계정 삭제 후 7일간 다시 가입할 수 없어요',
-                                style: TextStyle(fontSize: 14, height: 1.3),
+                                style: TextStyle(fontSize: 13, height: 1.4),
                               ),
                             ],
                           ),
@@ -109,7 +109,7 @@ class _MyPageWithdrawalScreenState extends State<MyPageWithdrawalScreen> {
                         child: const Text(
                           '계정 삭제',
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 15,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
