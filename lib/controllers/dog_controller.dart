@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meonghae_front/api/dio.dart';
@@ -28,9 +29,23 @@ class DogController extends GetxController {
       s3ResponseDto: null,
     )
   ].obs;
+  var nameControllers = <TextEditingController>[].obs;
+  var birthControllers = <TextEditingController>[].obs;
+
+  @override
+  void onClose() {
+    for (var controller in nameControllers) {
+      controller.dispose();
+    }
+    for (var controller in birthControllers) {
+      controller.dispose();
+    }
+    super.onClose();
+  }
 
   void setIsEdit(bool state) {
     initDogsForm();
+    deleteIdList.clear();
     isEdit.value = state;
   }
 
@@ -45,6 +60,8 @@ class DogController extends GetxController {
       image: null,
       s3ResponseDto: null,
     ));
+    nameControllers.add(TextEditingController());
+    birthControllers.add(TextEditingController());
   }
 
   void pickImage(int index) async {
@@ -77,6 +94,12 @@ class DogController extends GetxController {
               s3ResponseDto: i.s3ResponseDto,
             ))
         .toList();
+    nameControllers.clear();
+    birthControllers.clear();
+    for (var element in dogsInfo) {
+      nameControllers.add(TextEditingController(text: element.petName));
+      birthControllers.add(TextEditingController(text: element.petBirth));
+    }
   }
 
   void fetchData() async {
@@ -115,6 +138,7 @@ class DogController extends GetxController {
             successFunc: (data) {
               slideIndex.value = 0;
               Get.offNamed(AppRoutes.introVideo);
+              SnackBarWidget.show(SnackBarType.check, "성공적으로 애완동물정보가 등록되었어요");
             },
             errorMsg: "애완동물정보 등록에 실패하였어요");
       }
@@ -130,14 +154,23 @@ class DogController extends GetxController {
     if (data.petBirth != '' &&
         data.petGender != '' &&
         data.petSpecies != '' &&
-        data.petName != '') {
+        data.petName != '' &&
+        data.meetRoute != '') {
       if (data.petBirth.length != 10) {
         return {'validator': false, 'error': '출생일은 숫자 8자만 입력해주세요'};
       } else {
         return {'validator': true};
       }
+    } else if (data.petName == '') {
+      return {'validator': false, 'error': '애완동물의 이름을 입력해주세요'};
+    } else if (data.petGender == '') {
+      return {'validator': false, 'error': '애완동물의 성별을 선택해주세요'};
+    } else if (data.petBirth == '') {
+      return {'validator': false, 'error': '애완동물의 출생일을 입력해주세요'};
+    } else if (data.petSpecies == '') {
+      return {'validator': false, 'error': '애완동물의 견종/묘종을 선택해주세요'};
     } else {
-      return {'validator': false, 'error': '모든 정보를 입력해주세요'};
+      return {'validator': false, 'error': '애완동물의 만남의 경로를 입력해주세요'};
     }
   }
 
@@ -153,46 +186,52 @@ class DogController extends GetxController {
           for (var deleteId in deleteIdList) {
             deleteForm(deleteId);
           }
+          isChange.value = true;
           deleteIdList.value = [];
         }
         if (dogsForm.isNotEmpty) {
           for (int i = 0; i < dogsForm.length; i++) {
-            if (i + 1 <= dogsInfo.length) {
-              if (!DogInfoModel.isSame(dogsInfo[i], dogsForm[i])) {
-                dio.FormData formData = dio.FormData.fromMap({
-                  "meetRoute": dogsForm[i].meetRoute,
-                  "petBirth": dogsForm[i].petBirth.replaceAll('.', '-'),
-                  "petGender": dogsForm[i].petGender == '남' ? 'BOY' : 'GIRL',
-                  "petName": dogsForm[i].petName,
-                  "petSpecies": dogsForm[i].petSpecies,
-                  if (dogsForm[i].image != null)
-                    "image": await dio.MultipartFile.fromFile(
-                        dogsForm[i].image!.path)
-                });
-                await SendAPI.put(
-                    url: "/profile-service/profile/${dogsForm[i].id}",
-                    request: formData,
-                    isFormData: true,
-                    successFunc: (data) => isChange.value = true,
-                    errorMsg: "애완동물정보 수정에 실패하였어요");
-              }
-            } else {
-              dio.FormData formData = dio.FormData.fromMap({
-                "meetRoute": dogsForm[i].meetRoute,
-                "petBirth": dogsForm[i].petBirth.replaceAll('.', '-'),
-                "petGender": dogsForm[i].petGender == '남' ? 'BOY' : 'GIRL',
-                "petName": dogsForm[i].petName,
-                "petSpecies": dogsForm[i].petSpecies,
-                if (dogsForm[i].image != null)
-                  "image":
-                      await dio.MultipartFile.fromFile(dogsForm[i].image!.path)
-              });
+            dio.FormData formData = dio.FormData.fromMap({
+              "meetRoute": dogsForm[i].meetRoute,
+              "petBirth": birthControllers[i].text.replaceAll('.', '-'),
+              "petGender": dogsForm[i].petGender,
+              "petName": nameControllers[i].text,
+              "petSpecies": dogsForm[i].petSpecies,
+              if (dogsForm[i].image != null)
+                "image":
+                    await dio.MultipartFile.fromFile(dogsForm[i].image!.path)
+            });
+            if (dogsForm[i].id == null) {
               await SendAPI.post(
                   url: "/profile-service/profile",
                   request: formData,
                   isFormData: true,
-                  successFunc: (data) => isChange.value = true,
+                  successFunc: (data) {
+                    if (i >= dogsForm.length - 1) {
+                      isChange.value = true;
+                    }
+                  },
                   errorMsg: "애완동물정보 수정에 실패하였어요");
+            } else {
+              DogInfoModel? sameDogInfo;
+              for (var item in dogsInfo) {
+                if (item.id == dogsForm[i].id) {
+                  sameDogInfo = item;
+                }
+              }
+              if (sameDogInfo != null &&
+                  !DogInfoModel.isSame(sameDogInfo, dogsForm[i])) {
+                await SendAPI.put(
+                    url: "/profile-service/profile/${dogsForm[i].id}",
+                    request: formData,
+                    isFormData: true,
+                    successFunc: (data) {
+                      if (i >= dogsForm.length - 1) {
+                        isChange.value = true;
+                      }
+                    },
+                    errorMsg: "애완동물정보 수정에 실패했어요");
+              }
             }
           }
         }
@@ -201,6 +240,7 @@ class DogController extends GetxController {
           fetchData();
           isChange.value = false;
         }
+        slideIndex.value = 0;
         isLoading.value = false;
         setIsEdit(false);
       } else {
@@ -214,21 +254,20 @@ class DogController extends GetxController {
 
   void addDeleteIdList() async {
     if (dogsForm[slideIndex.value].id == null) {
-      if (dogsForm[slideIndex.value].petName != '' &&
-          dogsForm[slideIndex.value].petGender != '' &&
-          dogsForm[slideIndex.value].petBirth != '' &&
-          dogsForm[slideIndex.value].petSpecies != '' &&
-          dogsForm[slideIndex.value].meetRoute != '') {
-        dogsForm.removeAt(slideIndex.value);
-        slideIndex.value == 0 ? slideIndex.value = 0 : slideIndex.value--;
-      } else {
-        dogsForm.removeAt(slideIndex.value);
-        slideIndex.value == 0 ? slideIndex.value = 0 : slideIndex.value--;
-      }
+      nameControllers.removeAt(slideIndex.value);
+      birthControllers.removeAt(slideIndex.value);
+      dogsForm.removeAt(slideIndex.value);
+      slideIndex.value = slideIndex.value == dogsForm.length
+          ? slideIndex.value - 1
+          : slideIndex.value;
     } else {
       deleteIdList.add(dogsForm[slideIndex.value].id);
+      nameControllers.removeAt(slideIndex.value);
+      birthControllers.removeAt(slideIndex.value);
       dogsForm.removeAt(slideIndex.value);
-      slideIndex.value == 0 ? slideIndex.value = 0 : slideIndex.value--;
+      slideIndex.value = slideIndex.value == dogsForm.length
+          ? slideIndex.value - 1
+          : slideIndex.value;
     }
   }
 

@@ -63,7 +63,8 @@ class SendAPI {
         }
       default:
         {
-          LoginModel.logout();
+          // LoginModel.logout();
+          SnackBarWidget.show(SnackBarType.error, error.toString());
           return false;
         }
     }

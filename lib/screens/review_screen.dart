@@ -41,7 +41,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   padding: const EdgeInsets.only(top: 6),
                   child: Row(
                     children: [
-                      GestureDetector(
+                      InkWell(
                           onTap: () => Get.back(),
                           child: Padding(
                             padding: EdgeInsets.symmetric(

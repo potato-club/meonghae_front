@@ -136,7 +136,6 @@ class CalendarController extends GetxController {
                       .map((json) => CalendarDetailModel.fromJson(json))
                       .toList();
                   dayEvents.value = eventsList;
-                  print(data.data);
                 },
                 errorMsg: "일정 호출에 실패하였어요");
             isLoading.value = false;
@@ -174,7 +173,8 @@ class CalendarController extends GetxController {
 
   Future<void> addCalendar() async {
     if (!isSending.value) {
-      if (calendarForm.value.isFilled()) {
+      var validation = calendarForm.value.isFilled();
+      if (validation['isFilled']) {
         isSending.value = true;
         await SendAPI.post(
           url: "/profile-service/profile/calendar",
@@ -212,7 +212,7 @@ class CalendarController extends GetxController {
         );
         isSending.value = false;
       } else {
-        SnackBarWidget.show(SnackBarType.error, "모든 정보를 입력해주세요");
+        SnackBarWidget.show(SnackBarType.error, validation['warning']);
       }
     }
   }

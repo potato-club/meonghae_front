@@ -27,8 +27,6 @@ class _DogSelectWidgetState extends State<DogSelectWidget> {
             onTap: () {
               if (controller.calendarForm.value.petId != dogInfo.id) {
                 controller.calendarForm.value.petId = dogInfo.id;
-              } else {
-                controller.calendarForm.value.petId = null;
               }
               controller.calendarForm.update((val) {});
             },

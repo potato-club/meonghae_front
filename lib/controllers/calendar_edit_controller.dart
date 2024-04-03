@@ -98,7 +98,6 @@ class CalendarEditController extends GetxController {
       for (String key in categoryKey) {
         for (var i = 0; i < categoryDetail[key].length; i++) {
           if (categoryDetail[key][i]['value'] == editData.value.scheduleType) {
-            print(key + "???");
             category.value = key;
             detailIndex.value = i;
           }

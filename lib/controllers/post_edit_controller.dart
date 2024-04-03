@@ -65,6 +65,7 @@ class PostEditController extends GetxController {
             isFormData: true,
             successFunc: (data) {
               Get.find<PostDetailController>().fetchData();
+              SnackBarWidget.show(SnackBarType.check, "성공적으로 게시글을 수정했어요");
             },
             errorMsg: "게시글 수정에 실패하였어요");
         isEditing.value = false;
@@ -72,8 +73,10 @@ class PostEditController extends GetxController {
       } else {
         Get.back();
       }
+    } else if (titleTextController.text.isEmpty) {
+      SnackBarWidget.show(SnackBarType.error, "게시글의 제목을 입력해주세요");
     } else {
-      SnackBarWidget.show(SnackBarType.error, "모든 정보를 입력해주세요");
+      SnackBarWidget.show(SnackBarType.error, "게시글의 내용을 입력해주세요");
     }
   }
 
@@ -132,6 +135,7 @@ class PostEditController extends GetxController {
         successFunc: (data) {
           Get.find<PostController>().reload();
           Get.back();
+          SnackBarWidget.show(SnackBarType.check, "성공적으로 게시글을 삭제했어요");
         },
         errorMsg: "게시글 삭제에 실패하였어요",
       );

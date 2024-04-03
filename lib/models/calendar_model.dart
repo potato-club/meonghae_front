@@ -38,19 +38,23 @@ class CalendarFormModel {
     this.scheduleType,
   });
 
-  bool isFilled() {
-    if (scheduleType != null) {
-      if (hasRepeat) {
-        if (cycle != null && cycleType != null) {
-          return true;
+  Map<String, dynamic> isFilled() {
+    if (petId != null) {
+      if (scheduleType != null) {
+        if (hasRepeat) {
+          if (cycle != null && cycleType != null) {
+            return {"isFilled": true};
+          } else {
+            return {"isFilled": false, 'warning': "일정의 반복정보를 전부 입력해주세요"};
+          }
         } else {
-          return false;
+          return {"isFilled": true};
         }
       } else {
-        return true;
+        return {"isFilled": false, 'warning': "일정의 제목을 선택해주세요"};
       }
     } else {
-      return false;
+      return {"isFilled": false, 'warning': "일정의 애완동물을 선택해주세요"};
     }
   }
 

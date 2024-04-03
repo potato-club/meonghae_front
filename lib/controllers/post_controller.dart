@@ -149,8 +149,10 @@ class PostController extends GetxController {
             },
             errorMsg: "게시글 작성에 실패하였어요");
         isWriting.value = false;
+      } else if (titleTextController.text.isEmpty) {
+        SnackBarWidget.show(SnackBarType.error, "게시글의 제목을 입력해주세요");
       } else {
-        SnackBarWidget.show(SnackBarType.error, "모든 정보를 입력해주세요");
+        SnackBarWidget.show(SnackBarType.error, "게시글의 내용을 입력해주세요");
       }
     }
   }

@@ -51,7 +51,7 @@ class SnackBarWidget {
                   content,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
-                    fontSize: 14,
+                    fontSize: 12,
                     fontWeight: FontWeight.w700,
                     color: CustomColor.error3,
                   ),
@@ -98,7 +98,7 @@ class SnackBarWidget {
                   content,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
-                    fontSize: 14,
+                    fontSize: 12,
                     fontWeight: FontWeight.w700,
                     color: CustomColor.check3,
                   ),
@@ -145,7 +145,7 @@ class SnackBarWidget {
                   content,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
-                    fontSize: 14,
+                    fontSize: 12,
                     fontWeight: FontWeight.w700,
                     color: CustomColor.alarm3,
                   ),

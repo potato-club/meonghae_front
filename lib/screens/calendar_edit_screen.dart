@@ -41,7 +41,7 @@ class _CalendarEditScreenState extends State<CalendarEditScreen> {
                     padding: EdgeInsets.symmetric(horizontal: 20),
                     child: Align(
                         alignment: Alignment.centerLeft,
-                        child: Text("애완동물 선택 (선택사항)",
+                        child: Text("애완동물 선택",
                             style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w700,

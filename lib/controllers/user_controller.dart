@@ -97,9 +97,9 @@ class UserController extends GetxController {
           birthTextController.text != userInfo.value.birth ||
           int.parse(ageTextController.text) != userInfo.value.age ||
           file.value != null) {
-        if (nameTextController.text != '' &&
+        if (nameTextController.text.isNotEmpty &&
             birthTextController.text.length == 10 &&
-            ageTextController.text != '') {
+            ageTextController.text.isNotEmpty) {
           isLoading.value = true;
           savePrevUserInfo();
           dio.FormData formData = dio.FormData.fromMap({
@@ -117,11 +117,17 @@ class UserController extends GetxController {
                 SnackBarWidget.show(SnackBarType.check, '내 정보가 성공적으로 변경되었어요');
                 fetchData();
               },
-              errorMsg: "유저 정보 변경에 실패하였어요");
+              errorMsg: "내 정보 변경에 실패하였어요");
           setIsEdit(false);
           isLoading.value = false;
         } else {
-          SnackBarWidget.show(SnackBarType.error, '모든 정보를 입력해주세요');
+          if (nameTextController.text.isEmpty) {
+            SnackBarWidget.show(SnackBarType.error, "이름을 입력해주세요");
+          } else if (birthTextController.text.length != 10) {
+            SnackBarWidget.show(SnackBarType.error, "올바른 생일 정보를 입력해주세요");
+          } else {
+            SnackBarWidget.show(SnackBarType.error, "나이를 입력해주세요");
+          }
         }
       } else {
         isEdit.value = false;
@@ -136,7 +142,7 @@ class UserController extends GetxController {
         userInfo.value = UserInfoModel.fromJson(data.data);
         prevUserInfo.value = UserInfoModel.fromJson(data.data);
       },
-      errorMsg: "유저정보 호출에 실패하였어요",
+      errorMsg: "내 정보 호출에 실패하였어요",
     );
   }
 
@@ -165,7 +171,7 @@ class UserController extends GetxController {
                 : Get.offAllNamed(AppRoutes.introVideo);
             isLoading.value = false;
           },
-          errorMsg: '유저정보 등록에 실패하였어요');
+          errorMsg: '내 정보 등록에 실패하였어요');
     }
   }
 

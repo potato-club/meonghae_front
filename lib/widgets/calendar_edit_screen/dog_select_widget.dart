@@ -27,8 +27,6 @@ class _DogSelectWidgetState extends State<DogSelectWidget> {
             onTap: () {
               if (dogInfo.id != controller.editData.value.petId) {
                 controller.editData.value.petId = dogInfo.id;
-              } else {
-                controller.editData.value.petId = null;
               }
               controller.editData.update((val) {});
             },

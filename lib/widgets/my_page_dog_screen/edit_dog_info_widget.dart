@@ -24,7 +24,7 @@ class _EditDogInfoWidgetState extends State<EditDogInfoWidget> {
   List<String> kindList = dogSpecies + catSpecies;
   List<String> placeList = [
     '지인',
-    '일반 2애견센터',
+    '일반 애견센터',
     '동물병원',
     '펫샵 등 복합매장',
     '인터넷 개인간 거래',
@@ -67,8 +67,8 @@ class _EditDogInfoWidgetState extends State<EditDogInfoWidget> {
                         child: SizedBox(
                           height: 30,
                           child: TextFormField(
-                            initialValue:
-                                controller.dogsForm[widget.index].petName,
+                            controller:
+                                controller.nameControllers[widget.index],
                             decoration: const InputDecoration(
                               border: OutlineInputBorder(
                                 borderSide: BorderSide.none,
@@ -147,7 +147,7 @@ class _EditDogInfoWidgetState extends State<EditDogInfoWidget> {
                                 controller.dogsForm[widget.index].meetRoute,
                             petBirth:
                                 controller.dogsForm[widget.index].petBirth,
-                            petGender: value,
+                            petGender: value == "남" ? "BOY" : "GIRL",
                             petName: controller.dogsForm[widget.index].petName,
                             petSpecies:
                                 controller.dogsForm[widget.index].petSpecies,
@@ -180,8 +180,8 @@ class _EditDogInfoWidgetState extends State<EditDogInfoWidget> {
                         child: SizedBox(
                           height: 30,
                           child: TextFormField(
-                            initialValue:
-                                controller.dogsForm[widget.index].petBirth,
+                            controller:
+                                controller.birthControllers[widget.index],
                             inputFormatters: [DateInputFormatter()],
                             decoration: const InputDecoration(
                               border: OutlineInputBorder(

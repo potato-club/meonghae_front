@@ -21,7 +21,7 @@ class NoDogInfoWidget extends StatelessWidget {
           const Text(
             '아직 애완동물의 정보가 없어요...',
             style: TextStyle(
-                fontSize: 18,
+                fontSize: 15,
                 fontWeight: FontWeight.bold,
                 color: CustomColor.white),
           ),
