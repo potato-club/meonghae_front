@@ -39,7 +39,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                     child: Center(
                       child: Text('${date.day}',
                           style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 14,
                               fontWeight: FontWeight.w700,
                               color: date.month ==
                                       controller.focusedDay.value.month
@@ -94,7 +94,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
             headerStyle: HeaderStyle(
                 formatButtonVisible: false,
                 titleTextStyle: const TextStyle(
-                  fontSize: 18,
+                  fontSize: 17,
                   fontWeight: FontWeight.w700,
                   color: CustomColor.black2,
                 ),
@@ -107,7 +107,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
             calendarStyle: CalendarStyle(
               defaultTextStyle: const TextStyle(
                 color: CustomColor.black2,
-                fontSize: 16,
+                fontSize: 14,
                 fontWeight: FontWeight.w700,
               ),
               todayDecoration: BoxDecoration(
@@ -120,7 +120,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                 color: controller.focusedDay.value.month == DateTime.now().month
                     ? CustomColor.black2
                     : CustomColor.lightGray2,
-                fontSize: 16,
+                fontSize: 14,
                 fontWeight: FontWeight.w700,
               ),
               weekendTextStyle: const TextStyle(
@@ -129,7 +129,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                 fontWeight: FontWeight.w700,
               ),
               outsideTextStyle: const TextStyle(
-                fontSize: 16,
+                fontSize: 14,
                 fontWeight: FontWeight.w700,
                 color: CustomColor.lightGray2,
               ),

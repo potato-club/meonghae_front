@@ -39,7 +39,7 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                     child: Text(
                       '일정일',
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: 13,
                         fontWeight: FontWeight.w700,
                         color: CustomColor.black2,
                       ),
@@ -94,7 +94,7 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                         const Text(
                           '반복',
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 13,
                             fontWeight: FontWeight.w700,
                             color: CustomColor.black2,
                           ),
@@ -128,7 +128,7 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                           children: [
                             const Text('반복 설정',
                                 style: TextStyle(
-                                  fontSize: 14,
+                                  fontSize: 13,
                                   fontWeight: FontWeight.w700,
                                   color: CustomColor.black2,
                                 )),
@@ -139,7 +139,7 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                               itemHeight: 30,
                               list: controller.cycleList.keys.toList(),
                               listHeight: 90,
-                              fontSize: 13,
+                              fontSize: 12,
                               color: CustomColor.gray,
                               bgColor: CustomColor.white,
                               strColor: CustomColor.ivory2,
@@ -183,7 +183,7 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                           const Text(
                             '알림',
                             style: TextStyle(
-                              fontSize: 14,
+                              fontSize: 13,
                               fontWeight: FontWeight.w700,
                               color: CustomColor.black2,
                             ),
@@ -217,7 +217,7 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                               child: Text(
                                 '알림 설정',
                                 style: TextStyle(
-                                  fontSize: 14,
+                                  fontSize: 13,
                                   fontWeight: FontWeight.w700,
                                   color: CustomColor.black2,
                                 ),
@@ -229,7 +229,7 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                               itemHeight: 30,
                               list: controller.alarmList.keys.toList(),
                               listHeight: 150,
-                              fontSize: 13,
+                              fontSize: 12,
                               color: CustomColor.gray,
                               bgColor: CustomColor.white,
                               strColor: CustomColor.ivory2,
@@ -278,7 +278,7 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                   const Text(
                     '메모',
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 13,
                       fontWeight: FontWeight.w700,
                       color: CustomColor.black2,
                     ),
@@ -287,14 +287,14 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
                     controller: controller.memoController,
                     style: const TextStyle(
                       color: CustomColor.black2,
-                      fontSize: 13,
+                      fontSize: 11,
                     ),
-                    maxLines: 20,
+                    maxLines: 22,
                     decoration: const InputDecoration(
                       contentPadding: EdgeInsets.only(top: 12),
                       hintText: "내용을 입력해주세요",
                       hintStyle:
-                          TextStyle(fontSize: 12, color: CustomColor.gray),
+                          TextStyle(fontSize: 11, color: CustomColor.gray),
                       border: InputBorder.none,
                       focusedBorder: InputBorder.none,
                     ),

@@ -90,13 +90,13 @@ class _CommentWidgetState extends State<CommentWidget> {
                     child: Text(
                       widget.comment.isWriter == true ? '글쓴이' : '익명',
                       style:
-                          const TextStyle(fontSize: 11, color: CustomColor.red),
+                          const TextStyle(fontSize: 10, color: CustomColor.red),
                     )),
                 const SizedBox(height: 4),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.88 - 56,
                   child: Text(widget.comment.comment,
-                      style: const TextStyle(fontSize: 13, height: 1.2)),
+                      style: const TextStyle(fontSize: 12, height: 1.2)),
                 ),
                 const SizedBox(height: 4),
                 Row(
@@ -104,13 +104,13 @@ class _CommentWidgetState extends State<CommentWidget> {
                     Text(
                       widget.comment.date.split('T')[0].replaceAll('-', '/'),
                       style: const TextStyle(
-                          fontSize: 11, color: CustomColor.lightGray2),
+                          fontSize: 10, color: CustomColor.lightGray2),
                     ),
                     const SizedBox(width: 6),
                     Text(
                       widget.comment.date.split('T')[1].substring(0, 5),
                       style: const TextStyle(
-                          fontSize: 11, color: CustomColor.lightGray2),
+                          fontSize: 10, color: CustomColor.lightGray2),
                     ),
                   ],
                 ),

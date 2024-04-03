@@ -21,21 +21,21 @@ class _CalendarScreenState extends State<CalendarScreen> {
       children: [
         Padding(
           padding: EdgeInsets.only(
-            top: 4,
+            top: 16,
             right: MediaQuery.of(context).size.width * 0.03,
             left: MediaQuery.of(context).size.width * 0.03,
           ),
           child: const CalendarWidget(),
         ),
         Positioned(
-          top: 26,
+          top: 38,
           right: MediaQuery.of(context).size.width * 0.03 + 56,
           child: GestureDetector(
               onTap: () => Get.toNamed(AppRoutes.calendarSearch),
               child: const SearchSVG(strokeColor: CustomColor.black2)),
         ),
         Positioned(
-          top: 26,
+          top: 36,
           right: MediaQuery.of(context).size.width * 0.03 + 16,
           child: GestureDetector(
               onTap: () => Get.toNamed(AppRoutes.calendarInfo),

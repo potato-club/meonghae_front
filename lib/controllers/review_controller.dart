@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:meonghae_front/api/dio.dart';
 import 'package:meonghae_front/models/review_model.dart';
 import 'package:dio/dio.dart' as dio;
+import 'package:meonghae_front/widgets/common/custom_modal_widget.dart';
 import 'package:meonghae_front/widgets/common/custom_warning_modal_widget.dart';
 import 'package:meonghae_front/widgets/common/snack_bar_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -97,7 +98,8 @@ class ReviewController extends GetxController {
   }
 
   Future<void> onClickLike(int index, int id, bool isLike) async {
-    if (reviews[index].recommendStatus == 'NONE') {
+    if (reviews[index].recommendStatus == 'NONE' ||
+        reviews[index].recommendStatus == null) {
       reviews[index] = ReviewModel(
         id: id,
         title: reviews[index].title,
@@ -194,8 +196,8 @@ class ReviewController extends GetxController {
 
   void writeReview() async {
     if (!isWriting.value) {
-      if (titleTextController.text != '' &&
-          contentTextController.text != '' &&
+      if (titleTextController.text.isNotEmpty &&
+          contentTextController.text.isNotEmpty &&
           rate.value != 0) {
         isWriting.value = true;
         dio.FormData formData = dio.FormData.fromMap({
@@ -222,8 +224,12 @@ class ReviewController extends GetxController {
             },
             errorMsg: '리뷰 작성에 실패하였어요');
         isWriting.value = false;
+      } else if (titleTextController.text.isEmpty) {
+        SnackBarWidget.show(SnackBarType.error, "리뷰의 제목을 입력해주세요");
+      } else if (contentTextController.text.isEmpty) {
+        SnackBarWidget.show(SnackBarType.error, "리뷰의 내용을 입력해주세요");
       } else {
-        SnackBarWidget.show(SnackBarType.error, "모든 정보를 입력해주세요");
+        SnackBarWidget.show(SnackBarType.error, "리뷰의 별점를 선택해주세요");
       }
     }
   }
@@ -233,15 +239,18 @@ class ReviewController extends GetxController {
   }
 
   void deleteReview() async {
-    isLoading.value = true;
-    await SendAPI.delete(
-      url: "/community-service/reviews/${editId.value}",
-      successFunc: (data) {
-        reload();
-      },
-      errorMsg: "리뷰 삭제에 실패하였어요",
-    );
-    isLoading.value = false;
+    CustomModalWidget.show('리뷰를 삭제하시겠어요?', () async {
+      isLoading.value = true;
+      await SendAPI.delete(
+        url: "/community-service/reviews/${editId.value}",
+        successFunc: (data) {
+          reload();
+          SnackBarWidget.show(SnackBarType.check, "성공적으로 리뷰를 삭제했어요");
+        },
+        errorMsg: "리뷰 삭제에 실패하였어요",
+      );
+      isLoading.value = false;
+    });
   }
 
   Future<bool> willPop() async {

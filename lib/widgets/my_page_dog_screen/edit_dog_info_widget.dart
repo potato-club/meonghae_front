@@ -57,15 +57,18 @@ class _EditDogInfoWidgetState extends State<EditDogInfoWidget> {
                         child: Text(
                           '이름',
                           style: TextStyle(
-                              fontSize: 14, color: CustomColor.black2),
+                            fontSize: 12,
+                            color: CustomColor.black2,
+                            letterSpacing: -1,
+                          ),
                         ),
                       ),
                       Expanded(
                         child: SizedBox(
                           height: 30,
                           child: TextFormField(
-                            initialValue:
-                                controller.dogsForm[widget.index].petName,
+                            controller:
+                                controller.nameControllers[widget.index],
                             decoration: const InputDecoration(
                               border: OutlineInputBorder(
                                 borderSide: BorderSide.none,
@@ -79,7 +82,7 @@ class _EditDogInfoWidgetState extends State<EditDogInfoWidget> {
                             ),
                             textAlignVertical: TextAlignVertical.center,
                             style: const TextStyle(
-                              fontSize: 13,
+                              fontSize: 12,
                               color: CustomColor.black2,
                             ),
                             keyboardType: TextInputType.text,
@@ -116,11 +119,15 @@ class _EditDogInfoWidgetState extends State<EditDogInfoWidget> {
                         child: Text(
                           '성별',
                           style: TextStyle(
-                              fontSize: 14, color: CustomColor.black2),
+                            fontSize: 12,
+                            color: CustomColor.black2,
+                            letterSpacing: -1,
+                          ),
                         ),
                       ),
                       SelectInputWidget(
                         width: MediaQuery.of(context).size.width * 0.74 - 66,
+                        fontSize: 12,
                         height: 30,
                         itemHeight: 30,
                         list: genderList,
@@ -140,7 +147,7 @@ class _EditDogInfoWidgetState extends State<EditDogInfoWidget> {
                                 controller.dogsForm[widget.index].meetRoute,
                             petBirth:
                                 controller.dogsForm[widget.index].petBirth,
-                            petGender: value,
+                            petGender: value == "남" ? "BOY" : "GIRL",
                             petName: controller.dogsForm[widget.index].petName,
                             petSpecies:
                                 controller.dogsForm[widget.index].petSpecies,
@@ -163,15 +170,18 @@ class _EditDogInfoWidgetState extends State<EditDogInfoWidget> {
                         child: Text(
                           '출생일',
                           style: TextStyle(
-                              fontSize: 14, color: CustomColor.black2),
+                            fontSize: 12,
+                            color: CustomColor.black2,
+                            letterSpacing: -1,
+                          ),
                         ),
                       ),
                       Expanded(
                         child: SizedBox(
                           height: 30,
                           child: TextFormField(
-                            initialValue:
-                                controller.dogsForm[widget.index].petBirth,
+                            controller:
+                                controller.birthControllers[widget.index],
                             inputFormatters: [DateInputFormatter()],
                             decoration: const InputDecoration(
                               border: OutlineInputBorder(
@@ -186,7 +196,7 @@ class _EditDogInfoWidgetState extends State<EditDogInfoWidget> {
                             ),
                             textAlignVertical: TextAlignVertical.center,
                             style: const TextStyle(
-                              fontSize: 14,
+                              fontSize: 12,
                               color: CustomColor.black2,
                             ),
                             keyboardType: TextInputType.number,
@@ -223,12 +233,16 @@ class _EditDogInfoWidgetState extends State<EditDogInfoWidget> {
                         child: Text(
                           '견종/묘종',
                           style: TextStyle(
-                              fontSize: 14, color: CustomColor.black2),
+                            fontSize: 12,
+                            color: CustomColor.black2,
+                            letterSpacing: -1,
+                          ),
                         ),
                       ),
                       SelectInputWidget(
                         width: MediaQuery.of(context).size.width * 0.74 - 66,
                         height: 30,
+                        fontSize: 12,
                         itemHeight: 30,
                         list: kindList,
                         listHeight: 150,
@@ -265,12 +279,13 @@ class _EditDogInfoWidgetState extends State<EditDogInfoWidget> {
                         child: Text(
                           '만남의 경로',
                           style: TextStyle(
-                              fontSize: 14, color: CustomColor.black2),
+                              fontSize: 12, color: CustomColor.black2),
                         ),
                       ),
                       SelectInputWidget(
                         width: MediaQuery.of(context).size.width * 0.74 - 66,
                         height: 30,
+                        fontSize: 12,
                         itemHeight: 30,
                         list: placeList,
                         listHeight: 90,

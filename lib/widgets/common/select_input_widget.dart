@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:meonghae_front/themes/custom_color.dart';
 import 'package:meonghae_front/widgets/common/select_modal_widget.dart';
@@ -47,9 +49,17 @@ class _SelectInputWidgetState extends State<SelectInputWidget> {
 
   @override
   void initState() {
-    super.initState();
     value = widget.defaultValue;
     _overlayEntry = _createOverlayEntry();
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(SelectInputWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.defaultValue != widget.defaultValue) {
+      value = widget.defaultValue;
+    }
   }
 
   @override

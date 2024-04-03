@@ -39,7 +39,7 @@ class BannerWidget extends StatelessWidget {
                   )),
               const Text('게시물 작성',
                   style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 17,
                       fontWeight: FontWeight.w700,
                       color: CustomColor.black2)),
               InkWell(

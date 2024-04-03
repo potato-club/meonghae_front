@@ -59,7 +59,7 @@ class _RegisterDogScreenState extends State<RegisterDogScreen> {
                             style: TextStyle(
                               height: 1.3,
                               color: CustomColor.black2,
-                              fontSize: 18,
+                              fontSize: 16,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
@@ -190,7 +190,7 @@ class _RegisterDogScreenState extends State<RegisterDogScreen> {
                     child: const Text(
                       '시작하기!',
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 15,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

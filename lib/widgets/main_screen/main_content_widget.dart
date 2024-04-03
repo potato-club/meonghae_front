@@ -66,7 +66,7 @@ class MainContentWidget extends StatelessWidget {
                 left: MediaQuery.of(context).size.width * 0.06,
                 right: MediaQuery.of(context).size.width * 0.06,
                 top: 18,
-                bottom: 30,
+                bottom: 24,
               ),
               child: const PostContentWidget(),
             ),

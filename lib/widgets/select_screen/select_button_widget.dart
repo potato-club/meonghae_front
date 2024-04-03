@@ -29,7 +29,7 @@ class SelectButtonWidget extends StatelessWidget {
             child: Text(
               content,
               style: const TextStyle(
-                fontSize: 15,
+                fontSize: 13,
                 fontWeight: FontWeight.w400,
               ),
             ),

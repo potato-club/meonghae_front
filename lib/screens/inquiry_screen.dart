@@ -36,7 +36,7 @@ class _InquiryScreenState extends State<InquiryScreen> {
                 child: Text(
                   '채팅 문의',
                   style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 17,
                       fontWeight: FontWeight.w700,
                       color: CustomColor.black2),
                 ),

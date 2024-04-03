@@ -44,7 +44,7 @@ class _WriteCommentBarWidgetState extends State<WriteCommentBarWidget> {
                     Padding(
                         padding: const EdgeInsets.only(right: 12, top: 5),
                         child: Text(controller.replyComment.value,
-                            style: const TextStyle(fontSize: 13, height: 1.2))),
+                            style: const TextStyle(fontSize: 12, height: 1.2))),
                   Stack(children: [
                     Padding(
                       padding: EdgeInsets.only(
@@ -69,12 +69,10 @@ class _WriteCommentBarWidgetState extends State<WriteCommentBarWidget> {
                                 const EdgeInsets.only(left: 14, right: 45),
                             hintStyle: const TextStyle(
                               color: CustomColor.gray,
-                              fontSize: 14,
+                              fontSize: 12,
                             ),
-                            errorStyle: const TextStyle(
-                                fontSize: 11, color: Colors.transparent),
                           ),
-                          style: const TextStyle(fontSize: 14),
+                          style: const TextStyle(fontSize: 12),
                           keyboardType: TextInputType.text,
                         ),
                       ),

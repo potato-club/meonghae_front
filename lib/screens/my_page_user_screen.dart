@@ -61,7 +61,7 @@ class _MyPageUserScreenState extends State<MyPageUserScreen> {
                           const Text(
                             '내 정보 수정',
                             style: TextStyle(
-                                fontSize: 18,
+                                fontSize: 17,
                                 fontWeight: FontWeight.w700,
                                 color: CustomColor.black2),
                           ),
@@ -101,7 +101,7 @@ class _MyPageUserScreenState extends State<MyPageUserScreen> {
                         child: Text(
                           controller.isEdit.value ? '저장하기' : '수정하기',
                           style: const TextStyle(
-                            fontSize: 16,
+                            fontSize: 15,
                             fontWeight: FontWeight.bold,
                           ),
                         ),

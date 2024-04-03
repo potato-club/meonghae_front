@@ -30,7 +30,7 @@ class MenuButtonsWidget extends StatelessWidget {
             children: [
               Text(
                 label,
-                style: TextStyle(fontSize: 15, color: fontColor),
+                style: TextStyle(fontSize: 14, color: fontColor),
               ),
               const TinyRightArrowSVG(color: CustomColor.gray),
             ],

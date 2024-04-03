@@ -19,7 +19,7 @@ class MainContentLabelWidget extends StatelessWidget {
         Text(
           label,
           style: const TextStyle(
-            fontSize: 17,
+            fontSize: 15,
             fontWeight: FontWeight.w700,
           ),
         ),
@@ -35,7 +35,7 @@ class MainContentLabelWidget extends StatelessWidget {
                 Text(
                   '더보기',
                   style: TextStyle(
-                    fontSize: 12,
+                    fontSize: 11,
                     fontWeight: FontWeight.w400,
                     color: CustomColor.gray,
                   ),

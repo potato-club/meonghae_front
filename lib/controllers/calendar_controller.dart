@@ -120,6 +120,7 @@ class CalendarController extends GetxController {
       if (monthEvent.month == selectedDay.value.month) {
         for (var schedule in monthEvent.schedules) {
           if (schedule['day'] == selectedDay.value.day) {
+            isLoading.value = true;
             await SendAPI.get(
                 url: "/profile-service/profile/calendar/day",
                 request: {
@@ -137,6 +138,7 @@ class CalendarController extends GetxController {
                   dayEvents.value = eventsList;
                 },
                 errorMsg: "일정 호출에 실패하였어요");
+            isLoading.value = false;
             return;
           }
         }
@@ -171,7 +173,8 @@ class CalendarController extends GetxController {
 
   Future<void> addCalendar() async {
     if (!isSending.value) {
-      if (calendarForm.value.isFilled()) {
+      var validation = calendarForm.value.isFilled();
+      if (validation['isFilled']) {
         isSending.value = true;
         await SendAPI.post(
           url: "/profile-service/profile/calendar",
@@ -209,7 +212,7 @@ class CalendarController extends GetxController {
         );
         isSending.value = false;
       } else {
-        SnackBarWidget.show(SnackBarType.error, "모든 정보를 입력해주세요");
+        SnackBarWidget.show(SnackBarType.error, validation['warning']);
       }
     }
   }

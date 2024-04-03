@@ -44,7 +44,11 @@ class _RegisterFormState extends State<RegisterForm> {
                 width: 66,
                 child: Text(
                   '이름',
-                  style: TextStyle(fontSize: 16, color: CustomColor.black2),
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: CustomColor.black2,
+                    letterSpacing: -1,
+                  ),
                 ),
               ),
               Expanded(
@@ -64,12 +68,12 @@ class _RegisterFormState extends State<RegisterForm> {
                       contentPadding: EdgeInsets.symmetric(horizontal: 14),
                       hintStyle: TextStyle(
                         color: CustomColor.gray,
-                        fontSize: 14,
+                        fontSize: 12,
                       ),
                     ),
                     textAlignVertical: TextAlignVertical.center,
                     style: const TextStyle(
-                      fontSize: 14,
+                      fontSize: 12,
                       color: CustomColor.black2,
                     ),
                     keyboardType: TextInputType.text,
@@ -101,7 +105,11 @@ class _RegisterFormState extends State<RegisterForm> {
                 width: 66,
                 child: Text(
                   '성별',
-                  style: TextStyle(fontSize: 16, color: CustomColor.black2),
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: CustomColor.black2,
+                    letterSpacing: -1,
+                  ),
                 ),
               ),
               SelectInputWidget(
@@ -110,7 +118,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 itemHeight: 30,
                 list: genderList,
                 listHeight: 60,
-                fontSize: 14,
+                fontSize: 12,
                 hintText: "성별을 선택해 주세요",
                 textAlign: TextAlign.left,
                 defaultValue: controller.dogsForm[widget.index].petGender,
@@ -139,7 +147,11 @@ class _RegisterFormState extends State<RegisterForm> {
                 width: 66,
                 child: Text(
                   '출생일',
-                  style: TextStyle(fontSize: 16, color: CustomColor.black2),
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: CustomColor.black2,
+                    letterSpacing: -1,
+                  ),
                 ),
               ),
               Expanded(
@@ -161,12 +173,12 @@ class _RegisterFormState extends State<RegisterForm> {
                           const EdgeInsets.symmetric(horizontal: 14),
                       hintStyle: const TextStyle(
                         color: CustomColor.gray,
-                        fontSize: 14,
+                        fontSize: 12,
                       ),
                     ),
                     textAlignVertical: TextAlignVertical.center,
                     style: const TextStyle(
-                      fontSize: 14,
+                      fontSize: 12,
                       color: CustomColor.black2,
                     ),
                     keyboardType: TextInputType.number,
@@ -199,7 +211,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 child: Text(
                   '견종/묘종',
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: 12,
                     color: CustomColor.black2,
                     letterSpacing: -1,
                   ),
@@ -211,7 +223,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 itemHeight: 30,
                 list: kindList,
                 listHeight: 150,
-                fontSize: 14,
+                fontSize: 12,
                 hintText: "견종/묘종을 선택해 주세요",
                 textAlign: TextAlign.left,
                 defaultValue: controller.dogsForm[widget.index].petSpecies,
@@ -241,7 +253,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 child: Text(
                   '만남의 경로',
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 12,
                     color: CustomColor.black2,
                     letterSpacing: -1,
                   ),
@@ -253,7 +265,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 itemHeight: 30,
                 list: placeList,
                 listHeight: 90,
-                fontSize: 14,
+                fontSize: 12,
                 hintText: "만나게 된 경로를 선택해 주세요",
                 textAlign: TextAlign.left,
                 defaultValue: controller.dogsForm[widget.index].meetRoute,

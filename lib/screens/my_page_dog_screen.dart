@@ -32,6 +32,10 @@ class _MyPageDogScreenState extends State<MyPageDogScreen> {
             child: SizedBox(
               height: MediaQuery.of(context).size.height,
               child: GetX<DogController>(builder: (controller) {
+                List<GlobalKey<FormFieldState>> formKeys = [];
+                for (var element in controller.dogsForm) {
+                  formKeys.add(GlobalKey<FormFieldState>());
+                }
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -65,12 +69,11 @@ class _MyPageDogScreenState extends State<MyPageDogScreen> {
                             const Text(
                               '애완동물 정보 수정',
                               style: TextStyle(
-                                  fontSize: 18,
+                                  fontSize: 17,
                                   fontWeight: FontWeight.w700,
                                   color: CustomColor.black2),
                             ),
-                            (controller.isEdit.value &&
-                                    controller.dogsForm.length > 1)
+                            (controller.isEdit.value)
                                 ? InkWell(
                                     onTap: () => controller.addDeleteIdList(),
                                     splashColor: Colors.transparent,

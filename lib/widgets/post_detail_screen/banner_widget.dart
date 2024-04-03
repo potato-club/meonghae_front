@@ -51,7 +51,7 @@ class _BannerWidgetState extends State<BannerWidget> {
               GetX<PostController>(builder: (controller) {
                 return Text(controller.typeToString(),
                     style: const TextStyle(
-                        fontSize: 18,
+                        fontSize: 17,
                         fontWeight: FontWeight.w700,
                         color: CustomColor.black2));
               }),

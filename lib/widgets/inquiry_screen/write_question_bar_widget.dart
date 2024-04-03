@@ -31,11 +31,11 @@ class _WriteQuestionBarWidgetState extends State<WriteQuestionBarWidget> {
               contentPadding: EdgeInsets.only(left: 16, right: 45),
               hintStyle: TextStyle(
                 color: CustomColor.gray,
-                fontSize: 14,
+                fontSize: 12,
               ),
               errorStyle: TextStyle(fontSize: 0, color: Colors.transparent),
             ),
-            style: const TextStyle(fontSize: 14),
+            style: const TextStyle(fontSize: 12),
             keyboardType: TextInputType.text,
           ),
           Positioned(

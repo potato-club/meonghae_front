@@ -25,6 +25,7 @@ class PostDetailController extends GetxController {
   var comments = <PostCommentModel>[].obs;
   var hasMore = false.obs;
   var page = 1.obs;
+  var commentPage = 1.obs;
   var commentId = 0.obs;
   var replyComment = ''.obs;
   var replyMode = false.obs;
@@ -35,7 +36,7 @@ class PostDetailController extends GetxController {
       if (scrollController.value.position.pixels ==
               scrollController.value.position.maxScrollExtent &&
           hasMore.value) {
-        fetchData();
+        fetchCommentData();
       }
     });
     super.onInit();
@@ -79,6 +80,7 @@ class PostDetailController extends GetxController {
     comments.clear();
     isLoading.value = true;
     page.value = 1;
+    commentPage.value = 1;
     commentId.value = 0;
   }
 
@@ -113,9 +115,14 @@ class PostDetailController extends GetxController {
       },
       errorMsg: "게시글정보 호출에 실패하였어요",
     );
+    fetchCommentData();
+    isLoading.value = false;
+  }
+
+  void fetchCommentData() async {
     await SendAPI.get(
       url: "/community-service/boardComments/${id.value}",
-      params: {'p': page.value},
+      params: {'p': commentPage.value},
       successFunc: (data) {
         List<Map<String, dynamic>> contentList =
             List<Map<String, dynamic>>.from(data.data['content']);
@@ -126,8 +133,7 @@ class PostDetailController extends GetxController {
       },
       errorMsg: "댓글정보 호출에 실패하였어요",
     );
-    isLoading.value = false;
-    if (hasMore.value) page++;
+    if (hasMore.value) commentPage++;
   }
 
   Future<void> postComment(String comment) async {

@@ -36,8 +36,8 @@ class _ReviewListItemWidgetState extends State<ReviewListItemWidget> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
-            color: CustomColor.lightGray1, // 테두리 색상 설정
-            width: 1, // 테두리 두께 설정
+            color: CustomColor.lightGray1,
+            width: 1,
           ),
         ),
         child: Padding(
@@ -112,7 +112,7 @@ class _ReviewListItemWidgetState extends State<ReviewListItemWidget> {
                       child: Text(
                         widget.reviewData.title,
                         style: const TextStyle(
-                            fontSize: 15,
+                            fontSize: 14,
                             fontWeight: FontWeight.w700,
                             color: CustomColor.black2),
                       ),
@@ -122,13 +122,12 @@ class _ReviewListItemWidgetState extends State<ReviewListItemWidget> {
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           child: ImagesSwiperWidget(
                               images: widget.reviewData.images)),
-                    const SizedBox(height: 8),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.88 - 100,
                       child: Text(
                         widget.reviewData.content,
                         style: const TextStyle(
-                          fontSize: 12,
+                          fontSize: 11,
                           color: CustomColor.black2,
                         ),
                       ),

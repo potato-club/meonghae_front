@@ -54,14 +54,14 @@ class _FilterWidgetState extends State<FilterWidget> {
                         decoration: const InputDecoration(
                           hintText: "제목을 입력해주세요",
                           hintStyle:
-                              TextStyle(fontSize: 13, color: CustomColor.gray),
+                              TextStyle(fontSize: 12, color: CustomColor.gray),
                           border: InputBorder.none,
                           focusedBorder: InputBorder.none,
                           errorBorder: InputBorder.none,
                           contentPadding: EdgeInsets.symmetric(horizontal: 20),
                         ),
                         style: const TextStyle(
-                            fontSize: 13, color: CustomColor.black2),
+                            fontSize: 12, color: CustomColor.black2),
                         maxLines: 1,
                         onChanged: (value) {
                           controller.calendarForm.value.scheduleType = value;
@@ -129,9 +129,11 @@ class _FilterWidgetState extends State<FilterWidget> {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          categoryDetail[category][index]['label'],
+                          categoryDetail[category][index]['type'] +
+                              " " +
+                              categoryDetail[category][index]['label'],
                           style: const TextStyle(
-                            fontSize: 14,
+                            fontSize: 13,
                             fontWeight: FontWeight.w700,
                             color: CustomColor.black2,
                           ),

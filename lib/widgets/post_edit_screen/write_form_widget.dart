@@ -41,7 +41,7 @@ class _WriteFormWidgetState extends State<WriteFormWidget> {
                   decoration: const InputDecoration(
                     hintText: "제목",
                     hintStyle: TextStyle(
-                      fontSize: 16,
+                      fontSize: 15,
                       color: CustomColor.gray,
                       fontWeight: FontWeight.bold,
                     ),
@@ -53,7 +53,7 @@ class _WriteFormWidgetState extends State<WriteFormWidget> {
                     ),
                   ),
                   style: const TextStyle(
-                    fontSize: 16,
+                    fontSize: 15,
                     color: CustomColor.black2,
                     fontWeight: FontWeight.bold,
                   ),
@@ -70,7 +70,7 @@ class _WriteFormWidgetState extends State<WriteFormWidget> {
                 decoration: InputDecoration(
                   hintText: "내용을 입력해주세요",
                   hintStyle: const TextStyle(
-                    fontSize: 14,
+                    fontSize: 13,
                     color: CustomColor.gray,
                   ),
                   border: InputBorder.none,
@@ -82,7 +82,7 @@ class _WriteFormWidgetState extends State<WriteFormWidget> {
                   ),
                 ),
                 style: const TextStyle(
-                  fontSize: 14,
+                  fontSize: 13,
                   color: CustomColor.black2,
                 ),
                 maxLines: null,

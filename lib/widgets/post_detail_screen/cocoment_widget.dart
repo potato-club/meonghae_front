@@ -63,7 +63,7 @@ class _CocomentWidgetState extends State<CocomentWidget> {
                       ? const Text(
                           '글쓴이',
                           style:
-                              TextStyle(fontSize: 11, color: CustomColor.red),
+                              TextStyle(fontSize: 10, color: CustomColor.red),
                         )
                       : null,
                 ),
@@ -81,13 +81,13 @@ class _CocomentWidgetState extends State<CocomentWidget> {
                           .split('T')[0]
                           .replaceAll('-', '/'),
                       style: const TextStyle(
-                          fontSize: 11, color: CustomColor.lightGray2),
+                          fontSize: 10, color: CustomColor.lightGray2),
                     ),
                     const SizedBox(width: 6),
                     Text(
                       widget.cocomment['date'].split('T')[1].substring(0, 5),
                       style: const TextStyle(
-                          fontSize: 11, color: CustomColor.lightGray2),
+                          fontSize: 10, color: CustomColor.lightGray2),
                     ),
                   ],
                 ),

@@ -130,7 +130,7 @@ class _ReviewCategoryWidgetState extends State<ReviewCategoryWidget> {
     return CarouselSlider(
       carouselController: _carouselController,
       options: CarouselOptions(
-        height: 60,
+        height: 62,
         initialPage: Get.find<ReviewController>().writeType.value - 1,
         enableInfiniteScroll: true,
         aspectRatio: 1 / 1,

@@ -36,12 +36,12 @@ class _PostListItemWidgetState extends State<PostListItemWidget> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
-              color: CustomColor.lightGray1, // 테두리 색상 설정
-              width: 1, // 테두리 두께 설정
+              color: CustomColor.lightGray1,
+              width: 1,
             ),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -81,7 +81,7 @@ class _PostListItemWidgetState extends State<PostListItemWidget> {
                         widget.postData.title,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                          fontSize: 15,
+                          fontSize: 14,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -97,7 +97,7 @@ class _PostListItemWidgetState extends State<PostListItemWidget> {
                           ),
                         );
                       }),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: 6),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.end,
@@ -109,7 +109,7 @@ class _PostListItemWidgetState extends State<PostListItemWidget> {
                                     .split('T')[0]
                                     .replaceAll('-', '/'),
                                 style: const TextStyle(
-                                    fontSize: 11,
+                                    fontSize: 10,
                                     color: CustomColor.lightGray2),
                               ),
                               const SizedBox(width: 6),
@@ -118,7 +118,7 @@ class _PostListItemWidgetState extends State<PostListItemWidget> {
                                     .split('T')[1]
                                     .substring(0, 5),
                                 style: const TextStyle(
-                                    fontSize: 11,
+                                    fontSize: 10,
                                     color: CustomColor.lightGray2),
                               ),
                             ],

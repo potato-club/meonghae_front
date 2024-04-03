@@ -24,6 +24,18 @@ class PostController extends GetxController {
   var writeType = 0.obs;
   var isWriting = false.obs;
 
+  @override
+  void onInit() {
+    scrollController.value.addListener(() {
+      if (scrollController.value.position.pixels ==
+              scrollController.value.position.maxScrollExtent &&
+          hasMore.value) {
+        fetchData();
+      }
+    });
+    super.onInit();
+  }
+
   void setType(int value) {
     if (type.value != value) {
       posts.clear();
@@ -89,6 +101,7 @@ class PostController extends GetxController {
       },
       errorMsg: "게시글 리스트 호출에 실패하였어요",
     );
+    if (hasMore.value) page.value = 2;
     isLoading.value = false;
   }
 
@@ -136,8 +149,10 @@ class PostController extends GetxController {
             },
             errorMsg: "게시글 작성에 실패하였어요");
         isWriting.value = false;
+      } else if (titleTextController.text.isEmpty) {
+        SnackBarWidget.show(SnackBarType.error, "게시글의 제목을 입력해주세요");
       } else {
-        SnackBarWidget.show(SnackBarType.error, "모든 정보를 입력해주세요");
+        SnackBarWidget.show(SnackBarType.error, "게시글의 내용을 입력해주세요");
       }
     }
   }

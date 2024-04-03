@@ -121,21 +121,18 @@ class _CustomUnderModalWidgetState extends State<CustomUnderModalWidget>
                                               color: CustomColor.lightGray1,
                                             ))),
                                   child: Padding(
-                                    padding: EdgeInsets.fromLTRB(
-                                        MediaQuery.of(context).size.width *
-                                            0.07,
-                                        0,
-                                        MediaQuery.of(context).size.width *
-                                            0.07,
-                                        i == widget.modalList.length - 1
-                                            ? 12
-                                            : 0),
+                                    padding: const EdgeInsets.fromLTRB(
+                                      28,
+                                      0,
+                                      28,
+                                      0,
+                                    ),
                                     child: Align(
                                       alignment: Alignment.centerLeft,
                                       child: Text(
                                         widget.modalList[i].label,
                                         style: const TextStyle(
-                                          fontSize: 14,
+                                          fontSize: 13,
                                           color: CustomColor.black2,
                                           fontWeight: FontWeight.bold,
                                         ),

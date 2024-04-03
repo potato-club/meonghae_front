@@ -69,12 +69,12 @@ class LoginModel {
             options: Options(
                 headers: {'androidId': mobileId, 'FCMToken': fcmToken}));
         if (response.data['responseCode'] == "200_OK") {
-          saveAccessToken(response.headers['authorization']![0]);
-          saveRefreshToken(response.headers['refreshtoken']![0]);
-          Get.offNamed(AppRoutes.introVideo);
+          await saveAccessToken(response.headers['authorization']![0]);
+          await saveRefreshToken(response.headers['refreshtoken']![0]);
+          await Get.offNamed(AppRoutes.introVideo);
         } else if (response.data['responseCode'] == "201_CREATED") {
           Get.find<UserController>().setRegisterEmail(response.data['email']);
-          Get.offNamed(AppRoutes.select);
+          await Get.offNamed(AppRoutes.select);
         } else {
           SnackBarWidget(SnackBarType.error, '허가되지 않은 게정이에요');
         }

@@ -80,11 +80,6 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                           Get.find<PostDetailController>().setReplyMode(true);
                           FocusScope.of(context).unfocus();
                         }),
-                    // CustomUnderModalModel(
-                    //     label: '댓글 수정하기',
-                    //     onClick: () {
-                    //       Get.find<PostDetailController>().setReplyMode(true);
-                    //     }),
                     CustomUnderModalModel(
                         label: '댓글 삭제하기',
                         onClick: () => controller.deleteComment()),

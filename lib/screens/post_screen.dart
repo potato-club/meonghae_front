@@ -43,11 +43,11 @@ class _PostScreenState extends State<PostScreen> {
                             scale: 2,
                             child: const PencilSVG(color: CustomColor.gray)),
                         const Padding(
-                          padding: EdgeInsets.fromLTRB(0, 30, 0, 16),
+                          padding: EdgeInsets.fromLTRB(0, 20, 0, 16),
                           child: Text(
                             '아직 게시글이 없어요',
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 14,
                               fontWeight: FontWeight.bold,
                               color: CustomColor.gray,
                             ),
@@ -69,7 +69,7 @@ class _PostScreenState extends State<PostScreen> {
                           child: const Text(
                             '새 게시글 작성하기',
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 15,
                               fontWeight: FontWeight.bold,
                               color: CustomColor.white,
                             ),
@@ -110,7 +110,7 @@ class _PostScreenState extends State<PostScreen> {
                                       child: Text(
                                     '새로고침 하개?',
                                     style: TextStyle(
-                                      fontSize: 14,
+                                      fontSize: 13,
                                       fontWeight: FontWeight.w400,
                                       color: CustomColor.black3,
                                     ),
@@ -139,23 +139,11 @@ class _PostScreenState extends State<PostScreen> {
                     child: ListView.builder(
                         controller: controller.scrollController.value,
                         itemCount: controller.posts.length,
-                        padding: const EdgeInsets.only(bottom: 30),
+                        padding: const EdgeInsets.only(bottom: 70),
                         itemBuilder: (context, index) {
                           return Column(children: [
                             PostListItemWidget(
                                 postData: controller.posts[index]),
-                            if (controller.hasMore.value &&
-                                controller.posts.length == index + 1)
-                              Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 20),
-                                  child: Container())
-                            else if (!controller.hasMore.value &&
-                                controller.posts.length == index + 1)
-                              Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 20),
-                                  child: Container()),
                           ]);
                         }),
                   );

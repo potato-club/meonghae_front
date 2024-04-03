@@ -36,22 +36,26 @@ class _ReviewScreenState extends State<ReviewScreen> {
           Column(
             children: [
               SizedBox(
-                height: 62,
+                height: 64,
                 child: Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * 0.06),
+                  padding: const EdgeInsets.only(top: 6),
                   child: Row(
                     children: [
-                      GestureDetector(
+                      InkWell(
                           onTap: () => Get.back(),
-                          child:
-                              const ArrowSVG(strokeColor: CustomColor.black2)),
-                      const SizedBox(width: 20),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal:
+                                    MediaQuery.of(context).size.width * 0.06,
+                                vertical: 10),
+                            child:
+                                const ArrowSVG(strokeColor: CustomColor.black2),
+                          )),
                       GetX<ReviewController>(builder: (controller) {
                         return Text(
                             controller.typeToString(controller.type.value),
                             style: const TextStyle(
-                                fontSize: 18,
+                                fontSize: 17,
                                 fontWeight: FontWeight.w700,
                                 color: CustomColor.black2));
                       })
@@ -70,7 +74,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     horizontal: MediaQuery.of(context).size.width * 0.06),
                 child: const FilterBarWidget(),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 16),
               Expanded(
                 child: Stack(children: [
                   GetX<ReviewController>(builder: (controller) {
@@ -91,11 +95,11 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                   child:
                                       const PencilSVG(color: CustomColor.gray)),
                               const Padding(
-                                padding: EdgeInsets.fromLTRB(0, 30, 0, 16),
+                                padding: EdgeInsets.fromLTRB(0, 20, 0, 16),
                                 child: Text(
                                   '아직 게시글이 없어요',
                                   style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: 14,
                                     fontWeight: FontWeight.bold,
                                     color: CustomColor.gray,
                                   ),
@@ -162,7 +166,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                               child: Text(
                                             '새로고침 하개?',
                                             style: TextStyle(
-                                              fontSize: 14,
+                                              fontSize: 13,
                                               fontWeight: FontWeight.w400,
                                               color: CustomColor.black3,
                                             ),
@@ -192,6 +196,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                             child: ListView.builder(
                                 controller: controller.scrollController.value,
                                 itemCount: controller.reviews.length,
+                                padding: const EdgeInsets.fromLTRB(0, 6, 0, 70),
                                 itemBuilder: (context, index) {
                                   return Column(children: [
                                     ReviewListItemWidget(
@@ -199,18 +204,6 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                       reviewData: controller.reviews[index],
                                       index: index,
                                     ),
-                                    if (controller.hasMore.value &&
-                                        controller.reviews.length == index + 1)
-                                      Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 20),
-                                          child: Container())
-                                    else if (!controller.hasMore.value &&
-                                        controller.reviews.length == index + 1)
-                                      Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 20),
-                                          child: Container()),
                                   ]);
                                 }));
                       }

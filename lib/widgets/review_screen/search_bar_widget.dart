@@ -47,8 +47,6 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
                       borderRadius: BorderRadius.all(Radius.circular(5)),
                     ),
                     contentPadding: EdgeInsets.symmetric(horizontal: 14),
-                    errorStyle:
-                        TextStyle(fontSize: 11, color: Colors.transparent),
                   ),
                   textAlignVertical: TextAlignVertical.center,
                   style:

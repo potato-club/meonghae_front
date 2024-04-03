@@ -56,7 +56,7 @@ class _BannerWidgetState extends State<BannerWidget> {
                 Text(
                   "${controller.userInfo.value.nickname}님 안녕하세요!",
                   style: const TextStyle(
-                    fontSize: 18,
+                    fontSize: 16,
                     fontWeight: FontWeight.w700,
                     color: CustomColor.black2,
                   ),
@@ -72,7 +72,7 @@ class _BannerWidgetState extends State<BannerWidget> {
                         child: Text(
                           "업데이트 공지 2.0.10.2",
                           style: TextStyle(
-                              fontSize: 12,
+                              fontSize: 10,
                               color: CustomColor.black2,
                               fontWeight: FontWeight.w400),
                         ),

@@ -63,7 +63,7 @@ class _DetailContentWidgetState extends State<DetailContentWidget> {
                     child: Text(
                       controller.post.value.title,
                       style: const TextStyle(
-                        fontSize: 16,
+                        fontSize: 14,
                         fontWeight: FontWeight.w700,
                         color: CustomColor.black2,
                       ),
@@ -81,7 +81,7 @@ class _DetailContentWidgetState extends State<DetailContentWidget> {
                 width: MediaQuery.of(context).size.width * 0.88,
                 child: Text(
                   controller.post.value.content,
-                  style: const TextStyle(fontSize: 14, height: 1.3),
+                  style: const TextStyle(fontSize: 12, height: 1.3),
                 ),
               ),
               const SizedBox(height: 8),
@@ -92,13 +92,17 @@ class _DetailContentWidgetState extends State<DetailContentWidget> {
                         .split('T')[0]
                         .replaceAll('-', '/'),
                     style: const TextStyle(
-                        fontSize: 11, color: CustomColor.lightGray2),
+                        fontSize: 10, color: CustomColor.lightGray2),
                   ),
                   const SizedBox(width: 6),
                   Text(
-                    controller.post.value.date.split('T')[1].substring(0, 5),
+                    controller.post.value.date.contains('T')
+                        ? controller.post.value.date
+                            .split('T')[1]
+                            .substring(0, 5)
+                        : '',
                     style: const TextStyle(
-                        fontSize: 11, color: CustomColor.lightGray2),
+                        fontSize: 10, color: CustomColor.lightGray2),
                   ),
                 ],
               ),
@@ -119,7 +123,7 @@ class _DetailContentWidgetState extends State<DetailContentWidget> {
                         const SizedBox(width: 6),
                         Text("${controller.post.value.likes}",
                             style: const TextStyle(
-                                fontSize: 14, color: CustomColor.gray)),
+                                fontSize: 13, color: CustomColor.gray)),
                       ],
                     ),
                   ),
@@ -128,7 +132,7 @@ class _DetailContentWidgetState extends State<DetailContentWidget> {
                   const SizedBox(width: 6),
                   Text("${controller.comments.length}",
                       style: const TextStyle(
-                          fontSize: 14, color: CustomColor.gray)),
+                          fontSize: 13, color: CustomColor.gray)),
                 ],
               )
             ],
