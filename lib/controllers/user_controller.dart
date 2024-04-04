@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:meonghae_front/api/dio.dart';
 import 'package:meonghae_front/config/app_routes.dart';
 import 'package:meonghae_front/login/token.dart';
+import 'package:meonghae_front/models/login_model.dart';
 import 'package:meonghae_front/models/user_info_model.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:meonghae_front/widgets/common/custom_warning_modal_widget.dart';
@@ -182,7 +183,7 @@ class UserController extends GetxController {
         () => SendAPI.put(
             url: "/user-service/withdrawal",
             successFunc: (data) {
-              Get.offAllNamed(AppRoutes.login);
+              LoginModel.logout();
               SnackBarWidget.show(SnackBarType.check, '회원탈퇴에 성공했어요');
             },
             errorMsg: "회원탈퇴에 실패하였어요"));

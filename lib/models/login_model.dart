@@ -64,19 +64,25 @@ class LoginModel {
           .getToken(vapidKey: dotenv.env['FCM_VAPID_KEY']);
       try {
         user = await UserApi.instance.me();
-        final response = await dio.get('/user-service/login',
-            queryParameters: {'email': user!.kakaoAccount!.email},
-            options: Options(
-                headers: {'androidId': mobileId, 'FCMToken': fcmToken}));
-        if (response.data['responseCode'] == "200_OK") {
-          await saveAccessToken(response.headers['authorization']![0]);
-          await saveRefreshToken(response.headers['refreshtoken']![0]);
-          await Get.offNamed(AppRoutes.introVideo);
-        } else if (response.data['responseCode'] == "201_CREATED") {
-          Get.find<UserController>().setRegisterEmail(response.data['email']);
-          await Get.offNamed(AppRoutes.select);
+        if (user!.kakaoAccount?.email == "" ||
+            user!.kakaoAccount?.email == null) {
+          SnackBarWidget.show(
+              SnackBarType.error, "이메일 없다는디요: ${user!.kakaoAccount?.email}");
         } else {
-          SnackBarWidget(SnackBarType.error, '허가되지 않은 게정이에요');
+          final response = await dio.get('/user-service/login',
+              queryParameters: {'email': user!.kakaoAccount!.email},
+              options: Options(
+                  headers: {'androidId': mobileId, 'FCMToken': fcmToken}));
+          if (response.data['responseCode'] == "200_OK") {
+            await saveAccessToken(response.headers['authorization']![0]);
+            await saveRefreshToken(response.headers['refreshtoken']![0]);
+            await Get.offNamed(AppRoutes.introVideo);
+          } else if (response.data['responseCode'] == "201_CREATED") {
+            Get.find<UserController>().setRegisterEmail(response.data['email']);
+            await Get.offNamed(AppRoutes.select);
+          } else {
+            SnackBarWidget(SnackBarType.error, '허가되지 않은 게정이에요');
+          }
         }
       } on DioException catch (error) {
         if (error.response?.data['errorCode'] == 'Already Withdrawal') {
@@ -146,7 +152,7 @@ class LoginModel {
         dio.close();
       }
     } else {
-      Get.offNamed(AppRoutes.login);
+      logout();
     }
   }
 }
