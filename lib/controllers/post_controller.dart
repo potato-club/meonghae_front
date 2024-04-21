@@ -113,6 +113,7 @@ class PostController extends GetxController {
         List<Map<String, dynamic>> contentList =
             List<Map<String, dynamic>>.from(data.data['content']);
         hasMore.value = contentList.length == 20;
+        print(data.data);
         final List<PostModel> postList =
             contentList.map((json) => PostModel.fromJson(json)).toList();
         posts.addAll(postList);

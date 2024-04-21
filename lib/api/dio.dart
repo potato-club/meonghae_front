@@ -38,6 +38,7 @@ class SendAPI {
       case 4003:
       case 4005:
         {
+          LoginModel.logout();
           return false;
         }
       case 4002:
@@ -63,7 +64,6 @@ class SendAPI {
         }
       default:
         {
-          // LoginModel.logout();
           SnackBarWidget.show(SnackBarType.error, error.toString());
           return false;
         }

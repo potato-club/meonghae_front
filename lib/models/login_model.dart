@@ -57,6 +57,8 @@ class LoginModel {
 
   Future<void> login() async {
     isLogined = await socialLogin.login();
+    print("###############" + await KakaoSdk.origin);
+    SnackBarWidget.show(SnackBarType.alarm, await KakaoSdk.origin);
     if (isLogined) {
       Dio dio = Dio(BaseOptions(baseUrl: dotenv.env['SERVER_URL']!));
       final String mobileId = await getMobileId();

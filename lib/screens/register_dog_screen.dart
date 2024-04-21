@@ -192,6 +192,7 @@ class _RegisterDogScreenState extends State<RegisterDogScreen> {
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
+                        color: CustomColor.white,
                       ),
                     ),
                   ),

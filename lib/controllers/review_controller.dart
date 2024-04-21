@@ -184,6 +184,7 @@ class ReviewController extends GetxController {
         List<Map<String, dynamic>> contentList =
             List<Map<String, dynamic>>.from(data.data['content']);
         hasMore.value = contentList.length == 6;
+        print(data.data);
         final List<ReviewModel> postList =
             contentList.map((json) => ReviewModel.fromJson(json)).toList();
         reviews.addAll(postList);

@@ -59,6 +59,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                                 style: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.bold,
+                                  color: CustomColor.white,
                                 ),
                               ),
                             ),

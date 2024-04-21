@@ -11,8 +11,8 @@ class InitLoadingScreen extends StatefulWidget {
 
 class _InitLoadingScreenState extends State<InitLoadingScreen> {
   @override
-  void initState() {
-    LoginModel.wasLogined();
+  Future<void> initState() async {
+    await LoginModel.wasLogined();
     super.initState();
   }
 

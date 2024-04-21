@@ -105,7 +105,7 @@ class _ScheduleContentWidgetState extends State<ScheduleContentWidget> {
           ),
         ),
         SizedBox(
-          height: MediaQuery.of(context).size.height - 611,
+          height: MediaQuery.of(context).size.height - 624,
           child: Stack(children: [
             SingleChildScrollView(
               scrollDirection: Axis.vertical,

@@ -100,6 +100,7 @@ class _RegisteredUserScreenState extends State<RegisteredUserScreen> {
                               style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold,
+                                color: CustomColor.white,
                               ),
                             ),
                           ),
