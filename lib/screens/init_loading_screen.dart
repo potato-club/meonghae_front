@@ -1,4 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:meonghae_front/config/app_routes.dart';
 import 'package:meonghae_front/models/login_model.dart';
 import 'package:meonghae_front/themes/custom_color.dart';
 
@@ -10,10 +14,20 @@ class InitLoadingScreen extends StatefulWidget {
 }
 
 class _InitLoadingScreenState extends State<InitLoadingScreen> {
+  late Timer _timer;
+
   @override
-  Future<void> initState() async {
-    await LoginModel.wasLogined();
+  void initState() {
+    LoginModel.wasLogined();
+    _timer = Timer(
+        const Duration(seconds: 3), () => {Get.offNamed(AppRoutes.login)});
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 
   @override
